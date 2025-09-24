@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edge Barber - Join Our Team</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <div class="bg-white shadow-sm p-6">
+            <div class="text-center">
+                <h1 class="text-2xl font-bold text-gray-900">Join Edge Barbers</h1>
+                <p class="text-lg text-green-600 font-semibold mt-2">$47 cuts - $35.25 to you - same day pay</p>
+                <div class="flex items-center justify-center mt-4">
+                    <div id="step1" class="flex items-center text-blue-500">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-500 text-white">
+                            1
+                        </div>
+                        <span class="ml-2 font-medium">Application</span>
+                    </div>
+                    <div class="w-16 h-1 mx-4 bg-gray-300">
+                        <div id="progressBar" class="h-full bg-gray-300 transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <div id="step2" class="flex items-center text-gray-300">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-gray-300">
+                            2
+                        </div>
+                        <span class="ml-2 font-medium">Documents</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1: Application -->
+        <div id="section1" class="p-6 space-y-6">
+            <div class="bg-white rounded-lg p-6 shadow-sm max-w-2xl mx-auto">
+                <h2 class="text-xl font-semibold mb-6">Section 1 of 2 - Application</h2>
+                
+                <form id="barberForm" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            What is your first name? <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="firstName" name="firstName" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Enter your first name">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            What is your last name? <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="lastName" name="lastName" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Enter your last name">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            What is your phone number? <span class="text-red-500">*</span>
+                        </label>
+                        <input type="tel" id="phone" name="phone" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="(555) 123-4567">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Are you a licensed barber? <span class="text-red-500">*</span>
+                        </label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="isLicensedBarber" value="yes" required class="mr-2">
+                                Yes
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="isLicensedBarber" value="no" required class="mr-2">
+                                No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            What is your email? <span class="text-red-500">*</span>
+                        </label>
+                        <input type="email" id="email" name="email" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="your.email@example.com">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Upload a picture of your BARBER's license <span class="text-red-500">*</span>
+                        </label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <i data-lucide="camera" class="mx-auto h-12 w-12 text-gray-400 mb-4"></i>
+                            <button type="button" onclick="document.getElementById('barberLicense').click()"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                                Choose File
+                            </button>
+                            <input type="file" id="barberLicense" name="barberLicense" accept="image/*" class="hidden" required>
+                            <p class="mt-2 text-sm text-gray-500">PNG, JPG up to 10MB</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            What city do you work in? <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="city" name="city" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Enter city name">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            What is your zip code? <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="zipCode" name="zipCode" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="12345">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            How many cuts per day are you wanting? <span class="text-red-500">*</span>
+                        </label>
+                        <select id="cutsPerDay" name="cutsPerDay" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">Select number of cuts</option>
+                            <option value="1-3">1-3 cuts per day</option>
+                            <option value="4-6">4-6 cuts per day</option>
+                            <option value="7-10">7-10 cuts per day</option>
+                            <option value="10+">10+ cuts per day</option>
+                        </select>
+                    </div>
+
+                    <button type="button" onclick="goToSection2()" id="continueBtn"
+                        class="w-full bg-blue-500 text-white py-4 rounded-lg font-semibold opacity-50 cursor-not-allowed hover:bg-blue-600 transition-colors">
+                        Continue to Section 2
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Section 2: Documents -->
+        <div id="section2" class="p-6 space-y-6" style="display: none;">
+            <div class="bg-white rounded-lg p-6 shadow-sm max-w-2xl mx-auto">
+                <h2 class="text-xl font-semibold mb-6">Section 2 of 2 - Documents & Verification</h2>
+                
+                <form id="documentsForm" class="space-y-6">
+                    <!-- Driver's License -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Upload a copy of your Driver's License <span class="text-red-500">*</span>
+                        </label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <i data-lucide="camera" class="mx-auto h-12 w-12 text-gray-400 mb-4"></i>
+                            <button type="button" onclick="document.getElementById('driversLicense').click()"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                                Choose File
+                            </button>
+                            <input type="file" id="driversLicense" name="driversLicense" accept="image/*,.pdf" class="hidden" required>
+                            <p class="mt-2 text-sm text-gray-500">PNG, JPG, PDF up to 10MB</p>
+                        </div>
+                    </div>
+
+                    <!-- Car Insurance -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Upload a copy of your Car Insurance <span class="text-red-500">*</span>
+                        </label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <i data-lucide="camera" class="mx-auto h-12 w-12 text-gray-400 mb-4"></i>
+                            <button type="button" onclick="document.getElementById('carInsurance').click()"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                                Choose File
+                            </button>
+                            <input type="file" id="carInsurance" name="carInsurance" accept="image/*,.pdf" class="hidden" required>
+                            <p class="mt-2 text-sm text-gray-500">PNG, JPG, PDF up to 10MB</p>
+                        </div>
+                    </div>
+
+                    <!-- Car Registration -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Upload a copy of your car's registration <span class="text-red-500">*</span>
+                        </label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <i data-lucide="camera" class="mx-auto h-12 w-12 text-gray-400 mb-4"></i>
+                            <button type="button" onclick="document.getElementById('carRegistration').click()"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                                Choose File
+                            </button>
+                            <input type="file" id="carRegistration" name="carRegistration" accept="image/*,.pdf" class="hidden" required>
+                            <p class="mt-2 text-sm text-gray-500">PNG, JPG, PDF up to 10MB</p>
+                        </div>
+                    </div>
+
+                    <!-- Background Check Questions -->
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900">Background Verification</h3>
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Any DUIs or reckless driving in the last 7 years? <span class="text-red-500">*</span>
+                            </label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="radio" name="hasDUI" value="yes" required class="mr-2">
+                                    Yes
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="hasDUI" value="no" required class="mr-2">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Any felonies in the last 7 years? <span class="text-red-500">*</span>
+                            </label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="radio" name="hasFelonies" value="yes" required class="mr-2">
+                                    Yes
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="hasFelonies" value="no" required class="mr-2">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Legal Agreements -->
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900">Contractor Agreement</h3>
+                        
+                        <div class="space-y-4">
+                            <label class="flex items-start space-x-3">
+                                <input type="checkbox" id="agreesIndependentContractor" name="agreesIndependentContractor" required
+                                    class="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <span class="text-sm text-gray-700 leading-relaxed">
+                                    <strong>I understand that I am an independent contractor</strong> and that I am using all my own equipment, tools, and supplies. I am responsible for all costs incurred in performing services, including but not limited to: transportation, fuel, equipment maintenance, and any fees associated with providing services. <span class="text-red-500">*</span>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start space-x-3">
+                                <input type="checkbox" id="agreesTermsOfService" name="agreesTermsOfService" required
+                                    class="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <span class="text-sm text-gray-700 leading-relaxed">
+                                    <strong>I agree to the Terms of Service</strong> and understand that I am solely responsible for my own taxes, insurance, and business expenses. I acknowledge that Edge does not provide benefits, and I am not an employee of Edge. <span class="text-red-500">*</span>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start space-x-3">
+                                <input type="checkbox" id="agreesBackgroundCheck" name="agreesBackgroundCheck" required
+                                    class="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <span class="text-sm text-gray-700 leading-relaxed">
+                                    <strong>I consent to background verification</strong> and understand that Edge may verify my driving record, criminal background, and professional credentials. I certify that all information provided is true and accurate. <span class="text-red-500">*</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-4">
+                        <button type="button" onclick="goToSection1()"
+                            class="flex-1 bg-gray-200 text-gray-800 py-4 rounded-lg font-semibold hover:bg-gray-300 transition-colors">
+                            Back to Section 1
+                        </button>
+                        <button type="button" onclick="submitForm()" id="submitBtn"
+                            class="flex-1 bg-green-500 text-white py-4 rounded-lg font-semibold opacity-50 cursor-not-allowed hover:bg-green-600 transition-colors">
+                            Submit Application
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="p-6" style="display: none;">
+            <div class="bg-white rounded-lg p-8 shadow-sm max-w-2xl mx-auto text-center">
+                <i data-lucide="check-circle" class="mx-auto h-16 w-16 text-green-500 mb-4"></i>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Application Submitted!</h3>
+                <p class="text-gray-600 mb-6">Thank you for applying to join Edge Barbers. We'll review your application and get back to you within 24 hours.</p>
+                <button onclick="location.reload()"
+                    class="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors">
+                    Submit Another Application
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        function checkSection1Complete() {
+            const required = ['firstName', 'lastName', 'phone', 'email', 'city', 'zipCode', 'cutsPerDay'];
+            const isLicensed = document.querySelector('input[name="isLicensedBarber"]:checked');
+            const licenseFile = document.getElementById('barberLicense').files[0];
+            
+            let complete = true;
+            required.forEach(field => {
+                if (!document.getElementById(field).value) complete = false;
+            });
+            
+            if (!isLicensed || !licenseFile) complete = false;
+            
+            const btn = document.getElementById('continueBtn');
+            if (complete) {
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                btn.classList.add('cursor-pointer');
+            } else {
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+                btn.classList.remove('cursor-pointer');
+            }
+        }
+
+        function checkSection2Complete() {
+            const required = ['driversLicense', 'carInsurance', 'carRegistration'];
+            const radios = ['hasDUI', 'hasFelonies'];
+            const checkboxes = ['agreesIndependentContractor', 'agreesTermsOfService', 'agreesBackgroundCheck'];
+            
+            let complete = true;
+            
+            required.forEach(field => {
+                if (!document.getElementById(field).files[0]) complete = false;
+            });
+            
+            radios.forEach(name => {
+                if (!document.querySelector(`input[name="${name}"]:checked`)) complete = false;
+            });
+            
+            checkboxes.forEach(id => {
+                if (!document.getElementById(id).checked) complete = false;
+            });
+            
+            const btn = document.getElementById('submitBtn');
+            if (complete) {
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                btn.classList.add('cursor-pointer');
+            } else {
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+                btn.classList.remove('cursor-pointer');
+            }
+        }
+
+        function goToSection2() {
+            if (!document.getElementById('continueBtn').classList.contains('opacity-50')) {
+                document.getElementById('section1').style.display = 'none';
+                document.getElementById('section2').style.display = 'block';
+                document.getElementById('step2').classList.remove('text-gray-300');
+                document.getElementById('step2').classList.add('text-blue-500');
+                document.getElementById('step2').querySelector('div').classList.remove('bg-gray-300');
+                document.getElementById('step2').querySelector('div').classList.add('bg-blue-500');
+                document.getElementById('progressBar').style.width = '100%';
+                document.getElementById('progressBar').classList.add('bg-blue-500');
+                checkSection2Complete();
+            }
+        }
+
+        function goToSection1() {
+            document.getElementById('section2').style.display = 'none';
+            document.getElementById('section1').style.display = 'block';
+            document.getElementById('step2').classList.add('text-gray-300');
+            document.getElementById('step2').classList.remove('text-blue-500');
+            document.getElementById('step2').querySelector('div').classList.add('bg-gray-300');
+            document.getElementById('step2').querySelector('div').classList.remove('bg-blue-500');
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('progressBar').classList.remove('bg-blue-500');
+        }
+
+        function submitForm() {
+            if (!document.getElementById('submitBtn').classList.contains('opacity-50')) {
+                // Collect all form data
+                const formData = new FormData();
+                const section1Form = document.getElementById('barberForm');
+                const section2Form = document.getElementById('documentsForm');
+                
+                // Add section 1 data
+                const section1Data = new FormData(section1Form);
+                for (let [key, value] of section1Data.entries()) {
+                    formData.append(key, value);
+                }
+                
+                // Add section 2 data
+                const section2Data = new FormData(section2Form);
+                for (let [key, value] of section2Data.entries()) {
+                    formData.append(key, value);
+                }
+                
+                // Show success message
+                document.getElementById('section2').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Log form data (in real app, this would be sent to server)
+                console.log('Form submitted with data:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value}`);
+                }
+            }
+        }
+
+        // Add event listeners for real-time validation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Section 1 validation
+            const section1Fields = ['firstName', 'lastName', 'phone', 'email', 'city', 'zipCode', 'cutsPerDay'];
+            section1Fields.forEach(field => {
+                document.getElementById(field).addEventListener('input', checkSection1Complete);
+            });
+            
+            document.querySelectorAll('input[name="isLicensedBarber"]').forEach(radio => {
+                radio.addEventListener('change', checkSection1Complete);
+            });
+            
+            document.getElementById('barberLicense').addEventListener('change', checkSection1Complete);
+            
+            // Section 2 validation
+            ['driversLicense', 'carInsurance', 'carRegistration'].forEach(field => {
+                document.getElementById(field).addEventListener('change', checkSection2Complete);
+            });
+            
+            document.querySelectorAll('input[name="hasDUI"], input[name="hasFelonies"]').forEach(radio => {
+                radio.addEventListener('change', checkSection2Complete);
+            });
+            
+            document.querySelectorAll('#agreesIndependentContractor, #agreesTermsOfService, #agreesBackgroundCheck').forEach(checkbox => {
+                checkbox.addEventListener('change', checkSection2Complete);
+            });
+        });
+    </script>
+</body>
+</html>
