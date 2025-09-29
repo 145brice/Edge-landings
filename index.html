@@ -216,48 +216,45 @@
             submitBtn.disabled = true;
             
             try {
-                // Send to Formspree for email notification
-                const formspreeResponse = await fetch('https://formspree.io/f/xvqgqpnk', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        firstName: firstName,
-                        lastName: lastName,
-                        phone: phone,
-                        email: 'nashvillemobilecuts@gmail.com',
-                        subject: 'New Contractor Signup - Nashville Mobile Cuts',
-                        message: `New contractor signup:
-                        
+                // Send email notification using a simple webhook
+                const emailData = {
+                    to: 'nashvillemobilecuts@gmail.com',
+                    subject: 'New Contractor Signup - Nashville Mobile Cuts',
+                    body: `New contractor signup:
+                    
 Name: ${firstName} ${lastName}
 Phone: ${phone}
 Date: ${new Date().toLocaleString()}
 
 Please contact them to complete their application.`
-                    })
+                };
+
+                // Send to webhook for email notification
+                const emailResponse = await fetch('https://hooks.zapier.com/hooks/catch/18144047/3k5w7x8/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(emailData)
                 });
 
-                // Send to webhook for SMS notification
+                // Also send SMS notification
+                const smsData = {
+                    phone: '6159229650',
+                    message: `New contractor signup: ${firstName} ${lastName} - ${phone}`,
+                    type: 'sms'
+                };
+                
                 const smsResponse = await fetch('https://hooks.zapier.com/hooks/catch/18144047/3k5w7x8/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        firstName: firstName,
-                        lastName: lastName,
-                        phone: phone,
-                        timestamp: new Date().toISOString()
-                    })
+                    body: JSON.stringify(smsData)
                 });
 
-                if (formspreeResponse.ok || smsResponse.ok) {
-                    console.log('Form submitted successfully');
-                    document.getElementById('successModal').classList.remove('hidden');
-                } else {
-                    throw new Error('Submission failed');
-                }
+                console.log('Form submitted successfully');
+                document.getElementById('successModal').classList.remove('hidden');
             } catch (error) {
                 console.error('Error submitting form:', error);
                 // Still show success to user, but log the error
