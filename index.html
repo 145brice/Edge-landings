@@ -98,6 +98,15 @@
                 >
                     Join Nashville Mobile Cuts
                 </button>
+                
+                <!-- Simple Email Button -->
+                <button
+                    type="button"
+                    id="emailResults"
+                    class="w-full bg-green-500 text-white py-3 px-6 rounded-lg font-semibold text-lg hover:bg-green-600 transition-colors flex items-center justify-center mt-3"
+                >
+                    📧 Email Me the Results
+                </button>
             </form>
 
             <!-- Additional Info -->
@@ -243,6 +252,28 @@ Sent from Nashville Mobile Cuts signup form`;
             navigator.clipboard.writeText(emailBody).then(function() {
                 alert('Email content copied to clipboard!');
             });
+        });
+
+        // Email results directly
+        document.getElementById('emailResults').addEventListener('click', function() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const phone = document.getElementById('phone').value;
+            
+            const emailSubject = 'New Contractor Signup - Nashville Mobile Cuts';
+            const emailBody = `New contractor signup received:
+
+Name: ${firstName} ${lastName}
+Phone: ${phone}
+Date: ${new Date().toLocaleString()}
+
+Please contact them to complete their application.
+
+---
+Sent from Nashville Mobile Cuts signup form`;
+
+            const emailLink = `mailto:nashvillemobilecuts@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            window.location.href = emailLink;
         });
 
         // Reset form for another signup
