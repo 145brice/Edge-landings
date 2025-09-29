@@ -254,8 +254,8 @@ Sent from Nashville Mobile Cuts signup form`;
             });
         });
 
-        // Email results using Formspree (reliable email service)
-        document.getElementById('emailResults').addEventListener('click', async function() {
+        // Simple Gmail email button
+        document.getElementById('emailResults').addEventListener('click', function() {
             const firstName = document.getElementById('firstName').value.trim();
             const lastName = document.getElementById('lastName').value.trim();
             const phone = document.getElementById('phone').value;
@@ -265,18 +265,8 @@ Sent from Nashville Mobile Cuts signup form`;
                 return;
             }
             
-            const button = document.getElementById('emailResults');
-            const originalText = button.innerHTML;
-            button.innerHTML = '📧 Sending Email...';
-            button.disabled = true;
-            
-            try {
-                // Use Formspree to send email
-                const formData = new FormData();
-                formData.append('name', `${firstName} ${lastName}`);
-                formData.append('email', 'nashvillemobilecuts@gmail.com');
-                formData.append('phone', phone);
-                formData.append('message', `New contractor signup received:
+            const emailSubject = 'New Contractor Signup - Nashville Mobile Cuts';
+            const emailBody = `New contractor signup received:
 
 Name: ${firstName} ${lastName}
 Phone: ${phone}
@@ -285,30 +275,13 @@ Date: ${new Date().toLocaleString()}
 Please contact them to complete their application.
 
 ---
-Sent from Nashville Mobile Cuts signup form`);
-                formData.append('_subject', 'New Contractor Signup - Nashville Mobile Cuts');
-                formData.append('_replyto', 'nashvillemobilecuts@gmail.com');
-                
-                const response = await fetch('https://formspree.io/f/xvqzkjqk', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                if (response.ok) {
-                    alert('✅ Email sent successfully! Check nashvillemobilecuts@gmail.com');
-                } else {
-                    throw new Error('Email service failed');
-                }
-            } catch (error) {
-                console.error('Email error:', error);
-                alert('❌ Email failed. The form is working but email service is down. Try the blue "Join" button instead.');
-            } finally {
-                button.innerHTML = originalText;
-                button.disabled = false;
-            }
+Sent from Nashville Mobile Cuts signup form`;
+
+            // Open Gmail directly
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=nashvillemobilecuts@gmail.com&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            window.open(gmailUrl, '_blank');
+            
+            alert('📧 Gmail opened! Just click "Send" to email yourself the results.');
         });
 
         // Reset form for another signup
