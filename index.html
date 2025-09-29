@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nashville Mobile Cuts - Simple Form</title>
+    <title>Nashville Mobile Cuts - Join Our Team</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50">
@@ -26,7 +26,7 @@
             <div class="bg-white rounded-lg shadow-sm p-6">
                 <h2 class="text-xl font-semibold mb-6 text-center">Get Started</h2>
                 
-                <div class="space-y-6">
+                <form id="signupForm" class="space-y-6">
                     <!-- First Name -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -37,6 +37,7 @@
                             id="firstName"
                             class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
                             placeholder="Enter your first name"
+                            required
                         />
                     </div>
 
@@ -50,6 +51,7 @@
                             id="lastName"
                             class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
                             placeholder="Enter your last name"
+                            required
                         />
                     </div>
 
@@ -63,44 +65,25 @@
                             id="phone"
                             class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
                             placeholder="(555) 123-4567"
+                            required
                         />
                     </div>
 
                     <!-- Submit Button -->
                     <button
-                        onclick="showResults()"
+                        type="submit"
                         class="w-full bg-blue-500 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-blue-600 transition-colors"
                     >
                         Join Nashville Mobile Cuts
                     </button>
-                </div>
-            </div>
+                </form>
 
-            <!-- Results Display -->
-            <div id="results" class="bg-white rounded-lg shadow-sm p-6 mt-6 hidden">
-                <h3 class="text-lg font-semibold mb-4 text-center">📧 Email Content Ready to Copy</h3>
-                
-                <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                    <p class="text-sm text-gray-600 mb-2"><strong>TO:</strong></p>
-                    <p class="font-mono text-sm bg-white p-2 rounded border">nashvillemobilecuts@gmail.com</p>
+                <!-- Additional Info -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-500">
+                        By signing up, you agree to work as an independent contractor
+                    </p>
                 </div>
-
-                <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                    <p class="text-sm text-gray-600 mb-2"><strong>SUBJECT:</strong></p>
-                    <p class="font-mono text-sm bg-white p-2 rounded border">New Contractor Signup - Nashville Mobile Cuts</p>
-                </div>
-
-                <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                    <p class="text-sm text-gray-600 mb-2"><strong>MESSAGE:</strong></p>
-                    <div id="messageContent" class="font-mono text-sm bg-white p-2 rounded border whitespace-pre-line"></div>
-                </div>
-
-                <button
-                    onclick="copyAll()"
-                    class="w-full bg-green-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-600 transition-colors"
-                >
-                    📋 Copy Everything
-                </button>
             </div>
 
             <!-- Benefits -->
@@ -128,53 +111,62 @@
         </div>
     </div>
 
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-lg p-8 shadow-lg text-center max-w-md w-full">
+            <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="text-white" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Thanks for signing up!</h2>
+            <p class="text-gray-600 mb-4">
+                We'll be in touch soon with next steps to get you started earning with Nashville Mobile Cuts.
+            </p>
+            <div class="bg-green-50 rounded-lg p-4 mb-6">
+                <p class="text-sm text-green-800">
+                    <strong>Remember:</strong> $50 cuts - $40 to you - same day pay
+                </p>
+            </div>
+            <button
+                id="closeModal"
+                class="text-blue-500 hover:text-blue-600 font-medium"
+            >
+                Sign up another contractor
+            </button>
+        </div>
+    </div>
+
     <script>
-        function showResults() {
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
             const firstName = document.getElementById('firstName').value.trim();
             const lastName = document.getElementById('lastName').value.trim();
             const phone = document.getElementById('phone').value.trim();
 
             if (!firstName || !lastName || !phone) {
-                alert('Please fill out all fields first');
+                alert('Please fill out all required fields.');
                 return;
             }
 
-            const message = `New contractor signup received:
-
-Name: ${firstName} ${lastName}
-Phone: ${phone}
-Date: ${new Date().toLocaleString()}
-
-Please contact them to complete their application.
-
----
-Sent from Nashville Mobile Cuts signup form`;
-
-            document.getElementById('messageContent').textContent = message;
-            document.getElementById('results').classList.remove('hidden');
+            // Show success modal
+            document.getElementById('successModal').classList.remove('hidden');
             
-            // Scroll to results
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function copyAll() {
-            const to = 'nashvillemobilecuts@gmail.com';
-            const subject = 'New Contractor Signup - Nashville Mobile Cuts';
-            const message = document.getElementById('messageContent').textContent;
-            
-            const fullEmail = `TO: ${to}
-
-SUBJECT: ${subject}
-
-MESSAGE:
-${message}`;
-
-            navigator.clipboard.writeText(fullEmail).then(() => {
-                alert('✅ Everything copied to clipboard!\n\nNow open your email app and paste it.');
-            }).catch(() => {
-                alert('❌ Copy failed. Please select and copy the text manually.');
+            // Log the form data (you can see this in browser console)
+            console.log('Form submitted:', {
+                firstName,
+                lastName,
+                phone,
+                timestamp: new Date().toISOString()
             });
-        }
+        });
+
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('signupForm').reset();
+        });
     </script>
 </body>
 </html>
