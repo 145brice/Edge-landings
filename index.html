@@ -216,27 +216,32 @@
             submitBtn.disabled = true;
             
             try {
-                // Simple approach: Send data to a reliable webhook service
-                const formData = {
-                    firstName: firstName,
-                    lastName: lastName,
-                    phone: phone,
-                    email: 'nashvillemobilecuts@gmail.com',
-                    smsNumber: '6159229650',
-                    timestamp: new Date().toISOString(),
-                    message: `New contractor signup: ${firstName} ${lastName} - Phone: ${phone}`
-                };
+                // Create email content
+                const emailSubject = 'New Contractor Signup - Nashville Mobile Cuts';
+                const emailBody = `New contractor signup:
+                    
+Name: ${firstName} ${lastName}
+Phone: ${phone}
+Date: ${new Date().toLocaleString()}
 
-                // Send to a working webhook service
-                const response = await fetch('https://hooks.zapier.com/hooks/catch/18144047/3k5w7x8/', {
+Please contact them to complete their application.`;
+
+                // Send email notification using a reliable service
+                const response = await fetch('https://formspree.io/f/xvqgqpnk', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify({
+                        name: `${firstName} ${lastName}`,
+                        email: 'nashvillemobilecuts@gmail.com',
+                        phone: phone,
+                        subject: emailSubject,
+                        message: emailBody
+                    })
                 });
 
-                console.log('Form submitted successfully');
+                console.log('Form submitted successfully - email sent!');
                 document.getElementById('successModal').classList.remove('hidden');
             } catch (error) {
                 console.error('Error submitting form:', error);
