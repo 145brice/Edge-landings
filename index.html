@@ -254,11 +254,16 @@ Sent from Nashville Mobile Cuts signup form`;
             });
         });
 
-        // Email results directly
+        // Email results directly - simple approach
         document.getElementById('emailResults').addEventListener('click', function() {
             const firstName = document.getElementById('firstName').value.trim();
             const lastName = document.getElementById('lastName').value.trim();
             const phone = document.getElementById('phone').value;
+            
+            if (!firstName || !lastName || !phone) {
+                alert('Please fill out all fields first');
+                return;
+            }
             
             const emailSubject = 'New Contractor Signup - Nashville Mobile Cuts';
             const emailBody = `New contractor signup received:
@@ -272,8 +277,34 @@ Please contact them to complete their application.
 ---
 Sent from Nashville Mobile Cuts signup form`;
 
-            const emailLink = `mailto:nashvillemobilecuts@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-            window.location.href = emailLink;
+            // Show instructions instead of opening email client
+            const instructions = `
+📧 EMAIL INSTRUCTIONS:
+
+1. Copy this email content:
+   
+   TO: nashvillemobilecuts@gmail.com
+   SUBJECT: ${emailSubject}
+   
+   BODY:
+   ${emailBody}
+
+2. Open your email app (Gmail, Outlook, etc.)
+3. Create new email
+4. Paste the content above
+5. Send to yourself
+
+OR
+
+Click "Copy Email Content" button below and paste into your email.
+            `;
+            
+            alert(instructions);
+            
+            // Also show the email content on the page
+            document.getElementById('emailSubject').textContent = emailSubject;
+            document.getElementById('emailBody').textContent = emailBody;
+            document.getElementById('emailDisplay').classList.remove('hidden');
         });
 
         // Reset form for another signup
