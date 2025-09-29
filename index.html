@@ -223,7 +223,7 @@ Please contact them to complete their application.
 ---
 Sent from Nashville Mobile Cuts signup form`;
 
-            // Display email content
+            // Display email content (NO mail app opening)
             document.getElementById('emailSubject').textContent = emailSubject;
             document.getElementById('emailBody').textContent = emailBody;
             document.getElementById('emailDisplay').classList.remove('hidden');
@@ -233,6 +233,8 @@ Sent from Nashville Mobile Cuts signup form`;
             
             // Show success modal
             document.getElementById('successModal').classList.remove('hidden');
+            
+            console.log('Form submitted - email content ready to copy');
         });
 
         // Copy email content
