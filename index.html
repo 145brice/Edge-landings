@@ -167,9 +167,12 @@
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
-            // Automatically open Gmail with pre-filled email
-            const emailSubject = 'New Contractor Signup - Nashville Mobile Cuts';
-            const emailBody = `New contractor signup received:
+            // Copy form data to clipboard automatically
+            const emailContent = `TO: 145brice@gmail.com
+SUBJECT: New Contractor Signup - Nashville Mobile Cuts
+
+MESSAGE:
+New contractor signup received:
 
 Name: ${firstName} ${lastName}
 Phone: ${phone}
@@ -180,9 +183,12 @@ Please contact them to complete their application.
 ---
 Sent from Nashville Mobile Cuts signup form`;
 
-            // Open Gmail automatically
-            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=145brice@gmail.com&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-            window.open(gmailUrl, '_blank');
+            // Copy to clipboard
+            navigator.clipboard.writeText(emailContent).then(() => {
+                alert('✅ Form data copied to clipboard! Open your email app and paste it.');
+            }).catch(() => {
+                alert('❌ Copy failed. Please copy manually:\n\n' + emailContent);
+            });
 
             // Show success modal
             document.getElementById('successModal').classList.remove('hidden');
