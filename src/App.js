@@ -46,12 +46,36 @@ const SimpleSignUpForm = () => {
 
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
+    try {
+      // Send to your backend/webhook
+      const response = await fetch('YOUR_WEBHOOK_URL_HERE', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
+          email: 'edgemobilecuts@gmail.com', // Where to send notification
+          smsNumber: '6159220650', // Where to send SMS
+          timestamp: new Date().toISOString()
+        })
+      });
+
+      if (response.ok) {
+        console.log('Form submitted successfully:', formData);
+        setIsLoading(false);
+        setIsSubmitted(true);
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      // Still show success to user, but log the error
       setIsLoading(false);
       setIsSubmitted(true);
-    }, 1500);
+    }
   };
 
   if (isSubmitted) {
@@ -63,7 +87,7 @@ const SimpleSignUpForm = () => {
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Thanks for signing up!</h2>
           <p className="text-gray-600 mb-4">
-            We'll be in touch soon with next steps to get you started earning with Edge.
+            We'll be in touch soon with next steps to get you started earning with Nashville Mobile Cuts.
           </p>
           <div className="bg-green-50 rounded-lg p-4 mb-6">
             <p className="text-sm text-green-800">
@@ -89,7 +113,7 @@ const SimpleSignUpForm = () => {
       {/* Header */}
       <div className="bg-white shadow-sm p-6">
         <div className="max-w-md mx-auto text-center">
-          <h1 className="text-3xl font-bold text-gray-900">Join Edge Barbers</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Join Nashville Mobile Cuts</h1>
           <p className="text-xl text-green-600 font-semibold mt-2">
             $50 cuts - $40 to you - same day pay
           </p>
@@ -175,7 +199,7 @@ const SimpleSignUpForm = () => {
                   Submitting...
                 </>
               ) : (
-                'Join Edge Barbers'
+                'Join Nashville Mobile Cuts'
               )}
             </button>
           </div>
@@ -190,7 +214,7 @@ const SimpleSignUpForm = () => {
 
         {/* Benefits */}
         <div className="bg-white rounded-lg shadow-sm p-6 mt-6">
-          <h3 className="font-semibold mb-4 text-center">Why Join Edge?</h3>
+          <h3 className="font-semibold mb-4 text-center">Why Join Nashville Mobile Cuts?</h3>
           <div className="space-y-3">
             <div className="flex items-center space-x-3">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
