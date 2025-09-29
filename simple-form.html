@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nashville Mobile Cuts - Simple Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen bg-gray-50">
+        <!-- Header -->
+        <div class="bg-white shadow-sm p-6">
+            <div class="max-w-md mx-auto text-center">
+                <h1 class="text-3xl font-bold text-gray-900">Join Nashville Mobile Cuts</h1>
+                <p class="text-xl text-green-600 font-semibold mt-2">
+                    $50 cuts - $40 to you - same day pay
+                </p>
+                <p class="text-gray-600 mt-3">
+                    Start earning today as an independent contractor
+                </p>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div class="max-w-md mx-auto p-6">
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h2 class="text-xl font-semibold mb-6 text-center">Get Started</h2>
+                
+                <div class="space-y-6">
+                    <!-- First Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            First Name <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="firstName"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                            placeholder="Enter your first name"
+                        />
+                    </div>
+
+                    <!-- Last Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Last Name <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="lastName"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                            placeholder="Enter your last name"
+                        />
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Phone Number <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                            placeholder="(555) 123-4567"
+                        />
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button
+                        onclick="showResults()"
+                        class="w-full bg-blue-500 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-blue-600 transition-colors"
+                    >
+                        Show Results
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Display -->
+            <div id="results" class="bg-white rounded-lg shadow-sm p-6 mt-6 hidden">
+                <h3 class="text-lg font-semibold mb-4 text-center">📧 Email Content Ready to Copy</h3>
+                
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                    <p class="text-sm text-gray-600 mb-2"><strong>TO:</strong></p>
+                    <p class="font-mono text-sm bg-white p-2 rounded border">nashvillemobilecuts@gmail.com</p>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                    <p class="text-sm text-gray-600 mb-2"><strong>SUBJECT:</strong></p>
+                    <p class="font-mono text-sm bg-white p-2 rounded border">New Contractor Signup - Nashville Mobile Cuts</p>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                    <p class="text-sm text-gray-600 mb-2"><strong>MESSAGE:</strong></p>
+                    <div id="messageContent" class="font-mono text-sm bg-white p-2 rounded border whitespace-pre-line"></div>
+                </div>
+
+                <button
+                    onclick="copyAll()"
+                    class="w-full bg-green-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-600 transition-colors"
+                >
+                    📋 Copy Everything
+                </button>
+            </div>
+
+            <!-- Benefits -->
+            <div class="bg-white rounded-lg shadow-sm p-6 mt-6">
+                <h3 class="font-semibold mb-4 text-center">Why Join Nashville Mobile Cuts?</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span class="text-sm text-gray-700">Same day pay - get paid immediately</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span class="text-sm text-gray-700">80% commission - $40 per $50 cut</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span class="text-sm text-gray-700">Flexible schedule - work when you want</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span class="text-sm text-gray-700">No shop rent - we bring customers to you</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showResults() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            if (!firstName || !lastName || !phone) {
+                alert('Please fill out all fields first');
+                return;
+            }
+
+            const message = `New contractor signup received:
+
+Name: ${firstName} ${lastName}
+Phone: ${phone}
+Date: ${new Date().toLocaleString()}
+
+Please contact them to complete their application.
+
+---
+Sent from Nashville Mobile Cuts signup form`;
+
+            document.getElementById('messageContent').textContent = message;
+            document.getElementById('results').classList.remove('hidden');
+            
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyAll() {
+            const to = 'nashvillemobilecuts@gmail.com';
+            const subject = 'New Contractor Signup - Nashville Mobile Cuts';
+            const message = document.getElementById('messageContent').textContent;
+            
+            const fullEmail = `TO: ${to}
+
+SUBJECT: ${subject}
+
+MESSAGE:
+${message}`;
+
+            navigator.clipboard.writeText(fullEmail).then(() => {
+                alert('✅ Everything copied to clipboard!\n\nNow open your email app and paste it.');
+            }).catch(() => {
+                alert('❌ Copy failed. Please select and copy the text manually.');
+            });
+        }
+    </script>
+</body>
+</html>
