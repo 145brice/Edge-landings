@@ -216,7 +216,7 @@
             submitBtn.disabled = true;
             
             try {
-                // Create email content
+                // Create email content for your email
                 const emailSubject = 'New Contractor Signup - Nashville Mobile Cuts';
                 const emailBody = `New contractor signup:
                     
@@ -226,8 +226,8 @@ Date: ${new Date().toLocaleString()}
 
 Please contact them to complete their application.`;
 
-                // Send email notification using a reliable service
-                const response = await fetch('https://formspree.io/f/xvqgqpnk', {
+                // Send email notification to your Gmail
+                const emailResponse = await fetch('https://formspree.io/f/xvqgqpnk', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -241,7 +241,23 @@ Please contact them to complete their application.`;
                     })
                 });
 
-                console.log('Form submitted successfully - email sent!');
+                // Send SMS via email-to-SMS (works with most carriers)
+                const smsMessage = `New contractor signup: ${firstName} ${lastName} - ${phone}`;
+                const smsResponse = await fetch('https://formspree.io/f/xvqgqpnk', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: 'SMS Alert',
+                        email: '6159229650@txt.att.net', // AT&T email-to-SMS
+                        phone: '6159229650',
+                        subject: 'Nashville Mobile Cuts Alert',
+                        message: smsMessage
+                    })
+                });
+
+                console.log('Form submitted successfully - email and SMS sent!');
                 document.getElementById('successModal').classList.remove('hidden');
             } catch (error) {
                 console.error('Error submitting form:', error);
