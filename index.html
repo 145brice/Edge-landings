@@ -216,8 +216,8 @@
             submitBtn.disabled = true;
             
             try {
-                // Send to webhook (replace with your actual webhook URL)
-                const response = await fetch('YOUR_WEBHOOK_URL_HERE', {
+                // Send to Formspree for email notification
+                const formspreeResponse = await fetch('https://formspree.io/f/xvqgqpnk', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -226,13 +226,33 @@
                         firstName: firstName,
                         lastName: lastName,
                         phone: phone,
-                        email: 'edgemobilecuts@gmail.com',
-                        smsNumber: '6159220650',
+                        email: 'nashvillemobilecuts@gmail.com',
+                        subject: 'New Contractor Signup - Nashville Mobile Cuts',
+                        message: `New contractor signup:
+                        
+Name: ${firstName} ${lastName}
+Phone: ${phone}
+Date: ${new Date().toLocaleString()}
+
+Please contact them to complete their application.`
+                    })
+                });
+
+                // Send to webhook for SMS notification
+                const smsResponse = await fetch('https://hooks.zapier.com/hooks/catch/18144047/3k5w7x8/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        firstName: firstName,
+                        lastName: lastName,
+                        phone: phone,
                         timestamp: new Date().toISOString()
                     })
                 });
 
-                if (response.ok) {
+                if (formspreeResponse.ok || smsResponse.ok) {
                     console.log('Form submitted successfully');
                     document.getElementById('successModal').classList.remove('hidden');
                 } else {
