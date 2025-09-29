@@ -119,30 +119,27 @@
             button.disabled = true;
 
             try {
-                // Send email directly using a simple email service
-                const emailData = {
-                    to: 'nashvillemobilecuts@gmail.com',
-                    subject: 'New Contractor Signup',
-                    message: `New signup: ${firstName} ${lastName} - ${phone}`
-                };
+                // Use Formspree for reliable email delivery
+                const formData = new FormData();
+                formData.append('name', `${firstName} ${lastName}`);
+                formData.append('email', 'nashvillemobilecuts@gmail.com');
+                formData.append('phone', phone);
+                formData.append('message', `New contractor signup: ${firstName} ${lastName} - ${phone}`);
+                formData.append('_subject', 'New Contractor Signup - Nashville Mobile Cuts');
+                formData.append('_replyto', 'nashvillemobilecuts@gmail.com');
 
-                const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                const response = await fetch('https://formspree.io/f/xvqzkjqk', {
                     method: 'POST',
+                    body: formData,
                     headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        service_id: 'service_1a2b3c4',
-                        template_id: 'template_xyz789',
-                        user_id: 'user_abc123',
-                        template_params: emailData
-                    })
+                        'Accept': 'application/json'
+                    }
                 });
 
                 if (response.ok) {
-                    alert('✅ Email sent! Check your inbox.');
+                    alert('✅ Email sent! Check nashvillemobilecuts@gmail.com');
                 } else {
-                    throw new Error('Email failed');
+                    throw new Error('Email service failed');
                 }
             } catch (error) {
                 console.error('Email error:', error);
