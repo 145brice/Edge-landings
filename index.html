@@ -216,36 +216,27 @@
             submitBtn.disabled = true;
             
             try {
-                // Store the form data for you to copy
-                const formData = {
-                    name: `${firstName} ${lastName}`,
-                    phone: phone,
-                    timestamp: new Date().toLocaleString()
-                };
+                // Create email content
+                const emailSubject = 'New Contractor Signup - Nashville Mobile Cuts';
+                const emailBody = `New contractor signup received:
 
-                // Display the data so you can see it and copy it
-                const dataDisplay = `
-                    <div style="background: #f0f8ff; padding: 15px; margin: 10px 0; border-radius: 5px; font-family: monospace;">
-                        <h3 style="margin: 0 0 10px 0; color: #0066cc;">New Contractor Signup:</h3>
-                        <p><strong>Name:</strong> ${formData.name}</p>
-                        <p><strong>Phone:</strong> ${formData.phone}</p>
-                        <p><strong>Date:</strong> ${formData.timestamp}</p>
-                        <p style="margin-top: 10px; color: #666; font-size: 14px;">
-                            📧 Email this info to: nashvillemobilecuts@gmail.com<br>
-                            📱 Text this info to: 615-922-9650
-                        </p>
-                    </div>
-                `;
+Name: ${firstName} ${lastName}
+Phone: ${phone}
+Date: ${new Date().toLocaleString()}
 
-                // Show the data in the success modal
-                const successModal = document.getElementById('successModal');
-                successModal.innerHTML = successModal.innerHTML.replace(
-                    '<h2 class="text-2xl font-bold text-gray-900 mb-2">Thanks for signing up!</h2>',
-                    '<h2 class="text-2xl font-bold text-gray-900 mb-2">Thanks for signing up!</h2>' + dataDisplay
-                );
+Please contact them to complete their application.
 
-                console.log('Form submitted successfully:', formData);
-                successModal.classList.remove('hidden');
+---
+Sent from Nashville Mobile Cuts signup form`;
+
+                // Create mailto link that will open email client
+                const emailLink = `mailto:nashvillemobilecuts@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+                
+                // Open the email client with pre-filled content
+                window.location.href = emailLink;
+
+                console.log('Form submitted successfully - email client opened!');
+                document.getElementById('successModal').classList.remove('hidden');
             } catch (error) {
                 console.error('Error submitting form:', error);
                 document.getElementById('successModal').classList.remove('hidden');
