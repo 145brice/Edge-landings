@@ -143,17 +143,25 @@
         document.getElementById('signupForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            console.log('Form submit event triggered!');
+            
             const firstName = document.getElementById('firstName').value.trim();
             const lastName = document.getElementById('lastName').value.trim();
             const phone = document.getElementById('phone').value.trim();
+
+            console.log('Form values:', { firstName, lastName, phone });
 
             if (!firstName || !lastName || !phone) {
                 alert('Please fill out all required fields.');
                 return;
             }
 
+            console.log('All fields filled, showing modal...');
+
             // Show success modal
             document.getElementById('successModal').classList.remove('hidden');
+            
+            console.log('Modal should be visible now');
             
             // Log the form data
             console.log('Form submitted:', {
@@ -162,6 +170,8 @@
                 phone,
                 timestamp: new Date().toISOString()
             });
+
+            alert('Form submitted! Check console for details.');
         });
 
         document.getElementById('closeModal').addEventListener('click', function() {
