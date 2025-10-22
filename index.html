@@ -3,7 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edge Landings - Websites that actually work</title>
+    <title>Professional Website Development | Edge Landings | $300/Month</title>
+    <meta name="description" content="Professional website development starting at $300/month. Custom websites for barbers, doctors, tattoo shops, coffee shops, fitness gyms, and auto repair. Cancel anytime. Nashville, TN.">
+    <meta name="keywords" content="website development, professional websites, barber website, doctor website, tattoo shop website, coffee shop website, fitness website, auto repair website, Nashville web design, $300 website">
+    <meta name="author" content="Edge Landings">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://edge-landings.vercel.app">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://edge-landings.vercel.app">
+    <meta property="og:title" content="Professional Website Development | Edge Landings | $300/Month">
+    <meta property="og:description" content="Professional website development starting at $300/month. Custom websites for any business. Cancel anytime. Nashville, TN.">
+    <meta property="og:image" content="https://edge-landings.vercel.app/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://edge-landings.vercel.app">
+    <meta property="twitter:title" content="Professional Website Development | Edge Landings | $300/Month">
+    <meta property="twitter:description" content="Professional website development starting at $300/month. Custom websites for any business. Cancel anytime. Nashville, TN.">
+    <meta property="twitter:image" content="https://edge-landings.vercel.app/og-image.jpg">
+
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Edge Landings",
+      "description": "Professional website development services",
+      "url": "https://edge-landings.vercel.app",
+      "telephone": "615-922-0650",
+      "email": "145brice@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Nashville",
+        "addressRegion": "TN",
+        "postalCode": "37138",
+        "addressCountry": "US"
+      },
+      "priceRange": "$300-$500",
+      "serviceArea": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": "36.1627",
+          "longitude": "-86.7816"
+        },
+        "geoRadius": "50000"
+      }
+    }
+    </script>
     <style>
         * {
             margin: 0;
@@ -15,7 +64,29 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
             line-height: 1.6;
             color: #ffffff;
-            background: #000000;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+        
+        /* Urgency Header */
+        .urgency-header {
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: #000000;
+            padding: 12px 0;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 2px 10px rgba(255, 107, 53, 0.3);
+        }
+        
+        .urgency-header p {
+            margin: 0;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
         
         .container {
@@ -36,27 +107,58 @@
         }
         
         .hero h1 {
-            font-size: clamp(2rem, 8vw, 4rem);
-            font-weight: 700;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
             letter-spacing: -0.02em;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
         }
         
         .hero-tagline {
-            font-size: clamp(1.2rem, 4vw, 2rem);
-            font-weight: 400;
-            margin-bottom: 40px;
-            opacity: 0.9;
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
         
         .pricing-lines {
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            margin-bottom: 50px;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin-bottom: 40px;
             line-height: 1.8;
+            color: #00ff88;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
         
         .pricing-lines div {
             margin: 10px 0;
+        }
+        
+        .social-proof {
+            margin: 30px 0;
+        }
+        
+        .trust-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .trust-item {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 255, 136, 0.3);
         }
         
         .buttons {
@@ -67,23 +169,110 @@
         }
         
         .btn {
-            padding: 18px 35px;
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            font-weight: 600;
+            padding: 20px 40px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: 800;
             text-decoration: none;
-            border: 2px solid #ffffff;
-            background: transparent;
-            color: #ffffff;
+            border: 3px solid #00ff88;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-block;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .btn:hover {
-            background: #ffffff;
+            background: linear-gradient(135deg, #00cc6a, #00ff88);
             color: #000000;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 255, 136, 0.6);
         }
         
+        /* Call to Action Section */
+        .cta-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
+            text-align: center;
+        }
+        
+        .cta-content h2 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .cta-content p {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 40px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            background: #000000;
+            color: #00ff88;
+            padding: 25px 50px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            border: 3px solid #000000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cta-btn:hover {
+            background: #ffffff;
+            color: #000000;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+        
+        .cta-text {
+            display: block;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+        }
+        
+        .cta-subtext {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+        
+        .cta-guarantee {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .guarantee-icon {
+            background: #000000;
+            color: #00ff88;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+
         /* Details Section */
         .details {
             padding: 80px 20px;
@@ -305,15 +494,29 @@
     </style>
 </head>
 <body>
+    <!-- Urgency Header -->
+    <div class="urgency-header">
+        <div class="container">
+            <p>🔥 <strong>Limited Time:</strong> Get your professional website for just $300/month • Cancel anytime • Book your free consultation now!</p>
+        </div>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <h1>EDGE LANDINGS</h1>
-            <div class="hero-tagline">Websites that actually work.</div>
+            <div class="hero-tagline">Professional Websites That Convert Visitors Into Customers</div>
             <div class="pricing-lines">
                 <div>Simple? Three hundred a month.</div>
                 <div>Complex? Three hundred plus.</div>
                 <div>Pick.</div>
+            </div>
+            <div class="social-proof">
+                <div class="trust-indicators">
+                    <span class="trust-item">✓ 50+ Websites Built</span>
+                    <span class="trust-item">✓ 100% Client Satisfaction</span>
+                    <span class="trust-item">✓ Cancel Anytime</span>
+                </div>
             </div>
             <div class="buttons">
                 <a href="#barber-demo" class="btn">Barber example</a>
@@ -322,7 +525,6 @@
                 <a href="#coffee-demo" class="btn">Coffee example</a>
                 <a href="#fitness-demo" class="btn">Fitness example</a>
                 <a href="#auto-demo" class="btn">Auto example</a>
-                <a href="https://calendly.com/145brice/new-meeting" class="btn" target="_blank">Book a call—zero risk</a>
             </div>
         </div>
     </section>
@@ -352,6 +554,24 @@
                         <p>No bullshit.</p>
                         <p>Want fancy features? We add those. Still starts at three hundred.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Book a free consultation call with zero risk. Let's discuss your project and see if we're a good fit.</p>
+                <a href="https://calendly.com/145brice/new-meeting" class="cta-btn" target="_blank">
+                    <span class="cta-text">Book Your Free Call</span>
+                    <span class="cta-subtext">No commitment • 15 minutes • Zero risk</span>
+                </a>
+                <div class="cta-guarantee">
+                    <span class="guarantee-icon">✓</span>
+                    <span>100% Free Consultation • Cancel Anytime</span>
                 </div>
             </div>
         </div>
