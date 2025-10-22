@@ -1,16 +1,52 @@
 {
   "version": 2,
-  "name": "edge-barber-signup",
+  "name": "edge-landings",
   "builds": [
     {
       "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "barber-demo.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "doctor-demo.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "tattoo-demo.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "coffee-demo.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "fitness-demo.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "auto-demo.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "success.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "cancel.html",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/",
       "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }

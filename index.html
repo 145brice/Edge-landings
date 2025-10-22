@@ -3,242 +3,447 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nashville Mobile Cuts - Join Our Team</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Edge Landings - Websites that actually work</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background: #000000;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 30px;
+        }
+        
+        .hero-tagline {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            font-weight: 400;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .pricing-lines {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            margin-bottom: 50px;
+            line-height: 1.8;
+        }
+        
+        .pricing-lines div {
+            margin: 10px 0;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 18px 35px;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid #ffffff;
+            background: transparent;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+        
+        /* Details Section */
+        .details {
+            padding: 80px 20px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .grid h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+        
+        .grid ul {
+            list-style: none;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+        
+        .grid li {
+            margin: 15px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .grid li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        
+        .cost-block {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            line-height: 1.8;
+        }
+        
+        /* Payment Section */
+        .payment {
+            padding: 80px 20px;
+            background: #111111;
+        }
+        
+        .payment-info {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background: #1a1a1a;
+            border: 2px solid #333333;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+        
+        .price span {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        
+        .features {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .features li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 1.1rem;
+        }
+        
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .subscribe-btn {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: #00ff88;
+            color: #000000;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .subscribe-btn:hover {
+            background: #00cc6a;
+            transform: translateY(-2px);
+        }
+        
+        .cancel-note {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin: 0;
+            padding-top: 10px;
+            clear: both;
+        }
+
+        /* Contact Form */
+        .contact {
+            padding: 80px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .contact h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            background: #1a1a1a;
+            border: 1px solid #333333;
+            color: #ffffff;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .submit-btn:hover {
+            background: #cccccc;
+        }
+        
+        .form-note {
+            text-align: center;
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            border-top: 1px solid #1a1a1a;
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
-    <div class="min-h-screen bg-gray-50">
-        <!-- Header -->
-        <div class="bg-white shadow-sm p-6">
-            <div class="max-w-md mx-auto text-center">
-                <h1 class="text-3xl font-bold text-gray-900">Join Nashville Mobile Cuts</h1>
-                <p class="text-xl text-green-600 font-semibold mt-2">
-                    $50 cuts - $40 to you - same day pay
-                </p>
-                <p class="text-gray-600 mt-3">
-                    Start earning today as an independent contractor
-                </p>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>EDGE LANDINGS</h1>
+            <div class="hero-tagline">Websites that actually work.</div>
+            <div class="pricing-lines">
+                <div>Simple? Three hundred a month.</div>
+                <div>Complex? Three hundred plus.</div>
+                <div>Pick.</div>
+            </div>
+            <div class="buttons">
+                <a href="#barber-demo" class="btn">See a barber example</a>
+                <a href="#doctor-demo" class="btn">See a doctor example</a>
+                <a href="#tattoo-demo" class="btn">See a tattoo example</a>
+                <a href="#coffee-demo" class="btn">See a coffee example</a>
+                <a href="#fitness-demo" class="btn">See a fitness example</a>
+                <a href="#auto-demo" class="btn">See an auto example</a>
+                <a href="https://calendly.com/145brice/new-meeting" class="btn" target="_blank">Book a call—zero risk</a>
             </div>
         </div>
+    </section>
 
-        <!-- Form -->
-        <div class="max-w-md mx-auto p-6">
-            <div class="bg-white rounded-lg shadow-sm p-6">
-                <h2 class="text-xl font-semibold mb-6 text-center">Get Started</h2>
+    <!-- Details Section -->
+    <section class="details">
+        <div class="container">
+            <div class="grid">
+                <div>
+                    <h2>What you get</h2>
+                    <ul>
+                        <li>Fast load times</li>
+                        <li>Booking form that works</li>
+                        <li>SSL included</li>
+                        <li>Updates whenever you need</li>
+                        <li>Cancel anytime—no questions</li>
+                        <li>Hosting handled</li>
+                        <li>Speed checks monthly</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>What it costs</h2>
+                    <div class="cost-block">
+                        <p>Three hundred dollars flat.</p>
+                        <p>No upfront fee.</p>
+                        <p>No setup charge.</p>
+                        <p>No bullshit.</p>
+                        <p>Want fancy features? We add those. Still starts at three hundred.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section class="payment" id="payment">
+        <div class="container">
+            <h2>Ready to get started?</h2>
+            <div class="payment-info">
+                <div class="pricing-card">
+                    <h3>Edge Landings</h3>
+                    <div class="price">$300<span>/month</span></div>
+                    <ul class="features">
+                        <li>Fast, professional website</li>
+                        <li>Booking forms that work</li>
+                        <li>SSL & hosting included</li>
+                        <li>Monthly updates</li>
+                        <li>Cancel anytime</li>
+                    </ul>
+                    <a href="https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00" target="_blank" class="subscribe-btn">Start Now - $300/month</a>
+                    <p class="cancel-note">Cancel anytime, no questions asked</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Or let's talk first</h2>
+            <form action="https://formspree.io/f/xpzqkqkq" method="POST">
+                <div class="form-group">
+                    <label for="name">Your name</label>
+                    <input type="text" id="name" name="name" placeholder="John Smith" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" placeholder="615-555-1234" required>
+                </div>
+                <div class="form-group">
+                    <label for="project">Describe what you want</label>
+                    <textarea id="project" name="project" rows="6" placeholder="Tell me about your business, what kind of website you need, any specific features, timeline, budget range, etc. The more details the better!" required></textarea>
+                </div>
                 
-                <form id="signupForm" class="space-y-6">
-                    <!-- First Name -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            First Name <span class="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="firstName"
-                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-                            placeholder="Enter your first name"
-                            required
-                        />
-                    </div>
-
-                    <!-- Last Name -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Last Name <span class="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="lastName"
-                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-                            placeholder="Enter your last name"
-                            required
-                        />
-                    </div>
-
-                    <!-- Phone Number -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Phone Number <span class="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="tel"
-                            id="phone"
-                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-                            placeholder="(555) 123-4567"
-                            required
-                        />
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button
-                        type="submit"
-                        class="w-full bg-blue-500 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-blue-600 transition-colors"
-                    >
-                        Join Nashville Mobile Cuts
-                    </button>
-                    
-                    <!-- Email Button -->
-                    <button
-                        type="button"
-                        id="emailBtn"
-                        class="w-full bg-green-500 text-white py-3 px-6 rounded-lg font-semibold text-lg hover:bg-green-600 transition-colors mt-3"
-                    >
-                        📧 Email Me the Results
-                    </button>
-                </form>
-
-                <!-- Additional Info -->
-                <div class="mt-6 text-center">
-                    <p class="text-sm text-gray-500">
-                        By signing up, you agree to work as an independent contractor
-                    </p>
+                <button type="submit" class="submit-btn">Send preview</button>
+                <div class="form-note">
+                    I'll build a live version in 20 minutes—no card, no call.
                 </div>
-            </div>
-
-            <!-- Benefits -->
-            <div class="bg-white rounded-lg shadow-sm p-6 mt-6">
-                <h3 class="font-semibold mb-4 text-center">Why Join Nashville Mobile Cuts?</h3>
-                <div class="space-y-3">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">Same day pay - get paid immediately</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">80% commission - $40 per $50 cut</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">Flexible schedule - work when you want</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">No shop rent - we bring customers to you</span>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
-    </div>
+    </section>
 
-    <!-- Success Modal -->
-    <div id="successModal" class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-lg p-8 shadow-lg text-center max-w-md w-full">
-            <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="text-white" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                    <polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Thanks for signing up!</h2>
-            <p class="text-gray-600 mb-4">
-                We'll be in touch soon with next steps to get you started earning with Nashville Mobile Cuts.
-            </p>
-            <div class="bg-green-50 rounded-lg p-4 mb-6">
-                <p class="text-sm text-green-800">
-                    <strong>Remember:</strong> $50 cuts - $40 to you - same day pay
-                </p>
-            </div>
-
-            <button
-                id="closeModal"
-                class="text-blue-500 hover:text-blue-600 font-medium"
-            >
-                Sign up another contractor
-            </button>
-        </div>
-    </div>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; Edge Landings, Nashville, TN 37138 | 145brice@gmail.com</p>
+    </footer>
 
     <script>
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+        // Smooth scroll for demo links
+        document.querySelector('a[href="#barber-demo"]').addEventListener('click', function(e) {
             e.preventDefault();
-            
-            const firstName = document.getElementById('firstName').value.trim();
-            const lastName = document.getElementById('lastName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-
-            if (!firstName || !lastName || !phone) {
-                alert('Please fill out all required fields.');
-                return;
-            }
-
-            // Show loading state
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-
-            // Copy form data to clipboard automatically
-            const emailContent = `TO: 145brice@gmail.com
-SUBJECT: New Contractor Signup - Nashville Mobile Cuts
-
-MESSAGE:
-New contractor signup received:
-
-Name: ${firstName} ${lastName}
-Phone: ${phone}
-Date: ${new Date().toLocaleString()}
-
-Please contact them to complete their application.
-
----
-Sent from Nashville Mobile Cuts signup form`;
-
-            // Copy to clipboard
-            navigator.clipboard.writeText(emailContent).then(() => {
-                alert('✅ Form data copied to clipboard! Open your email app and paste it.');
-            }).catch(() => {
-                alert('❌ Copy failed. Please copy manually:\n\n' + emailContent);
-            });
-
-            // Show success modal
-            document.getElementById('successModal').classList.remove('hidden');
-            
-            // Log the form data
-            console.log('Form submitted and Gmail opened automatically:', {
-                firstName,
-                lastName,
-                phone,
-                timestamp: new Date().toISOString()
-            });
-
-            // Reset button
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
+            window.open('barber-demo.html', '_blank');
         });
-
-        // Email button functionality
-        document.getElementById('emailBtn').addEventListener('click', function() {
-            const firstName = document.getElementById('firstName').value.trim();
-            const lastName = document.getElementById('lastName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-
-            if (!firstName || !lastName || !phone) {
-                alert('Please fill out all fields first.');
-                return;
-            }
-
-            const emailSubject = 'New Contractor Signup - Nashville Mobile Cuts';
-            const emailBody = `New contractor signup received:
-
-Name: ${firstName} ${lastName}
-Phone: ${phone}
-Date: ${new Date().toLocaleString()}
-
-Please contact them to complete their application.
-
----
-Sent from Nashville Mobile Cuts signup form`;
-
-            // Open Gmail directly
-            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=145brice@gmail.com&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-            window.open(gmailUrl, '_blank');
-            
-            alert('Gmail opened! Just click "Send" to email yourself the results.');
+        
+        document.querySelector('a[href="#doctor-demo"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('doctor-demo.html', '_blank');
         });
-
-        document.getElementById('closeModal').addEventListener('click', function() {
-            document.getElementById('successModal').classList.add('hidden');
-            document.getElementById('signupForm').reset();
+        
+        document.querySelector('a[href="#tattoo-demo"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('tattoo-demo.html', '_blank');
+        });
+        
+        document.querySelector('a[href="#coffee-demo"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('coffee-demo.html', '_blank');
+        });
+        
+        document.querySelector('a[href="#fitness-demo"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('fitness-demo.html', '_blank');
+        });
+        
+        document.querySelector('a[href="#auto-demo"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('auto-demo.html', '_blank');
         });
     </script>
 </body>
