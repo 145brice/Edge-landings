@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brew & Bean Coffee Co. - Artisan Coffee & Pastries</title>
+    <title>Gentleman's Cut - Premium Barbershop</title>
     <style>
         * {
             margin: 0;
@@ -12,10 +12,10 @@
         }
         
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: 'Arial', sans-serif;
             line-height: 1.6;
-            color: #2c3e50;
-            background: #f8f6f0;
+            color: #1a1a1a;
+            background: #f5f5f5;
         }
         
         .container {
@@ -26,14 +26,14 @@
         
         /* Header */
         header {
-            background: #8B4513;
+            background: #000;
             color: #fff;
-            padding: 15px 0;
+            padding: 20px 0;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         
         nav {
@@ -43,47 +43,68 @@
         }
         
         .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #D4AF37;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 2px;
         }
         
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 30px;
+            gap: 40px;
         }
         
         .nav-links a {
             color: #fff;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
         }
         
         .nav-links a:hover {
-            color: #D4AF37;
+            color: #ff6b35;
         }
         
-        .order-btn {
-            background: #D4AF37;
-            color: #8B4513;
-            padding: 10px 20px;
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #ff6b35;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .book-btn {
+            background: #ff6b35;
+            color: #fff;
+            padding: 12px 25px;
             text-decoration: none;
-            border-radius: 25px;
+            border-radius: 30px;
             font-weight: bold;
+            font-size: 1rem;
             transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
-        .order-btn:hover {
-            background: #B8860B;
+        .book-btn:hover {
+            background: #e55a2b;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
         }
         
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(139, 69, 19, 0.7), rgba(139, 69, 19, 0.7)), url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDYwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjZjhmNmYwIi8+CjxyZWN0IHg9IjAiIHk9IjUwMCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZGRkIi8+CjxyZWN0IHg9IjUwMCIgeT0iNDAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzMzMyIvPgo8Y2lyY2xlIGN4PSI2MDAiIGN5PSIyMDAiIHI9IjgwIiBmaWxsPSIjOEY0NTEzIi8+CjxjaXJjbGUgY3g9IjYwMCIgY3k9IjIwMCIgcj0iNjAiIGZpbGw9IiNGRkZGRkYiLz4KPGNpcmNsZSBjeD0iNjAwIiBjeT0iMjAwIiByPSI0MCIgZmlsbD0iIzhGNDUxMyIvPgo8Y2lyY2xlIGN4PSI2MDAiIGN5PSIyMDAiIHI9IjIwIiBmaWxsPSIjRkZGRkZGIi8+Cjwvc3ZnPg==');
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI3MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDcwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNzAwIiBmaWxsPSIjZjVmNWY1Ii8+CjxyZWN0IHg9IjAiIHk9IjYwMCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZGRkIi8+CjxyZWN0IHg9IjQwMCIgeT0iNTAwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzMzMyIvPgo8Y2lyY2xlIGN4PSI1MDAiIGN5PSIzMDAiIHI9IjYwIiBmaWxsPSIjODg4Ii8+CjxjaXJjbGUgY3g9IjcwMCIgY3k9IjMwMCIgcj0iNjAiIGZpbGw9IiM4ODgiLz4KPHJlY3QgeD0iNDUwIiB5PSI0MDAiIHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNjY2Ii8+CjxyZWN0IHg9IjUwMCIgeT0iNDUwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzQ0NCIvPgo8cmVjdCB4PSI1MDAiIHk9IjUwMCIgd2lkdGg9IjIwMCIgaGVpZ2h0PSI1MCIgZmlsbD0iIzQ0NCIvPgo8L3N2Zz4K');
             background-size: cover;
             background-position: center;
             height: 100vh;
@@ -95,17 +116,19 @@
         }
         
         .hero-content h1 {
-            font-size: 4rem;
-            font-weight: bold;
+            font-size: 4.5rem;
+            font-weight: 900;
             margin-bottom: 20px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+            letter-spacing: 3px;
         }
         
         .hero-content h2 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin-bottom: 30px;
             font-weight: 300;
-            color: #D4AF37;
+            color: #ff6b35;
+            letter-spacing: 1px;
         }
         
         .hero-content p {
@@ -114,25 +137,28 @@
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.8;
         }
         
         .cta-button {
-            background: #D4AF37;
-            color: #8B4513;
-            padding: 18px 35px;
+            background: #ff6b35;
+            color: #fff;
+            padding: 20px 40px;
             text-decoration: none;
-            border-radius: 30px;
+            border-radius: 35px;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             transition: all 0.3s ease;
             display: inline-block;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         
         .cta-button:hover {
-            background: #B8860B;
+            background: #e55a2b;
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
         
         /* Main Content */
@@ -141,20 +167,23 @@
         }
         
         .section {
-            padding: 80px 0;
+            padding: 100px 0;
         }
         
         .section h2 {
-            font-size: 2.8rem;
+            font-size: 3rem;
             text-align: center;
-            margin-bottom: 50px;
-            color: #8B4513;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+            font-weight: 800;
+            letter-spacing: 2px;
         }
         
         .section h3 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 30px;
-            color: #8B4513;
+            color: #1a1a1a;
+            font-weight: 700;
         }
         
         /* About Section */
@@ -165,156 +194,183 @@
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 50px;
+            gap: 60px;
             align-items: center;
         }
         
         .about-info h3 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            color: #8B4513;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #1a1a1a;
         }
         
         .info-item {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f8f8;
+            border-radius: 10px;
+            border-left: 4px solid #ff6b35;
         }
         
         .info-item strong {
             display: block;
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-            color: #8B4513;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+            font-weight: 700;
         }
         
         .info-item span {
             color: #666;
             font-size: 1.1rem;
+            line-height: 1.6;
         }
         
-        .coffee-image {
-            background: linear-gradient(45deg, #8B4513, #A0522D);
-            height: 350px;
+        .barber-image {
+            background: linear-gradient(135deg, #1a1a1a, #333);
+            height: 400px;
             border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
-            font-size: 1.4rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            font-size: 1.5rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
         }
         
-        /* Menu Section */
-        .menu {
-            background: #f8f6f0;
+        .barber-image::before {
+            content: '✂️';
+            font-size: 4rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.3;
         }
         
-        .menu-grid {
+        /* Services Section */
+        .services {
+            background: #f8f8f8;
+        }
+        
+        .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 40px;
         }
         
-        .menu-category {
+        .service-category {
             background: #fff;
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border: 3px solid #D4AF37;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #ff6b35;
+            transition: transform 0.3s ease;
         }
         
-        .menu-category h3 {
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            color: #8B4513;
-            border-bottom: 3px solid #D4AF37;
+        .service-category:hover {
+            transform: translateY(-5px);
+        }
+        
+        .service-category h3 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+            border-bottom: 3px solid #ff6b35;
             padding-bottom: 15px;
             text-align: center;
         }
         
-        .menu-item {
+        .service-item {
             margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            padding: 20px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
         
-        .menu-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
+        .service-item:hover {
+            background: #ff6b35;
+            color: #fff;
         }
         
-        .menu-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .service-item:hover .service-name {
+            color: #fff;
+        }
+        
+        .service-item:hover .service-description {
+            color: #fff;
+        }
+        
+        .service-name {
+            font-weight: bold;
+            color: #1a1a1a;
+            font-size: 1.2rem;
             margin-bottom: 8px;
         }
         
-        .menu-name {
-            font-weight: bold;
-            color: #8B4513;
-            font-size: 1.1rem;
-        }
-        
-        .menu-price {
-            color: #D4AF37;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-        
-        .menu-description {
+        .service-description {
             color: #666;
-            font-size: 0.95rem;
+            font-size: 1rem;
             line-height: 1.5;
         }
         
-        /* Order Section */
-        .order {
-            background: #8B4513;
+        /* Booking Section */
+        .booking {
+            background: #1a1a1a;
             color: #fff;
             text-align: center;
         }
         
-        .order h2 {
+        .booking h2 {
             color: #fff;
-            margin-bottom: 20px;
-        }
-        
-        .order p {
-            font-size: 1.2rem;
             margin-bottom: 30px;
-            color: #D4AF37;
         }
         
-        .order-button {
-            background: #D4AF37;
-            color: #8B4513;
-            padding: 18px 35px;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
+        .booking p {
             font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: #ccc;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .booking-button {
+            background: #ff6b35;
+            color: #fff;
+            padding: 20px 40px;
+            text-decoration: none;
+            border-radius: 35px;
+            font-weight: bold;
+            font-size: 1.4rem;
             transition: all 0.3s ease;
             display: inline-block;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         
-        .order-button:hover {
-            background: #B8860B;
+        .booking-button:hover {
+            background: #e55a2b;
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
         }
         
         /* Footer */
         footer {
-            background: #2c3e50;
+            background: #000;
             color: #fff;
             text-align: center;
-            padding: 40px 0;
+            padding: 50px 0;
         }
         
         footer p {
-            color: #D4AF37;
-            font-size: 1rem;
+            color: #ff6b35;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
         
         /* Responsive */
@@ -324,15 +380,15 @@
             }
             
             .hero-content h1 {
-                font-size: 2.8rem;
+                font-size: 3rem;
             }
             
             .about-content {
                 grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 40px;
             }
             
-            .menu-grid {
+            .services-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -341,25 +397,25 @@
 <body>
     <header>
         <nav class="container">
-            <div class="logo">☕ Brew & Bean Coffee Co.</div>
+            <div class="logo">GENTLEMAN'S CUT</div>
             <ul class="nav-links">
-                <li><a href="#home">Home</li>
-                <li><a href="#about">About</li>
-                <li><a href="#menu">Menu</li>
-                <li><a href="#order">Order</li>
-                <li><a href="#contact">Contact</li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#booking">Booking</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
-            <a href="#order" class="order-btn">ORDER NOW</a>
+            <a href="#booking" class="book-btn">BOOK NOW</a>
         </nav>
     </header>
 
     <main>
         <section class="hero" id="home">
             <div class="hero-content">
-                <h1>Brew & Bean Coffee Co.</h1>
-                <h2>Artisan Coffee & Fresh Pastries</h2>
-                <p>Experience the perfect blend of tradition and innovation in every cup. From single-origin beans to handcrafted pastries, we bring you the finest coffee experience in Nashville.</p>
-                <a href="#order" class="cta-button">ORDER YOUR COFFEE</a>
+                <h1>GENTLEMAN'S CUT</h1>
+                <h2>Premium Barbershop Experience</h2>
+                <p>Where tradition meets modern style. Experience the finest in men's grooming with our expert barbers, premium products, and luxurious atmosphere. Your perfect cut awaits.</p>
+                <a href="#booking" class="cta-button">BOOK YOUR APPOINTMENT</a>
             </div>
         </section>
 
@@ -368,161 +424,112 @@
                 <h2>About Us</h2>
                 <div class="about-content">
                     <div class="about-info">
-                        <h3>Located in the Heart of Nashville</h3>
+                        <h3>Located in Downtown Nashville</h3>
                         <div class="info-item">
                             <strong>Phone</strong>
-                            <span>615-555-0199</span>
+                            <span>615-555-0123</span>
                         </div>
                         <div class="info-item">
                             <strong>Location</strong>
-                            <span>456 Music Row<br>Suite 100<br>Nashville, TN 37203</span>
+                            <span>789 Broadway<br>Suite 150<br>Nashville, TN 37203</span>
                         </div>
                         <div class="info-item">
                             <strong>Hours</strong>
-                            <span><strong>M-F</strong> 6:30a–7p<br><strong>Sat-Sun</strong> 7a–8p</span>
+                            <span><strong>M-F</strong> 8a–8p<br><strong>Sat</strong> 9a–6p<br><strong>Sun</strong> 10a–4p</span>
                         </div>
                         <div class="info-item">
                             <strong>Specialty</strong>
-                            <span>Single-origin coffee, artisan pastries, and cozy atmosphere</span>
+                            <span>Premium cuts, straight razor shaves, beard styling, and luxury grooming services</span>
                         </div>
                     </div>
-                    <div class="coffee-image">
-                        <div>☕ Coffee Shop Interior</div>
+                    <div class="barber-image">
+                        <div>Professional Barber Shop Interior</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="section menu" id="menu">
+        <section class="section services" id="services">
             <div class="container">
-                <h2>Our Menu</h2>
-                <div class="menu-grid">
-                    <div class="menu-category">
-                        <h3>☕ Coffee & Espresso</h3>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Signature Latte</span>
-                                <span class="menu-price">$4.50</span>
-                            </div>
-                            <div class="menu-description">Rich espresso with steamed milk and our signature foam art</div>
+                <h2>Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-category">
+                        <h3>💇 Haircuts</h3>
+                        <div class="service-item">
+                            <div class="service-name">Signature Cut</div>
+                            <div class="service-description">Our most popular cut with precision styling, hot towel treatment, and premium products. Includes consultation and styling tips.</div>
                         </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Cold Brew</span>
-                                <span class="menu-price">$3.75</span>
-                            </div>
-                            <div class="menu-description">Smooth, cold-brewed coffee served over ice</div>
+                        <div class="service-item">
+                            <div class="service-name">Classic Cut</div>
+                            <div class="service-description">Traditional barbering with modern techniques. Perfect for the gentleman who appreciates timeless style.</div>
                         </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Cappuccino</span>
-                                <span class="menu-price">$4.25</span>
-                            </div>
-                            <div class="menu-description">Classic espresso with equal parts steamed milk and foam</div>
+                        <div class="service-item">
+                            <div class="service-name">Skin Fade</div>
+                            <div class="service-description">Precision fade work with straight razor finish. The ultimate in modern men's grooming.</div>
                         </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Americano</span>
-                                <span class="menu-price">$3.50</span>
-                            </div>
-                            <div class="menu-description">Espresso with hot water for a clean, bold taste</div>
+                        <div class="service-item">
+                            <div class="service-name">Youth Cut</div>
+                            <div class="service-description">Specialized cuts for young men. Ages 12 and under. Fun, comfortable, and stylish.</div>
                         </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Mocha</span>
-                                <span class="menu-price">$5.25</span>
-                            </div>
-                            <div class="menu-description">Espresso with chocolate and steamed milk</div>
+                        <div class="service-item">
+                            <div class="service-name">Buzz Cut</div>
+                            <div class="service-description">Clean, uniform cut with straight razor neck trim and hot towel treatment.</div>
                         </div>
                     </div>
 
-                    <div class="menu-category">
-                        <h3>🥐 Pastries & Treats</h3>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Croissant</span>
-                                <span class="menu-price">$3.25</span>
-                            </div>
-                            <div class="menu-description">Buttery, flaky pastry baked fresh daily</div>
+                    <div class="service-category">
+                        <h3>🪒 Shaves</h3>
+                        <div class="service-item">
+                            <div class="service-name">Luxury Shave</div>
+                            <div class="service-description">The ultimate shaving experience with pre-shave oil, hot towels, straight razor work, and premium aftershave.</div>
                         </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Chocolate Muffin</span>
-                                <span class="menu-price">$3.75</span>
-                            </div>
-                            <div class="menu-description">Rich chocolate muffin with chocolate chips</div>
+                        <div class="service-item">
+                            <div class="service-name">Classic Straight Razor</div>
+                            <div class="service-description">Traditional straight razor shave with hot towel preparation and soothing aftershave treatment.</div>
                         </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Cinnamon Roll</span>
-                                <span class="menu-price">$4.50</span>
-                            </div>
-                            <div class="menu-description">Warm cinnamon roll with cream cheese frosting</div>
+                        <div class="service-item">
+                            <div class="service-name">Beard Trim</div>
+                            <div class="service-description">Professional beard shaping and trimming with precision tools and styling products.</div>
                         </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Bagel & Cream Cheese</span>
-                                <span class="menu-price">$3.95</span>
-                            </div>
-                            <div class="menu-description">Fresh bagel with your choice of cream cheese</div>
-                        </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Scone</span>
-                                <span class="menu-price">$3.50</span>
-                            </div>
-                            <div class="menu-description">Traditional scone with jam and clotted cream</div>
+                        <div class="service-item">
+                            <div class="service-name">Mustache Trim</div>
+                            <div class="service-description">Expert mustache styling and maintenance for the perfect look.</div>
                         </div>
                     </div>
 
-                    <div class="menu-category">
-                        <h3>🥤 Specialty Drinks</h3>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Iced Caramel Macchiato</span>
-                                <span class="menu-price">$5.75</span>
-                            </div>
-                            <div class="menu-description">Espresso with vanilla, milk, and caramel drizzle</div>
+                    <div class="service-category">
+                        <h3>✨ Premium Services</h3>
+                        <div class="service-item">
+                            <div class="service-name">Hair Color</div>
+                            <div class="service-description">Professional hair coloring and grey blending for a fresh, youthful appearance.</div>
                         </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Chai Latte</span>
-                                <span class="menu-price">$4.95</span>
-                            </div>
-                            <div class="menu-description">Spiced chai tea with steamed milk</div>
+                        <div class="service-item">
+                            <div class="service-name">Scalp Treatment</div>
+                            <div class="service-description">Deep cleansing and conditioning treatment for healthy, refreshed scalp.</div>
                         </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Matcha Latte</span>
-                                <span class="menu-price">$5.25</span>
-                            </div>
-                            <div class="menu-description">Premium matcha powder with steamed milk</div>
+                        <div class="service-item">
+                            <div class="service-name">Eyebrow Shaping</div>
+                            <div class="service-description">Precise eyebrow trimming and shaping for a polished look.</div>
                         </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Hot Chocolate</span>
-                                <span class="menu-price">$4.25</span>
-                            </div>
-                            <div class="menu-description">Rich hot chocolate with whipped cream</div>
+                        <div class="service-item">
+                            <div class="service-name">Facial Waxing</div>
+                            <div class="service-description">Professional waxing services for ears, nose, and facial hair removal.</div>
                         </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <span class="menu-name">Frappé</span>
-                                <span class="menu-price">$5.95</span>
-                            </div>
-                            <div class="menu-description">Blended coffee drink with ice and flavoring</div>
+                        <div class="service-item">
+                            <div class="service-name">Design Work</div>
+                            <div class="service-description">Custom hair designs and artistic cuts for the bold and creative.</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="section order" id="order">
+        <section class="section booking" id="booking">
             <div class="container">
-                <h2>ORDER NOW</h2>
-                <p><em>Fresh coffee and pastries made to order</em></p>
-                <p><em>Call ahead for pickup or dine in</em></p>
-                <a href="https://calendly.com/145brice/new-meeting" class="order-button" target="_blank">PLACE YOUR ORDER</a>
+                <h2>BOOK YOUR APPOINTMENT</h2>
+                <p><em>Experience the Gentleman's Cut difference. Book your appointment today and discover why we're Nashville's premier barbershop.</em></p>
+                <p><em>Walk-ins welcome, but appointments recommended for the best experience.</em></p>
+                <a href="https://calendly.com/145brice/new-meeting" class="booking-button" target="_blank">BOOK NOW</a>
             </div>
         </section>
     </main>
