@@ -637,19 +637,79 @@
             box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
         }
         
-        .timeslot-display {
-            margin-top: 30px;
-            padding: 20px;
-            background: #1a1a1a;
-            border-radius: 15px;
-            border: 2px solid #00ff88;
+        .timeslot-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
         }
         
-        .timeslot-display h4 {
-            color: #00ff88;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 1.3rem;
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            margin: 10% auto;
+            padding: 0;
+            border: 3px solid #00ff88;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
+            padding: 20px;
+            border-radius: 17px 17px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+        
+        .close-modal {
+            color: #000000;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .close-modal:hover {
+            background: rgba(0, 0, 0, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .modal-body {
+            padding: 30px;
         }
         
         .timeslots {
@@ -933,10 +993,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="timeslot-display" id="timeslot-display" style="display: none;">
-                    <h4>Available Times for <span id="selected-date"></span></h4>
-                    <div class="timeslots" id="timeslots">
-                        <!-- Timeslots will be populated by JavaScript -->
+                <!-- Timeslot Modal -->
+                <div class="timeslot-modal" id="timeslot-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Available Times for <span id="selected-date"></span></h3>
+                            <span class="close-modal" id="close-modal">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="timeslots" id="timeslots">
+                                <!-- Timeslots will be populated by JavaScript -->
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <a href="https://calendly.com/145brice/new-meeting" class="btn calendar-btn" target="_blank">Book Free Call</a>
@@ -984,9 +1052,10 @@
         // Calendar functionality
         document.addEventListener('DOMContentLoaded', function() {
             const calendarDates = document.querySelectorAll('.date.available');
-            const timeslotDisplay = document.getElementById('timeslot-display');
+            const timeslotModal = document.getElementById('timeslot-modal');
             const selectedDateSpan = document.getElementById('selected-date');
             const timeslotsContainer = document.getElementById('timeslots');
+            const closeModal = document.getElementById('close-modal');
             
             calendarDates.forEach(date => {
                 date.addEventListener('click', function() {
@@ -1015,21 +1084,37 @@
                         timeslotElement.className = 'timeslot';
                         timeslotElement.textContent = timeslot;
                         timeslotElement.addEventListener('click', function() {
-                            // Remove selected class from all timeslots
-                            document.querySelectorAll('.timeslot').forEach(t => t.classList.remove('selected'));
-                            // Add selected class to clicked timeslot
-                            this.classList.add('selected');
-                            
                             // Redirect to Calendly with pre-filled date and time
                             const calendlyUrl = `https://calendly.com/145brice/new-meeting?date=${selectedDate}&time=${encodeURIComponent(timeslot)}`;
                             window.open(calendlyUrl, '_blank');
+                            // Close modal after selection
+                            timeslotModal.style.display = 'none';
                         });
                         timeslotsContainer.appendChild(timeslotElement);
                     });
                     
-                    // Show the timeslot display
-                    timeslotDisplay.style.display = 'block';
+                    // Show the modal
+                    timeslotModal.style.display = 'block';
                 });
+            });
+            
+            // Close modal when clicking the X
+            closeModal.addEventListener('click', function() {
+                timeslotModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside of it
+            timeslotModal.addEventListener('click', function(e) {
+                if (e.target === timeslotModal) {
+                    timeslotModal.style.display = 'none';
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && timeslotModal.style.display === 'block') {
+                    timeslotModal.style.display = 'none';
+                }
             });
         });
     </script>
