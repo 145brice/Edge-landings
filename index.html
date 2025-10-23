@@ -598,6 +598,89 @@
             opacity: 0.7;
             border-top: 1px solid #1a1a1a;
         }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .date {
+            background: #333333;
+            color: #ffffff;
+            padding: 10px 5px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0.6;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        
+        .date.available {
+            background: #00ff88;
+            color: #000000;
+            cursor: pointer;
+            opacity: 1;
+        }
+        
+        .date.available:hover {
+            background: #00cc6a;
+            transform: scale(1.05);
+        }
+        
+        .date.selected {
+            background: #ff6b35;
+            color: #ffffff;
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+        }
+        
+        .timeslot-display {
+            margin-top: 30px;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 15px;
+            border: 2px solid #00ff88;
+        }
+        
+        .timeslot-display h4 {
+            color: #00ff88;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+        
+        .timeslots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        
+        .timeslot {
+            background: #00ff88;
+            color: #000000;
+            padding: 12px 8px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        
+        .timeslot:hover {
+            background: #00cc6a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+        }
+        
+        .timeslot.selected {
+            background: #ff6b35;
+            color: #ffffff;
+            border-color: #ff8c42;
+        }
     </style>
 </head>
 <body>
@@ -769,37 +852,37 @@
                                 <div class="day">S</div>
                             </div>
                             <div class="calendar-grid">
-                                <div class="date available">1</div>
-                                <div class="date available">2</div>
-                                <div class="date available">3</div>
-                                <div class="date available">4</div>
-                                <div class="date available">5</div>
-                                <div class="date available">6</div>
-                                <div class="date available">7</div>
-                                <div class="date available">8</div>
-                                <div class="date available">9</div>
-                                <div class="date available">10</div>
-                                <div class="date available">11</div>
-                                <div class="date available">12</div>
-                                <div class="date available">13</div>
-                                <div class="date available">14</div>
-                                <div class="date available">15</div>
-                                <div class="date available">16</div>
-                                <div class="date available">17</div>
-                                <div class="date available">18</div>
-                                <div class="date available">19</div>
-                                <div class="date available">20</div>
-                                <div class="date available">21</div>
-                                <div class="date available">22</div>
-                                <div class="date available">23</div>
-                                <div class="date available">24</div>
-                                <div class="date available">25</div>
-                                <div class="date available">26</div>
-                                <div class="date available">27</div>
-                                <div class="date available">28</div>
-                                <div class="date available">29</div>
-                                <div class="date available">30</div>
-                                <div class="date available">31</div>
+                                <div class="date available" data-date="2025-10-01" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">1</div>
+                                <div class="date available" data-date="2025-10-02" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">2</div>
+                                <div class="date available" data-date="2025-10-03" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">3</div>
+                                <div class="date available" data-date="2025-10-04" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">4</div>
+                                <div class="date available" data-date="2025-10-05" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">5</div>
+                                <div class="date available" data-date="2025-10-06" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">6</div>
+                                <div class="date available" data-date="2025-10-07" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">7</div>
+                                <div class="date available" data-date="2025-10-08" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">8</div>
+                                <div class="date available" data-date="2025-10-09" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">9</div>
+                                <div class="date available" data-date="2025-10-10" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">10</div>
+                                <div class="date available" data-date="2025-10-11" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">11</div>
+                                <div class="date available" data-date="2025-10-12" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">12</div>
+                                <div class="date available" data-date="2025-10-13" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">13</div>
+                                <div class="date available" data-date="2025-10-14" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">14</div>
+                                <div class="date available" data-date="2025-10-15" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">15</div>
+                                <div class="date available" data-date="2025-10-16" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">16</div>
+                                <div class="date available" data-date="2025-10-17" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">17</div>
+                                <div class="date available" data-date="2025-10-18" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">18</div>
+                                <div class="date available" data-date="2025-10-19" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">19</div>
+                                <div class="date available" data-date="2025-10-20" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">20</div>
+                                <div class="date available" data-date="2025-10-21" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">21</div>
+                                <div class="date available selected" data-date="2025-10-22" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">22</div>
+                                <div class="date available" data-date="2025-10-23" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">23</div>
+                                <div class="date available" data-date="2025-10-24" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">24</div>
+                                <div class="date available" data-date="2025-10-25" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">25</div>
+                                <div class="date available" data-date="2025-10-26" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">26</div>
+                                <div class="date available" data-date="2025-10-27" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">27</div>
+                                <div class="date available" data-date="2025-10-28" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">28</div>
+                                <div class="date available" data-date="2025-10-29" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">29</div>
+                                <div class="date available" data-date="2025-10-30" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">30</div>
+                                <div class="date available" data-date="2025-10-31" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">31</div>
                             </div>
                         </div>
                     </div>
@@ -816,38 +899,44 @@
                                 <div class="day">S</div>
                             </div>
                             <div class="calendar-grid">
-                                <div class="date available">1</div>
-                                <div class="date available">2</div>
-                                <div class="date available">3</div>
-                                <div class="date available">4</div>
-                                <div class="date available">5</div>
-                                <div class="date available">6</div>
-                                <div class="date available">7</div>
-                                <div class="date available">8</div>
-                                <div class="date available">9</div>
-                                <div class="date available">10</div>
-                                <div class="date available">11</div>
-                                <div class="date available">12</div>
-                                <div class="date available">13</div>
-                                <div class="date available">14</div>
-                                <div class="date available">15</div>
-                                <div class="date available">16</div>
-                                <div class="date available">17</div>
-                                <div class="date available">18</div>
-                                <div class="date available">19</div>
-                                <div class="date available">20</div>
-                                <div class="date available">21</div>
-                                <div class="date available">22</div>
-                                <div class="date available">23</div>
-                                <div class="date available">24</div>
-                                <div class="date available">25</div>
-                                <div class="date available">26</div>
-                                <div class="date available">27</div>
-                                <div class="date available">28</div>
-                                <div class="date available">29</div>
-                                <div class="date available">30</div>
+                                <div class="date available" data-date="2025-11-01" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">1</div>
+                                <div class="date available" data-date="2025-11-02" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">2</div>
+                                <div class="date available" data-date="2025-11-03" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">3</div>
+                                <div class="date available" data-date="2025-11-04" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">4</div>
+                                <div class="date available" data-date="2025-11-05" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">5</div>
+                                <div class="date available" data-date="2025-11-06" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">6</div>
+                                <div class="date available" data-date="2025-11-07" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">7</div>
+                                <div class="date available" data-date="2025-11-08" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">8</div>
+                                <div class="date available" data-date="2025-11-09" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">9</div>
+                                <div class="date available" data-date="2025-11-10" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">10</div>
+                                <div class="date available" data-date="2025-11-11" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">11</div>
+                                <div class="date available" data-date="2025-11-12" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">12</div>
+                                <div class="date available" data-date="2025-11-13" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">13</div>
+                                <div class="date available" data-date="2025-11-14" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">14</div>
+                                <div class="date available" data-date="2025-11-15" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">15</div>
+                                <div class="date available" data-date="2025-11-16" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">16</div>
+                                <div class="date available" data-date="2025-11-17" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">17</div>
+                                <div class="date available" data-date="2025-11-18" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">18</div>
+                                <div class="date available" data-date="2025-11-19" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">19</div>
+                                <div class="date available" data-date="2025-11-20" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">20</div>
+                                <div class="date available" data-date="2025-11-21" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">21</div>
+                                <div class="date available" data-date="2025-11-22" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">22</div>
+                                <div class="date available" data-date="2025-11-23" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">23</div>
+                                <div class="date available" data-date="2025-11-24" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">24</div>
+                                <div class="date available" data-date="2025-11-25" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">25</div>
+                                <div class="date available" data-date="2025-11-26" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">26</div>
+                                <div class="date available" data-date="2025-11-27" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">27</div>
+                                <div class="date available" data-date="2025-11-28" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">28</div>
+                                <div class="date available" data-date="2025-11-29" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">29</div>
+                                <div class="date available" data-date="2025-11-30" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">30</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="timeslot-display" id="timeslot-display" style="display: none;">
+                    <h4>Available Times for <span id="selected-date"></span></h4>
+                    <div class="timeslots" id="timeslots">
+                        <!-- Timeslots will be populated by JavaScript -->
                     </div>
                 </div>
                 <a href="https://calendly.com/145brice/new-meeting" class="btn calendar-btn" target="_blank">Book Free Call</a>
@@ -890,6 +979,58 @@
         document.querySelector('a[href="#auto-demo"]').addEventListener('click', function(e) {
             e.preventDefault();
             window.open('auto-demo.html', '_blank');
+        });
+        
+        // Calendar functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarDates = document.querySelectorAll('.date.available');
+            const timeslotDisplay = document.getElementById('timeslot-display');
+            const selectedDateSpan = document.getElementById('selected-date');
+            const timeslotsContainer = document.getElementById('timeslots');
+            
+            calendarDates.forEach(date => {
+                date.addEventListener('click', function() {
+                    // Remove selected class from all dates
+                    calendarDates.forEach(d => d.classList.remove('selected'));
+                    
+                    // Add selected class to clicked date
+                    this.classList.add('selected');
+                    
+                    // Get the date and timeslots
+                    const selectedDate = this.getAttribute('data-date');
+                    const timeslots = this.getAttribute('data-timeslots').split(', ');
+                    
+                    // Update the display
+                    selectedDateSpan.textContent = new Date(selectedDate).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    
+                    // Clear and populate timeslots
+                    timeslotsContainer.innerHTML = '';
+                    timeslots.forEach(timeslot => {
+                        const timeslotElement = document.createElement('div');
+                        timeslotElement.className = 'timeslot';
+                        timeslotElement.textContent = timeslot;
+                        timeslotElement.addEventListener('click', function() {
+                            // Remove selected class from all timeslots
+                            document.querySelectorAll('.timeslot').forEach(t => t.classList.remove('selected'));
+                            // Add selected class to clicked timeslot
+                            this.classList.add('selected');
+                            
+                            // Redirect to Calendly with pre-filled date and time
+                            const calendlyUrl = `https://calendly.com/145brice/new-meeting?date=${selectedDate}&time=${encodeURIComponent(timeslot)}`;
+                            window.open(calendlyUrl, '_blank');
+                        });
+                        timeslotsContainer.appendChild(timeslotElement);
+                    });
+                    
+                    // Show the timeslot display
+                    timeslotDisplay.style.display = 'block';
+                });
+            });
         });
     </script>
 </body>
