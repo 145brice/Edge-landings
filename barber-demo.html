@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fade in 30 - Premium Barber Shop</title>
+    <title>Refine Classic Barbershop - Mount Juliet</title>
     <style>
         * {
             margin: 0;
@@ -12,10 +12,10 @@
         }
         
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            line-height: 1.7;
-            color: #2c3e50;
-            background: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f8f8;
         }
         
         .container {
@@ -26,13 +26,14 @@
         
         /* Header */
         header {
-            background: linear-gradient(135deg, #8B4513, #A0522D);
+            background: #000;
+            color: #fff;
             padding: 15px 0;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         
         nav {
@@ -42,11 +43,9 @@
         }
         
         .logo {
-            font-size: 2.2rem;
-            font-weight: 900;
-            color: #FFD700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
         }
         
         .nav-links {
@@ -56,450 +55,258 @@
         }
         
         .nav-links a {
-            color: #FFD700;
+            color: #fff;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            padding: 8px 16px;
-            border-radius: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
         
         .nav-links a:hover {
-            color: #8B4513;
-            background: #FFD700;
-            transform: translateY(-2px);
+            color: #ccc;
         }
         
         .book-btn {
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: #8B4513;
-            padding: 15px 30px;
-            border-radius: 25px;
+            background: #fff;
+            color: #000;
+            padding: 10px 20px;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
+            border-radius: 5px;
+            font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-            border: 2px solid #FFD700;
         }
         
         .book-btn:hover {
-            background: linear-gradient(45deg, #FFA500, #FFD700);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+            background: #f0f0f0;
+            transform: translateY(-2px);
         }
         
         /* Hero Section */
         .hero {
-            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDYwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjZjhmOGY4Ii8+CjxyZWN0IHg9IjAiIHk9IjUwMCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZGRkIi8+CjxyZWN0IHg9IjUwMCIgeT0iNDAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzMzMyIvPgo8cmVjdCB4PSI0MDAiIHk9IjMwMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiM2NjYiLz4KPGNpcmNsZSBjeD0iNTAwIiBjeT0iMjAwIiByPSI1MCIgZmlsbD0iIzMzMyIvPgo8Y2lyY2xlIGN4PSI3MDAiIGN5PSIyMDAiIHI9IjUwIiBmaWxsPSIjMzMzIi8+Cjwvc3ZnPg==');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #CD853F 100%);
-            text-align: center;
-            padding-top: 100px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23FFD700" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23FFD700" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="%23FFD700" opacity="0.2"/><circle cx="10" cy="60" r="0.5" fill="%23FFD700" opacity="0.2"/><circle cx="90" cy="40" r="0.5" fill="%23FFD700" opacity="0.2"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.3;
-        }
-        
-        .hero h1 {
-            font-size: clamp(4rem, 10vw, 8rem);
-            font-weight: 900;
-            margin-bottom: 30px;
-            letter-spacing: 0.1em;
-            color: #FFD700;
-            text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .hero-tagline {
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            margin-bottom: 50px;
-            color: #FFF8DC;
-            font-style: italic;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 2;
-        }
-        
-        .hero-buttons {
-            display: flex;
-            gap: 30px;
             justify-content: center;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 2;
+            text-align: center;
+            color: #fff;
         }
         
-        .btn-primary {
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: #8B4513;
-            padding: 20px 40px;
-            border-radius: 30px;
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        
+        .hero-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            background: #fff;
+            color: #000;
+            padding: 15px 30px;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.3rem;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
-            border: 3px solid #FFD700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: inline-block;
         }
         
-        .btn-primary:hover {
-            background: linear-gradient(45deg, #FFA500, #FFD700);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+        .cta-button:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
         }
         
-        .btn-secondary {
-            background: transparent;
-            color: #FFD700;
-            padding: 20px 40px;
-            border: 3px solid #FFD700;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.3rem;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        /* Main Content */
+        main {
+            padding-top: 80px;
         }
         
-        .btn-secondary:hover {
-            background: #FFD700;
-            color: #8B4513;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #333;
+        }
+        
+        .section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        /* Location Section */
+        .location {
+            background: #fff;
+        }
+        
+        .location-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .location-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            margin-bottom: 20px;
+        }
+        
+        .info-item strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #000;
+        }
+        
+        .info-item span {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .location-image {
+            background: #f0f0f0;
+            height: 300px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.2rem;
         }
         
         /* Services Section */
         .services {
-            padding: 120px 20px;
-            background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            margin-bottom: 80px;
-            font-weight: 900;
-            color: #8B4513;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            background: #f8f8f8;
         }
         
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            max-width: 1000px;
-            margin: 0 auto;
+            gap: 30px;
         }
         
-        .service-card {
-            background: linear-gradient(145deg, #ffffff, #f8f9fa);
-            padding: 50px 40px;
-            border-radius: 20px;
-            text-align: center;
-            border: 3px solid #FFD700;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
+        .service-category {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-            transition: left 0.6s ease;
-        }
-        
-        .service-card:hover::before {
-            left: 100%;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            border-color: #FFA500;
-        }
-        
-        .service-icon {
-            font-size: 4rem;
-            margin-bottom: 25px;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
-        }
-        
-        .service-card h3 {
-            font-size: 1.8rem;
+        .service-category h3 {
+            font-size: 1.5rem;
             margin-bottom: 20px;
-            color: #8B4513;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: #000;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
         }
         
-        .service-card p {
-            color: #6c757d;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-            line-height: 1.6;
+        .service-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
         }
         
-        .service-price {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #FFD700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            font-family: 'Impact', 'Arial Black', sans-serif;
+        .service-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .service-name {
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 5px;
+        }
+        
+        .service-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
         
         /* Booking Section */
         .booking {
-            padding: 120px 20px;
-            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
-        }
-        
-        .booking-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: linear-gradient(145deg, #ffffff, #f8f9fa);
-            padding: 60px;
-            border-radius: 25px;
-            border: 4px solid #FFD700;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            background: #000;
+            color: #fff;
+            text-align: center;
         }
         
         .booking h2 {
-            text-align: center;
-            font-size: 3rem;
-            margin-bottom: 40px;
-            color: #8B4513;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            color: #fff;
+            margin-bottom: 20px;
         }
         
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 700;
-            color: #8B4513;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 18px;
-            background: #ffffff;
-            border: 3px solid #FFD700;
-            border-radius: 15px;
-            color: #2c3e50;
-            font-size: 1.1rem;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #FFA500;
-            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.3);
-            transform: translateY(-2px);
-        }
-        
-        .submit-btn {
-            width: 100%;
-            padding: 25px;
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: #8B4513;
-            border: 3px solid #FFD700;
-            border-radius: 25px;
-            font-size: 1.3rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
-        }
-        
-        .submit-btn:hover {
-            background: linear-gradient(45deg, #FFA500, #FFD700);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
-        }
-        
-        .form-description {
-            text-align: center;
+        .booking p {
             font-size: 1.1rem;
             margin-bottom: 30px;
-            color: #cccccc;
+            color: #ccc;
         }
         
-        .form-note {
-            text-align: center;
-            font-size: 0.9rem;
-            margin-top: 15px;
-            color: #FFD700;
-            font-weight: 600;
-        }
-        
-        .calendar-section {
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 2px solid #FFD700;
-            text-align: center;
-        }
-        
-        .calendar-section h3 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: #FFD700;
-        }
-        
-        .calendar-section p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            color: #cccccc;
-        }
-        
-        .calendar-images {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .calendar-month {
-            background: #1a1a1a;
-            padding: 20px;
-            border-radius: 15px;
-            border: 2px solid #FFD700;
-        }
-        
-        .calendar-month h4 {
-            color: #FFD700;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-        
-        .calendar-month img {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-            border-radius: 10px;
-        }
-        
-        .calendar-btn {
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: #000000;
+        .booking-button {
+            background: #fff;
+            color: #000;
             padding: 15px 30px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.2rem;
             transition: all 0.3s ease;
+            display: inline-block;
         }
         
-        .calendar-btn:hover {
-            background: linear-gradient(45deg, #FFA500, #FFD700);
+        .booking-button:hover {
+            background: #f0f0f0;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
         }
         
         /* Footer */
         footer {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            padding: 60px 20px;
+            background: #333;
+            color: #fff;
             text-align: center;
-            border-top: 4px solid #FFD700;
+            padding: 30px 0;
         }
         
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 30px;
+        footer p {
+            color: #ccc;
+            font-size: 0.9rem;
         }
         
-        .footer-section h3 {
-            color: #FFD700;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .footer-section p,
-        .footer-section a {
-            color: #ffffff;
-            text-decoration: none;
-            opacity: 0.9;
-            line-height: 1.8;
-            font-size: 1.1rem;
-        }
-        
-        .footer-section a:hover {
-            opacity: 1;
-            color: #FFD700;
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-        }
-        
-        /* Mobile Menu */
-        .mobile-menu {
-            display: none;
-        }
-        
+        /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
             
-            .mobile-menu {
-                display: block;
+            .hero-content h1 {
+                font-size: 2.5rem;
             }
             
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
+            .location-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
             
             .services-grid {
@@ -509,145 +316,144 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <nav class="container">
-            <div class="logo">FADE IN 30</div>
+            <div class="logo">REFINE CLASSIC BARBERSHOP</div>
             <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#barbershop">Barbershop</a></li>
                 <li><a href="#services">Services</a></li>
-                <li><a href="#booking">Book Now</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#reservations">Reservations</a></li>
+                <li><a href="#welcome">Welcome</a></li>
             </ul>
-            <a href="#booking" class="book-btn">Book Appointment</a>
+            <a href="#book" class="book-btn">BOOK NOW</a>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>FADE IN 30</h1>
-            <p class="hero-tagline">Premium cuts. Fast service. No BS.</p>
-            <div class="hero-buttons">
-                <a href="#booking" class="btn-primary">Book Your Cut</a>
-                <a href="#services" class="btn-secondary">See Services</a>
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Refine Classic Barbershop</h1>
+                <h2>Located in Mount Juliet.</h2>
+                <p>Professional barbering services with classic techniques and modern style. Experience the finest in men's grooming.</p>
+                <a href="#book" class="cta-button">BOOK AN APPOINTMENT</a>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="container">
-            <h2 class="section-title">Our Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">✂️</div>
-                    <h3>Classic Cut</h3>
-                    <p>Traditional barber cut with modern techniques</p>
-                    <div class="service-price">$35</div>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🔥</div>
-                    <h3>Fade & Style</h3>
-                    <p>Sharp fades and precision styling</p>
-                    <div class="service-price">$45</div>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">💈</div>
-                    <h3>Beard Trim</h3>
-                    <p>Professional beard shaping and trimming</p>
-                    <div class="service-price">$25</div>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">👑</div>
-                    <h3>Full Service</h3>
-                    <p>Cut, beard, and styling - the works</p>
-                    <div class="service-price">$60</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Booking Section -->
-    <section class="booking" id="booking">
-        <div class="container">
-            <div class="booking-container">
-                <h2>Tell Us About Your Haircut</h2>
-                <p class="form-description">Fill out the form below and we'll contact you to schedule your appointment.</p>
-                <form action="https://formspree.io/f/xpzqkqkq" method="POST">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="service">Service</label>
-                        <select id="service" name="service" required>
-                            <option value="">Select a service</option>
-                            <option value="classic-cut">Classic Cut - $35</option>
-                            <option value="fade-style">Fade & Style - $45</option>
-                            <option value="beard-trim">Beard Trim - $25</option>
-                            <option value="full-service">Full Service - $60</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="notes">Special Requests</label>
-                        <textarea id="notes" name="notes" rows="3" placeholder="Any specific styling preferences or notes..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send My Request</button>
-                    <div class="form-note">
-                        We'll contact you within 24 hours to schedule your appointment.
-                    </div>
-                </form>
-                
-                <div class="calendar-section">
-                    <h3>Or Book Your Appointment Directly</h3>
-                    <p>Prefer to book immediately? Use our online booking system.</p>
-                    <div class="calendar-images">
-                        <div class="calendar-month">
-                            <h4>October 2025</h4>
-                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDMwMCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZjVmNWY1Ii8+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIzMDAiIGhlaWdodD0iNDAiIGZpbGw9IiNGRjZCMzUiLz4KPHRleHQgeD0iMTUwIiB5PSIyNSIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iYm9sZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SmFudWFyeSAyMDI0PC90ZXh0Pgo8dGV4dCB4PSIyMCIgeT0iNjAiIGZpbGw9IiM2NjY2NjYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiI+UzwvdGV4dD4KPHRleHQgeD0iNjAiIHk9IjYwIiBmaWxsPSIjNjY2NjY2IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiPk08L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iNjAiIGZpbGw9IiM2NjY2NjYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiI+VDwvdGV4dD4KPHRleHQgeD0iMTQwIiB5PSI2MCIgZmlsbD0iIzY2NjY2NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIj5XPC90ZXh0Pgo8dGV4dCB4PSIxODAiIHk9IjYwIiBmaWxsPSIjNjY2NjY2IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiPlQ8L3RleHQ+Cjx0ZXh0IHg9IjIyMCIgeT0iNjAiIGZpbGw9IiM2NjY2NjYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiI+RjwvdGV4dD4KPHRleHQgeD0iMjYwIiB5PSI2MCIgZmlsbD0iIzY2NjY2NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIj5TPC90ZXh0Pgo8dGV4dCB4PSIyMCIgeT0iOTAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+MTwvdGV4dD4KPHRleHQgeD0iNjAiIHk9IjkwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjI8L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iOTAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+NDwvdGV4dD4KPHRleHQgeD0iMTQwIiB5PSI5MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij41PC90ZXh0Pgo8dGV4dCB4PSIxODAiIHk9IjkwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjY8L3RleHQ+Cjx0ZXh0IHg9IjIyMCIgeT0iOTAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+ODwvdGV4dD4KPHRleHQgeD0iMjYwIiB5PSI5MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij45PC90ZXh0Pgo8dGV4dCB4PSIyMCIgeT0iMTIwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjEwPC90ZXh0Pgo8dGV4dCB4PSI2MCIgeT0iMTIwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjExPC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjEyMCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4xMzwvdGV4dD4KPHRleHQgeD0iMTQwIiB5PSIxMjAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+MTQ8L3RleHQ+Cjx0ZXh0IHg9IjE4MCIgeT0iMTIwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjE1PC90ZXh0Pgo8dGV4dCB4PSIyMjAiIHk9IjEyMCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4xNzwvdGV4dD4KPHRleHQgeD0iMjYwIiB5PSIxMjAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtc2l6ZT0iMTQiPjE4PC90ZXh0Pgo8dGV4dCB4PSIyMCIgeT0iMTUwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjE5PC90ZXh0Pgo8dGV4dCB4PSI2MCIgeT0iMTUwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjIwPC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjE1MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4yMTwvdGV4dD4KPHRleHQgeD0iMTQwIiB5PSIxNTAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+MjI8L3RleHQ+Cjx0ZXh0IHg9IjE4MCIgeT0iMTUwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjIzPC90ZXh0Pgo8dGV4dCB4PSIyMjAiIHk9IjE1MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4yNDwvdGV4dD4KPHRleHQgeD0iMjYwIiB5PSIxNTAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtc2l6ZT0iMTQiPjI1PC90ZXh0Pgo8dGV4dCB4PSIyMCIgeT0iMTgwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjI2PC90ZXh0Pgo8dGV4dCB4PSI2MCIgeT0iMTgwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjI3PC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjE4MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4yODwvdGV4dD4KPHRleHQgeD0iMTQwIiB5PSIxODAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+Mjk8L3RleHQ+Cjx0ZXh0IHg9IjE4MCIgeT0iMTgwIiBmaWxsPSIjMDAwMDAwIiBmb250LXNpemU9IjE0Ij4zMDwvdGV4dD4KPHRleHQgeD0iMjIwIiB5PSIxODAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtc2l6ZT0iMTQiPjMxPC90ZXh0Pgo8dGV4dCB4PSIyNjAiIHk9IjE4MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1zaXplPSIxNCI+MTwvdGV4dD4KPHRleHQgeD0iMjAiIHk9IjIxMCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4yPC90ZXh0Pgo8dGV4dCB4PSI2MCIgeT0iMjEwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjM8L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMjEwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjQ8L3RleHQ+Cjx0ZXh0IHg9IjE0MCIgeT0iMjEwIiBmaWxsPSIjMDAwMDAwIiBmb250LXNpemU9IjE0Ij41PC90ZXh0Pgo8dGV4dCB4PSIxODAiIHk9IjIxMCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij42PC90ZXh0Pgo8dGV4dCB4PSIyMjAiIHk9IjIxMCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij43PC90ZXh0Pgo8dGV4dCB4PSIyNjAiIHk9IjIxMCIgZmlsbD0iIzAwMDAwMCIgZm9udC1zaXplPSIxNCI+ODwvdGV4dD4KPHRleHQgeD0iMjAiIHk9IjI0MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij45PC90ZXh0Pgo8dGV4dCB4PSI2MCIgeT0iMjQwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjEwPC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjI0MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4xMTwvdGV4dD4KPHRleHQgeD0iMTQwIiB5PSIyNDAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+MTI8L3RleHQ+Cjx0ZXh0IHg9IjE4MCIgeT0iMjQwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjEzPC90ZXh0Pgo8dGV4dCB4PSIyMjAiIHk9IjI0MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4xNDwvdGV4dD4KPHRleHQgeD0iMjYwIiB5PSIyNDAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtc2l6ZT0iMTQiPjE1PC90ZXh0Pgo8L3N2Zz4K" alt="January 2024 Calendar" />
+        <section class="section location" id="barbershop">
+            <div class="container">
+                <h2>Welcome</h2>
+                <div class="location-content">
+                    <div class="location-info">
+                        <h3>Located in Mount Juliet.</h3>
+                        <div class="info-item">
+                            <strong>Phone</strong>
+                            <span>615-288-3484</span>
                         </div>
-                        <div class="calendar-month">
-                            <h4>November 2025</h4>
-                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDMwMCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZjVmNWY1Ii8+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIzMDAiIGhlaWdodD0iNDAiIGZpbGw9IiNGRjZCMzUiLz4KPHRleHQgeD0iMTUwIiB5PSIyNSIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iYm9sZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RmVicnVhcnkgMjAyNDwvdGV4dD4KPHRleHQgeD0iMjAiIHk9IjYwIiBmaWxsPSIjNjY2NjY2IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiPlM8L3RleHQ+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZmlsbD0iIzY2NjY2NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIj5NPC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjYwIiBmaWxsPSIjNjY2NjY2IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiPlQ8L3RleHQ+Cjx0ZXh0IHg9IjE0MCIgeT0iNjAiIGZpbGw9IiM2NjY2NjYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiI+VzwvdGV4dD4KPHRleHQgeD0iMTgwIiB5PSI2MCIgZmlsbD0iIzY2NjY2NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIj5UPC90ZXh0Pgo8dGV4dCB4PSIyMjAiIHk9IjYwIiBmaWxsPSIjNjY2NjY2IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiPkY8L3RleHQ+Cjx0ZXh0IHg9IjI2MCIgeT0iNjAiIGZpbGw9IiM2NjY2NjYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiI+UzwvdGV4dD4KPHRleHQgeD0iMjAiIHk9IjkwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjQ8L3RleHQ+Cjx0ZXh0IHg9IjYwIiB5PSI5MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij41PC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjkwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjY8L3RleHQ+Cjx0ZXh0IHg9IjE0MCIgeT0iOTAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+ODwvdGV4dD4KPHRleHQgeD0iMTgwIiB5PSI5MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij45PC90ZXh0Pgo8dGV4dCB4PSIyMjAiIHk9IjkwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjEwPC90ZXh0Pgo8dGV4dCB4PSIyNjAiIHk9IjkwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjExPC90ZXh0Pgo8dGV4dCB4PSIyMCIgeT0iMTIwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjEyPC90ZXh0Pgo8dGV4dCB4PSI2MCIgeT0iMTIwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjEzPC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjEyMCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4xNDwvdGV4dD4KPHRleHQgeD0iMTQwIiB5PSIxMjAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+MTU8L3RleHQ+Cjx0ZXh0IHg9IjE4MCIgeT0iMTIwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjE2PC90ZXh0Pgo8dGV4dCB4PSIyMjAiIHk9IjEyMCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4xNzwvdGV4dD4KPHRleHQgeD0iMjYwIiB5PSIxMjAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtc2l6ZT0iMTQiPjE4PC90ZXh0Pgo8dGV4dCB4PSIyMCIgeT0iMTUwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjE5PC90ZXh0Pgo8dGV4dCB4PSI2MCIgeT0iMTUwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjIwPC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjE1MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4yMTwvdGV4dD4KPHRleHQgeD0iMTQwIiB5PSIxNTAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+MjI8L3RleHQ+Cjx0ZXh0IHg9IjE4MCIgeT0iMTUwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjIzPC90ZXh0Pgo8dGV4dCB4PSIyMjAiIHk9IjE1MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4yNDwvdGV4dD4KPHRleHQgeD0iMjYwIiB5PSIxNTAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtc2l6ZT0iMTQiPjI1PC90ZXh0Pgo8dGV4dCB4PSIyMCIgeT0iMTgwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjI2PC90ZXh0Pgo8dGV4dCB4PSI2MCIgeT0iMTgwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiPjI3PC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjE4MCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij4yODwvdGV4dD4KPHRleHQgeD0iMTQwIiB5PSIxODAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+Mjk8L3RleHQ+Cjx0ZXh0IHg9IjE4MCIgeT0iMTgwIiBmaWxsPSIjMDAwMDAwIiBmb250LXNpemU9IjE0Ij4zMDwvdGV4dD4KPHRleHQgeD0iMjIwIiB5PSIxODAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtc2l6ZT0iMTQiPjE8L3RleHQ+Cjx0ZXh0IHg9IjI2MCIgeT0iMTgwIiBmaWxsPSIjMDAwMDAwIiBmb250LXNpemU9IjE0Ij4yPC90ZXh0Pgo8L3N2Zz4K" alt="February 2024 Calendar" />
+                        <div class="info-item">
+                            <strong>Location</strong>
+                            <span>2231 N. Mount Juliet Rd.<br>Ste 104<br>Mount Juliet, TN 37122</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Hours</strong>
+                            <span><strong>M-F</strong> 9a–7p<br><strong>Wed</strong> 9a–6p<br><strong>Sat</strong> 8a–4p</span>
                         </div>
                     </div>
-                    <a href="https://calendly.com/145brice/new-meeting" class="calendar-btn" target="_blank">Book Your Appointment</a>
+                    <div class="location-image">
+                        <div>Barbershop Interior Image</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Fade in 30</h3>
-                    <p>Premium barber services with a modern twist. Fast, professional, and always sharp.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Hours</h3>
-                    <p>Monday - Friday: 9AM - 6PM<br>
-                    Saturday: 9AM - 4PM<br>
-                    Sunday: Closed</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Contact</h3>
-                    <p>123 Main Street<br>
-                    Nashville, TN 37201<br>
-                    (615) 555-FADE<br>
-                    info@fadein30.com</p>
+        <section class="section services" id="services">
+            <div class="container">
+                <h2>Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-category">
+                        <h3>Haircuts:</h3>
+                        <div class="service-item">
+                            <div class="service-name">Premium Haircut</div>
+                            <div class="service-description">This cut includes a straight razor on the back of the neck, a hot towel, scalp massage, and shampoo with a custom style.</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">Classic Haircut</div>
+                            <div class="service-description">This cut includes a straight razor on the back of the neck, a hot towel, and a custom style.</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">Skin Fade</div>
+                            <div class="service-description">This cut includes a straight razor finish and a hot towel.</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">Child's Cut</div>
+                            <div class="service-description">Kids 12 and under. Each cut includes a hot towel and a custom style.</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">Buzz Cut</div>
+                            <div class="service-description">1 guard all over. Each cut includes a straight razor on the back of the neck and a hot towel.</div>
+                        </div>
+                    </div>
+
+                    <div class="service-category">
+                        <h3>Shaves:</h3>
+                        <div class="service-item">
+                            <div class="service-name">Premium Head Shave</div>
+                            <div class="service-description">This shave is done with a straight razor and double edge razor giving you a super close cut. We start off with pre-shave oil, a hot towel, finish with aftershave, and a cold towel.</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">Classic Straight Razor Shave</div>
+                            <div class="service-description">This shave includes pre-shave oil, a hot towel, finish with aftershave, and a cold towel.</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">Partial Shave</div>
+                            <div class="service-description">This shave includes pre-shave oil, hot towel, finish with aftershave, and a cold towel.</div>
+                        </div>
+                    </div>
+
+                    <div class="service-category">
+                        <h3>Extras:</h3>
+                        <div class="service-item">
+                            <div class="service-name">Grey Blending</div>
+                            <div class="service-description">Professional color blending for grey hair coverage.</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">Permanent Color</div>
+                            <div class="service-description">Full permanent hair coloring services.</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">Beard Trim</div>
+                            <div class="service-description">Professional beard shaping and trimming.</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">Mustache Trim</div>
+                            <div class="service-description">Precise mustache styling and maintenance.</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">Eyebrow, Ear, or Nose Wax</div>
+                            <div class="service-description">Professional waxing services for facial hair removal.</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">Design Work</div>
+                            <div class="service-description">Custom hair designs and artistic cuts.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <p style="opacity: 0.6; margin-top: 20px;">&copy; 2024 Fade in 30. Built by Edge Landings.</p>
+        </section>
+
+        <section class="section booking" id="reservations">
+            <div class="container">
+                <h2>BOOK AN APPOINTMENT</h2>
+                <p><em>Reservations required to be booked at least one 1/2 hour in advance.</em></p>
+                <p><em>Please click Book Now for pricing.</em></p>
+                <a href="https://calendly.com/145brice/new-meeting" class="booking-button" target="_blank">BOOK NOW</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Designed by bravefoxes</p>
         </div>
     </footer>
 
@@ -665,11 +471,6 @@
                 }
             });
         });
-
-        // Set minimum date to today
-        const dateInput = document.getElementById('date');
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
     </script>
 </body>
 </html>
