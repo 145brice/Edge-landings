@@ -483,6 +483,113 @@
             opacity: 0.9;
         }
         
+        .form-description {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #cccccc;
+        }
+        
+        .calendar-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid #333333;
+            text-align: center;
+        }
+        
+        .calendar-section h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #00ff88;
+        }
+        
+        .calendar-section p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #cccccc;
+        }
+        
+        .calendar-images {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .calendar-month {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #333333;
+        }
+        
+        .calendar-month h4 {
+            color: #00ff88;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .calendar-preview {
+            background: #000000;
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #333333;
+        }
+        
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            margin-bottom: 10px;
+        }
+        
+        .calendar-header .day {
+            text-align: center;
+            font-weight: 700;
+            color: #00ff88;
+            font-size: 0.8rem;
+            padding: 5px;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+        
+        .date {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .date.available {
+            background: #00ff88;
+            color: #000000;
+            cursor: pointer;
+        }
+        
+        .date.available:hover {
+            background: #00cc6a;
+            transform: scale(1.1);
+        }
+        
+        .calendar-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
         /* Footer */
         footer {
             text-align: center;
@@ -602,7 +709,8 @@
     <!-- Contact Form -->
     <section class="contact" id="contact">
         <div class="container">
-            <h2>Or let's talk first</h2>
+            <h2>Get Your Free Website Quote</h2>
+            <p class="form-description">Tell us about your project and we'll send you a custom quote within 24 hours.</p>
             <form action="https://formspree.io/f/xpzqkqkq" method="POST">
                 <div class="form-group">
                     <label for="name">Your name</label>
@@ -617,15 +725,133 @@
                     <input type="tel" id="phone" name="phone" placeholder="615-555-1234" required>
                 </div>
                 <div class="form-group">
+                    <label for="business">Business Type</label>
+                    <select id="business" name="business" required>
+                        <option value="">Select your business type</option>
+                        <option value="barber">Barber Shop</option>
+                        <option value="doctor">Medical Practice</option>
+                        <option value="tattoo">Tattoo Shop</option>
+                        <option value="coffee">Coffee Shop</option>
+                        <option value="fitness">Fitness Gym</option>
+                        <option value="auto">Auto Repair</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="retail">Retail Store</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="project">Describe what you want</label>
-                    <textarea id="project" name="project" rows="6" placeholder="Tell me about your business, what kind of website you need, any specific features, timeline, budget range, etc. The more details the better!" required></textarea>
+                    <textarea id="project" name="project" rows="6" placeholder="Tell us about your website needs, features you want, timeline, etc." required></textarea>
                 </div>
                 
-                <button type="submit" class="submit-btn">Send preview</button>
+                <button type="submit" class="submit-btn">Get My Free Quote</button>
                 <div class="form-note">
-                    I'll build a live version in 20 minutes—no card, no call.
+                    ✓ Free quote within 24 hours<br>
+                    ✓ No obligation to buy<br>
+                    ✓ Custom pricing based on your needs
                 </div>
             </form>
+            
+            <div class="calendar-section">
+                <h3>Or Book a Free Consultation Call</h3>
+                <p>Prefer to talk? Book a 15-minute call to discuss your project.</p>
+                <div class="calendar-images">
+                    <div class="calendar-month">
+                        <h4>Current Month</h4>
+                        <div class="calendar-preview">
+                            <div class="calendar-header">
+                                <div class="day">S</div>
+                                <div class="day">M</div>
+                                <div class="day">T</div>
+                                <div class="day">W</div>
+                                <div class="day">T</div>
+                                <div class="day">F</div>
+                                <div class="day">S</div>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="date available">1</div>
+                                <div class="date available">2</div>
+                                <div class="date available">3</div>
+                                <div class="date available">4</div>
+                                <div class="date available">5</div>
+                                <div class="date available">6</div>
+                                <div class="date available">7</div>
+                                <div class="date available">8</div>
+                                <div class="date available">9</div>
+                                <div class="date available">10</div>
+                                <div class="date available">11</div>
+                                <div class="date available">12</div>
+                                <div class="date available">13</div>
+                                <div class="date available">14</div>
+                                <div class="date available">15</div>
+                                <div class="date available">16</div>
+                                <div class="date available">17</div>
+                                <div class="date available">18</div>
+                                <div class="date available">19</div>
+                                <div class="date available">20</div>
+                                <div class="date available">21</div>
+                                <div class="date available">22</div>
+                                <div class="date available">23</div>
+                                <div class="date available">24</div>
+                                <div class="date available">25</div>
+                                <div class="date available">26</div>
+                                <div class="date available">27</div>
+                                <div class="date available">28</div>
+                                <div class="date available">29</div>
+                                <div class="date available">30</div>
+                                <div class="date available">31</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="calendar-month">
+                        <h4>Next Month</h4>
+                        <div class="calendar-preview">
+                            <div class="calendar-header">
+                                <div class="day">S</div>
+                                <div class="day">M</div>
+                                <div class="day">T</div>
+                                <div class="day">W</div>
+                                <div class="day">T</div>
+                                <div class="day">F</div>
+                                <div class="day">S</div>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="date available">1</div>
+                                <div class="date available">2</div>
+                                <div class="date available">3</div>
+                                <div class="date available">4</div>
+                                <div class="date available">5</div>
+                                <div class="date available">6</div>
+                                <div class="date available">7</div>
+                                <div class="date available">8</div>
+                                <div class="date available">9</div>
+                                <div class="date available">10</div>
+                                <div class="date available">11</div>
+                                <div class="date available">12</div>
+                                <div class="date available">13</div>
+                                <div class="date available">14</div>
+                                <div class="date available">15</div>
+                                <div class="date available">16</div>
+                                <div class="date available">17</div>
+                                <div class="date available">18</div>
+                                <div class="date available">19</div>
+                                <div class="date available">20</div>
+                                <div class="date available">21</div>
+                                <div class="date available">22</div>
+                                <div class="date available">23</div>
+                                <div class="date available">24</div>
+                                <div class="date available">25</div>
+                                <div class="date available">26</div>
+                                <div class="date available">27</div>
+                                <div class="date available">28</div>
+                                <div class="date available">29</div>
+                                <div class="date available">30</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://calendly.com/145brice/new-meeting" class="btn calendar-btn" target="_blank">Book Free Call</a>
+            </div>
         </div>
     </section>
 
