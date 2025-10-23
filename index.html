@@ -103,75 +103,35 @@
         
         .pumpkin {
             position: absolute;
-            font-size: 20px;
-            animation: flyToCenter 6s ease-in-out infinite;
+            font-size: 80px;
+            animation: bounceAround 12s linear infinite;
         }
         
-        .pumpkin:nth-child(1) { top: 10%; left: 0%; animation-delay: 0s; }
-        .pumpkin:nth-child(2) { top: 20%; right: 0%; animation-delay: 0.5s; }
-        .pumpkin:nth-child(3) { top: 30%; left: 0%; animation-delay: 1s; }
-        .pumpkin:nth-child(4) { top: 40%; right: 0%; animation-delay: 1.5s; }
-        .pumpkin:nth-child(5) { top: 50%; left: 0%; animation-delay: 2s; }
-        .pumpkin:nth-child(6) { top: 60%; right: 0%; animation-delay: 2.5s; }
-        .pumpkin:nth-child(7) { top: 70%; left: 0%; animation-delay: 3s; }
-        .pumpkin:nth-child(8) { top: 80%; right: 0%; animation-delay: 3.5s; }
+        .pumpkin:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .pumpkin:nth-child(2) { top: 20%; right: 10%; animation-delay: 2s; }
+        .pumpkin:nth-child(3) { top: 30%; left: 15%; animation-delay: 4s; }
+        .pumpkin:nth-child(4) { top: 40%; right: 15%; animation-delay: 6s; }
+        .pumpkin:nth-child(5) { top: 50%; left: 20%; animation-delay: 8s; }
+        .pumpkin:nth-child(6) { top: 60%; right: 20%; animation-delay: 10s; }
+        .pumpkin:nth-child(7) { top: 70%; left: 25%; animation-delay: 1s; }
+        .pumpkin:nth-child(8) { top: 80%; right: 25%; animation-delay: 3s; }
         
-        .giant-pumpkin {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0px;
-            animation: conglomerate 6s ease-in-out infinite;
-            z-index: 10;
-        }
-        
-        @keyframes flyToCenter {
-            0% { transform: scale(1) rotate(0deg); opacity: 1; }
-            70% { 
-                transform: translate(calc(50vw - 50%), calc(50vh - 50%)) scale(0.3) rotate(360deg); 
-                opacity: 0.8; 
+        @keyframes bounceAround {
+            0% { 
+                transform: translate(0, 0) rotate(0deg); 
+            }
+            25% { 
+                transform: translate(calc(100vw - 200px), 0) rotate(90deg); 
+            }
+            50% { 
+                transform: translate(calc(100vw - 200px), calc(100vh - 200px)) rotate(180deg); 
             }
             75% { 
-                transform: translate(calc(50vw - 50%), calc(50vh - 50%)) scale(0.1) rotate(720deg); 
-                opacity: 0; 
+                transform: translate(0, calc(100vh - 200px)) rotate(270deg); 
             }
             100% { 
-                transform: translate(calc(50vw - 50%), calc(50vh - 50%)) scale(0.1) rotate(720deg); 
-                opacity: 0; 
+                transform: translate(0, 0) rotate(360deg); 
             }
-        }
-        
-        @keyframes conglomerate {
-            0% { font-size: 0px; opacity: 0; }
-            70% { font-size: 0px; opacity: 0; }
-            75% { font-size: 80px; opacity: 1; }
-            80% { font-size: 120px; opacity: 1; }
-            85% { font-size: 160px; opacity: 1; }
-            90% { font-size: 200px; opacity: 1; }
-            95% { font-size: 240px; opacity: 1; }
-            100% { font-size: 0px; opacity: 0; }
-        }
-        
-        .pumpkin-face {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0px;
-            animation: blowTop 6s ease-in-out infinite;
-            z-index: 11;
-        }
-        
-        @keyframes blowTop {
-            0% { font-size: 0px; opacity: 0; }
-            70% { font-size: 0px; opacity: 0; }
-            75% { font-size: 0px; opacity: 0; }
-            80% { font-size: 60px; opacity: 1; }
-            85% { font-size: 80px; opacity: 1; }
-            90% { font-size: 100px; opacity: 1; }
-            95% { font-size: 120px; opacity: 1; }
-            100% { font-size: 0px; opacity: 0; }
         }
         
         /* Urgency Header */
@@ -942,7 +902,7 @@
     </style>
 </head>
 <body>
-    <!-- Epic Pumpkin Conglomeration -->
+    <!-- Floating Bouncing Pumpkins -->
     <div class="floating-bats">
         <div class="pumpkin">🎃</div>
         <div class="pumpkin">🎃</div>
@@ -952,8 +912,6 @@
         <div class="pumpkin">🎃</div>
         <div class="pumpkin">🎃</div>
         <div class="pumpkin">🎃</div>
-        <div class="giant-pumpkin">🎃</div>
-        <div class="pumpkin-face">😲</div>
     </div>
     
     <!-- Urgency Header -->
