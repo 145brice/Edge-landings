@@ -101,19 +101,18 @@
             z-index: 1;
         }
         
-        .bat {
+        .pumpkin {
             position: absolute;
-            color: #333;
-            font-size: 20px;
-            animation: fly 10s linear infinite;
+            font-size: 24px;
+            animation: floatPumpkin 8s ease-in-out infinite;
         }
         
-        @keyframes fly {
+        @keyframes floatPumpkin {
             0% { transform: translateX(-100px) translateY(0px) rotate(0deg); }
-            25% { transform: translateX(25vw) translateY(-50px) rotate(90deg); }
-            50% { transform: translateX(50vw) translateY(0px) rotate(180deg); }
-            75% { transform: translateX(75vw) translateY(-30px) rotate(270deg); }
-            100% { transform: translateX(100vw) translateY(0px) rotate(360deg); }
+            25% { transform: translateX(25vw) translateY(-30px) rotate(5deg); }
+            50% { transform: translateX(50vw) translateY(0px) rotate(0deg); }
+            75% { transform: translateX(75vw) translateY(-20px) rotate(-5deg); }
+            100% { transform: translateX(100vw) translateY(0px) rotate(0deg); }
         }
         
         /* Urgency Header */
@@ -170,25 +169,6 @@
             position: relative;
         }
         
-        .hero h1::before {
-            content: '👻';
-            position: absolute;
-            left: -60px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2rem;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .hero h1::after {
-            content: '🎃';
-            position: absolute;
-            right: -60px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2rem;
-            animation: float 3s ease-in-out infinite reverse;
-        }
         
         @keyframes spookyGlow {
             0% { filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.5)); }
@@ -270,23 +250,6 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         
-        .btn::before {
-            content: '⚔️';
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.2rem;
-        }
-        
-        .btn::after {
-            content: '⚔️';
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.2rem;
-        }
         
         .btn:hover {
             background: linear-gradient(135deg, #ff0000, #8B0000, #4B0000);
@@ -904,21 +867,6 @@
             font-family: 'Times New Roman', serif;
         }
         
-        .timeslot::before {
-            content: '❦';
-            position: absolute;
-            left: 8px;
-            color: #8B4513;
-            font-size: 1.2rem;
-        }
-        
-        .timeslot::after {
-            content: '❦';
-            position: absolute;
-            right: 8px;
-            color: #8B4513;
-            font-size: 1.2rem;
-        }
         
         .timeslot:hover {
             background: #00cc6a;
@@ -935,16 +883,16 @@
     </style>
 </head>
 <body>
-    <!-- Floating Bats -->
+    <!-- Floating Pumpkins -->
     <div class="floating-bats">
-        <div class="bat" style="top: 10%; animation-delay: 0s;">🦇</div>
-        <div class="bat" style="top: 20%; animation-delay: 2s;">🦇</div>
-        <div class="bat" style="top: 30%; animation-delay: 4s;">🦇</div>
-        <div class="bat" style="top: 40%; animation-delay: 6s;">🦇</div>
-        <div class="bat" style="top: 50%; animation-delay: 8s;">🦇</div>
-        <div class="bat" style="top: 60%; animation-delay: 1s;">🦇</div>
-        <div class="bat" style="top: 70%; animation-delay: 3s;">🦇</div>
-        <div class="bat" style="top: 80%; animation-delay: 5s;">🦇</div>
+        <div class="pumpkin" style="top: 10%; animation-delay: 0s;">🎃</div>
+        <div class="pumpkin" style="top: 20%; animation-delay: 2s;">🎃</div>
+        <div class="pumpkin" style="top: 30%; animation-delay: 4s;">🎃</div>
+        <div class="pumpkin" style="top: 40%; animation-delay: 6s;">🎃</div>
+        <div class="pumpkin" style="top: 50%; animation-delay: 8s;">🎃</div>
+        <div class="pumpkin" style="top: 60%; animation-delay: 1s;">🎃</div>
+        <div class="pumpkin" style="top: 70%; animation-delay: 3s;">🎃</div>
+        <div class="pumpkin" style="top: 80%; animation-delay: 5s;">🎃</div>
     </div>
     
     <!-- Urgency Header -->
