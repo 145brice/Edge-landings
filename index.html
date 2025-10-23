@@ -673,23 +673,26 @@
         }
         
         .modal-header {
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            background: #ffffff;
             color: #000000;
             padding: 20px;
             border-radius: 17px 17px 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border: 3px solid #00ff88;
+            border-bottom: none;
         }
         
         .modal-header h3 {
             margin: 0;
             font-size: 1.4rem;
             font-weight: 800;
+            color: #00ff88;
         }
         
         .close-modal {
-            color: #000000;
+            color: #00ff88;
             font-size: 2rem;
             font-weight: bold;
             cursor: pointer;
@@ -700,11 +703,13 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
         }
         
         .close-modal:hover {
-            background: rgba(0, 0, 0, 0.2);
+            background: #00ff88;
+            color: #ffffff;
             transform: scale(1.1);
         }
         
@@ -719,7 +724,7 @@
         }
         
         .timeslot {
-            background: #ffffff;
+            background: #00ff88;
             color: #000000;
             padding: 12px 8px;
             border-radius: 8px;
@@ -727,16 +732,15 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
-            border: 2px solid #00ff88;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            box-shadow: 0 2px 8px rgba(0, 255, 136, 0.2);
         }
         
         .timeslot:hover {
-            background: #00ff88;
+            background: #00cc6a;
             color: #000000;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
-            border-color: #00cc6a;
         }
         
         .timeslot.selected {
