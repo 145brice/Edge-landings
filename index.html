@@ -1023,7 +1023,7 @@
                 <p>Prefer to talk? Book a 15-minute call to discuss your project.</p>
                 <div class="calendar-images">
                     <div class="calendar-month">
-                        <h4>October 2025</h4>
+                        <h4 id="current-month-name"></h4>
                         <div class="calendar-preview">
                             <div class="calendar-header">
                                 <div class="day">S</div>
@@ -1034,43 +1034,13 @@
                                 <div class="day">F</div>
                                 <div class="day">S</div>
                             </div>
-                            <div class="calendar-grid">
-                                <div class="date available" data-date="2025-10-01" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">1</div>
-                                <div class="date available" data-date="2025-10-02" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">2</div>
-                                <div class="date available" data-date="2025-10-03" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">3</div>
-                                <div class="date available" data-date="2025-10-04" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">4</div>
-                                <div class="date available" data-date="2025-10-05" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">5</div>
-                                <div class="date available" data-date="2025-10-06" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">6</div>
-                                <div class="date available" data-date="2025-10-07" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">7</div>
-                                <div class="date available" data-date="2025-10-08" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">8</div>
-                                <div class="date available" data-date="2025-10-09" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">9</div>
-                                <div class="date available" data-date="2025-10-10" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">10</div>
-                                <div class="date available" data-date="2025-10-11" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">11</div>
-                                <div class="date available" data-date="2025-10-12" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">12</div>
-                                <div class="date available" data-date="2025-10-13" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">13</div>
-                                <div class="date available" data-date="2025-10-14" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">14</div>
-                                <div class="date available" data-date="2025-10-15" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">15</div>
-                                <div class="date available" data-date="2025-10-16" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">16</div>
-                                <div class="date available" data-date="2025-10-17" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">17</div>
-                                <div class="date available" data-date="2025-10-18" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">18</div>
-                                <div class="date available" data-date="2025-10-19" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">19</div>
-                                <div class="date available" data-date="2025-10-20" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">20</div>
-                                <div class="date available" data-date="2025-10-21" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">21</div>
-                                <div class="date available selected" data-date="2025-10-22" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">22</div>
-                                <div class="date available" data-date="2025-10-23" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">23</div>
-                                <div class="date available" data-date="2025-10-24" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">24</div>
-                                <div class="date available" data-date="2025-10-25" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">25</div>
-                                <div class="date available" data-date="2025-10-26" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">26</div>
-                                <div class="date available" data-date="2025-10-27" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">27</div>
-                                <div class="date available" data-date="2025-10-28" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">28</div>
-                                <div class="date available" data-date="2025-10-29" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">29</div>
-                                <div class="date available" data-date="2025-10-30" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">30</div>
-                                <div class="date available" data-date="2025-10-31" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">31</div>
+                            <div class="calendar-grid" id="current-month-dates">
+                                <!-- Dates will be populated by JavaScript -->
                             </div>
                         </div>
                     </div>
                     <div class="calendar-month">
-                        <h4>November 2025</h4>
+                        <h4 id="next-month-name"></h4>
                         <div class="calendar-preview">
                             <div class="calendar-header">
                                 <div class="day">S</div>
@@ -1081,37 +1051,8 @@
                                 <div class="day">F</div>
                                 <div class="day">S</div>
                             </div>
-                            <div class="calendar-grid">
-                                <div class="date available" data-date="2025-11-01" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">1</div>
-                                <div class="date available" data-date="2025-11-02" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">2</div>
-                                <div class="date available" data-date="2025-11-03" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">3</div>
-                                <div class="date available" data-date="2025-11-04" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">4</div>
-                                <div class="date available" data-date="2025-11-05" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">5</div>
-                                <div class="date available" data-date="2025-11-06" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">6</div>
-                                <div class="date available" data-date="2025-11-07" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">7</div>
-                                <div class="date available" data-date="2025-11-08" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">8</div>
-                                <div class="date available" data-date="2025-11-09" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">9</div>
-                                <div class="date available" data-date="2025-11-10" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">10</div>
-                                <div class="date available" data-date="2025-11-11" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">11</div>
-                                <div class="date available" data-date="2025-11-12" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">12</div>
-                                <div class="date available" data-date="2025-11-13" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">13</div>
-                                <div class="date available" data-date="2025-11-14" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">14</div>
-                                <div class="date available" data-date="2025-11-15" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">15</div>
-                                <div class="date available" data-date="2025-11-16" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">16</div>
-                                <div class="date available" data-date="2025-11-17" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">17</div>
-                                <div class="date available" data-date="2025-11-18" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">18</div>
-                                <div class="date available" data-date="2025-11-19" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">19</div>
-                                <div class="date available" data-date="2025-11-20" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">20</div>
-                                <div class="date available" data-date="2025-11-21" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">21</div>
-                                <div class="date available" data-date="2025-11-22" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">22</div>
-                                <div class="date available" data-date="2025-11-23" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">23</div>
-                                <div class="date available" data-date="2025-11-24" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">24</div>
-                                <div class="date available" data-date="2025-11-25" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">25</div>
-                                <div class="date available" data-date="2025-11-26" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">26</div>
-                                <div class="date available" data-date="2025-11-27" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">27</div>
-                                <div class="date available" data-date="2025-11-28" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">28</div>
-                                <div class="date available" data-date="2025-11-29" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">29</div>
-                                <div class="date available" data-date="2025-11-30" data-timeslots="9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM">30</div>
+                            <div class="calendar-grid" id="next-month-dates">
+                                <!-- Dates will be populated by JavaScript -->
                             </div>
                         </div>
                     </div>
@@ -1174,23 +1115,88 @@
         
         // Calendar functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Generate dynamic calendars
+            generateCalendars();
+            
             const calendarDates = document.querySelectorAll('.date.available');
             const timeslotModal = document.getElementById('timeslot-modal');
             const selectedDateSpan = document.getElementById('selected-date');
             const timeslotsContainer = document.getElementById('timeslots');
             const closeModal = document.getElementById('close-modal');
             
-            calendarDates.forEach(date => {
-                date.addEventListener('click', function() {
+            function generateCalendars() {
+                const now = new Date();
+                const currentMonth = now.getMonth();
+                const currentYear = now.getYear() + 1900;
+                
+                // Generate current month
+                generateCalendar('current-month-name', 'current-month-dates', currentMonth, currentYear);
+                
+                // Generate next month
+                const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
+                const nextYear = currentMonth === 11 ? currentYear + 1 : currentYear;
+                generateCalendar('next-month-name', 'next-month-dates', nextMonth, nextYear);
+            }
+            
+            function generateCalendar(monthNameId, datesId, month, year) {
+                const monthNames = [
+                    'January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'
+                ];
+                
+                // Set month name
+                document.getElementById(monthNameId).textContent = `${monthNames[month]} ${year}`;
+                
+                // Get first day of month and number of days
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                const startingDayOfWeek = firstDay.getDay(); // 0 = Sunday, 1 = Monday, etc.
+                
+                // Clear existing dates
+                const datesContainer = document.getElementById(datesId);
+                datesContainer.innerHTML = '';
+                
+                // Add empty cells for days before the first day of the month
+                for (let i = 0; i < startingDayOfWeek; i++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.className = 'date';
+                    datesContainer.appendChild(emptyCell);
+                }
+                
+                // Add days of the month
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dateElement = document.createElement('div');
+                    dateElement.className = 'date available';
+                    dateElement.textContent = day;
+                    
+                    // Create date string for data attributes
+                    const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    dateElement.setAttribute('data-date', dateString);
+                    dateElement.setAttribute('data-timeslots', '9:00 AM, 10:30 AM, 2:00 PM, 3:30 PM');
+                    
+                    // Highlight today's date
+                    const today = new Date();
+                    if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate()) {
+                        dateElement.classList.add('selected');
+                    }
+                    
+                    datesContainer.appendChild(dateElement);
+                }
+            }
+            
+            // Use event delegation for dynamically generated dates
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('date') && e.target.classList.contains('available')) {
                     // Remove selected class from all dates
-                    calendarDates.forEach(d => d.classList.remove('selected'));
+                    document.querySelectorAll('.date.available').forEach(d => d.classList.remove('selected'));
                     
                     // Add selected class to clicked date
-                    this.classList.add('selected');
+                    e.target.classList.add('selected');
                     
                     // Get the date and timeslots
-                    const selectedDate = this.getAttribute('data-date');
-                    const timeslots = this.getAttribute('data-timeslots').split(', ');
+                    const selectedDate = e.target.getAttribute('data-date');
+                    const timeslots = e.target.getAttribute('data-timeslots').split(', ');
                     
                     // Update the display
                     selectedDateSpan.textContent = new Date(selectedDate).toLocaleDateString('en-US', {
@@ -1218,7 +1224,7 @@
                     
                     // Show the modal
                     timeslotModal.style.display = 'block';
-                });
+                }
             });
             
             // Close modal when clicking the X
