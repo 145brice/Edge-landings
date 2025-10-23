@@ -78,60 +78,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 60%, rgba(128, 0, 128, 0.1) 0%, transparent 50%);
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI4MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSIjMDAwMDAwIi8+CjxyZWN0IHg9IjAiIHk9IjQwMCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjMTExMTExIi8+CjxyZWN0IHg9IjMwMCIgeT0iMzAwIiB3aWR0aD0iNjAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzMzMzMzMyIgcng9IjEwIi8+CjxyZWN0IHg9IjM1MCIgeT0iMzUwIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzIyMjIyMiIvPgo8cmVjdCB4PSI0NTAiIHk9IjQwMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiMxMTExMTEiLz4KPHJlY3QgeD0iNDUwIiB5PSIzNTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iNTAiIGZpbGw9IiM0NDQ0NDQiLz4KPHJlY3QgeD0iNjUwIiB5PSIzNTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iNTAiIGZpbGw9IiM0NDQ0NDQiLz4KPGNpcmNsZSBjeD0iNTAwIiBjeT0iMjAwIiByPSI1MCIgZmlsbD0iIzMzMzMzMyIvPgo8Y2lyY2xlIGN4PSI3MDAiIGN5PSIyMDAiIHI9IjUwIiBmaWxsPSIjMzMzMzMzIi8+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzAwMDAwMCIgb3BhY2l0eT0iMC44Ii8+Cjwvc3ZnPg==');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: saturate(0.3) brightness(0.4) contrast(1.2);
+            opacity: 0.3;
             z-index: -1;
-            animation: halloweenGlow 4s ease-in-out infinite alternate;
-        }
-        
-        @keyframes halloweenGlow {
-            0% { opacity: 0.3; }
-            100% { opacity: 0.7; }
-        }
-        
-        .floating-bats {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .pumpkin {
-            position: absolute;
-            font-size: 80px;
-            animation: bounceAround 12s linear infinite;
-        }
-        
-        .pumpkin:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-        .pumpkin:nth-child(2) { top: 20%; right: 10%; animation-delay: 2s; filter: hue-rotate(0deg) saturate(1.5) brightness(0.8); }
-        .pumpkin:nth-child(3) { top: 30%; left: 15%; animation-delay: 4s; }
-        .pumpkin:nth-child(4) { top: 40%; right: 15%; animation-delay: 6s; filter: hue-rotate(20deg) saturate(1.8) brightness(0.7); }
-        .pumpkin:nth-child(5) { top: 50%; left: 20%; animation-delay: 8s; }
-        .pumpkin:nth-child(6) { top: 60%; right: 20%; animation-delay: 10s; filter: hue-rotate(10deg) saturate(1.3) brightness(0.9); }
-        .pumpkin:nth-child(7) { top: 70%; left: 25%; animation-delay: 1s; }
-        .pumpkin:nth-child(8) { top: 80%; right: 25%; animation-delay: 3s; filter: hue-rotate(15deg) saturate(1.6) brightness(0.8); }
-        
-        @keyframes bounceAround {
-            0% { 
-                transform: translate(0, 0) rotate(0deg); 
-            }
-            25% { 
-                transform: translate(calc(100vw - 200px), 0) rotate(90deg); 
-            }
-            50% { 
-                transform: translate(calc(100vw - 200px), calc(100vh - 200px)) rotate(180deg); 
-            }
-            75% { 
-                transform: translate(0, calc(100vh - 200px)) rotate(270deg); 
-            }
-            100% { 
-                transform: translate(0, 0) rotate(360deg); 
-            }
         }
         
         /* Urgency Header */
@@ -174,25 +127,18 @@
         }
         
         .hero h1 {
-            font-family: 'Creepster', cursive;
+            font-family: 'Cinzel', serif;
             font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 900;
-            letter-spacing: 0.1em;
+            letter-spacing: -0.02em;
             margin-bottom: 20px;
-            background: linear-gradient(135deg, #ff6b35, #ff8c42, #ff0000, #8B0000);
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 107, 53, 0.5), 0 0 60px rgba(255, 0, 0, 0.3);
-            animation: spookyGlow 2s ease-in-out infinite alternate;
-            position: relative;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
         }
         
-        
-        @keyframes spookyGlow {
-            0% { filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.5)); }
-            100% { filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8)); }
-        }
         
         @keyframes float {
             0%, 100% { transform: translateY(-50%) rotate(0deg); }
@@ -251,31 +197,27 @@
         
         .btn {
             padding: 20px 40px;
-            font-family: 'Cinzel', serif;
             font-size: clamp(1rem, 2.5vw, 1.3rem);
             font-weight: 800;
             text-decoration: none;
-            border: 4px solid #8B4513;
-            background: linear-gradient(135deg, #ff6b35, #ff8c42, #ff0000);
-            color: #ffffff;
+            border: 3px solid #00ff88;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-block;
-            border-radius: 0;
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
         }
         
         
         .btn:hover {
-            background: linear-gradient(135deg, #ff0000, #8B0000, #4B0000);
-            color: #ffffff;
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 12px 30px rgba(255, 0, 0, 0.8), 0 0 20px rgba(255, 107, 53, 0.6);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, #00cc6a, #00ff88);
+            color: #000000;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 255, 136, 0.6);
         }
         
         /* Call to Action Section */
@@ -902,22 +844,11 @@
     </style>
 </head>
 <body>
-    <!-- Floating Bouncing Pumpkins -->
-    <div class="floating-bats">
-        <div class="pumpkin">🎃</div>
-        <div class="pumpkin">🎃</div>
-        <div class="pumpkin">🎃</div>
-        <div class="pumpkin">🎃</div>
-        <div class="pumpkin">🎃</div>
-        <div class="pumpkin">🎃</div>
-        <div class="pumpkin">🎃</div>
-        <div class="pumpkin">🎃</div>
-    </div>
     
     <!-- Urgency Header -->
     <div class="urgency-header">
         <div class="container">
-            <p>🔥 <strong>SPOOKY DEAL:</strong> Get your professional website for just $300/month • Cancel anytime • Book your free consultation now! 👻🎃</p>
+            <p>🔥 <strong>LIMITED TIME:</strong> Get your professional website for just $300/month • Cancel anytime • Book your free consultation now!</p>
         </div>
     </div>
 
