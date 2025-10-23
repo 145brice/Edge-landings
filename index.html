@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Website Development | Edge Landings | $299/Month</title>
-    <meta name="description" content="Professional website development starting at $299/month. Custom websites for barbers, doctors, tattoo shops, coffee shops, fitness gyms, and auto repair. Cancel anytime. Nashville, TN.">
-    <meta name="keywords" content="website development, professional websites, barber website, doctor website, tattoo shop website, coffee shop website, fitness website, auto repair website, Nashville web design, $299 website">
+    <meta name="description" content="Professional website development starting at $299/month. Auto SEO optimized websites for barbers, doctors, tattoo shops, coffee shops, fitness gyms, and auto repair. Cancel anytime. Nashville, TN.">
+    <meta name="keywords" content="website development, professional websites, barber website, doctor website, tattoo shop website, coffee shop website, fitness website, auto repair website, Nashville web design, $299 website, SEO optimized websites, auto updated websites">
     <meta name="author" content="Edge Landings">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://edge-landings.vercel.app">
@@ -14,14 +14,14 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://edge-landings.vercel.app">
     <meta property="og:title" content="Professional Website Development | Edge Landings | $299/Month">
-    <meta property="og:description" content="Professional website development starting at $299/month. Custom websites for any business. Cancel anytime. Nashville, TN.">
+    <meta property="og:description" content="Professional website development starting at $299/month. Auto SEO optimized websites for any business. Cancel anytime. Nashville, TN.">
     <meta property="og:image" content="https://edge-landings.vercel.app/og-image.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://edge-landings.vercel.app">
     <meta property="twitter:title" content="Professional Website Development | Edge Landings | $299/Month">
-    <meta property="twitter:description" content="Professional website development starting at $299/month. Custom websites for any business. Cancel anytime. Nashville, TN.">
+    <meta property="twitter:description" content="Professional website development starting at $299/month. Auto SEO optimized websites for any business. Cancel anytime. Nashville, TN.">
     <meta property="twitter:image" content="https://edge-landings.vercel.app/og-image.jpg">
 
     <!-- Schema.org structured data -->
@@ -284,6 +284,62 @@
             justify-content: center;
             font-weight: 900;
             font-size: 1.2rem;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 80px 20px;
+            background: #1a1a1a;
+        }
+
+        .features-section h2 {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 50px;
+            color: #00ff88;
+            font-weight: 700;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #333333;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: #00ff88;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            color: #00ff88;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: #cccccc;
+            line-height: 1.6;
+            font-size: 1rem;
         }
 
         /* Details Section */
@@ -841,7 +897,7 @@
     <section class="hero">
         <div class="container">
             <h1>EDGE LANDINGS</h1>
-            <div class="hero-tagline">Professional Websites That Convert Visitors Into Customers</div>
+            <div class="hero-tagline">Auto SEO Optimized Websites That Convert Visitors Into Customers</div>
             <div class="pricing-lines">
                 <div>Simple? $299/month.</div>
                 <div>Complex? $299+.</div>
@@ -850,7 +906,8 @@
             <div class="social-proof">
                 <div class="trust-indicators">
                     <span class="trust-item">✓ 50+ Websites Built</span>
-                    <span class="trust-item">✓ 100% Client Satisfaction</span>
+                    <span class="trust-item">✓ Auto SEO Optimized</span>
+                    <span class="trust-item">✓ Auto Updates</span>
                     <span class="trust-item">✓ Cancel Anytime</span>
                 </div>
             </div>
@@ -895,6 +952,35 @@
         </div>
     </section>
 
+    <!-- SEO & Auto-Update Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2>Why Choose Edge Landings?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Auto SEO Optimized</h3>
+                    <p>Your website is automatically optimized for search engines. Meta tags, structured data, and performance optimizations are built-in and continuously updated.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Auto Updates & Maintenance</h3>
+                    <p>We handle all updates, security patches, and maintenance automatically. Your site stays fast, secure, and up-to-date without you lifting a finger.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile-First Design</h3>
+                    <p>Every website is built mobile-first and fully responsive. Your customers get the same great experience on any device.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Optimized for speed with CDN, image compression, and caching. Your site loads in under 2 seconds, keeping customers engaged.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Call to Action Section -->
     <section class="cta-section">
         <div class="container">
@@ -923,9 +1009,10 @@
                     <div class="price">$299<span>/month</span></div>
                     <ul class="features">
                         <li>Fast, professional website</li>
+                        <li>Auto SEO optimized</li>
                         <li>Booking forms that work</li>
                         <li>SSL & hosting included</li>
-                        <li>Monthly updates</li>
+                        <li>Auto updates & maintenance</li>
                         <li>Cancel anytime</li>
                     </ul>
                     <a href="https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00" target="_blank" class="subscribe-btn">Start Now - $299/month</a>
