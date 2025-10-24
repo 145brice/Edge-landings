@@ -294,6 +294,132 @@
             opacity: 0.9;
         }
         
+        /* No Upfront Cost Banner */
+        .no-upfront-banner {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
+            text-align: center;
+            padding: 15px 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .no-upfront-banner p {
+            margin: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 20px;
+            background: #111111;
+            text-align: center;
+        }
+
+        .cta-content h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .cta-content p {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 20px 40px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: #00ff88;
+            color: #000000;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .cta-btn:hover {
+            background: #00cc6a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .cta-text {
+            margin-top: 20px;
+        }
+
+        .cta-subtext {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .cta-guarantee {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .guarantee-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 20px;
+            background: #000000;
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            margin-bottom: 50px;
+            color: #ffffff;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .testimonials-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .testimonial {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #333333;
+            text-align: center;
+        }
+
+        .testimonial p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #ffffff;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #00ff88;
+            font-size: 0.9rem;
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -305,6 +431,11 @@
     </style>
 </head>
 <body>
+    <!-- No Upfront Cost Banner -->
+    <div class="no-upfront-banner">
+        <p>✅ No upfront cost • ✅ Cancel anytime • ✅ 30-day money back guarantee</p>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
@@ -318,7 +449,45 @@
             <div class="buttons">
                 <a href="#barber-demo" class="btn">See a barber example</a>
                 <a href="#doctor-demo" class="btn">See a doctor example</a>
-                <a href="https://calendly.com/145brice/new-meeting" class="btn" target="_blank">Book a call—zero risk</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Book a free 15-minute call to discuss your project</p>
+                <a href="https://calendly.com/145brice/new-meeting" class="cta-btn" target="_blank">Book a Free Call</a>
+                <div class="cta-text">
+                    <p class="cta-subtext">No commitment • No pressure • Just results</p>
+                    <div class="cta-guarantee">
+                        <span class="guarantee-icon">🛡️</span>
+                        <span>30-day money back guarantee</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>What Clients Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <p>"Edge Landings built my barbershop site in 3 days. My bookings increased 40%!"</p>
+                    <span class="testimonial-author">- Mike, Elite Barbershop</span>
+                </div>
+                <div class="testimonial">
+                    <p>"Finally, a website that actually converts visitors into customers. Worth every penny."</p>
+                    <span class="testimonial-author">- Sarah, Downtown Clinic</span>
+                </div>
+                <div class="testimonial">
+                    <p>"Professional, fast, and they handle everything. I just focus on my business now."</p>
+                    <span class="testimonial-author">- David, Auto Repair Shop</span>
+                </div>
             </div>
         </div>
     </section>
