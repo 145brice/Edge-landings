@@ -415,6 +415,26 @@
             background: #111111;
         }
         
+        .pricing-packages {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .pricing-packages {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .pricing-packages {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
         .payment-info {
             max-width: 500px;
             margin: 0 auto;
@@ -424,8 +444,53 @@
             background: #1a1a1a;
             border: 2px solid #333333;
             border-radius: 12px;
-            padding: 40px;
+            padding: 30px;
             text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .pricing-card.featured {
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .pricing-card.medical {
+            border-color: #ff6b35;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .pricing-card.featured::before {
+            content: "Most Popular";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00ff88;
+            color: #000000;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pricing-card.medical::before {
+            content: "Medical Special";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff6b35;
+            color: #ffffff;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
         
         .pricing-card h3 {
@@ -857,7 +922,7 @@
     <!-- Urgency Header -->
     <div class="urgency-header">
         <div class="container">
-            <p>🔥 <strong>LIMITED TIME:</strong> Get your professional website for just $97/month • Cancel anytime • Book your free consultation now!</p>
+            <p>🔥 <strong>LIMITED TIME:</strong> Professional websites starting at $97/month • 4 packages to choose from • Book your free consultation now!</p>
         </div>
     </div>
 
@@ -867,9 +932,9 @@
             <h1>EDGE LANDINGS</h1>
             <div class="hero-tagline">Auto SEO Optimized Websites That Convert Visitors Into Customers</div>
             <div class="pricing-lines">
-                <div>Simple? $97/month.</div>
-                <div>Complex? $97+.</div>
-                <div>Pick.</div>
+                <div>Base: $97/mo • Pro: $197/mo • Enterprise: $297/mo</div>
+                <div>Enterprise+ (medical): $800 setup + $197/mo</div>
+                <div>Pick your package.</div>
             </div>
             <div class="social-proof">
                 <div class="trust-indicators">
@@ -907,13 +972,13 @@
                     </ul>
                 </div>
                 <div>
-                    <h2>What it costs</h2>
+                    <h2>Pricing Tiers</h2>
                     <div class="cost-block">
-                        <p>Ninety-seven dollars flat.</p>
-                        <p>No upfront fee.</p>
-                        <p>No setup charge.</p>
-                        <p>No bullshit.</p>
-                        <p>Want fancy features? We add those. Still starts at ninety-seven.</p>
+                        <p><strong>Base:</strong> $97/mo - 1-page site, booking, Stripe</p>
+                        <p><strong>Pro:</strong> $197/mo - Domain, backups, tweaks</p>
+                        <p><strong>Enterprise:</strong> $297/mo - Google sync, SEO, priority</p>
+                        <p><strong>Medical:</strong> $800 setup + $197/mo - HIPAA, records</p>
+                        <p>No bullshit. Pick what you need.</p>
                     </div>
                 </div>
             </div>
@@ -967,27 +1032,66 @@
         </div>
     </section>
 
-    <!-- Payment Section -->
+    <!-- Pricing Packages Section -->
     <section class="payment" id="payment">
         <div class="container">
-            <h2>Ready to get started?</h2>
-            <div class="payment-info">
+            <h2>Choose Your Package</h2>
+            <div class="pricing-packages">
+                <!-- Base Package -->
                 <div class="pricing-card">
-                    <h3>Edge Landings</h3>
+                    <h3>Base</h3>
                     <div class="price">$97<span>/month</span></div>
                     <ul class="features">
-                        <li>Fast, professional website</li>
-                        <li>Auto SEO optimized</li>
-                        <li>Booking forms that work</li>
-                        <li>SSL & hosting included</li>
-                        <li>Auto updates & maintenance</li>
-                        <li>HTML5, CSS3, JavaScript & React</li>
-                        <li>Node.js, Python, MySQL & MongoDB</li>
-                        <li>REST APIs, JSON & Git integration</li>
-                        <li>Cancel anytime</li>
+                        <li>1-page site</li>
+                        <li>Booking button</li>
+                        <li>Stripe checkout</li>
+                        <li>No domain included</li>
+                        <li>No support</li>
                     </ul>
-                    <a href="https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00" target="_blank" class="subscribe-btn">Start Now - $97/month</a>
-                    <p class="cancel-note">Cancel anytime, no questions asked</p>
+                    <a href="https://calendly.com/145brice/new-meeting" target="_blank" class="subscribe-btn">Choose Base</a>
+                </div>
+
+                <!-- Pro Package -->
+                <div class="pricing-card featured">
+                    <h3>Pro</h3>
+                    <div class="price">$197<span>/month</span></div>
+                    <ul class="features">
+                        <li>All Base features</li>
+                        <li>Custom domain</li>
+                        <li>Auto-backups</li>
+                        <li>1 tweak/month</li>
+                        <li>Email support</li>
+                    </ul>
+                    <a href="https://calendly.com/145brice/new-meeting" target="_blank" class="subscribe-btn">Choose Pro</a>
+                </div>
+
+                <!-- Enterprise Package -->
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">$297<span>/month</span></div>
+                    <ul class="features">
+                        <li>All Pro features</li>
+                        <li>Google sync</li>
+                        <li>Review-bot</li>
+                        <li>SEO tags</li>
+                        <li>Priority chat</li>
+                    </ul>
+                    <a href="https://calendly.com/145brice/new-meeting" target="_blank" class="subscribe-btn">Choose Enterprise</a>
+                </div>
+
+                <!-- Enterprise+ Medical Package -->
+                <div class="pricing-card medical">
+                    <h3>Enterprise+ (Medical)</h3>
+                    <div class="price">$800<span> setup</span></div>
+                    <div class="price">+ $197<span>/month</span></div>
+                    <ul class="features">
+                        <li>All Enterprise features</li>
+                        <li>HIPAA portal</li>
+                        <li>Encrypted records</li>
+                        <li>Insurance lookup</li>
+                        <li>2 hrs support/month</li>
+                    </ul>
+                    <a href="https://calendly.com/145brice/new-meeting" target="_blank" class="subscribe-btn">Choose Enterprise+</a>
                 </div>
             </div>
         </div>
