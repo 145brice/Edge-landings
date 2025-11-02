@@ -60,15 +60,18 @@
             box-sizing: border-box;
         }
         
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Creepster&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
         body {
-            font-family: 'Cinzel', serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             line-height: 1.6;
             color: #ffffff;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d1810 100%);
+            background: #0a0a0a;
             position: relative;
             overflow-x: hidden;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         
@@ -112,11 +115,11 @@
         }
         
         .hero h1 {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 900;
-            letter-spacing: -0.02em;
-            margin-bottom: 20px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
             background: linear-gradient(135deg, #00ff88, #00cc6a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -131,20 +134,25 @@
         }
         
         .hero-tagline {
-            font-size: clamp(1.4rem, 4vw, 2.2rem);
-            font-weight: 600;
-            margin-bottom: 30px;
-            color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            font-size: clamp(1.3rem, 4vw, 1.9rem);
+            font-weight: 500;
+            margin-bottom: 32px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .pricing-lines {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            margin-bottom: 40px;
-            line-height: 1.8;
-            color: #00ff88;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            margin-bottom: 48px;
+            line-height: 1.7;
+            color: rgba(0, 255, 136, 0.9);
+            font-weight: 500;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .pricing-lines div {
@@ -199,28 +207,27 @@
         }
         
         .btn {
-            padding: 20px 40px;
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            font-weight: 800;
+            padding: 14px 28px;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            font-weight: 600;
             text-decoration: none;
-            border: 3px solid #00ff88;
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            color: #000000;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-block;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            border-radius: 10px;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
         
-        
         .btn:hover {
-            background: linear-gradient(135deg, #00cc6a, #00ff88);
-            color: #000000;
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 255, 136, 0.6);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
         
         /* Call to Action Section */
@@ -360,16 +367,16 @@
             font-size: 1rem;
         }
 
-        /* Details Section */
+        /* Details Section - Modular Blocks */
         .details {
-            padding: 80px 20px;
+            padding: 100px 20px;
         }
         
         .grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 60px;
-            max-width: 900px;
+            gap: 30px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         
@@ -379,21 +386,39 @@
             }
         }
         
+        /* Modular Card Blocks */
+        .modular-block {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .modular-block:hover {
+            border-color: #00ff88;
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.1);
+            transform: translateY(-2px);
+        }
+        
         .grid h2 {
-            font-size: clamp(1.5rem, 4vw, 2rem);
-            margin-bottom: 25px;
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            margin-bottom: 30px;
             font-weight: 700;
+            letter-spacing: -0.5px;
         }
         
         .grid ul {
             list-style: none;
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
         }
         
         .grid li {
-            margin: 15px 0;
-            padding-left: 25px;
+            margin: 18px 0;
+            padding-left: 30px;
             position: relative;
+            line-height: 1.7;
         }
         
         .grid li:before {
@@ -402,11 +427,16 @@
             left: 0;
             font-weight: bold;
             font-size: 1.5em;
+            color: #00ff88;
         }
         
         .cost-block {
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
-            line-height: 1.8;
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            line-height: 1.9;
+        }
+        
+        .cost-block p {
+            margin: 12px 0;
         }
         
         /* Payment Section */
@@ -442,17 +472,19 @@
         
         .pricing-card {
             background: #1a1a1a;
-            border: 2px solid #333333;
-            border-radius: 12px;
-            padding: 30px;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 40px 30px;
             text-align: center;
             position: relative;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .pricing-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
         }
 
         .pricing-card.featured {
@@ -566,9 +598,17 @@
 
         /* Contact Form */
         .contact {
-            padding: 80px 20px;
-            max-width: 600px;
+            padding: 100px 20px;
+            max-width: 700px;
             margin: 0 auto;
+        }
+        
+        .contact .modular-block {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 50px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         
         .contact h2 {
@@ -761,8 +801,8 @@
         
         /* Testimonials Section */
         .testimonials-section {
-            padding: 80px 20px;
-            background: #111111;
+            padding: 100px 20px;
+            background: #0f0f0f;
         }
         
         .testimonials-section h2 {
@@ -794,15 +834,16 @@
         
         .testimonial-card {
             background: #1a1a1a;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #333333;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #2a2a2a;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         
         .testimonial-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.2);
             border-color: #00ff88;
         }
         
@@ -882,23 +923,28 @@
             margin-top: 15px;
         }
         
-        /* Sticky Calendar Button */
+        /* Sticky Calendar Button - Professional Branded */
         .sticky-calendar {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 24px;
+            right: 24px;
             z-index: 1000;
-            background: #00ff88;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
             color: #000000;
-            padding: 15px 25px;
+            padding: 16px 28px;
             border-radius: 50px;
             font-weight: 700;
+            font-size: 0.95rem;
             text-decoration: none;
-            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
+            box-shadow: 0 6px 24px rgba(0, 255, 136, 0.4), 0 0 0 0 rgba(0, 255, 136, 0.3);
             transition: all 0.3s ease;
             opacity: 0;
             transform: translateY(20px);
             pointer-events: none;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .sticky-calendar.show {
@@ -908,9 +954,9 @@
         }
         
         .sticky-calendar:hover {
-            background: #00cc6a;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(0, 255, 136, 0.5);
+            background: linear-gradient(135deg, #00cc6a, #00aa55);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.5), 0 0 0 4px rgba(0, 255, 136, 0.2);
         }
         
         @media (max-width: 767px) {
@@ -1117,7 +1163,7 @@
     <section class="details">
         <div class="container">
             <div class="grid">
-                <div>
+                <div class="modular-block">
                     <h2>What Nashville businesses get</h2>
                     <ul class="features-with-icons">
                         <li><span class="feature-icon">📱</span> Mobile-first design (2-second load)</li>
@@ -1129,7 +1175,7 @@
                         <li><span class="feature-icon">🚀</span> Live in 24 hours</li>
                     </ul>
                 </div>
-                <div>
+                <div class="modular-block">
                     <h2>Pricing Tiers</h2>
                     <div class="cost-block">
                         <p><strong>Base:</strong> $97/mo - 1-page site, booking, Stripe</p>
@@ -1293,8 +1339,9 @@
     <!-- Contact Form -->
     <section class="contact" id="contact">
         <div class="container">
-            <h2>Get Your Nashville Website Quote</h2>
-            <form action="https://formspree.io/f/xpzqkqkq" method="POST">
+            <div class="modular-block">
+                <h2>Get Your Nashville Website Quote</h2>
+                <form action="https://formspree.io/f/xpzqkqkq" method="POST">
                 <div class="form-group">
                     <label for="name">Your name</label>
                     <input type="text" id="name" name="name" placeholder="John Smith" required>
@@ -1331,7 +1378,8 @@
                 <div class="form-note">
                     Mobile-first site, live in 24 hours. No upfront fees, cancel anytime.
                 </div>
-            </form>
+                </form>
+            </div>
             
             <div class="calendar-section">
                 <h3>Or Book a Free Consultation Call</h3>
