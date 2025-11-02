@@ -60,3 +60,4 @@ This allows them to:
 - Cancel subscriptions
 - View billing history
 - Download invoices
+
