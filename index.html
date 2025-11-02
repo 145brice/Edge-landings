@@ -135,6 +135,30 @@
             font-size: 1.4rem;
         }
         
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.25rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #ffffff;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
         .table-note {
             font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.6);
@@ -316,25 +340,50 @@
                     <tr>
                         <td data-label="Name"><strong>Base</strong></td>
                         <td data-label="Monthly" class="price">$97</td>
-                        <td data-label="What's In It">Site live in 24 hours</td>
+                        <td data-label="What's In It">
+                            <ul class="feature-list">
+                                <li>Site live in 24 hours</li>
+                            </ul>
+                        </td>
                         <td data-label="Extra Hours">0 hrs</td>
                     </tr>
                     <tr>
                         <td data-label="Name"><strong>Pro</strong></td>
                         <td data-label="Monthly" class="price">$197</td>
-                        <td data-label="What's In It">Site + unlimited quick tweaks – no extra hourly charge. Base only covers the build; one-offs cost $60/hr. Pro means no surprises, just pay once and we're done.</td>
+                        <td data-label="What's In It">
+                            <ul class="feature-list">
+                                <li>Site live in 24 hours</li>
+                                <li>Unlimited quick tweaks</li>
+                                <li>No extra hourly charge</li>
+                                <li>Pay once, we're done</li>
+                            </ul>
+                        </td>
                         <td data-label="Extra Hours">1 hr</td>
                     </tr>
                     <tr>
                         <td data-label="Name"><strong>Enterprise</strong></td>
                         <td data-label="Monthly" class="price">$297</td>
-                        <td data-label="What's In It">Site + 3 hrs tweaks this month – I bump you to the front of the line, same-day turnaround.</td>
+                        <td data-label="What's In It">
+                            <ul class="feature-list">
+                                <li>Site live in 24 hours</li>
+                                <li>3 hrs tweaks this month</li>
+                                <li>Front of the line priority</li>
+                                <li>Same-day turnaround</li>
+                            </ul>
+                        </td>
                         <td data-label="Extra Hours">3 hrs</td>
                     </tr>
                     <tr>
                         <td data-label="Name"><strong>HIPAA</strong></td>
                         <td data-label="Monthly" class="price">$197<br><span class="table-note">+ $800 setup</span></td>
-                        <td data-label="What's In It">Site + HIPAA compliance</td>
+                        <td data-label="What's In It">
+                            <ul class="feature-list">
+                                <li>Site live in 24 hours</li>
+                                <li>HIPAA compliance</li>
+                                <li>Encrypted patient records</li>
+                                <li>3 hrs tweaks this month</li>
+                            </ul>
+                        </td>
                         <td data-label="Extra Hours">3 hrs</td>
                     </tr>
                 </tbody>
