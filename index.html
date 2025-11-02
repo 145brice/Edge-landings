@@ -439,6 +439,100 @@
             margin: 12px 0;
         }
         
+        /* Pricing Table Section */
+        .pricing-table-section {
+            padding: 80px 20px;
+            background: #111111;
+        }
+        
+        .pricing-table-section h2 {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+        
+        .pricing-table-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .pricing-table thead {
+            background: #000000;
+        }
+        
+        .pricing-table th {
+            padding: 20px;
+            text-align: left;
+            font-weight: 700;
+            color: #00ff88;
+            font-size: 1rem;
+            border-bottom: 2px solid #00ff88;
+        }
+        
+        .pricing-table td {
+            padding: 20px;
+            border-bottom: 1px solid #2a2a2a;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+        
+        .pricing-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .pricing-table tbody tr:hover {
+            background: rgba(0, 255, 136, 0.05);
+        }
+        
+        .pricing-table .price-cell {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #00ff88;
+        }
+        
+        .table-note {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 400;
+            display: block;
+            margin-top: 4px;
+        }
+        
+        .pricing-note {
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 24px;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-table {
+                font-size: 0.9rem;
+            }
+            
+            .pricing-table th,
+            .pricing-table td {
+                padding: 12px 8px;
+            }
+            
+            .pricing-table .price-cell {
+                font-size: 1.1rem;
+            }
+        }
+        
         /* Payment Section */
         .payment {
             padding: 100px 20px;
@@ -1434,6 +1528,58 @@
         </div>
     </section>
 
+    <!-- Pricing – Build + Retainers -->
+    <section class="pricing-table-section">
+        <div class="container">
+            <h2>Pricing – Build + Retainers</h2>
+            <div class="pricing-table-wrapper">
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Monthly</th>
+                            <th>What's In It</th>
+                            <th>Extra Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Base</strong></td>
+                            <td class="price-cell">$97</td>
+                            <td>Site live in 24 hours</td>
+                            <td>0 hrs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pro</strong></td>
+                            <td class="price-cell">$197</td>
+                            <td>Site + monthly tweaks</td>
+                            <td>1 hr</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Enterprise</strong></td>
+                            <td class="price-cell">$297</td>
+                            <td>Site + priority tweaks</td>
+                            <td>3 hrs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HIPAA</strong></td>
+                            <td class="price-cell">$197<br><span class="table-note">+ $800 setup</span></td>
+                            <td>Site + HIPAA compliance</td>
+                            <td>3 hrs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>One-Off</strong></td>
+                            <td class="price-cell">N/A</td>
+                            <td>No retainer? No problem</td>
+                            <td>$60/hr flat</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="pricing-note">Tweaks = any text, image, button swap. New features? Ask me.</p>
+        </div>
+    </section>
+
     <!-- Details Section -->
     <section class="details">
         <div class="container">
@@ -1543,187 +1689,6 @@
         </div>
     </section>
 
-    <!-- Pricing Packages Section -->
-    <section class="payment" id="payment">
-        <div class="container">
-            <h2>Packages – The Build</h2>
-            <p class="section-subtitle">One-time site build. Choose your package below.</p>
-            <div class="pricing-packages">
-                <!-- Base Package -->
-                <div class="pricing-card">
-                    <div class="limited-badge">🔒 Locked Price</div>
-                    <h3>Base</h3>
-                    <div class="price">$97<span>/month</span></div>
-                    <ul class="features">
-                        <li>1-page site</li>
-                        <li>Booking button</li>
-                        <li>Stripe checkout</li>
-                        <li>No domain included</li>
-                        <li>No support</li>
-                    </ul>
-                    <button class="subscribe-btn" onclick="checkout('price_base_97')">Get Started - $97/mo</button>
-                </div>
-
-                <!-- Pro Package -->
-                <div class="pricing-card featured">
-                    <h3>Pro</h3>
-                    <div class="price">$197<span>/month</span></div>
-                    <ul class="features">
-                        <li>All Base features</li>
-                        <li>Custom domain</li>
-                        <li>Auto-backups</li>
-                        <li>1 tweak/month</li>
-                        <li>Email support</li>
-                    </ul>
-                    <button class="subscribe-btn" onclick="checkout('price_pro_197')">Get Started - $197/mo</button>
-                </div>
-
-                <!-- Enterprise Package -->
-                <div class="pricing-card">
-                    <h3>Enterprise</h3>
-                    <div class="price">$297<span>/month</span></div>
-                    <ul class="features">
-                        <li>All Pro features</li>
-                        <li>Google Business sync</li>
-                        <li>Review bot</li>
-                        <li>SEO meta tags</li>
-                        <li>Priority chat support</li>
-                    </ul>
-                    <button class="subscribe-btn" onclick="checkout('price_ent_297')">Get Started - $297/mo</button>
-                </div>
-
-                <!-- HIPAA-Ready Plan Package -->
-                <div class="pricing-card medical">
-                    <h3>HIPAA-Ready Plan</h3>
-                    <div class="price">$800<span> setup</span></div>
-                    <div class="price">+ $197<span>/month</span></div>
-                    <ul class="features">
-                        <li>All Enterprise features</li>
-                        <li><strong>HIPAA Benefits:</strong></li>
-                        <li>✓ HIPAA-compliant portal</li>
-                        <li>✓ Encrypted patient records (row-level security)</li>
-                        <li>✓ Secure insurance lookup</li>
-                        <li>✓ Audit trails & compliance</li>
-                        <li>2 hrs support/month</li>
-                    </ul>
-                    <button class="subscribe-btn" onclick="checkout('price_entplus_800')">Get Started - HIPAA Plan</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Retainer Philosophy Section -->
-    <section class="retainer-philosophy">
-        <div class="container">
-            <div class="modular-block philosophy-block">
-                <h2>Packages = The Build. Retainers = The Polish.</h2>
-                <p class="philosophy-text">You pay once for the site. I keep it fast and fresh—speed checks, security patches, and tweak hours included. No hourly surprises, no "per-tweak" haggling. Your vibe coder handles the mess.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Retainers Section -->
-    <section class="payment retainers-section">
-        <div class="container">
-            <h2>Retainers – By Your Vibe Coder</h2>
-            <p class="section-subtitle">I keep your site fast. You stay booked. Auto-renew. Unused hours roll over 1 month (except Quick Fix).</p>
-            
-            <div class="retainer-table-container">
-                <div class="retainer-table">
-                    <div class="retainer-row header">
-                        <div class="retainer-cell tier">Tier</div>
-                        <div class="retainer-cell monthly">Monthly</div>
-                        <div class="retainer-cell hours">Included Tweaks</div>
-                        <div class="retainer-cell overage">Overage Rate</div>
-                        <div class="retainer-cell best">Best For</div>
-                    </div>
-                    
-                    <div class="retainer-row">
-                        <div class="retainer-cell tier"><strong>Base</strong></div>
-                        <div class="retainer-cell monthly">$97</div>
-                        <div class="retainer-cell hours">0 hrs included</div>
-                        <div class="retainer-cell overage">$60/hr</div>
-                        <div class="retainer-cell best">"Set it and forget it"</div>
-                    </div>
-                    
-                    <div class="retainer-row featured-row">
-                        <div class="retainer-cell tier"><strong>Pro</strong></div>
-                        <div class="retainer-cell monthly">$197</div>
-                        <div class="retainer-cell hours">1 hr</div>
-                        <div class="retainer-cell overage">$60/hr</div>
-                        <div class="retainer-cell best">Most shops</div>
-                    </div>
-                    
-                    <div class="retainer-row">
-                        <div class="retainer-cell tier"><strong>Enterprise</strong></div>
-                        <div class="retainer-cell monthly">$297</div>
-                        <div class="retainer-cell hours">3 hrs</div>
-                        <div class="retainer-cell overage">$60/hr</div>
-                        <div class="retainer-cell best">Busy clinics / chains</div>
-                    </div>
-                    
-                    <div class="retainer-row medical-row">
-                        <div class="retainer-cell tier"><strong>HIPAA-Ready Plan</strong></div>
-                        <div class="retainer-cell monthly">$197<br><span class="note">+ $800 setup</span></div>
-                        <div class="retainer-cell hours">3 hrs<br><span class="note">+ HIPAA support</span></div>
-                        <div class="retainer-cell overage">$60/hr</div>
-                        <div class="retainer-cell best">Any clinic needing HIPAA</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="retainer-note modular-block">
-                <p><strong>💡 Need more hours?</strong> Upgrade mid-month → extra hours at $60/hr. No new contract.</p>
-            </div>
-
-            <div class="one-off-tweaks-card">
-                <h3>One-Off Tweaks</h3>
-                <p class="one-off-sub">Any change, no retainer</p>
-                <p class="one-off-text">$60 per hour. No minimum, billed only for time used—just text me a screenshot and I'll handle it fast.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tweak FAQ Section -->
-    <section class="tweak-faq">
-        <div class="container">
-            <h2>What Counts as a "Tweak"?</h2>
-            <p class="section-subtitle">Your vibe coder handles these. Rule of thumb: &lt;15 min, no new functionality = included.</p>
-            
-            <div class="tweak-table-grid">
-                <div class="modular-block tweak-included">
-                    <h3>✅ Included</h3>
-                    <ul>
-                        <li>Text / price updates</li>
-                        <li>Image swaps</li>
-                        <li>Button color / font tweak</li>
-                        <li>Booking form field change</li>
-                        <li>Speed / SEO audit fixes</li>
-                    </ul>
-                </div>
-                
-                <div class="modular-block tweak-not-included">
-                    <h3>❌ Not Included</h3>
-                    <ul>
-                        <li>New pages or features</li>
-                        <li>Full redesign</li>
-                        <li>Custom code (e.g., new Stripe flow)</li>
-                        <li>Third-party API integrations</li>
-                        <li>—</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Retainer Legal Section -->
-    <section class="retainer-legal">
-        <div class="container">
-            <div class="modular-block legal-block">
-                <p class="legal-text"><strong>Retainer Terms:</strong> Retainer hours cover minor updates defined in the Tweak Table above. Hours reset monthly; one-month rollover (except Quick Fix). Work beyond scope is quoted separately and requires approval.</p>
-            </div>
-        </div>
-    </section>
 
     <!-- Contact Form -->
     <section class="contact" id="contact">
