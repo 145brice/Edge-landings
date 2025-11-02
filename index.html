@@ -441,8 +441,252 @@
         
         /* Payment Section */
         .payment {
-            padding: 80px 20px;
+            padding: 100px 20px;
             background: #111111;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Retainer Philosophy */
+        .retainer-philosophy {
+            padding: 80px 20px;
+            background: #0f0f0f;
+        }
+        
+        .philosophy-block {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .philosophy-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 20px;
+        }
+        
+        /* Retainer Table */
+        .retainers-section {
+            background: #111111;
+        }
+        
+        .retainer-table-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        
+        .retainer-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #1a1a1a;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .retainer-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1.5fr 1.5fr 2fr;
+            gap: 20px;
+            padding: 20px;
+            border-bottom: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+        }
+        
+        .retainer-row:last-child {
+            border-bottom: none;
+        }
+        
+        .retainer-row.header {
+            background: #000000;
+            font-weight: 700;
+            color: #00ff88;
+            border-bottom: 2px solid #00ff88;
+            padding: 24px 20px;
+        }
+        
+        .retainer-row.featured-row {
+            background: rgba(0, 255, 136, 0.05);
+            border-left: 3px solid #00ff88;
+        }
+        
+        .retainer-row.medical-row {
+            background: rgba(255, 107, 53, 0.05);
+            border-left: 3px solid #ff6b35;
+        }
+        
+        .retainer-row:hover:not(.header) {
+            background: rgba(0, 255, 136, 0.08);
+        }
+        
+        .retainer-cell {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            color: #ffffff;
+        }
+        
+        .retainer-cell.tier {
+            font-weight: 600;
+        }
+        
+        .retainer-cell.monthly {
+            font-weight: 700;
+            color: #00ff88;
+            font-size: 1.2rem;
+        }
+        
+        .retainer-cell.hours {
+            font-weight: 600;
+        }
+        
+        .retainer-cell.overage {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+        
+        .retainer-cell.best {
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+        }
+        
+        .note {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+            display: block;
+            margin-top: 4px;
+        }
+        
+        .retainer-note {
+            max-width: 800px;
+            margin: 40px auto 0;
+            text-align: center;
+            padding: 24px;
+        }
+        
+        .retainer-note p {
+            margin: 0;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        @media (max-width: 1024px) {
+            .retainer-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .retainer-cell {
+                padding: 8px 0;
+            }
+            
+            .retainer-cell::before {
+                content: attr(data-label) ": ";
+                font-weight: 600;
+                color: #00ff88;
+                margin-right: 8px;
+            }
+        }
+        
+        /* Tweak FAQ Section */
+        .tweak-faq {
+            padding: 100px 20px;
+            background: #0f0f0f;
+        }
+        
+        .tweak-faq h2 {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            margin-bottom: 20px;
+        }
+        
+        .tweak-table-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 50px auto 0;
+        }
+        
+        @media (min-width: 768px) {
+            .tweak-table-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .tweak-included h3,
+        .tweak-not-included h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        
+        .tweak-included ul,
+        .tweak-not-included ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tweak-included li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #00ff88;
+        }
+        
+        .tweak-not-included li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .tweak-included li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+            font-weight: bold;
+        }
+        
+        .tweak-not-included li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: bold;
+        }
+        
+        /* Retainer Legal Section */
+        .retainer-legal {
+            padding: 60px 20px;
+            background: #111111;
+        }
+        
+        .legal-block {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .legal-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
         }
         
         .pricing-packages {
@@ -1271,7 +1515,8 @@
     <!-- Pricing Packages Section -->
     <section class="payment" id="payment">
         <div class="container">
-            <h2>Choose Your Package</h2>
+            <h2>Packages – The Build</h2>
+            <p class="section-subtitle">One-time site build. Choose your package below.</p>
             <div class="pricing-packages">
                 <!-- Base Package -->
                 <div class="pricing-card">
@@ -1332,6 +1577,113 @@
                     </ul>
                     <button class="subscribe-btn" onclick="checkout('price_entplus_800')">Get Started - $800 + $197/mo</button>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Retainer Philosophy Section -->
+    <section class="retainer-philosophy">
+        <div class="container">
+            <div class="modular-block philosophy-block">
+                <h2>Packages = The Build. Retainers = The Polish.</h2>
+                <p class="philosophy-text">You pay once for the site. You pay monthly for peace of mind—speed checks, security patches, and X hours of tweaks included. No hourly surprises, no "per-tweak" haggling.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Retainers Section -->
+    <section class="payment retainers-section">
+        <div class="container">
+            <h2>Retainers – Keep It Fast & Fresh</h2>
+            <p class="section-subtitle">Monthly support with included tweak hours. Auto-renew. Unused hours roll over 1 month.</p>
+            
+            <div class="retainer-table-container">
+                <div class="retainer-table">
+                    <div class="retainer-row header">
+                        <div class="retainer-cell tier">Tier</div>
+                        <div class="retainer-cell monthly">Monthly</div>
+                        <div class="retainer-cell hours">Included Tweaks</div>
+                        <div class="retainer-cell overage">Overage Rate</div>
+                        <div class="retainer-cell best">Best For</div>
+                    </div>
+                    
+                    <div class="retainer-row">
+                        <div class="retainer-cell tier"><strong>Base</strong></div>
+                        <div class="retainer-cell monthly">$97</div>
+                        <div class="retainer-cell hours">0 hrs<br><span class="note">(build-only)</span></div>
+                        <div class="retainer-cell overage">$95/hr</div>
+                        <div class="retainer-cell best">"Set it and forget it"</div>
+                    </div>
+                    
+                    <div class="retainer-row featured-row">
+                        <div class="retainer-cell tier"><strong>Pro</strong></div>
+                        <div class="retainer-cell monthly">$197</div>
+                        <div class="retainer-cell hours">2 hrs</div>
+                        <div class="retainer-cell overage">$85/hr</div>
+                        <div class="retainer-cell best">Most shops</div>
+                    </div>
+                    
+                    <div class="retainer-row">
+                        <div class="retainer-cell tier"><strong>Enterprise</strong></div>
+                        <div class="retainer-cell monthly">$297</div>
+                        <div class="retainer-cell hours">5 hrs</div>
+                        <div class="retainer-cell overage">$75/hr</div>
+                        <div class="retainer-cell best">Busy clinics / chains</div>
+                    </div>
+                    
+                    <div class="retainer-row medical-row">
+                        <div class="retainer-cell tier"><strong>Medical</strong></div>
+                        <div class="retainer-cell monthly">$197<br><span class="note">+ $800 setup</span></div>
+                        <div class="retainer-cell hours">3 hrs<br><span class="note">+ HIPAA support</span></div>
+                        <div class="retainer-cell overage">$90/hr</div>
+                        <div class="retainer-cell best">Doctors only</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="retainer-note modular-block">
+                <p><strong>💡 Need more hours?</strong> Upgrade mid-month → extra hours at your tier's overage rate. No new contract.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tweak FAQ Section -->
+    <section class="tweak-faq">
+        <div class="container">
+            <h2>What Counts as a "Tweak"?</h2>
+            <p class="section-subtitle">Rule of thumb: If it takes &lt;15 min and doesn't add functionality, it's free inside your retainer.</p>
+            
+            <div class="tweak-table-grid">
+                <div class="modular-block tweak-included">
+                    <h3>✅ Included</h3>
+                    <ul>
+                        <li>Text / price updates</li>
+                        <li>Image swaps</li>
+                        <li>Button color / font tweak</li>
+                        <li>Booking form field change</li>
+                        <li>Speed / SEO audit fixes</li>
+                    </ul>
+                </div>
+                
+                <div class="modular-block tweak-not-included">
+                    <h3>❌ Not Included</h3>
+                    <ul>
+                        <li>New pages or features</li>
+                        <li>Full redesign</li>
+                        <li>Custom code (e.g., new Stripe flow)</li>
+                        <li>Third-party API integrations</li>
+                        <li>—</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Retainer Legal Section -->
+    <section class="retainer-legal">
+        <div class="container">
+            <div class="modular-block legal-block">
+                <p class="legal-text"><strong>Retainer Terms:</strong> Retainer hours cover minor updates defined in the Tweak Table above. Hours reset monthly; one-month rollover. Work beyond scope is quoted separately and requires approval.</p>
             </div>
         </div>
     </section>
