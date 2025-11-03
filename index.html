@@ -87,9 +87,13 @@
         }
         
         .pricing {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 3rem auto;
             padding: 0 1rem;
+        }
+        
+        .pricing-table-wrapper {
+            overflow-x: auto;
         }
         
         .pricing h2 {
@@ -123,6 +127,27 @@
             padding: 1.2rem 1rem;
             border-top: 1px solid #2a2a2a;
             color: #ffffff;
+            vertical-align: top;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        td ul {
+            margin: 0;
+            padding-left: 1.2rem;
+            list-style: none;
+        }
+        
+        td ul li {
+            padding: 0.25rem 0;
+            position: relative;
+        }
+        
+        td ul li:before {
+            content: "•";
+            position: absolute;
+            left: -1rem;
+            color: #00ff88;
         }
         
         tbody tr:hover {
@@ -480,29 +505,38 @@
             border-top: 1px solid #1a1a1a;
         }
         
-        @media (max-width: 600px) {
-            th, td {
-                display: block;
-                width: 100%;
-                box-sizing: border-box;
-                text-align: left;
-                padding: 0.75rem;
+        @media (max-width: 768px) {
+            .pricing-table-wrapper {
+                -webkit-overflow-scrolling: touch;
             }
             
+            table {
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+            }
+            
+            td ul {
+                padding-left: 1rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
             th {
-                border-bottom: none;
-                border-right: none;
+                font-size: 0.75rem;
+                padding: 0.6rem 0.4rem;
             }
             
             td {
-                border-top: 1px solid #2a2a2a;
+                font-size: 0.75rem;
+                padding: 0.6rem 0.4rem;
             }
             
-            td:before {
-                content: attr(data-label) ": ";
-                font-weight: 700;
-                color: #00ff88;
-                margin-right: 0.5rem;
+            .price {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -531,20 +565,73 @@
     <section class="pricing">
         <div class="container">
             <h2>Pricing</h2>
-            <p class="pricing-tagline">One price. No surprises. Just results.</p>
-            <div class="pricing-card">
-                <div class="price">$97</div>
-                <ul class="feature-list">
-                    <li><span class="feature-icon"></span>Up to 5 pages live in 24 hours</li>
-                    <li><span class="feature-icon"></span>1 hour monthly tweaks (text, photos, buttons)</li>
-                    <li><span class="feature-icon"></span>Domain setup (free first year)</li>
-                    <li><span class="feature-icon"></span>Speed & SEO tune-up</li>
-                </ul>
-                <a href="https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00" target="_blank" class="subscribe-btn">Start Now - $97/month</a>
-                <p class="cancel-note">Cancel anytime, no questions asked</p>
-                <div class="extra-info">
-                    <strong>Need more?</strong> Extra pages $50 each, extra tweaks $60/hr—just say the word.
-                </div>
+            <p class="pricing-tagline">No Ads, no cash upfront, all tools you can learn in a day.</p>
+            <div class="pricing-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Plan</th>
+                            <th>Monthly Cost</th>
+                            <th>Lock-In</th>
+                            <th>Tangible Wins</th>
+                            <th>What's Built-In</th>
+                            <th>Tools You Need</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>BASIC</strong></td>
+                            <td class="price">$47</td>
+                            <td>None</td>
+                            <td>+3 night bookings/mo</td>
+                            <td>
+                                <ul>
+                                    <li>Site + basic SEO (titles, meta, Google listing)</li>
+                                    <li>NightCut (text-only)</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>Free: Google My Business, Cursor</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>PRO</strong></td>
+                            <td class="price">$97</td>
+                            <td>6 months</td>
+                            <td>+8 bookings + dashboard</td>
+                            <td>
+                                <ul>
+                                    <li>All BASIC + ongoing SEO (monthly keywords, backlinks)</li>
+                                    <li>Promo texts + priority NightCut spots</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>Free: Ahrefs free tier, Twilio trial</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ELITE</strong></td>
+                            <td class="price">$197</td>
+                            <td>6 months</td>
+                            <td>+15 bookings + top Google spot</td>
+                            <td>
+                                <ul>
+                                    <li>All PRO + review harvesting (auto-text clients)</li>
+                                    <li>Heatmap (user clicks) + voice-search SEO</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>Free: Hotjar (basic), ReviewTrackers (trial)</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
