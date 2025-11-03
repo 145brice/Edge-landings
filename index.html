@@ -174,6 +174,37 @@
             font-style: italic;
         }
         
+        .pricing-card {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 2.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .pricing-card .price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #00ff88;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .pricing-card .feature-list {
+            margin-bottom: 2rem;
+        }
+        
+        .pricing-card .extra-info {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #2a2a2a;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+        
         .testimonials {
             padding: 4rem 1rem;
             background: #0f0f0f;
@@ -311,7 +342,7 @@
     <section class="hero">
         <div class="container">
             <h1>EDGE WEBSITES</h1>
-            <p>Local Shops: Booked-Out Websites in 24 Hours – $97/mo</p>
+            <p>Nashville shop? Site tomorrow. One price, one promise: $97/month for a real website that books people.</p>
             <div class="tagline">Serving local businesses • Barbers • Doctors • Tattoo Shops • Coffee Shops</div>
             <div>
                 <a href="#barber-demo" class="btn">Barber example</a>
@@ -327,75 +358,18 @@
     <section class="pricing">
         <div class="container">
             <h2>Pricing</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Plan</th>
-                        <th>Monthly</th>
-                        <th>What's Included</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td data-label="Plan"><strong>Base</strong></td>
-                        <td data-label="Monthly" class="price">$97</td>
-                        <td data-label="What's Included">
-                            <ul class="feature-list">
-                                <li>1-page site live in 24 hours</li>
-                                <li>Domain included</li>
-                                <li>2-sec mobile load</li>
-                                <li>Mobile-first design</li>
-                                <li>No tweaks</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td data-label="Plan"><strong>Pro</strong></td>
-                        <td data-label="Monthly" class="price">$197</td>
-                        <td data-label="What's Included">
-                            <ul class="feature-list">
-                                <li>Up to 5 pages</li>
-                                <li>1 hour tweaks (text, images, buttons)</li>
-                                <li>Calendly widget</li>
-                                <li>Monthly SEO bump</li>
-                                <li>SEO audit</li>
-                                <li>Google reviews</li>
-                                <li>Monthly traffic stats</li>
-                                <li>Free domain year one</li>
-                                <li>2-sec mobile load</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td data-label="Plan"><strong>Enterprise</strong></td>
-                        <td data-label="Monthly" class="price">$297</td>
-                        <td data-label="What's Included">
-                            <ul class="feature-list">
-                                <li>Up to 10 pages</li>
-                                <li>3 hrs tweaks (same-day priority)</li>
-                                <li>Calendly widget</li>
-                                <li>Full local SEO (Google pack + backlinks)</li>
-                                <li>SEO audit</li>
-                                <li>Google reviews</li>
-                                <li>Monthly traffic stats</li>
-                                <li>Domain forever</li>
-                                <li>2-sec mobile load</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td data-label="Plan"><strong>HIPAA</strong></td>
-                        <td data-label="Monthly" class="price">$297</td>
-                        <td data-label="What's Included">
-                            <ul class="feature-list">
-                                <li>Same as Enterprise</li>
-                                <li>HIPAA-safe</li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <p class="pricing-note">One-off tweaks: $60/hr, no retainer needed—just text me.</p>
+            <div class="pricing-card">
+                <div class="price">$97 / month</div>
+                <ul class="feature-list">
+                    <li>Up to 5 pages live in 24 hours</li>
+                    <li>1 hour monthly tweaks (text, photos, buttons)</li>
+                    <li>Domain setup (free first year)</li>
+                    <li>Speed & SEO tune-up</li>
+                </ul>
+                <div class="extra-info">
+                    <strong>Need more?</strong> Extra pages $50 each, extra tweaks $60/hr—just say the word.
+                </div>
+            </div>
         </div>
     </section>
 
