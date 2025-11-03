@@ -150,8 +150,42 @@
             color: #00ff88;
         }
         
+        tbody tr {
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
         tbody tr:hover {
-            background: rgba(0, 255, 136, 0.05);
+            background: rgba(0, 255, 136, 0.08);
+        }
+        
+        .plan-btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 255, 136, 0.2);
+        }
+        
+        .plan-btn:hover {
+            background: linear-gradient(135deg, #00cc6a, #00ff88);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+        }
+        
+        .plan-btn:active {
+            transform: translateY(0);
+        }
+        
+        .plan-select-cell {
+            text-align: center;
         }
         
         .price {
@@ -566,6 +600,7 @@
         <div class="container">
             <h2>Pricing</h2>
             <p class="pricing-tagline">No Ads, no cash upfront, all tools you can learn in a day.</p>
+            <p style="text-align: center; font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem; font-style: italic;">*Booking numbers are based on estimates and may vary by business type and location.</p>
             <div class="pricing-table-wrapper">
                 <table>
                     <thead>
@@ -576,14 +611,15 @@
                             <th>Tangible Wins</th>
                             <th>What's Built-In</th>
                             <th>Tools You Need</th>
+                            <th>Select Plan</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr onclick="window.open('https://buy.stripe.com/YOUR_BASIC_LINK', '_blank')">
                             <td><strong>BASIC</strong></td>
                             <td class="price">$47</td>
                             <td>None</td>
-                            <td>+3 night bookings/mo</td>
+                            <td>+3 night bookings/mo*</td>
                             <td>
                                 <ul>
                                     <li>Site + basic SEO (titles, meta, Google listing)</li>
@@ -595,12 +631,15 @@
                                     <li>Free: Google My Business, Cursor</li>
                                 </ul>
                             </td>
+                            <td class="plan-select-cell">
+                                <a href="https://buy.stripe.com/YOUR_BASIC_LINK" target="_blank" class="plan-btn" onclick="event.stopPropagation()">Select BASIC</a>
+                            </td>
                         </tr>
-                        <tr>
+                        <tr onclick="window.open('https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00', '_blank')">
                             <td><strong>PRO</strong></td>
                             <td class="price">$97</td>
                             <td>6 months</td>
-                            <td>+8 bookings + dashboard</td>
+                            <td>+8 bookings + dashboard*</td>
                             <td>
                                 <ul>
                                     <li>All BASIC + ongoing SEO (monthly keywords, backlinks)</li>
@@ -612,12 +651,15 @@
                                     <li>Free: Ahrefs free tier, Twilio trial</li>
                                 </ul>
                             </td>
+                            <td class="plan-select-cell">
+                                <a href="https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00" target="_blank" class="plan-btn" onclick="event.stopPropagation()">Select PRO</a>
+                            </td>
                         </tr>
-                        <tr>
+                        <tr onclick="window.open('https://buy.stripe.com/YOUR_ELITE_LINK', '_blank')">
                             <td><strong>ELITE</strong></td>
                             <td class="price">$197</td>
                             <td>6 months</td>
-                            <td>+15 bookings + top Google spot</td>
+                            <td>+15 bookings + top Google spot*</td>
                             <td>
                                 <ul>
                                     <li>All PRO + review harvesting (auto-text clients)</li>
@@ -628,6 +670,9 @@
                                 <ul>
                                     <li>Free: Hotjar (basic), ReviewTrackers (trial)</li>
                                 </ul>
+                            </td>
+                            <td class="plan-select-cell">
+                                <a href="https://buy.stripe.com/YOUR_ELITE_LINK" target="_blank" class="plan-btn" onclick="event.stopPropagation()">Select ELITE</a>
                             </td>
                         </tr>
                     </tbody>
