@@ -601,6 +601,12 @@
             <h2>Pricing</h2>
             <p class="pricing-tagline">No Ads, no cash upfront, all tools you can learn in a day.</p>
             <p style="text-align: center; font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem; font-style: italic;">*Booking numbers are based on estimates and may vary by business type and location.</p>
+            <!-- 
+                STRIPE PAYMENT LINKS - Update these with your actual Stripe payment link URLs:
+                - BASIC ($47/mo): Create at https://dashboard.stripe.com/payment-links
+                - PRO ($97/mo): https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00 (already set)
+                - ELITE ($197/mo): Create at https://dashboard.stripe.com/payment-links
+            -->
             <div class="pricing-table-wrapper">
                 <table>
                     <thead>
@@ -615,7 +621,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr onclick="window.open('https://buy.stripe.com/YOUR_BASIC_LINK', '_blank')">
+                        <tr onclick="openPaymentLink('BASIC')">
                             <td><strong>BASIC</strong></td>
                             <td class="price">$47</td>
                             <td>None</td>
@@ -632,10 +638,10 @@
                                 </ul>
                             </td>
                             <td class="plan-select-cell">
-                                <a href="https://buy.stripe.com/YOUR_BASIC_LINK" target="_blank" class="plan-btn" onclick="event.stopPropagation()">Select BASIC</a>
+                                <a href="javascript:void(0)" onclick="event.stopPropagation(); openPaymentLink('BASIC')" class="plan-btn">Select BASIC</a>
                             </td>
                         </tr>
-                        <tr onclick="window.open('https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00', '_blank')">
+                        <tr onclick="openPaymentLink('PRO')">
                             <td><strong>PRO</strong></td>
                             <td class="price">$97</td>
                             <td>6 months</td>
@@ -652,10 +658,10 @@
                                 </ul>
                             </td>
                             <td class="plan-select-cell">
-                                <a href="https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00" target="_blank" class="plan-btn" onclick="event.stopPropagation()">Select PRO</a>
+                                <a href="javascript:void(0)" onclick="event.stopPropagation(); openPaymentLink('PRO')" class="plan-btn">Select PRO</a>
                             </td>
                         </tr>
-                        <tr onclick="window.open('https://buy.stripe.com/YOUR_ELITE_LINK', '_blank')">
+                        <tr onclick="openPaymentLink('ELITE')">
                             <td><strong>ELITE</strong></td>
                             <td class="price">$197</td>
                             <td>6 months</td>
@@ -672,7 +678,7 @@
                                 </ul>
                             </td>
                             <td class="plan-select-cell">
-                                <a href="https://buy.stripe.com/YOUR_ELITE_LINK" target="_blank" class="plan-btn" onclick="event.stopPropagation()">Select ELITE</a>
+                                <a href="javascript:void(0)" onclick="event.stopPropagation(); openPaymentLink('ELITE')" class="plan-btn">Select ELITE</a>
                             </td>
                         </tr>
                     </tbody>
@@ -745,6 +751,26 @@
     </footer>
 
     <script>
+        // Stripe Payment Links Configuration
+        // Update these URLs with your actual Stripe payment links from https://dashboard.stripe.com/payment-links
+        const STRIPE_LINKS = {
+            BASIC: 'https://buy.stripe.com/YOUR_BASIC_LINK',  // $47/month - Update this
+            PRO: 'https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00',  // $97/month - Already set
+            ELITE: 'https://buy.stripe.com/YOUR_ELITE_LINK'  // $197/month - Update this
+        };
+        
+        // Helper function to open payment link
+        function openPaymentLink(plan) {
+            const link = STRIPE_LINKS[plan];
+            if (link && !link.includes('YOUR_')) {
+                window.open(link, '_blank');
+            } else {
+                // Fallback: scroll to contact form if link not ready
+                document.querySelector('.contact')?.scrollIntoView({ behavior: 'smooth' });
+                alert('Payment link coming soon! Please use the contact form below.');
+            }
+        }
+        
         // Demo links
         document.querySelector('a[href="#barber-demo"]')?.addEventListener('click', function(e) {
             e.preventDefault();
