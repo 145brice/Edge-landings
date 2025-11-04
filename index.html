@@ -577,13 +577,13 @@
 </head>
 <body>
     <div class="urgency-header">
-        <p>🔥 <strong>LIMITED TIME:</strong> <span id="spots-left">7</span> spots left at $97/mo locked forever • No upfront fees • Cancel anytime!</p>
+        <p>🔥 <strong>LIMITED TIME:</strong> <span id="spots-left">7</span> spots left at $49/mo • No upfront fees • Cancel anytime!</p>
     </div>
 
     <section class="hero">
         <div class="container">
             <h1>EDGE WEBSITES</h1>
-            <p>Nashville shop? Site tomorrow. One price, one promise: $97/month for a real website that books people.</p>
+            <p>Nashville shop? Site tomorrow. One price, one promise: $49/month for a real website that books people.</p>
             <div class="tagline">Serving local businesses • Barbers • Doctors • Tattoo Shops • Coffee Shops</div>
             <div>
                 <a href="#barber-demo" class="btn">Barber example</a>
@@ -600,89 +600,16 @@
         <div class="container">
             <h2>Pricing</h2>
             <p class="pricing-tagline">No Ads, no cash upfront, all tools you can learn in a day.</p>
-            <p style="text-align: center; font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem; font-style: italic;">*Booking numbers are based on estimates and may vary by business type and location.</p>
-            <!-- 
-                STRIPE PAYMENT LINKS - Update these with your actual Stripe payment link URLs:
-                - BASIC ($47/mo): Create at https://dashboard.stripe.com/payment-links
-                - PRO ($97/mo): https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00 (already set)
-                - ELITE ($197/mo): Create at https://dashboard.stripe.com/payment-links
-            -->
-            <div class="pricing-table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Plan</th>
-                            <th>Monthly Cost</th>
-                            <th>Lock-In</th>
-                            <th>Tangible Wins</th>
-                            <th>What's Built-In</th>
-                            <th>Tools You Need</th>
-                            <th>Select Plan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr onclick="openPaymentLink('BASIC')">
-                            <td><strong>BASIC</strong></td>
-                            <td class="price">$47</td>
-                            <td>None</td>
-                            <td>+3 night bookings/mo*</td>
-                            <td>
-                                <ul>
-                                    <li>Site + basic SEO (titles, meta, Google listing)</li>
-                                    <li>NightCut (text-only)</li>
-                                </ul>
-                            </td>
-                            <td>
-                                <ul>
-                                    <li>Free: Google My Business, Cursor</li>
-                                </ul>
-                            </td>
-                            <td class="plan-select-cell">
-                                <a href="javascript:void(0)" onclick="event.stopPropagation(); openPaymentLink('BASIC')" class="plan-btn">Select BASIC</a>
-                            </td>
-                        </tr>
-                        <tr onclick="openPaymentLink('PRO')">
-                            <td><strong>PRO</strong></td>
-                            <td class="price">$97</td>
-                            <td>6 months</td>
-                            <td>+8 bookings + dashboard*</td>
-                            <td>
-                                <ul>
-                                    <li>All BASIC + ongoing SEO (monthly keywords, backlinks)</li>
-                                    <li>Promo texts + priority NightCut spots</li>
-                                </ul>
-                            </td>
-                            <td>
-                                <ul>
-                                    <li>Free: Ahrefs free tier, Twilio trial</li>
-                                </ul>
-                            </td>
-                            <td class="plan-select-cell">
-                                <a href="javascript:void(0)" onclick="event.stopPropagation(); openPaymentLink('PRO')" class="plan-btn">Select PRO</a>
-                            </td>
-                        </tr>
-                        <tr onclick="openPaymentLink('ELITE')">
-                            <td><strong>ELITE</strong></td>
-                            <td class="price">$197</td>
-                            <td>6 months</td>
-                            <td>+15 bookings + top Google spot*</td>
-                            <td>
-                                <ul>
-                                    <li>All PRO + review harvesting (auto-text clients)</li>
-                                    <li>Heatmap (user clicks) + voice-search SEO</li>
-                                </ul>
-                            </td>
-                            <td>
-                                <ul>
-                                    <li>Free: Hotjar (basic), ReviewTrackers (trial)</li>
-                                </ul>
-                            </td>
-                            <td class="plan-select-cell">
-                                <a href="javascript:void(0)" onclick="event.stopPropagation(); openPaymentLink('ELITE')" class="plan-btn">Select ELITE</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="pricing-card">
+                <div class="price">$49</div>
+                <ul class="feature-list">
+                    <li><span class="feature-icon"></span>Up to 5 pages live in 24 hours</li>
+                    <li><span class="feature-icon"></span>1 hour monthly tweaks (text, photos, buttons)</li>
+                    <li><span class="feature-icon"></span>Domain setup (free first year)</li>
+                    <li><span class="feature-icon"></span>Speed & SEO tune-up</li>
+                </ul>
+                <a href="https://buy.stripe.com/28E3cx2r6auv1HIbHh63K01" target="_blank" class="subscribe-btn">Start Now - $49/month</a>
+                <p class="cancel-note">Cancel anytime, no questions asked</p>
             </div>
         </div>
     </section>
@@ -746,31 +673,11 @@
 
     <footer>
         <p><strong>Edge Websites</strong> | Proudly serving local businesses</p>
-        <p>$97 gets you started. $197 keeps you booked.</p>
+        <p>$49/month gets you started. Cancel anytime.</p>
         <p style="margin-top: 1rem; font-size: 0.85rem;">Serving local businesses • Barbers • Doctors • Tattoo Shops • Coffee Shops</p>
     </footer>
 
     <script>
-        // Stripe Payment Links Configuration
-        // Update these URLs with your actual Stripe payment links from https://dashboard.stripe.com/payment-links
-        const STRIPE_LINKS = {
-            BASIC: 'https://buy.stripe.com/YOUR_BASIC_LINK',  // $47/month - Update this
-            PRO: 'https://buy.stripe.com/aFa9AV1n2fOPbiicLl63K00',  // $97/month - Already set
-            ELITE: 'https://buy.stripe.com/YOUR_ELITE_LINK'  // $197/month - Update this
-        };
-        
-        // Helper function to open payment link
-        function openPaymentLink(plan) {
-            const link = STRIPE_LINKS[plan];
-            if (link && !link.includes('YOUR_')) {
-                window.open(link, '_blank');
-            } else {
-                // Fallback: scroll to contact form if link not ready
-                document.querySelector('.contact')?.scrollIntoView({ behavior: 'smooth' });
-                alert('Payment link coming soon! Please use the contact form below.');
-            }
-        }
-        
         // Demo links
         document.querySelector('a[href="#barber-demo"]')?.addEventListener('click', function(e) {
             e.preventDefault();
