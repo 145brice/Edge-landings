@@ -1,5 +1,7 @@
 # Supabase Database Setup for Edge Websites
 
+✅ Database tables created successfully!
+
 ## Quick Setup
 
 1. **Go to Vercel Dashboard**
