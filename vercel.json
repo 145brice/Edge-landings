@@ -1,24 +1,15 @@
 {
-  "functions": {
-    "api/signup.js": {
-      "memory": 1024,
-      "maxDuration": 10
-    },
-    "api/login.js": {
-      "memory": 1024,
-      "maxDuration": 10
-    },
-    "api/dashboard.js": {
-      "memory": 1024,
-      "maxDuration": 10
-    },
-    "api/forgot-password.js": {
-      "memory": 1024,
-      "maxDuration": 10
-    },
-    "api/reset-password.js": {
-      "memory": 1024,
-      "maxDuration": 10
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
     }
-  }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    }
+  ]
 }
