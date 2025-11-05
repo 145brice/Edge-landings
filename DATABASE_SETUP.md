@@ -10,18 +10,24 @@ Your signup system now uses **Vercel KV** (Redis-based database) to store user a
    - Visit: https://vercel.com/dashboard
    - Select your project: `edge-landings`
 
-2. **Create KV Database**
-   - Go to **Storage** tab
-   - Click **Create Database**
-   - Select **KV** (Redis)
+2. **Add Upstash (Redis) via Marketplace**
+   - Click on your project: `edge-landings`
+   - Go to the **Storage** tab (or **Integrations** tab)
+   - Click **Browse Marketplace** or **Add Integration**
+   - Find **"Upstash - Serverless DB (Redis, Vector, Queue, Search)"**
+   - Click **Add** or **Install**
+   - Select **Redis** (not Vector or Queue)
    - Name it (e.g., `edge-users`)
    - Select a region (choose closest to your users)
-   - Click **Create**
+   - Click **Create** or **Add**
+   
+   **OR** use **"Redis - Serverless Redis"** - either will work!
 
-3. **Link KV to Your Project**
-   - After creating, click **Use KV in your project**
-   - Select your `edge-landings` project
-   - Vercel will automatically add environment variables
+3. **KV will Auto-Link to Your Project**
+   - Vercel automatically links it to your project
+   - Environment variables are automatically added:
+     - `KV_REST_API_URL`
+     - `KV_REST_API_TOKEN`
 
 4. **Verify Environment Variables**
    - Go to **Settings** → **Environment Variables**
@@ -31,8 +37,9 @@ Your signup system now uses **Vercel KV** (Redis-based database) to store user a
    - These are automatically set by Vercel
 
 5. **Redeploy**
-   - After linking KV, Vercel will automatically redeploy
+   - After adding KV, Vercel will automatically redeploy
    - Or manually trigger a redeploy from the Deployments tab
+   - Wait for deployment to complete (1-2 minutes)
 
 ### What Gets Stored:
 
