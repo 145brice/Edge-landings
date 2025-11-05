@@ -432,10 +432,17 @@
                         <span class="info-label">Next Billing</span>
                         <span class="info-value">${data.subscription?.nextBillingDate || 'N/A'}</span>
                     </div>
-                    <a href="${data.portalUrl}" target="_blank" class="btn">Manage Subscription</a>
-                    <p style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); text-align: center;">
-                        Update payment, cancel, or change plan
-                    </p>
+                    ${data.subscription ? `
+                        <a href="${data.portalUrl}" target="_blank" class="btn">Manage Subscription</a>
+                        <p style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); text-align: center;">
+                            Update payment, cancel, or change plan
+                        </p>
+                    ` : `
+                        <a href="/#pricing" class="btn">Select a Plan</a>
+                        <p style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); text-align: center;">
+                            Choose a plan to get started with your website
+                        </p>
+                    `}
                 </div>
                 
                 <div class="dashboard-card">

@@ -3,6 +3,10 @@
   "name": "edge-landings",
   "builds": [
     {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "index.html",
       "use": "@vercel/static"
     },
@@ -49,9 +53,21 @@
     {
       "src": "signup.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "forgot-password.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "reset-password.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
     {
       "src": "/",
       "dest": "/index.html"

@@ -83,6 +83,23 @@
             color: #00ff88;
         }
         
+        .header-nav .signup-btn {
+            background: transparent;
+            color: #00ff88;
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #00ff88;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        
+        .header-nav .signup-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00cc6a;
+            transform: translateY(-2px);
+        }
+        
         .header-nav .login-btn {
             background: linear-gradient(135deg, #00ff88, #00cc6a);
             color: #000000;
@@ -675,7 +692,7 @@
         <div class="container">
             <a href="/" class="logo">EDGE WEBSITES</a>
             <div class="nav-links">
-                <a href="/signup.html" class="nav-link" style="color: rgba(255,255,255,0.8);">Sign Up</a>
+                <a href="/signup.html" class="signup-btn">Sign Up</a>
                 <a href="/login.html" class="login-btn">Login</a>
             </div>
         </div>
@@ -697,7 +714,7 @@
         </div>
     </section>
 
-    <section class="pricing">
+    <section id="pricing" class="pricing">
         <div class="container">
             <h2>Pricing</h2>
             <p class="pricing-tagline">No Ads, no cash upfront, all tools you can learn in a day.</p>

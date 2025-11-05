@@ -7,6 +7,7 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Content-Type', 'application/json');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -80,14 +81,14 @@ module.exports = async (req, res) => {
       // Don't fail signup if email fails, but log it
     }
 
-    res.json({
+    return res.status(200).json({
       success: true,
       message: 'Account created successfully. Check your email for login details.',
       customerId: customerId,
     });
   } catch (error) {
     console.error('Error during signup:', error);
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message || 'An error occurred during signup. Please try again.' });
   }
 };
 
@@ -169,8 +170,14 @@ async function sendWelcomeEmails(email, password) {
       });
 
       if (!loginResponse.ok) {
-        const errorData = await loginResponse.json();
-        throw new Error(`Email 1 failed: ${errorData.message || 'Unknown error'}`);
+        let errorMessage = 'Unknown error';
+        try {
+          const errorData = await loginResponse.json();
+          errorMessage = errorData.message || 'Unknown error';
+        } catch (e) {
+          errorMessage = `HTTP ${loginResponse.status}`;
+        }
+        throw new Error(`Email 1 failed: ${errorMessage}`);
       }
 
       // Email 2: Password information
@@ -189,8 +196,14 @@ async function sendWelcomeEmails(email, password) {
       });
 
       if (!passwordResponse.ok) {
-        const errorData = await passwordResponse.json();
-        throw new Error(`Email 2 failed: ${errorData.message || 'Unknown error'}`);
+        let errorMessage = 'Unknown error';
+        try {
+          const errorData = await passwordResponse.json();
+          errorMessage = errorData.message || 'Unknown error';
+        } catch (e) {
+          errorMessage = `HTTP ${passwordResponse.status}`;
+        }
+        throw new Error(`Email 2 failed: ${errorMessage}`);
       }
 
       console.log('Welcome emails sent successfully to:', email);

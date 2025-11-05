@@ -4,6 +4,7 @@
 // Consider using Vercel KV or a database for persistent storage
 
 const users = {};
+const resetTokens = {}; // Store reset tokens: { token: { email, expiresAt } }
 
 module.exports = {
   get: (email) => users[email],
@@ -13,5 +14,23 @@ module.exports = {
   },
   exists: (email) => !!users[email],
   all: () => users,
+  // Reset token management
+  setResetToken: (token, email, expiresAt) => {
+    resetTokens[token] = { email, expiresAt };
+    return resetTokens[token];
+  },
+  getResetToken: (token) => {
+    const tokenData = resetTokens[token];
+    if (!tokenData) return null;
+    // Check if token expired
+    if (new Date() > new Date(tokenData.expiresAt)) {
+      delete resetTokens[token];
+      return null;
+    }
+    return tokenData;
+  },
+  deleteResetToken: (token) => {
+    delete resetTokens[token];
+  },
 };
 
