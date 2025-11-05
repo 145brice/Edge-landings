@@ -1,3 +1,19 @@
 {
-  "version": 2
+  "functions": {
+    "api/signup.js": {
+      "runtime": "nodejs18.x"
+    },
+    "api/login.js": {
+      "runtime": "nodejs18.x"
+    },
+    "api/dashboard.js": {
+      "runtime": "nodejs18.x"
+    },
+    "api/forgot-password.js": {
+      "runtime": "nodejs18.x"
+    },
+    "api/reset-password.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }
