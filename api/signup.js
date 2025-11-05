@@ -1,9 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const crypto = require('crypto');
-
-// Simple in-memory storage for demo (in production, use a database)
-// This is just for demo - you'll want to use a proper database
-const users = {};
+const users = require('./users');
 
 module.exports = async (req, res) => {
   // Set CORS headers
@@ -62,13 +59,18 @@ module.exports = async (req, res) => {
     // Hash password (simple hash for demo - use bcrypt in production)
     const passwordHash = crypto.createHash('sha256').update(password).digest('hex');
 
-    // Store user account (in production, use a database)
-    users[email] = {
+    // Check if user already exists
+    if (users.exists(email)) {
+      return res.status(400).json({ error: 'An account with this email already exists. Please login instead.' });
+    }
+
+    // Store user account (in production, use a database like MongoDB, PostgreSQL, or Vercel KV)
+    users.set(email, {
       email: email,
       passwordHash: passwordHash,
       customerId: customerId,
       createdAt: new Date().toISOString(),
-    };
+    });
 
     // Send welcome emails
     try {
@@ -148,33 +150,57 @@ async function sendWelcomeEmails(email, password) {
     `,
   };
 
-  // Send both emails
-  // Using Resend API format (you can adapt for other services)
-  if (emailApiKey && emailServiceUrl.includes('resend.com')) {
+  // Send both emails using Resend API
+  if (emailApiKey) {
     try {
-      await fetch('https://api.resend.com/emails', {
+      // Email 1: Login information
+      const loginResponse = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${emailApiKey}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(loginEmail),
+        body: JSON.stringify({
+          from: loginEmail.from,
+          to: loginEmail.to,
+          subject: loginEmail.subject,
+          html: loginEmail.html,
+        }),
       });
 
-      await fetch('https://api.resend.com/emails', {
+      if (!loginResponse.ok) {
+        const errorData = await loginResponse.json();
+        throw new Error(`Email 1 failed: ${errorData.message || 'Unknown error'}`);
+      }
+
+      // Email 2: Password information
+      const passwordResponse = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${emailApiKey}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(passwordEmail),
+        body: JSON.stringify({
+          from: passwordEmail.from,
+          to: passwordEmail.to,
+          subject: passwordEmail.subject,
+          html: passwordEmail.html,
+        }),
       });
+
+      if (!passwordResponse.ok) {
+        const errorData = await passwordResponse.json();
+        throw new Error(`Email 2 failed: ${errorData.message || 'Unknown error'}`);
+      }
+
+      console.log('Welcome emails sent successfully to:', email);
     } catch (error) {
       console.error('Failed to send emails via Resend:', error);
-      throw error;
+      // Don't throw - account creation succeeded even if email fails
+      // Log for manual follow-up
     }
   } else {
-    // Fallback: Log emails (for development)
+    // Fallback: Log emails (for development/testing)
     console.log('=== EMAIL 1: Login Info ===');
     console.log('To:', email);
     console.log('Subject:', loginEmail.subject);
@@ -183,6 +209,7 @@ async function sendWelcomeEmails(email, password) {
     console.log('To:', email);
     console.log('Subject:', passwordEmail.subject);
     console.log('Body:', passwordEmail.html);
+    console.log('\n⚠️ EMAIL_API_KEY not set. Set up Resend API to send emails.');
   }
 }
 
