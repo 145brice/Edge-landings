@@ -242,18 +242,43 @@
             animation: fadeInUp 0.6s ease-out;
         }
         
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
         .pricing-card {
             background: linear-gradient(135deg, #1a1a1a 0%, #1f1f1f 100%);
             border: 2px solid rgba(0, 255, 136, 0.3);
             border-radius: 16px;
             padding: 2.5rem;
-            max-width: 600px;
-            margin: 0 auto;
             box-shadow: 0 8px 32px rgba(0, 255, 136, 0.15), 0 4px 20px rgba(0, 0, 0, 0.4);
             position: relative;
             overflow: hidden;
             animation: fadeInUp 0.8s ease-out;
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .pricing-card.popular {
+            border-color: #00ff88;
+            box-shadow: 0 12px 40px rgba(0, 255, 136, 0.25), 0 6px 24px rgba(0, 0, 0, 0.5);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .pricing-card::after {
@@ -295,7 +320,7 @@
         }
         
         .pricing-card .price {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 800;
             background: linear-gradient(135deg, #00ff88, #00cc6a);
             -webkit-background-clip: text;
@@ -309,10 +334,18 @@
         
         .pricing-card .price::after {
             content: '/month';
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.7);
             margin-left: 0.5rem;
+        }
+        
+        .plan-name {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
         }
         
         .pricing-card .feature-list {
@@ -577,13 +610,13 @@
 </head>
 <body>
     <div class="urgency-header">
-        <p>🔥 <strong>LIMITED TIME:</strong> <span id="spots-left">7</span> spots left at $49/mo • No upfront fees • Cancel anytime!</p>
+        <p>🔥 <strong>LIMITED TIME:</strong> <span id="spots-left">7</span> spots left at $99/mo • No upfront fees • Cancel anytime!</p>
     </div>
 
     <section class="hero">
         <div class="container">
             <h1>EDGE WEBSITES</h1>
-            <p>Nashville shop? Site tomorrow. One price, one promise: $49/month for a real website that books people.</p>
+            <p>Nashville shop? Site tomorrow. Plans starting at $99/month for a real website that books people.</p>
             <div class="tagline">Serving local businesses • Barbers • Doctors • Tattoo Shops • Coffee Shops</div>
             <div>
                 <a href="#barber-demo" class="btn">Barber example</a>
@@ -600,16 +633,35 @@
         <div class="container">
             <h2>Pricing</h2>
             <p class="pricing-tagline">No Ads, no cash upfront, all tools you can learn in a day.</p>
-            <div class="pricing-card">
-                <div class="price">$49</div>
-                <ul class="feature-list">
-                    <li><span class="feature-icon"></span>Up to 5 pages live in 24 hours</li>
-                    <li><span class="feature-icon"></span>1 hour monthly tweaks (text, photos, buttons)</li>
-                    <li><span class="feature-icon"></span>Domain setup (free first year)</li>
-                    <li><span class="feature-icon"></span>Speed & SEO tune-up</li>
-                </ul>
-                <a href="https://buy.stripe.com/28E3cx2r6auv1HIbHh63K01" target="_blank" class="subscribe-btn">Start Now - $49/month</a>
-                <p class="cancel-note">Cancel anytime, no questions asked</p>
+            <div class="pricing-grid">
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="plan-name">Standard</div>
+                    <div class="price">$99</div>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon"></span>Up to 5 pages live in 24 hours</li>
+                        <li><span class="feature-icon"></span>1 hour monthly tweaks (text, photos, buttons)</li>
+                        <li><span class="feature-icon"></span>Domain setup (free first year)</li>
+                        <li><span class="feature-icon"></span>Speed & SEO tune-up</li>
+                        <li><span class="feature-icon"></span>Everything you need (with limits)</li>
+                    </ul>
+                    <a href="https://buy.stripe.com/YOUR_STANDARD_LINK" target="_blank" class="subscribe-btn">Start Now - $99/month</a>
+                    <p class="cancel-note">Cancel anytime, no questions asked</p>
+                </div>
+                <div class="pricing-card">
+                    <div class="plan-name">Pro</div>
+                    <div class="price">$299</div>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon"></span>Everything in Standard</li>
+                        <li><span class="feature-icon"></span>Full backend access</li>
+                        <li><span class="feature-icon"></span>Constant tweaks & updates</li>
+                        <li><span class="feature-icon"></span>Priority support</li>
+                        <li><span class="feature-icon"></span>Unlimited pages</li>
+                        <li><span class="feature-icon"></span>Advanced SEO & analytics</li>
+                    </ul>
+                    <a href="https://buy.stripe.com/YOUR_PRO_LINK" target="_blank" class="subscribe-btn">Start Now - $299/month</a>
+                    <p class="cancel-note">Cancel anytime, no questions asked</p>
+                </div>
             </div>
         </div>
     </section>
@@ -673,7 +725,7 @@
 
     <footer>
         <p><strong>Edge Websites</strong> | Proudly serving local businesses</p>
-        <p>$49/month gets you started. Cancel anytime.</p>
+        <p>Plans from $99/month. Cancel anytime.</p>
         <p style="margin-top: 1rem; font-size: 0.85rem;">Serving local businesses • Barbers • Doctors • Tattoo Shops • Coffee Shops</p>
     </footer>
 
