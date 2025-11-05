@@ -41,9 +41,67 @@
             font-size: 1rem;
         }
         
+        .header-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 1rem 0;
+            z-index: 1000;
+        }
+        
+        .header-nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-nav .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #00ff88;
+            text-decoration: none;
+        }
+        
+        .header-nav .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .header-nav .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .header-nav .nav-link:hover {
+            color: #00ff88;
+        }
+        
+        .header-nav .login-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        
+        .header-nav .login-btn:hover {
+            background: linear-gradient(135deg, #00cc6a, #00ff88);
+            transform: translateY(-2px);
+        }
+        
         .hero {
             text-align: center;
             padding: 4rem 1rem;
+            padding-top: 6rem;
             background: #0a0a0a;
             color: white;
         }
@@ -612,6 +670,16 @@
     <div class="trial-banner">
         <p>🎉 <strong>7-DAY FREE TRIAL</strong> • Try it risk-free, cancel anytime!</p>
     </div>
+
+    <nav class="header-nav">
+        <div class="container">
+            <a href="/" class="logo">EDGE WEBSITES</a>
+            <div class="nav-links">
+                <a href="/manage-subscription.html" class="nav-link">Manage Subscription</a>
+                <a href="/manage-subscription.html" class="login-btn">Login</a>
+            </div>
+        </div>
+    </nav>
 
     <section class="hero">
         <div class="container">
