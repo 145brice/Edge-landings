@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Edge Websites</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
         * {
             margin: 0;
@@ -25,6 +25,9 @@
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(0, 255, 136, 0.2);
             padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         
         .header-nav .container {
@@ -69,19 +72,51 @@
             padding: 2rem 20px;
         }
         
-        .dashboard-header {
+        .welcome-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #1f1f1f 100%);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 16px;
+            padding: 2.5rem;
             margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.15);
         }
         
-        .dashboard-header h1 {
+        .welcome-section h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
             color: #ffffff;
         }
         
-        .dashboard-header p {
-            color: rgba(255, 255, 255, 0.7);
+        .welcome-section .welcome-text {
+            color: rgba(255, 255, 255, 0.8);
             font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-section .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat-item {
+            background: rgba(0, 255, 136, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        
+        .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-value {
+            color: #00ff88;
+            font-size: 1.5rem;
+            font-weight: 700;
         }
         
         .dashboard-grid {
@@ -97,12 +132,25 @@
             border-radius: 16px;
             padding: 2rem;
             box-shadow: 0 8px 32px rgba(0, 255, 136, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 255, 136, 0.25);
         }
         
         .dashboard-card h2 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-icon {
+            font-size: 1.5rem;
         }
         
         .dashboard-card .status {
@@ -124,24 +172,37 @@
             color: #ff6b6b;
         }
         
-        .dashboard-card p {
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 0.5rem;
+        .status.pending {
+            background: rgba(255, 200, 0, 0.2);
+            color: #ffc800;
         }
         
-        .dashboard-card .info-label {
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
             color: rgba(255, 255, 255, 0.6);
             font-size: 0.9rem;
         }
         
-        .dashboard-card .info-value {
+        .info-value {
             color: #ffffff;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            text-align: right;
         }
         
         .btn {
             display: inline-block;
+            width: 100%;
             padding: 0.8rem 1.5rem;
             background: linear-gradient(135deg, #00ff88, #00cc6a);
             color: #000000;
@@ -150,6 +211,7 @@
             font-weight: 700;
             font-size: 1rem;
             text-decoration: none;
+            text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 1rem;
@@ -158,21 +220,64 @@
         .btn:hover {
             background: linear-gradient(135deg, #00cc6a, #00ff88);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
         }
         
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
             color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-danger {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+        
+        .btn-danger:hover {
+            background: rgba(255, 0, 0, 0.3);
+        }
+        
+        .action-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        
+        .action-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .action-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .action-list a {
+            color: #00ff88;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .action-list a:hover {
+            color: #00cc6a;
         }
         
         .loading {
             text-align: center;
             padding: 4rem;
             color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
         }
         
         .error-message {
@@ -182,6 +287,32 @@
             padding: 1rem;
             border-radius: 8px;
             margin-bottom: 2rem;
+        }
+        
+        .feature-badge {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+            
+            .welcome-section .quick-stats {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -196,12 +327,14 @@
     </nav>
 
     <div class="container">
-        <div class="dashboard-header">
-            <h1>Dashboard</h1>
-            <p id="welcomeMessage">Loading...</p>
+        <div id="errorContainer"></div>
+        
+        <div id="welcomeSection" class="welcome-section" style="display: none;">
+            <h1 id="welcomeTitle">Welcome back!</h1>
+            <p class="welcome-text" id="welcomeText">Loading your account...</p>
+            <div class="quick-stats" id="quickStats"></div>
         </div>
 
-        <div id="errorContainer"></div>
         <div id="dashboardContent" class="loading">Loading your account...</div>
     </div>
 
@@ -243,41 +376,162 @@
         }
 
         function displayDashboard(data) {
-            const welcomeMsg = document.getElementById('welcomeMessage');
-            welcomeMsg.textContent = `Welcome, ${data.email}`;
+            // Welcome Section
+            const welcomeSection = document.getElementById('welcomeSection');
+            const welcomeTitle = document.getElementById('welcomeTitle');
+            const welcomeText = document.getElementById('welcomeText');
+            const quickStats = document.getElementById('quickStats');
+            
+            const firstName = data.email.split('@')[0].split('.')[0];
+            const capitalizedName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+            
+            welcomeTitle.textContent = `Welcome back, ${capitalizedName}!`;
+            welcomeText.textContent = `Here's everything you need to manage your Edge Websites account.`;
+            
+            const isActive = data.subscription?.status === 'active';
+            quickStats.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-label">Subscription Status</div>
+                    <div class="stat-value" style="color: ${isActive ? '#00ff88' : '#ff6b6b'}">
+                        ${isActive ? 'Active' : 'Inactive'}
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Current Plan</div>
+                    <div class="stat-value">$${data.subscription?.amount || '0'}/mo</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Next Billing</div>
+                    <div class="stat-value" style="font-size: 1.1rem;">${data.subscription?.nextBillingDate || 'N/A'}</div>
+                </div>
+            `;
+            
+            welcomeSection.style.display = 'block';
 
+            // Dashboard Cards
             const content = document.getElementById('dashboardContent');
             content.className = 'dashboard-grid';
 
-            const statusClass = data.subscription?.status === 'active' ? 'active' : 'cancelled';
+            const statusClass = data.subscription?.status === 'active' ? 'active' : 
+                               data.subscription?.status === 'canceled' ? 'cancelled' : 'pending';
             const statusText = data.subscription?.status || 'No subscription';
 
             content.innerHTML = `
                 <div class="dashboard-card">
-                    <h2>Subscription Status</h2>
+                    <h2><span class="card-icon">💳</span>Subscription</h2>
                     <span class="status ${statusClass}">${statusText.toUpperCase()}</span>
-                    <p class="info-label">Plan</p>
-                    <p class="info-value">${data.subscription?.planName || 'N/A'}</p>
-                    <p class="info-label">Amount</p>
-                    <p class="info-value">$${data.subscription?.amount || '0'}/month</p>
-                    <p class="info-label">Next Billing Date</p>
-                    <p class="info-value">${data.subscription?.nextBillingDate || 'N/A'}</p>
+                    <div class="info-row">
+                        <span class="info-label">Plan</span>
+                        <span class="info-value">${data.subscription?.planName || 'N/A'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Monthly Cost</span>
+                        <span class="info-value">$${data.subscription?.amount || '0'}/month</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Next Billing</span>
+                        <span class="info-value">${data.subscription?.nextBillingDate || 'N/A'}</span>
+                    </div>
                     <a href="${data.portalUrl}" target="_blank" class="btn">Manage Subscription</a>
+                    <p style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); text-align: center;">
+                        Update payment, cancel, or change plan
+                    </p>
                 </div>
+                
                 <div class="dashboard-card">
-                    <h2>Your Website</h2>
-                    <p class="info-label">Status</p>
-                    <p class="info-value">${data.website?.status || 'In Progress'}</p>
-                    <p class="info-label">URL</p>
-                    <p class="info-value">${data.website?.url || 'Coming soon...'}</p>
-                    <button class="btn btn-secondary" onclick="alert('Contact support for website updates')">Request Changes</button>
+                    <h2><span class="card-icon">🌐</span>Your Website</h2>
+                    <div class="info-row">
+                        <span class="info-label">Status</span>
+                        <span class="info-value" style="color: #00ff88;">${data.website?.status || 'Active'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Website URL</span>
+                        <span class="info-value">
+                            ${data.website?.url ? `<a href="${data.website.url}" target="_blank" style="color: #00ff88; text-decoration: none;">View Site</a>` : 'Coming soon...'}
+                        </span>
+                    </div>
+                    <ul class="action-list">
+                        <li><a href="mailto:145brice@gmail.com?subject=Website Changes Request">📝 Request Changes</a></li>
+                        <li><a href="mailto:145brice@gmail.com?subject=SEO Update Request">⚡ Request SEO Update</a></li>
+                        <li><a href="mailto:145brice@gmail.com?subject=Content Update">✏️ Update Content</a></li>
+                    </ul>
+                    <button class="btn btn-secondary" onclick="window.location.href='mailto:145brice@gmail.com?subject=Website Support'">Contact About Website</button>
                 </div>
+                
                 <div class="dashboard-card">
-                    <h2>Support</h2>
-                    <p>Need help? Contact us anytime.</p>
-                    <p class="info-label">Email</p>
-                    <p class="info-value">145brice@gmail.com</p>
+                    <h2><span class="card-icon">⚙️</span>Quick Actions</h2>
+                    <ul class="action-list">
+                        <li><a href="${data.portalUrl}" target="_blank">💳 Update Payment Method</a></li>
+                        <li><a href="${data.portalUrl}" target="_blank">📄 View Billing History</a></li>
+                        <li><a href="${data.portalUrl}" target="_blank">📥 Download Invoices</a></li>
+                        <li><a href="mailto:145brice@gmail.com?subject=Account Question">❓ Account Questions</a></li>
+                    </ul>
                     <a href="mailto:145brice@gmail.com" class="btn btn-secondary">Contact Support</a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h2><span class="card-icon">📊</span>Plan Features</h2>
+                    <div style="margin-bottom: 1rem;">
+                        ${data.subscription?.amount >= 299 ? `
+                            <span class="feature-badge">Full Backend Access</span>
+                            <span class="feature-badge">Constant Updates</span>
+                            <span class="feature-badge">CRM Auto with Zapier</span>
+                            <span class="feature-badge">Priority Support</span>
+                            <span class="feature-badge">Advanced SEO</span>
+                        ` : `
+                            <span class="feature-badge">Up to 5 Pages</span>
+                            <span class="feature-badge">1 Hour Monthly Tweaks</span>
+                            <span class="feature-badge">Domain Included</span>
+                            <span class="feature-badge">SEO Tune-up</span>
+                        `}
+                    </div>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1rem;">
+                        ${data.subscription?.amount >= 299 ? 
+                            'You have access to all Pro features including full backend, CRM automation, and priority support.' :
+                            'Upgrade to Pro for full backend access, CRM automation with Zapier, and constant updates.'}
+                    </p>
+                    ${data.subscription?.amount < 299 ? `
+                        <a href="https://buy.stripe.com/aFa14p0iYauv866cLl63K03" target="_blank" class="btn">Upgrade to Pro</a>
+                    ` : ''}
+                </div>
+                
+                <div class="dashboard-card">
+                    <h2><span class="card-icon">💬</span>Support</h2>
+                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 1rem;">
+                        Need help? We're here for you 24/7.
+                    </p>
+                    <div class="info-row">
+                        <span class="info-label">Email</span>
+                        <span class="info-value">145brice@gmail.com</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Response Time</span>
+                        <span class="info-value" style="color: #00ff88;">Within 24 hours</span>
+                    </div>
+                    <ul class="action-list" style="margin-top: 1rem;">
+                        <li><a href="mailto:145brice@gmail.com?subject=Technical Support">🔧 Technical Support</a></li>
+                        <li><a href="mailto:145brice@gmail.com?subject=Billing Question">💳 Billing Question</a></li>
+                        <li><a href="mailto:145brice@gmail.com?subject=Feature Request">💡 Feature Request</a></li>
+                    </ul>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h2><span class="card-icon">📋</span>Account Info</h2>
+                    <div class="info-row">
+                        <span class="info-label">Email</span>
+                        <span class="info-value">${data.email}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Account Status</span>
+                        <span class="info-value" style="color: ${isActive ? '#00ff88' : '#ff6b6b'}">
+                            ${isActive ? 'Active' : 'Inactive'}
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Member Since</span>
+                        <span class="info-value">${new Date().toLocaleDateString()}</span>
+                    </div>
+                    <a href="${data.portalUrl}" target="_blank" class="btn btn-secondary" style="margin-top: 1rem;">Update Account Details</a>
                 </div>
             `;
         }
@@ -294,4 +548,3 @@
     </script>
 </body>
 </html>
-
