@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Edge Websites</title>
+    <title>Sign Up - Edge Websites</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
@@ -25,7 +25,7 @@
         }
         
         .container {
-            max-width: 450px;
+            max-width: 500px;
             width: 100%;
             background: #1a1a1a;
             border: 2px solid rgba(0, 255, 136, 0.3);
@@ -83,6 +83,17 @@
             border-color: #00ff88;
         }
         
+        .password-requirements {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+        }
+        
+        .password-requirements li {
+            margin: 0.25rem 0;
+        }
+        
         .btn {
             width: 100%;
             padding: 1rem;
@@ -122,6 +133,20 @@
             display: block;
         }
         
+        .success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: #00ff88;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .success.show {
+            display: block;
+        }
+        
         .back-link {
             text-align: center;
             margin-top: 1.5rem;
@@ -157,25 +182,36 @@
 <body>
     <div class="container">
         <div class="logo">EDGE WEBSITES</div>
-        <h1>Login to Dashboard</h1>
-        <p class="subtitle">Enter your email to access your account</p>
+        <h1>Create Your Account</h1>
+        <p class="subtitle">Sign up to manage your website subscription</p>
         
         <div class="error" id="error"></div>
+        <div class="success" id="success">
+            Account created successfully! Check your email for login details. Redirecting to login...
+        </div>
         
-        <form id="loginForm">
+        <form id="signupForm">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="your@email.com" required autofocus>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <input type="password" id="password" name="password" placeholder="Create a secure password" required minlength="8">
+                <ul class="password-requirements">
+                    <li>At least 8 characters</li>
+                    <li>Mix of letters and numbers recommended</li>
+                </ul>
             </div>
-            <button type="submit" class="btn" id="submitBtn">Login</button>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+            </div>
+            <button type="submit" class="btn" id="submitBtn">Create Account</button>
         </form>
         
         <div class="login-link">
-            Don't have an account? <a href="/signup.html">Sign up here</a>
+            Already have an account? <a href="/login.html">Login here</a>
         </div>
         
         <div class="back-link">
@@ -184,8 +220,9 @@
     </div>
     
     <script>
-        const form = document.getElementById('loginForm');
+        const form = document.getElementById('signupForm');
         const errorDiv = document.getElementById('error');
+        const successDiv = document.getElementById('success');
         const submitBtn = document.getElementById('submitBtn');
         
         form.addEventListener('submit', async (e) => {
@@ -193,43 +230,58 @@
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
             
-            // Reset error
+            // Reset messages
             errorDiv.classList.remove('show');
+            successDiv.classList.remove('show');
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                errorDiv.textContent = 'Passwords do not match';
+                errorDiv.classList.add('show');
+                return;
+            }
+            
+            // Validate password length
+            if (password.length < 8) {
+                errorDiv.textContent = 'Password must be at least 8 characters';
+                errorDiv.classList.add('show');
+                return;
+            }
+            
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Logging in...';
+            submitBtn.textContent = 'Creating account...';
             
             try {
-                // Authenticate with email and password
-                const response = await fetch('/api/login', {
+                const response = await fetch('/api/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ 
+                    body: JSON.stringify({
                         email: email,
-                        password: password 
+                        password: password
                     }),
                 });
                 
                 const data = await response.json();
                 
                 if (!response.ok) {
-                    throw new Error(data.error || 'Login failed');
+                    throw new Error(data.error || 'Signup failed');
                 }
                 
-                // Store customer info in sessionStorage
-                sessionStorage.setItem('customerEmail', email);
-                sessionStorage.setItem('customerId', data.customerId);
-                
-                // Redirect to dashboard
-                window.location.href = '/dashboard.html';
+                // Show success and redirect
+                successDiv.classList.add('show');
+                setTimeout(() => {
+                    window.location.href = '/login.html';
+                }, 2000);
                 
             } catch (error) {
                 errorDiv.textContent = error.message;
                 errorDiv.classList.add('show');
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Login';
+                submitBtn.textContent = 'Create Account';
             }
         });
     </script>

@@ -45,6 +45,10 @@
     {
       "src": "dashboard.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "signup.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
