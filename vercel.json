@@ -1,3 +1,24 @@
 {
-  "version": 2
+  "functions": {
+    "api/signup.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    },
+    "api/login.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    },
+    "api/dashboard.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    },
+    "api/forgot-password.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    },
+    "api/reset-password.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
 }
