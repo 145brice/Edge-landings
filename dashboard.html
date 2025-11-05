@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Edge Websites</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        
+        .header-nav {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 1rem 0;
+        }
+        
+        .header-nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-nav .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #00ff88;
+            text-decoration: none;
+        }
+        
+        .header-nav .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .header-nav .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .header-nav .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 20px;
+        }
+        
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+        
+        .dashboard-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-card {
+            background: #1a1a1a;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.15);
+        }
+        
+        .dashboard-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #00ff88;
+        }
+        
+        .dashboard-card .status {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .status.active {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+        
+        .status.cancelled {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+        }
+        
+        .dashboard-card p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard-card .info-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        .dashboard-card .info-value {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, #00cc6a, #00ff88);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .error-message {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff6b6b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="header-nav">
+        <div class="container">
+            <a href="/" class="logo">EDGE WEBSITES</a>
+            <div class="nav-links">
+                <a href="#" class="logout-btn" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Dashboard</h1>
+            <p id="welcomeMessage">Loading...</p>
+        </div>
+
+        <div id="errorContainer"></div>
+        <div id="dashboardContent" class="loading">Loading your account...</div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        const customerEmail = sessionStorage.getItem('customerEmail');
+        const customerId = sessionStorage.getItem('customerId');
+
+        if (!customerEmail || !customerId) {
+            window.location.href = '/login.html';
+        }
+
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/api/dashboard', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: customerEmail,
+                        customerId: customerId
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to load dashboard');
+                }
+
+                displayDashboard(data);
+            } catch (error) {
+                document.getElementById('errorContainer').innerHTML = 
+                    `<div class="error-message">${error.message}</div>`;
+                document.getElementById('dashboardContent').innerHTML = '';
+            }
+        }
+
+        function displayDashboard(data) {
+            const welcomeMsg = document.getElementById('welcomeMessage');
+            welcomeMsg.textContent = `Welcome, ${data.email}`;
+
+            const content = document.getElementById('dashboardContent');
+            content.className = 'dashboard-grid';
+
+            const statusClass = data.subscription?.status === 'active' ? 'active' : 'cancelled';
+            const statusText = data.subscription?.status || 'No subscription';
+
+            content.innerHTML = `
+                <div class="dashboard-card">
+                    <h2>Subscription Status</h2>
+                    <span class="status ${statusClass}">${statusText.toUpperCase()}</span>
+                    <p class="info-label">Plan</p>
+                    <p class="info-value">${data.subscription?.planName || 'N/A'}</p>
+                    <p class="info-label">Amount</p>
+                    <p class="info-value">$${data.subscription?.amount || '0'}/month</p>
+                    <p class="info-label">Next Billing Date</p>
+                    <p class="info-value">${data.subscription?.nextBillingDate || 'N/A'}</p>
+                    <a href="${data.portalUrl}" target="_blank" class="btn">Manage Subscription</a>
+                </div>
+                <div class="dashboard-card">
+                    <h2>Your Website</h2>
+                    <p class="info-label">Status</p>
+                    <p class="info-value">${data.website?.status || 'In Progress'}</p>
+                    <p class="info-label">URL</p>
+                    <p class="info-value">${data.website?.url || 'Coming soon...'}</p>
+                    <button class="btn btn-secondary" onclick="alert('Contact support for website updates')">Request Changes</button>
+                </div>
+                <div class="dashboard-card">
+                    <h2>Support</h2>
+                    <p>Need help? Contact us anytime.</p>
+                    <p class="info-label">Email</p>
+                    <p class="info-value">145brice@gmail.com</p>
+                    <a href="mailto:145brice@gmail.com" class="btn btn-secondary">Contact Support</a>
+                </div>
+            `;
+        }
+
+        // Logout function
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            sessionStorage.clear();
+            window.location.href = '/login.html';
+        });
+
+        // Load dashboard on page load
+        loadDashboard();
+    </script>
+</body>
+</html>
+

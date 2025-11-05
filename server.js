@@ -37,6 +37,95 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
+// Login endpoint - verify customer and return info
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    // Find customer by email
+    const customers = await stripe.customers.list({
+      email: email,
+      limit: 1,
+    });
+
+    if (customers.data.length === 0) {
+      return res.status(404).json({ error: 'No account found with this email. Please check your email or sign up first.' });
+    }
+
+    const customerId = customers.data[0].id;
+
+    res.json({ 
+      customerId: customerId,
+      email: email,
+      success: true 
+    });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Dashboard endpoint - get customer subscription and website info
+app.post('/api/dashboard', async (req, res) => {
+  try {
+    const { email, customerId } = req.body;
+
+    if (!email || !customerId) {
+      return res.status(400).json({ error: 'Email and customer ID are required' });
+    }
+
+    // Get customer from Stripe
+    const customer = await stripe.customers.retrieve(customerId);
+    
+    // Get subscriptions
+    const subscriptions = await stripe.subscriptions.list({
+      customer: customerId,
+      limit: 1,
+      status: 'all',
+    });
+
+    let subscriptionData = null;
+    if (subscriptions.data.length > 0) {
+      const subscription = subscriptions.data[0];
+      const priceId = subscription.items.data[0].price.id;
+      const price = await stripe.prices.retrieve(priceId);
+      
+      subscriptionData = {
+        status: subscription.status,
+        planName: price.nickname || `$${price.unit_amount / 100}/month`,
+        amount: price.unit_amount / 100,
+        nextBillingDate: subscription.current_period_end 
+          ? new Date(subscription.current_period_end * 1000).toLocaleDateString()
+          : null,
+      };
+    }
+
+    // Create portal session URL
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: customerId,
+      return_url: `${req.protocol}://${req.get('host')}/dashboard.html`,
+    });
+
+    res.json({
+      email: email,
+      customerId: customerId,
+      subscription: subscriptionData,
+      portalUrl: portalSession.url,
+      website: {
+        status: 'Active',
+        url: 'https://edgelandings.com', // Update with actual website URLs
+      }
+    });
+  } catch (error) {
+    console.error('Error loading dashboard:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Create customer portal session - lookup by email
 app.post('/create-portal-session', async (req, res) => {
   try {

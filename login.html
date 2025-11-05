@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Subscription - Edge Websites</title>
+    <title>Login - Edge Websites</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
@@ -25,7 +25,7 @@
         }
         
         .container {
-            max-width: 500px;
+            max-width: 450px;
             width: 100%;
             background: #1a1a1a;
             border: 2px solid rgba(0, 255, 136, 0.3);
@@ -34,16 +34,26 @@
             box-shadow: 0 8px 32px rgba(0, 255, 136, 0.15);
         }
         
-        h1 {
+        .logo {
+            text-align: center;
             font-size: 2rem;
+            font-weight: 800;
+            color: #00ff88;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
             margin-bottom: 0.5rem;
             color: #ffffff;
+            text-align: center;
         }
         
         .subtitle {
             color: rgba(255, 255, 255, 0.7);
             margin-bottom: 2rem;
             font-size: 0.95rem;
+            text-align: center;
         }
         
         .form-group {
@@ -84,6 +94,7 @@
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 0.5rem;
         }
         
         .btn:hover {
@@ -129,17 +140,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>Manage Subscription</h1>
-        <p class="subtitle">Enter the email address associated with your subscription to manage your account.</p>
+        <div class="logo">EDGE WEBSITES</div>
+        <h1>Login to Dashboard</h1>
+        <p class="subtitle">Enter your email to access your account</p>
         
         <div class="error" id="error"></div>
         
-        <form id="manageForm">
+        <form id="loginForm">
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required autofocus>
             </div>
-            <button type="submit" class="btn" id="submitBtn">Manage Subscription</button>
+            <button type="submit" class="btn" id="submitBtn">Login</button>
         </form>
         
         <div class="back-link">
@@ -148,7 +160,7 @@
     </div>
     
     <script>
-        const form = document.getElementById('manageForm');
+        const form = document.getElementById('loginForm');
         const errorDiv = document.getElementById('error');
         const submitBtn = document.getElementById('submitBtn');
         
@@ -160,34 +172,36 @@
             // Reset error
             errorDiv.classList.remove('show');
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Loading...';
+            submitBtn.textContent = 'Logging in...';
             
             try {
-                const response = await fetch('/create-portal-session', {
+                // Check if customer exists and get subscription info
+                const response = await fetch('/api/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        email: email,
-                        returnUrl: window.location.origin + '/manage-subscription.html'
-                    }),
+                    body: JSON.stringify({ email: email }),
                 });
                 
                 const data = await response.json();
                 
                 if (!response.ok) {
-                    throw new Error(data.error || 'Something went wrong');
+                    throw new Error(data.error || 'Login failed');
                 }
                 
-                // Redirect to Stripe Customer Portal
-                window.location.href = data.url;
+                // Store customer info in sessionStorage
+                sessionStorage.setItem('customerEmail', email);
+                sessionStorage.setItem('customerId', data.customerId);
+                
+                // Redirect to dashboard
+                window.location.href = '/dashboard.html';
                 
             } catch (error) {
                 errorDiv.textContent = error.message;
                 errorDiv.classList.add('show');
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Manage Subscription';
+                submitBtn.textContent = 'Login';
             }
         });
     </script>
