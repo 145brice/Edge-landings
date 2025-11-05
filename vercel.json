@@ -37,6 +37,14 @@
     {
       "src": "cancel.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "login.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "dashboard.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
