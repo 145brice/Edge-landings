@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
     // Verify password if provided (for accounts with passwords)
     if (password) {
       // Check if user exists in our system
-      const user = users.get(email);
+      const user = await users.get(email);
       if (!user) {
         // If customer exists in Stripe but not in our system, allow login
         // (for customers who signed up via Stripe payment links)

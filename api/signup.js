@@ -61,12 +61,12 @@ module.exports = async (req, res) => {
     const passwordHash = crypto.createHash('sha256').update(password).digest('hex');
 
     // Check if user already exists
-    if (users.exists(email)) {
+    if (await users.exists(email)) {
       return res.status(400).json({ error: 'An account with this email already exists. Please login instead.' });
     }
 
-    // Store user account (in production, use a database like MongoDB, PostgreSQL, or Vercel KV)
-    users.set(email, {
+    // Store user account in database
+    await users.set(email, {
       email: email,
       passwordHash: passwordHash,
       customerId: customerId,

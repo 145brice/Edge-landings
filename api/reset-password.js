@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
     }
 
     // Get token data
-    const tokenData = users.getResetToken(token);
+    const tokenData = await users.getResetToken(token);
 
     if (!tokenData) {
       return res.status(400).json({ error: 'Invalid or expired reset token. Please request a new password reset link.' });
@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
     const email = tokenData.email;
 
     // Check if user exists
-    if (!users.exists(email)) {
+    if (!(await users.exists(email))) {
       return res.status(404).json({ error: 'User account not found' });
     }
 
@@ -45,12 +45,12 @@ module.exports = async (req, res) => {
     const passwordHash = crypto.createHash('sha256').update(password).digest('hex');
 
     // Update user password
-    const user = users.get(email);
+    const user = await users.get(email);
     user.passwordHash = passwordHash;
-    users.set(email, user);
+    await users.set(email, user);
 
     // Delete used token
-    users.deleteResetToken(token);
+    await users.deleteResetToken(token);
 
     res.json({
       success: true,

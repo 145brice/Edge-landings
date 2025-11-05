@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
     }
 
     // Check if user exists in our system
-    const userExists = users.exists(email);
+    const userExists = await users.exists(email);
     
     // Also check if customer exists in Stripe (for users who signed up via Stripe directly)
     const customers = await stripe.customers.list({ email: email, limit: 1 });
@@ -44,7 +44,7 @@ module.exports = async (req, res) => {
       const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
       
       // Store reset token
-      users.setResetToken(resetToken, email, expiresAt.toISOString());
+      await users.setResetToken(resetToken, email, expiresAt.toISOString());
 
       // Create reset URL
       const baseUrl = req.headers.origin || 'https://edgelandings.com';
