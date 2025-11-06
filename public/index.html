@@ -32,23 +32,9 @@
             padding: 0 20px;
         }
         
-        .trial-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            color: #000000;
-            padding: 12px 0;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1rem;
-            z-index: 1100;
-        }
-        
         .header-nav {
             position: fixed;
-            top: 48px;
+            top: 0;
             left: 0;
             right: 0;
             background: rgba(10, 10, 10, 0.95);
@@ -56,6 +42,16 @@
             border-bottom: 1px solid rgba(0, 255, 136, 0.2);
             padding: 1rem 0;
             z-index: 1000;
+        }
+        
+        .trial-banner {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
+            padding: 12px 0;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 73px;
         }
         
         .header-nav .container {
@@ -123,7 +119,7 @@
         .hero {
             text-align: center;
             padding: 4rem 1rem;
-            padding-top: 8rem;
+            padding-top: 6rem;
             background: #0a0a0a;
             color: white;
         }
@@ -689,10 +685,6 @@
     </style>
 </head>
 <body>
-    <div class="trial-banner">
-        <p>🎉 <strong>7-DAY FREE TRIAL</strong> • Try it risk-free, cancel anytime!</p>
-    </div>
-
     <nav class="header-nav">
         <div class="container">
             <a href="/" class="logo">EDGE WEBSITES</a>
@@ -702,6 +694,10 @@
             </div>
         </div>
     </nav>
+
+    <div class="trial-banner">
+        <p>🎉 <strong>7-DAY FREE TRIAL</strong> • Try it risk-free, cancel anytime!</p>
+    </div>
 
     <section class="hero">
         <div class="container">
