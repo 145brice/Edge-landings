@@ -28,10 +28,11 @@ module.exports = async (req, res) => {
 
     res.json({
       supabaseConfigured: hasSupabase,
-      supabaseUrl: process.env.SUPABASE_URL ? 'Set' : 'Not set',
-      supabaseKey: process.env.SUPABASE_KEY ? 'Set' : 'Not set',
+      supabaseUrl: process.env.SUPABASE_URL ? '✅ Set' : '❌ Not set',
+      supabaseKey: process.env.SUPABASE_KEY ? '✅ Set' : '❌ Not set',
       connectionTest: connectionTest,
-      status: hasSupabase ? (connectionTest ? 'Connected' : 'Configured but connection failed') : 'Not configured - using in-memory storage'
+      status: hasSupabase ? (connectionTest ? '✅ Connected - Database is working!' : '⚠️ Configured but connection failed') : '❌ Not configured - using in-memory storage (data will not persist)',
+      message: hasSupabase && connectionTest ? 'Your signups are being saved to the database!' : (hasSupabase ? 'Check your Supabase credentials' : 'Add SUPABASE_URL and SUPABASE_KEY to Vercel')
     });
   } catch (error) {
     res.status(500).json({ 
