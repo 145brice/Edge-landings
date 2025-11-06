@@ -79,22 +79,45 @@ module.exports = {
   set: async (email, userData) => {
     if (hasSupabase()) {
       try {
-        // Sanitize only the data being saved (not credentials)
-        // Replace problematic Unicode characters that cause encoding issues
+        // Aggressive sanitization to ensure only ASCII characters
+        // This prevents encoding issues with Supabase/PostgreSQL
         const sanitizeString = (str) => {
           if (!str) return null;
-          return String(str)
-            .trim()
-            .replace(/[\u2013\u2014\u2015]/g, '-') // Replace em/en dashes with regular dash
-            .replace(/[\u2018\u2019]/g, "'") // Replace smart quotes
-            .replace(/[\u201C\u201D]/g, '"') // Replace smart double quotes
-            .normalize('NFD') // Normalize to decomposed form
-            .replace(/[\u0300-\u036f]/g, ''); // Remove diacritics
+          // Convert to string and trim
+          let sanitized = String(str).trim();
+          
+          // Replace all problematic Unicode characters
+          sanitized = sanitized
+            .replace(/[\u2013\u2014\u2015]/g, '-') // Em/en dashes → dash
+            .replace(/[\u2018\u2019]/g, "'") // Smart single quotes → apostrophe
+            .replace(/[\u201C\u201D]/g, '"') // Smart double quotes → regular quotes
+            .replace(/[\u2026]/g, '...') // Ellipsis → three dots
+            .replace(/[\u00A0]/g, ' ') // Non-breaking space → regular space
+            .normalize('NFD') // Decompose characters
+            .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+            .replace(/[^\x00-\x7F]/g, ''); // Remove any remaining non-ASCII
+          
+          return sanitized;
         };
         
+        // Sanitize email (should already be ASCII, but be safe)
+        const sanitizedEmail = sanitizeString(email);
+        
+        // Password hash should be base64, but ensure it's clean
+        const passwordHash = String(userData.passwordHash || '').trim();
+        // Base64 should only contain A-Z, a-z, 0-9, +, /, = - verify and clean
+        if (!/^[A-Za-z0-9+/=]+$/.test(passwordHash)) {
+          console.warn('⚠️ Password hash contains unexpected characters, cleaning...');
+          // If it's not valid base64, something is wrong - but try to save what we can
+          const cleanedHash = passwordHash.replace(/[^A-Za-z0-9+/=]/g, '');
+          if (cleanedHash.length < passwordHash.length * 0.9) {
+            throw new Error('Password hash appears corrupted');
+          }
+        }
+        
         const sanitizedData = {
-          email: sanitizeString(email),
-          password_hash: String(userData.passwordHash || '').trim(), // Don't sanitize password hash - it's already encoded
+          email: sanitizedEmail,
+          password_hash: passwordHash, // Keep as-is if it's valid base64
           customer_id: userData.customerId ? sanitizeString(userData.customerId) : null,
           created_at: userData.createdAt || new Date().toISOString(),
           updated_at: new Date().toISOString()
@@ -104,6 +127,14 @@ module.exports = {
         if (!sanitizedData.email || !sanitizedData.password_hash) {
           throw new Error('Email and password_hash are required');
         }
+        
+        // Log what we're about to save (without sensitive data)
+        console.log('💾 Attempting to save user:', {
+          email: sanitizedData.email,
+          hasPassword: !!sanitizedData.password_hash,
+          passwordLength: sanitizedData.password_hash.length,
+          hasCustomerId: !!sanitizedData.customer_id
+        });
         
         // Try to insert, or update if exists
         const { data, error } = await supabase
@@ -116,6 +147,11 @@ module.exports = {
           console.error('❌ Supabase set error:', JSON.stringify(error, null, 2));
           console.error('Error details:', error.message, error.code, error.details);
           console.error('Error hint:', error.hint);
+          console.error('Attempted data (sanitized):', {
+            email: sanitizedData.email,
+            passwordHashLength: sanitizedData.password_hash.length,
+            customerId: sanitizedData.customer_id
+          });
           
           // Provide helpful error messages
           if (error.message.includes('API key') || error.code === 'PGRST301') {
@@ -126,6 +162,9 @@ module.exports = {
           }
           if (error.message.includes('permission') || error.code === '42501') {
             throw new Error('Permission denied. Make sure RLS is disabled: ALTER TABLE users DISABLE ROW LEVEL SECURITY;');
+          }
+          if (error.message.includes('ByteString') || error.message.includes('character at index')) {
+            throw new Error('Character encoding error. This usually means there are special characters in the data. Check your email or customer_id for em dashes, smart quotes, or other special characters.');
           }
           
           throw new Error(`Database save failed: ${error.message}`);
