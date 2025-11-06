@@ -81,7 +81,19 @@ module.exports = {
           console.error('Supabase get error:', error);
           return memoryUsers[email] || null;
         }
-        return data || null;
+
+        if (!data) {
+          return null;
+        }
+
+        // Normalize Supabase column names to match application expectations
+        return {
+          email: data.email,
+          passwordHash: data.password_hash,
+          customerId: data.customer_id,
+          createdAt: data.created_at,
+          updatedAt: data.updated_at
+        };
       } catch (error) {
         console.error('Supabase get error:', error);
         return memoryUsers[email] || null;
