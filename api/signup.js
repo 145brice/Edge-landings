@@ -80,9 +80,25 @@ module.exports = async (req, res) => {
     // Hash password (simple hash for demo - use bcrypt in production)
     const passwordHash = crypto.createHash('sha256').update(password).digest('hex');
 
-    // Check if user already exists
+    // Check if user already exists in local database
     if (await users.exists(email)) {
       return res.status(400).json({ error: 'An account with this email already exists. Please login instead.' });
+    }
+    
+    // Check if customer exists in Stripe but no local account (from payment link)
+    // Allow them to create password account if they have Stripe customer
+    if (stripe && !customerId) {
+      try {
+        const existingCustomers = await stripe.customers.list({
+          email: email,
+          limit: 1,
+        });
+        if (existingCustomers.data.length > 0) {
+          customerId = existingCustomers.data[0].id;
+        }
+      } catch (stripeError) {
+        // Ignore Stripe errors
+      }
     }
 
     // Store user account in database
