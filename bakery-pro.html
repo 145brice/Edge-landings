@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Dreams Bakery - Fresh Baked Daily | Best Bakery in [City]</title>
+    <meta name="description" content="Sweet Dreams Bakery: Award-winning artisan breads, custom cakes, and fresh pastries. Open daily. Order online for pickup or delivery. Best bakery in [City] since 2020.">
+    <meta name="keywords" content="bakery, fresh bread, custom cakes, pastries, artisan bread, [City] bakery, birthday cakes, wedding cakes">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: #8B4513;
+            color: #fff;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Photo Carousel */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+        
+        .carousel-item {
+            min-width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 10;
+            transition: background 0.3s;
+        }
+        
+        .carousel-nav:hover {
+            background: rgba(0,0,0,0.8);
+        }
+        
+        .carousel-prev {
+            left: 10px;
+        }
+        
+        .carousel-next {
+            right: 10px;
+        }
+        
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .dot.active {
+            background: #fff;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #D2691E 0%, #CD853F 100%);
+            color: #fff;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        section {
+            padding: 4rem 0;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #8B4513;
+        }
+        
+        /* SEO Headlines Section */
+        .seo-headlines {
+            background: #f9f9f9;
+            padding: 3rem 0;
+        }
+        
+        .seo-headlines h2 {
+            color: #8B4513;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .seo-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .seo-content h3 {
+            color: #D2691E;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+        }
+        
+        .seo-content p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .menu-item {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .menu-item h3 {
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+        
+        .menu-item .price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #D2691E;
+            margin-top: 0.5rem;
+        }
+        
+        .hours {
+            background: #f9f9f9;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .hours-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .hours-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Booking Calendar */
+        .booking-section {
+            background: #f9f9f9;
+            padding: 3rem;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin: 2rem 0;
+        }
+        
+        .calendar-header {
+            text-align: center;
+            font-weight: 600;
+            padding: 0.5rem;
+            color: #8B4513;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fff;
+        }
+        
+        .calendar-day:hover:not(.disabled):not(.selected) {
+            border-color: #D2691E;
+            background: #fff5e6;
+        }
+        
+        .calendar-day.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .calendar-day.selected {
+            background: #8B4513;
+            color: #fff;
+            border-color: #8B4513;
+        }
+        
+        .calendar-day.today {
+            border-color: #D2691E;
+            font-weight: 700;
+        }
+        
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .time-slot {
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fff;
+        }
+        
+        .time-slot:hover:not(.disabled):not(.selected) {
+            border-color: #D2691E;
+            background: #fff5e6;
+        }
+        
+        .time-slot.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .time-slot.selected {
+            background: #8B4513;
+            color: #fff;
+            border-color: #8B4513;
+        }
+        
+        /* Email Capture */
+        .email-capture {
+            background: linear-gradient(135deg, #D2691E 0%, #CD853F 100%);
+            color: #fff;
+            padding: 3rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .email-capture h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .email-form {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin: 1.5rem auto 0;
+        }
+        
+        .email-form input {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            background: #8B4513;
+            color: #fff;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #654321;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f9f9f9;
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        /* Thank You Popup */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .popup-overlay.show {
+            display: flex;
+        }
+        
+        .popup {
+            background: #fff;
+            padding: 3rem;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 500px;
+            margin: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .popup h3 {
+            font-size: 2rem;
+            color: #8B4513;
+            margin-bottom: 1rem;
+        }
+        
+        .popup p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .popup .btn {
+            background: #8B4513;
+        }
+        
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .carousel-item {
+                height: 300px;
+            }
+            
+            .calendar {
+                gap: 5px;
+            }
+            
+            .email-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">🍰 Sweet Dreams Bakery</div>
+            <div class="nav-links">
+                <a href="#menu">Menu</a>
+                <a href="#booking">Book Now</a>
+                <a href="#hours">Hours</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Fresh Baked Daily</h1>
+            <p>Artisan breads, pastries, and cakes made with love</p>
+        </div>
+    </section>
+    
+    <!-- Photo Carousel -->
+    <section style="padding: 2rem 0;">
+        <div class="container">
+            <div class="carousel-container">
+                <div class="carousel" id="carousel">
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1200&h=500&fit=crop" alt="Fresh baked bread" class="carousel-item">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1200&h=500&fit=crop" alt="Assorted pastries" class="carousel-item">
+                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=1200&h=500&fit=crop" alt="Custom birthday cake" class="carousel-item">
+                    <img src="https://images.unsplash.com/photo-1486427944299-d1955d23da34?w=1200&h=500&fit=crop" alt="Artisan croissants" class="carousel-item">
+                </div>
+                <button class="carousel-nav carousel-prev" onclick="moveCarousel(-1)">‹</button>
+                <button class="carousel-nav carousel-next" onclick="moveCarousel(1)">›</button>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SEO Headlines Section -->
+    <section class="seo-headlines">
+        <div class="container">
+            <div class="seo-content">
+                <h2>Why Sweet Dreams Bakery is the Best Bakery in [City]</h2>
+                <h3>Fresh, Artisan Quality Every Day</h3>
+                <p>At Sweet Dreams Bakery, we've been serving the [City] community since 2020 with the freshest, highest-quality baked goods. Our master bakers start each day before dawn, crafting artisan breads, flaky pastries, and custom cakes using traditional techniques and the finest ingredients.</p>
+                
+                <h3>Custom Cakes for Every Occasion</h3>
+                <p>Whether you're celebrating a birthday, wedding, or special event, our custom cake design team creates stunning, delicious cakes tailored to your vision. From elegant wedding cakes to fun birthday creations, we bring your ideas to life with attention to detail and exceptional taste.</p>
+                
+                <h3>Local Ingredients, Local Love</h3>
+                <p>We source our ingredients from local farms and suppliers whenever possible, ensuring freshness and supporting our community. Our commitment to quality means you'll taste the difference in every bite of our handcrafted breads and pastries.</p>
+                
+                <h3>Convenient Online Booking</h3>
+                <p>Book your custom cake consultation or reserve your favorite pastries online. Our easy booking system lets you schedule pickups, plan ahead for special orders, and never miss out on your favorite treats.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="menu">
+        <div class="container">
+            <h2>Our Menu</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <h3>Croissants</h3>
+                    <p>Buttery, flaky perfection</p>
+                    <div class="price">$3.50</div>
+                </div>
+                <div class="menu-item">
+                    <h3>Sourdough Loaf</h3>
+                    <p>Traditional artisan bread</p>
+                    <div class="price">$6.00</div>
+                </div>
+                <div class="menu-item">
+                    <h3>Chocolate Chip Cookies</h3>
+                    <p>Fresh baked daily</p>
+                    <div class="price">$2.50</div>
+                </div>
+                <div class="menu-item">
+                    <h3>Birthday Cake</h3>
+                    <p>Custom decorated</p>
+                    <div class="price">$35.00</div>
+                </div>
+                <div class="menu-item">
+                    <h3>Apple Pie</h3>
+                    <p>Homemade with love</p>
+                    <div class="price">$12.00</div>
+                </div>
+                <div class="menu-item">
+                    <h3>Bagels</h3>
+                    <p>Fresh every morning</p>
+                    <div class="price">$1.50</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Email Capture -->
+    <section>
+        <div class="container">
+            <div class="email-capture">
+                <h3>🍰 Get Fresh Updates!</h3>
+                <p>Join our newsletter for daily specials, new menu items, and exclusive offers</p>
+                <form class="email-form" id="emailForm">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit" class="btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Booking Calendar -->
+    <section id="booking">
+        <div class="container">
+            <h2>Book Your Visit</h2>
+            <div class="booking-section">
+                <h3 style="text-align: center; margin-bottom: 1rem;">Select Date & Time</h3>
+                <div class="calendar" id="calendar"></div>
+                <div class="time-slots" id="timeSlots"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn" id="confirmBooking" disabled>Confirm Booking</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="hours">
+        <div class="container">
+            <h2>Hours</h2>
+            <div class="hours">
+                <div class="hours-item">
+                    <span><strong>Monday - Friday</strong></span>
+                    <span>7:00 AM - 6:00 PM</span>
+                </div>
+                <div class="hours-item">
+                    <span><strong>Saturday</strong></span>
+                    <span>8:00 AM - 5:00 PM</span>
+                </div>
+                <div class="hours-item">
+                    <span><strong>Sunday</strong></span>
+                    <span>9:00 AM - 3:00 PM</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Sweet Dreams Bakery. All rights reserved.</p>
+            <p>123 Main Street, Your City, ST 12345 | (555) 123-4567</p>
+        </div>
+    </footer>
+    
+    <!-- Thank You Popup -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <h3>🎉 Thank You!</h3>
+            <p id="popupMessage">We'll be in touch soon!</p>
+            <button class="btn" onclick="closePopup()">Close</button>
+        </div>
+    </div>
+    
+    <script>
+        // Photo Carousel
+        let currentSlide = 0;
+        const totalSlides = 4;
+        const carousel = document.getElementById('carousel');
+        const dotsContainer = document.getElementById('carouselDots');
+        
+        // Create dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        }
+        
+        function moveCarousel(direction) {
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+        
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+        
+        function updateCarousel() {
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+            const dots = dotsContainer.querySelectorAll('.dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+        
+        // Auto-advance carousel
+        setInterval(() => moveCarousel(1), 5000);
+        
+        // Booking Calendar
+        const calendar = document.getElementById('calendar');
+        const timeSlots = document.getElementById('timeSlots');
+        const confirmBtn = document.getElementById('confirmBooking');
+        let selectedDate = null;
+        let selectedTime = null;
+        
+        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const today = new Date();
+        const currentMonth = today.getMonth();
+        const currentYear = today.getFullYear();
+        
+        // Create calendar
+        function createCalendar() {
+            calendar.innerHTML = '';
+            
+            // Add day headers
+            daysOfWeek.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'calendar-header';
+                header.textContent = day;
+                calendar.appendChild(header);
+            });
+            
+            // Get first day of month
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // Add empty cells for days before month starts
+            for (let i = 0; i < firstDay; i++) {
+                const empty = document.createElement('div');
+                calendar.appendChild(empty);
+            }
+            
+            // Add days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day';
+                dayEl.textContent = day;
+                
+                const date = new Date(currentYear, currentMonth, day);
+                if (date < today) {
+                    dayEl.classList.add('disabled');
+                } else {
+                    dayEl.onclick = () => selectDate(day, date);
+                }
+                
+                if (date.toDateString() === today.toDateString()) {
+                    dayEl.classList.add('today');
+                }
+                
+                calendar.appendChild(dayEl);
+            }
+        }
+        
+        function selectDate(day, date) {
+            selectedDate = date;
+            document.querySelectorAll('.calendar-day').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+            
+            // Show time slots
+            showTimeSlots();
+        }
+        
+        function showTimeSlots() {
+            const slots = ['9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
+            timeSlots.innerHTML = '';
+            
+            slots.forEach(slot => {
+                const slotEl = document.createElement('div');
+                slotEl.className = 'time-slot';
+                slotEl.textContent = slot;
+                slotEl.onclick = () => {
+                    document.querySelectorAll('.time-slot').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    slotEl.classList.add('selected');
+                    selectedTime = slot;
+                    confirmBtn.disabled = false;
+                };
+                timeSlots.appendChild(slotEl);
+            });
+        }
+        
+        confirmBtn.onclick = () => {
+            if (selectedDate && selectedTime) {
+                showPopup(`Your booking is confirmed for ${selectedDate.toLocaleDateString()} at ${selectedTime}!`);
+                selectedDate = null;
+                selectedTime = null;
+                confirmBtn.disabled = true;
+                document.querySelectorAll('.calendar-day, .time-slot').forEach(el => {
+                    el.classList.remove('selected');
+                });
+            }
+        };
+        
+        createCalendar();
+        
+        // Email Capture
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            showPopup(`Thank you for subscribing! We've sent a confirmation email to ${email}`);
+            this.reset();
+        });
+        
+        // Contact Form
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showPopup('Thank you for your message! We\'ll get back to you soon.');
+            this.reset();
+        });
+        
+        // Popup Functions
+        function showPopup(message) {
+            document.getElementById('popupMessage').textContent = message;
+            document.getElementById('popupOverlay').classList.add('show');
+        }
+        
+        function closePopup() {
+            document.getElementById('popupOverlay').classList.remove('show');
+        }
+        
+        // Close popup on overlay click
+        document.getElementById('popupOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+    </script>
+</body>
+</html>
+
