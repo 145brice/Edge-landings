@@ -55,9 +55,10 @@ module.exports = async (req, res) => {
           
           // Customer exists in Stripe but not in local DB
           // This means they clicked a payment link but haven't created a password account yet
+          // They need to sign up first to create a password account
           return res.status(401).json({ 
-            error: 'You have a subscription but no login password set. Please use the signup form to create a password for your account.',
-            needsPassword: true 
+            error: 'Please sign up first to create a password account. You can then log in and manage your subscription.',
+            needsSignup: true 
           });
         } catch (stripeError) {
           console.error('Stripe error during login:', stripeError.message);
