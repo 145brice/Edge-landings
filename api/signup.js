@@ -36,25 +36,34 @@ module.exports = async (req, res) => {
     }
 
     // Check if customer already exists in Stripe
-    const existingCustomers = await stripe.customers.list({
-      email: email,
-      limit: 1,
-    });
+    // Only create Stripe customer if STRIPE_SECRET_KEY is set
+    let customerId = null;
+    if (process.env.STRIPE_SECRET_KEY) {
+      try {
+        const existingCustomers = await stripe.customers.list({
+          email: email,
+          limit: 1,
+        });
 
-    // If customer exists in Stripe but not in our system, create account
-    // If customer doesn't exist, create in Stripe
-    let customerId;
-    if (existingCustomers.data.length > 0) {
-      customerId = existingCustomers.data[0].id;
-    } else {
-      // Create customer in Stripe
-      const customer = await stripe.customers.create({
-        email: email,
-        metadata: {
-          accountCreated: new Date().toISOString(),
-        },
-      });
-      customerId = customer.id;
+        // If customer exists in Stripe but not in our system, create account
+        // If customer doesn't exist, create in Stripe
+        if (existingCustomers.data.length > 0) {
+          customerId = existingCustomers.data[0].id;
+        } else {
+          // Create customer in Stripe
+          const customer = await stripe.customers.create({
+            email: email,
+            metadata: {
+              accountCreated: new Date().toISOString(),
+            },
+          });
+          customerId = customer.id;
+        }
+      } catch (stripeError) {
+        console.error('Stripe error (non-fatal):', stripeError.message);
+        // Continue without Stripe customer ID if Stripe fails
+        // User can still create account and link Stripe later via payment links
+      }
     }
 
     // Hash password (simple hash for demo - use bcrypt in production)
