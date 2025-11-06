@@ -7,13 +7,18 @@ try {
   // Try to use Supabase if available
   const { createClient } = require('@supabase/supabase-js');
   if (process.env.SUPABASE_URL && process.env.SUPABASE_KEY) {
-    // Ensure URLs and keys are properly encoded - remove any non-ASCII characters
-    const url = String(process.env.SUPABASE_URL).trim().replace(/[^\x00-\x7F]/g, '');
-    const key = String(process.env.SUPABASE_KEY).trim().replace(/[^\x00-\x7F]/g, '');
+    // Use credentials as-is (don't strip characters - API keys are base64 encoded)
+    const url = String(process.env.SUPABASE_URL).trim();
+    const key = String(process.env.SUPABASE_KEY).trim();
     
     // Validate URL format
     if (!url.startsWith('https://') || !url.includes('.supabase.co')) {
-      throw new Error('Invalid Supabase URL format');
+      throw new Error('Invalid Supabase URL format. Should be: https://xxxxx.supabase.co');
+    }
+    
+    // Validate key format (should be a JWT token starting with eyJ)
+    if (!key.startsWith('eyJ')) {
+      console.warn('⚠️ Supabase key should start with "eyJ" (JWT format). Make sure you\'re using the service_role key, not the anon key.');
     }
     
     supabase = createClient(url, key, {
@@ -21,6 +26,8 @@ try {
         persistSession: false
       }
     });
+    
+    console.log('✅ Supabase client initialized');
   } else {
     supabase = null;
   }
@@ -66,19 +73,22 @@ module.exports = {
   set: async (email, userData) => {
     if (hasSupabase()) {
       try {
-        // Sanitize data to ensure valid ASCII/UTF-8 encoding
-        // Remove any problematic Unicode characters that might cause encoding issues
+        // Sanitize only the data being saved (not credentials)
+        // Replace problematic Unicode characters that cause encoding issues
         const sanitizeString = (str) => {
           if (!str) return null;
           return String(str)
             .trim()
             .replace(/[\u2013\u2014\u2015]/g, '-') // Replace em/en dashes with regular dash
-            .replace(/[^\x00-\x7F]/g, ''); // Remove any remaining non-ASCII
+            .replace(/[\u2018\u2019]/g, "'") // Replace smart quotes
+            .replace(/[\u201C\u201D]/g, '"') // Replace smart double quotes
+            .normalize('NFD') // Normalize to decomposed form
+            .replace(/[\u0300-\u036f]/g, ''); // Remove diacritics
         };
         
         const sanitizedData = {
           email: sanitizeString(email),
-          password_hash: sanitizeString(userData.passwordHash || ''),
+          password_hash: String(userData.passwordHash || '').trim(), // Don't sanitize password hash - it's already encoded
           customer_id: userData.customerId ? sanitizeString(userData.customerId) : null,
           created_at: userData.createdAt || new Date().toISOString(),
           updated_at: new Date().toISOString()
@@ -99,8 +109,19 @@ module.exports = {
         if (error) {
           console.error('❌ Supabase set error:', JSON.stringify(error, null, 2));
           console.error('Error details:', error.message, error.code, error.details);
-          console.error('Attempted data:', { email: sanitizedData.email, hasPassword: !!sanitizedData.password_hash });
-          // Don't fall back to memory - throw the error so signup knows it failed
+          console.error('Error hint:', error.hint);
+          
+          // Provide helpful error messages
+          if (error.message.includes('API key') || error.code === 'PGRST301') {
+            throw new Error('Invalid API key. Make sure you\'re using the service_role key (not anon key) from Supabase Settings → API.');
+          }
+          if (error.message.includes('relation') || error.code === '42P01') {
+            throw new Error('Table "users" does not exist. Run the SQL in create-tables.sql in your Supabase SQL Editor.');
+          }
+          if (error.message.includes('permission') || error.code === '42501') {
+            throw new Error('Permission denied. Make sure RLS is disabled: ALTER TABLE users DISABLE ROW LEVEL SECURITY;');
+          }
+          
           throw new Error(`Database save failed: ${error.message}`);
         }
         
