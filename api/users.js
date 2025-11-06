@@ -7,12 +7,20 @@ try {
   // Try to use Supabase if available
   const { createClient } = require('@supabase/supabase-js');
   if (process.env.SUPABASE_URL && process.env.SUPABASE_KEY) {
-    supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+    // Ensure URLs and keys are properly encoded
+    const url = String(process.env.SUPABASE_URL).trim();
+    const key = String(process.env.SUPABASE_KEY).trim();
+    supabase = createClient(url, key, {
+      auth: {
+        persistSession: false
+      }
+    });
   } else {
     supabase = null;
   }
 } catch (e) {
   console.warn('Supabase not available, using in-memory storage (data will not persist)');
+  console.error('Supabase init error:', e.message);
   supabase = null;
 }
 
@@ -52,16 +60,19 @@ module.exports = {
   set: async (email, userData) => {
     if (hasSupabase()) {
       try {
+        // Sanitize data to ensure valid UTF-8 encoding
+        const sanitizedData = {
+          email: String(email).trim(),
+          password_hash: String(userData.passwordHash || ''),
+          customer_id: userData.customerId ? String(userData.customerId).trim() : null,
+          created_at: userData.createdAt || new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+        
         // Try to insert, or update if exists
         const { data, error } = await supabase
           .from('users')
-          .upsert({
-            email: email,
-            password_hash: userData.passwordHash,
-            customer_id: userData.customerId,
-            created_at: userData.createdAt || new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          }, {
+          .upsert(sanitizedData, {
             onConflict: 'email'
           });
         
