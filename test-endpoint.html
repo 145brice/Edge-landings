@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API Endpoint</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        button {
+            background: #00ff88;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #00cc6a;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .success {
+            border-color: #00ff88;
+        }
+        .error {
+            border-color: #ff6b35;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test API Endpoint</h1>
+    <p>Click the button below to test the /api/test endpoint:</p>
+    
+    <button onclick="testEndpoint()">Test /api/test</button>
+    <button onclick="testLocal()">Test Local (http://localhost:3000/api/test)</button>
+    
+    <div id="result"></div>
+
+    <script>
+        async function testEndpoint() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = '';
+            
+            try {
+                const response = await fetch('/api/test', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                resultDiv.textContent = `Status: ${response.status}\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = response.ok ? 'success' : 'error';
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}\n\nMake sure you're testing on the deployed site or local server is running.`;
+                resultDiv.className = 'error';
+            }
+        }
+        
+        async function testLocal() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = 'Testing local server...';
+            resultDiv.className = '';
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/test', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                resultDiv.textContent = `Status: ${response.status}\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = response.ok ? 'success' : 'error';
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}\n\nIs your local server running? Try: node server.js`;
+                resultDiv.className = 'error';
+            }
+        }
+    </script>
+</body>
+</html>
+
