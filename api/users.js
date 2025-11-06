@@ -22,9 +22,9 @@ try {
       throw new Error('Invalid Supabase URL format. Should be: https://xxxxx.supabase.co');
     }
     
-    // Validate key format (should be a JWT token starting with eyJ)
-    if (!key.startsWith('eyJ')) {
-      console.warn('⚠️ Supabase key should start with "eyJ" (JWT format). Make sure you\'re using the service_role key, not the anon key.');
+    // Validate key format (new format: sb_secret_... or old format: eyJ...)
+    if (!key.startsWith('eyJ') && !key.startsWith('sb_secret_')) {
+      console.warn('⚠️ Supabase key should start with "eyJ" (old JWT format) or "sb_secret_" (new format). Make sure you\'re using the secret key, not the publishable key.');
       console.warn('⚠️ Key length:', key.length, 'characters');
       console.warn('⚠️ Key preview:', key.substring(0, 20) + '...');
     }
@@ -34,7 +34,7 @@ try {
       urlLength: url.length,
       urlFormat: url.startsWith('https://') && url.includes('.supabase.co') ? 'valid' : 'invalid',
       keyLength: key.length,
-      keyFormat: key.startsWith('eyJ') ? 'JWT' : 'unknown'
+      keyFormat: key.startsWith('eyJ') ? 'JWT (old)' : (key.startsWith('sb_secret_') ? 'Secret (new)' : 'unknown')
     });
     
     try {
@@ -168,8 +168,8 @@ module.exports = {
           });
           
           // Provide helpful error messages
-          if (error.message.includes('API key') || error.code === 'PGRST301' || error.code === 'PGRST301') {
-            throw new Error('Invalid API key. Make sure you\'re using the service_role key (not anon key) from Supabase Settings → API. Steps: 1) Go to Supabase Dashboard → Settings → API, 2) Find "service_role" (not "anon"), 3) Click "Reveal" and copy the entire key, 4) Paste it into Vercel → Settings → Environment Variables → SUPABASE_KEY, 5) Make sure it\'s set for Production, Preview, and Development, 6) Save and redeploy.');
+          if (error.message.includes('API key') || error.code === 'PGRST301') {
+            throw new Error('Invalid API key. Make sure you\'re using the SECRET key (sb_secret_...) from Supabase Settings → API → Secret keys, NOT the publishable key. Steps: 1) Go to Supabase Dashboard → Settings → API → API Keys, 2) Find "Secret keys" section, 3) Copy the secret key (starts with sb_secret_), 4) Paste it into Vercel → Settings → Environment Variables → SUPABASE_KEY, 5) Make sure it\'s set for Production, Preview, and Development, 6) Save and redeploy.');
           }
           if (error.message.includes('relation') || error.code === '42P01') {
             throw new Error('Table "users" does not exist. Run the SQL in create-tables.sql in your Supabase SQL Editor.');

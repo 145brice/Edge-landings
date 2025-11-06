@@ -18,15 +18,17 @@ module.exports = async (req, res) => {
     let keyFormat = 'unknown';
     let urlFormat = 'unknown';
     
-    // Check key format
+    // Check key format (new format: sb_secret_... or old format: eyJ...)
     if (process.env.SUPABASE_KEY) {
       const key = String(process.env.SUPABASE_KEY).trim();
-      if (key.startsWith('eyJ')) {
-        keyFormat = '✅ JWT format (correct)';
+      if (key.startsWith('sb_secret_')) {
+        keyFormat = '✅ Secret key format (new - correct)';
+      } else if (key.startsWith('eyJ')) {
+        keyFormat = '✅ JWT format (old - correct)';
       } else if (key.length > 50) {
         keyFormat = '⚠️ Long string (might be correct)';
       } else {
-        keyFormat = '❌ Short string (likely wrong - should be long JWT)';
+        keyFormat = '❌ Short string (likely wrong - should be secret key)';
       }
     }
     
@@ -59,7 +61,7 @@ module.exports = async (req, res) => {
         if (error) {
           testError = error.message;
           if (error.message.includes('API key') || error.code === 'PGRST301') {
-            testError = 'Invalid API key - Make sure you\'re using the service_role key (not anon key)';
+            testError = 'Invalid API key - Make sure you\'re using the secret key (sb_secret_...) from Supabase Settings → API → Secret keys, not the publishable key';
           } else if (error.message.includes('relation') || error.code === '42P01') {
             testError = 'Table "users" does not exist - Run create-tables.sql in Supabase SQL Editor';
           } else if (error.message.includes('permission') || error.code === '42501') {
