@@ -7,9 +7,15 @@ try {
   // Try to use Supabase if available
   const { createClient } = require('@supabase/supabase-js');
   if (process.env.SUPABASE_URL && process.env.SUPABASE_KEY) {
-    // Ensure URLs and keys are properly encoded
-    const url = String(process.env.SUPABASE_URL).trim();
-    const key = String(process.env.SUPABASE_KEY).trim();
+    // Ensure URLs and keys are properly encoded - remove any non-ASCII characters
+    const url = String(process.env.SUPABASE_URL).trim().replace(/[^\x00-\x7F]/g, '');
+    const key = String(process.env.SUPABASE_KEY).trim().replace(/[^\x00-\x7F]/g, '');
+    
+    // Validate URL format
+    if (!url.startsWith('https://') || !url.includes('.supabase.co')) {
+      throw new Error('Invalid Supabase URL format');
+    }
+    
     supabase = createClient(url, key, {
       auth: {
         persistSession: false
@@ -60,14 +66,28 @@ module.exports = {
   set: async (email, userData) => {
     if (hasSupabase()) {
       try {
-        // Sanitize data to ensure valid UTF-8 encoding
+        // Sanitize data to ensure valid ASCII/UTF-8 encoding
+        // Remove any problematic Unicode characters that might cause encoding issues
+        const sanitizeString = (str) => {
+          if (!str) return null;
+          return String(str)
+            .trim()
+            .replace(/[\u2013\u2014\u2015]/g, '-') // Replace em/en dashes with regular dash
+            .replace(/[^\x00-\x7F]/g, ''); // Remove any remaining non-ASCII
+        };
+        
         const sanitizedData = {
-          email: String(email).trim(),
-          password_hash: String(userData.passwordHash || ''),
-          customer_id: userData.customerId ? String(userData.customerId).trim() : null,
+          email: sanitizeString(email),
+          password_hash: sanitizeString(userData.passwordHash || ''),
+          customer_id: userData.customerId ? sanitizeString(userData.customerId) : null,
           created_at: userData.createdAt || new Date().toISOString(),
           updated_at: new Date().toISOString()
         };
+        
+        // Validate required fields
+        if (!sanitizedData.email || !sanitizedData.password_hash) {
+          throw new Error('Email and password_hash are required');
+        }
         
         // Try to insert, or update if exists
         const { data, error } = await supabase
@@ -79,6 +99,7 @@ module.exports = {
         if (error) {
           console.error('❌ Supabase set error:', JSON.stringify(error, null, 2));
           console.error('Error details:', error.message, error.code, error.details);
+          console.error('Attempted data:', { email: sanitizedData.email, hasPassword: !!sanitizedData.password_hash });
           // Don't fall back to memory - throw the error so signup knows it failed
           throw new Error(`Database save failed: ${error.message}`);
         }
