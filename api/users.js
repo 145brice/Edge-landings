@@ -19,15 +19,21 @@ try {
     // Validate key format (should be a JWT token starting with eyJ)
     if (!key.startsWith('eyJ')) {
       console.warn('⚠️ Supabase key should start with "eyJ" (JWT format). Make sure you\'re using the service_role key, not the anon key.');
+      console.warn('⚠️ Key length:', key.length, 'characters');
+      console.warn('⚠️ Key preview:', key.substring(0, 20) + '...');
     }
     
-    supabase = createClient(url, key, {
-      auth: {
-        persistSession: false
-      }
-    });
-    
-    console.log('✅ Supabase client initialized');
+    try {
+      supabase = createClient(url, key, {
+        auth: {
+          persistSession: false
+        }
+      });
+      console.log('✅ Supabase client initialized');
+    } catch (initError) {
+      console.error('❌ Failed to create Supabase client:', initError.message);
+      throw initError;
+    }
   } else {
     supabase = null;
   }
