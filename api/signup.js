@@ -102,12 +102,36 @@ module.exports = async (req, res) => {
     }
 
     // Store user account in database
-    await users.set(email, {
-      email: email,
-      passwordHash: passwordHash,
-      customerId: customerId,
-      createdAt: new Date().toISOString(),
-    });
+    try {
+      const userData = {
+        email: email,
+        passwordHash: passwordHash,
+        customerId: customerId,
+        createdAt: new Date().toISOString(),
+      };
+      
+      await users.set(email, userData);
+      
+      // Verify it was saved (especially important for Supabase)
+      const savedUser = await users.get(email);
+      if (!savedUser || savedUser.email !== email) {
+        console.error('User was not saved to database - Supabase may not be configured');
+        // If Supabase is not configured, warn but still allow signup (in-memory fallback)
+        // But this won't persist on serverless functions
+        if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+          console.warn('⚠️ Supabase not configured - signup saved to memory only (will not persist)');
+          return res.status(500).json({ 
+            error: 'Database not configured. Please add SUPABASE_URL and SUPABASE_KEY to Vercel environment variables. Your account was not saved.',
+            needsDatabase: true
+          });
+        }
+      }
+    } catch (dbError) {
+      console.error('Database save error:', dbError);
+      return res.status(500).json({ 
+        error: 'Failed to save account to database. Please try again or contact support.' 
+      });
+    }
 
     // Send welcome emails
     try {
