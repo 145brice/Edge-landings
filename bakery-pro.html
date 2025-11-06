@@ -196,29 +196,77 @@
         
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
         
         .menu-item {
-            background: #f9f9f9;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(139, 69, 19, 0.2);
+            border-color: #D2691E;
+        }
+        
+        .menu-item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #D2691E 0%, #CD853F 100%);
+        }
+        
+        .menu-item-content {
             padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .menu-item h3 {
             color: #8B4513;
             margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        .menu-item p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
         
         .menu-item .price {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #D2691E;
             margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .menu-item .price::before {
+            content: "💰";
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+        }
+        
+        .menu-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: auto;
         }
         
         .hours {
@@ -473,6 +521,10 @@
                 grid-template-columns: 1fr;
             }
             
+            .menu-item-image {
+                height: 180px;
+            }
+            
             .carousel-item {
                 height: 300px;
             }
@@ -549,34 +601,68 @@
             <h2>Our Menu</h2>
             <div class="menu-grid">
                 <div class="menu-item">
-                    <h3>Croissants</h3>
-                    <p>Buttery, flaky perfection</p>
-                    <div class="price">$3.50</div>
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&h=200&fit=crop" alt="Croissants" class="menu-item-image">
+                    <div class="menu-item-content">
+                        <h3>🥐 Croissants</h3>
+                        <p>Buttery, flaky perfection baked fresh every morning</p>
+                        <div class="price">
+                            <span>$3.50</span>
+                            <span class="menu-badge">Popular</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="menu-item">
-                    <h3>Sourdough Loaf</h3>
-                    <p>Traditional artisan bread</p>
-                    <div class="price">$6.00</div>
+                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=200&fit=crop" alt="Sourdough Bread" class="menu-item-image">
+                    <div class="menu-item-content">
+                        <h3>🍞 Sourdough Loaf</h3>
+                        <p>Traditional artisan bread with tangy flavor</p>
+                        <div class="price">
+                            <span>$6.00</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="menu-item">
-                    <h3>Chocolate Chip Cookies</h3>
-                    <p>Fresh baked daily</p>
-                    <div class="price">$2.50</div>
+                    <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400&h=200&fit=crop" alt="Chocolate Chip Cookies" class="menu-item-image">
+                    <div class="menu-item-content">
+                        <h3>🍪 Chocolate Chip Cookies</h3>
+                        <p>Fresh baked daily with premium chocolate</p>
+                        <div class="price">
+                            <span>$2.50</span>
+                            <span class="menu-badge">New</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="menu-item">
-                    <h3>Birthday Cake</h3>
-                    <p>Custom decorated</p>
-                    <div class="price">$35.00</div>
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=200&fit=crop" alt="Birthday Cake" class="menu-item-image">
+                    <div class="menu-item-content">
+                        <h3>🎂 Birthday Cake</h3>
+                        <p>Custom decorated for your special day</p>
+                        <div class="price">
+                            <span>$35.00</span>
+                            <span class="menu-badge">Custom</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="menu-item">
-                    <h3>Apple Pie</h3>
-                    <p>Homemade with love</p>
-                    <div class="price">$12.00</div>
+                    <img src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=400&h=200&fit=crop" alt="Apple Pie" class="menu-item-image">
+                    <div class="menu-item-content">
+                        <h3>🥧 Apple Pie</h3>
+                        <p>Homemade with love and fresh apples</p>
+                        <div class="price">
+                            <span>$12.00</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="menu-item">
-                    <h3>Bagels</h3>
-                    <p>Fresh every morning</p>
-                    <div class="price">$1.50</div>
+                    <img src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=400&h=200&fit=crop" alt="Bagels" class="menu-item-image">
+                    <div class="menu-item-content">
+                        <h3>🥯 Bagels</h3>
+                        <p>Fresh every morning, multiple flavors</p>
+                        <div class="price">
+                            <span>$1.50</span>
+                            <span class="menu-badge">Daily</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
