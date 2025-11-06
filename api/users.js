@@ -7,9 +7,15 @@ try {
   // Try to use Supabase if available
   const { createClient } = require('@supabase/supabase-js');
   if (process.env.SUPABASE_URL && process.env.SUPABASE_KEY) {
-    // Use credentials as-is (don't strip characters - API keys are base64 encoded)
-    const url = String(process.env.SUPABASE_URL).trim();
-    const key = String(process.env.SUPABASE_KEY).trim();
+    // Clean and validate URL - ensure it's pure ASCII
+    let url = String(process.env.SUPABASE_URL).trim();
+    // Remove any non-ASCII characters from URL (shouldn't be any, but be safe)
+    url = url.replace(/[^\x00-\x7F]/g, '');
+    
+    // Clean and validate key - ensure it's pure ASCII
+    let key = String(process.env.SUPABASE_KEY).trim();
+    // Remove any non-ASCII characters from key (shouldn't be any, but be safe)
+    key = key.replace(/[^\x00-\x7F]/g, '');
     
     // Validate URL format
     if (!url.startsWith('https://') || !url.includes('.supabase.co')) {
@@ -22,6 +28,14 @@ try {
       console.warn('⚠️ Key length:', key.length, 'characters');
       console.warn('⚠️ Key preview:', key.substring(0, 20) + '...');
     }
+    
+    // Log URL and key length for debugging (don't log actual values)
+    console.log('🔧 Supabase config:', {
+      urlLength: url.length,
+      urlFormat: url.startsWith('https://') && url.includes('.supabase.co') ? 'valid' : 'invalid',
+      keyLength: key.length,
+      keyFormat: key.startsWith('eyJ') ? 'JWT' : 'unknown'
+    });
     
     try {
       supabase = createClient(url, key, {
