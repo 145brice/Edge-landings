@@ -168,8 +168,8 @@ module.exports = {
           });
           
           // Provide helpful error messages
-          if (error.message.includes('API key') || error.code === 'PGRST301') {
-            throw new Error('Invalid API key. Make sure you\'re using the service_role key (not anon key) from Supabase Settings → API.');
+          if (error.message.includes('API key') || error.code === 'PGRST301' || error.code === 'PGRST301') {
+            throw new Error('Invalid API key. Make sure you\'re using the service_role key (not anon key) from Supabase Settings → API. Steps: 1) Go to Supabase Dashboard → Settings → API, 2) Find "service_role" (not "anon"), 3) Click "Reveal" and copy the entire key, 4) Paste it into Vercel → Settings → Environment Variables → SUPABASE_KEY, 5) Make sure it\'s set for Production, Preview, and Development, 6) Save and redeploy.');
           }
           if (error.message.includes('relation') || error.code === '42P01') {
             throw new Error('Table "users" does not exist. Run the SQL in create-tables.sql in your Supabase SQL Editor.');
