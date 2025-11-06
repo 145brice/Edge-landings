@@ -37,6 +37,14 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
+// Test endpoint
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'API endpoint is working!',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Login endpoint - verify customer and return info
 app.post('/api/login', async (req, res) => {
   try {

@@ -1,0 +1,11 @@
+# Exclude SQL files from Vercel deployment
+*.sql
+create-tables.sql
+
+# Exclude other files that shouldn't be deployed
+node_modules/
+.env
+.env.local
+*.log
+.DS_Store
+
