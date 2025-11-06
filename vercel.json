@@ -3,16 +3,5 @@
     "api/**/*.js": {
       "runtime": "nodejs20.x"
     }
-  },
-  "build": {
-    "exclude": [
-      "*.sql",
-      "create-tables.sql",
-      "node_modules/**",
-      ".env",
-      ".env.local",
-      "*.log",
-      ".DS_Store"
-    ]
   }
 }
