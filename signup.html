@@ -18,10 +18,120 @@
             background: #0a0a0a;
             color: #ffffff;
             min-height: 100vh;
+            padding: 140px 2rem 2rem;
+        }
+        
+        .header-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+        
+        .trial-banner {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
+            padding: 12px 0;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            width: 100%;
+            display: block;
+            position: relative;
+        }
+        
+        .header-nav {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 1rem 0;
+        }
+        
+        .header-nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-nav .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #00ff88;
+            text-decoration: none;
+        }
+        
+        .header-nav .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .header-nav .signup-btn {
+            background: transparent;
+            color: #00ff88;
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #00ff88;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        
+        .header-nav .signup-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00cc6a;
+            transform: translateY(-2px);
+        }
+        
+        .header-nav .login-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000000;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        
+        .header-nav .login-btn:hover {
+            background: linear-gradient(135deg, #00cc6a, #00ff88);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            background: #0a0a0a;
+            color: #ffffff;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        
+        footer p {
+            margin: 0.5rem 0;
+        }
+        
+        footer a {
+            color: #00ff88;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: calc(100vh - 200px);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
         }
         
         .container {
@@ -180,7 +290,23 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header-wrapper">
+        <div class="trial-banner">
+            <p>🎉 <strong>7-DAY FREE TRIAL</strong> • Try it risk-free, cancel anytime!</p>
+        </div>
+        <nav class="header-nav">
+            <div class="container">
+                <a href="/" class="logo">EDGE WEBSITES</a>
+                <div class="nav-links">
+                    <a href="/signup.html" class="signup-btn">Sign Up</a>
+                    <a href="/login.html" class="login-btn">Login</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    
+    <div class="page-container">
+        <div class="container">
         <div class="logo">EDGE WEBSITES</div>
         <h1>Create Your Account</h1>
         <p class="subtitle">Sign up to manage your website subscription</p>
@@ -218,6 +344,15 @@
             <a href="/">← Back to Home</a>
         </div>
     </div>
+    </div>
+    
+    <footer>
+        <p><strong>Edge Websites</strong> | Professional websites in 24 hours</p>
+        <p>Old Hickory, TN 37138 | Plans from $99/month. Cancel anytime.</p>
+        <p style="margin-top: 1rem; font-size: 0.85rem;">
+            <a href="/manage-subscription.html">Manage Subscription</a>
+        </p>
+    </footer>
     
     <script>
         const form = document.getElementById('signupForm');
