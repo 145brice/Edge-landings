@@ -127,9 +127,11 @@ module.exports = async (req, res) => {
         }
       }
     } catch (dbError) {
-      console.error('Database save error:', dbError);
+      console.error('❌ Database save error:', dbError.message);
+      console.error('Error stack:', dbError.stack);
       return res.status(500).json({ 
-        error: 'Failed to save account to database. Please try again or contact support.' 
+        error: `Failed to save account to database: ${dbError.message}. Please check Supabase table exists and RLS is disabled.`,
+        details: process.env.SUPABASE_URL ? 'Supabase is configured but save failed' : 'Supabase not configured'
       });
     }
 

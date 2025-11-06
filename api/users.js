@@ -53,7 +53,7 @@ module.exports = {
     if (hasSupabase()) {
       try {
         // Try to insert, or update if exists
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('users')
           .upsert({
             email: email,
@@ -66,17 +66,22 @@ module.exports = {
           });
         
         if (error) {
-          console.error('Supabase set error:', error);
-          memoryUsers[email] = userData;
-          return userData;
+          console.error('❌ Supabase set error:', JSON.stringify(error, null, 2));
+          console.error('Error details:', error.message, error.code, error.details);
+          // Don't fall back to memory - throw the error so signup knows it failed
+          throw new Error(`Database save failed: ${error.message}`);
         }
+        
+        console.log('✅ User saved to Supabase:', email);
         return userData;
       } catch (error) {
-        console.error('Supabase set error:', error);
-        memoryUsers[email] = userData;
-        return userData;
+        console.error('❌ Supabase set exception:', error.message);
+        console.error('Stack:', error.stack);
+        // Re-throw so signup API can handle it
+        throw error;
       }
     }
+    console.warn('⚠️ Supabase not available, saving to memory (will not persist)');
     memoryUsers[email] = userData;
     return userData;
   },
