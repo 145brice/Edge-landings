@@ -9,6 +9,17 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 6px 25px rgba(0, 255, 136, 0.6);
+            }
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -710,7 +721,24 @@
     <section class="hero">
         <div class="container">
             <h1>EDGE WEBSITES</h1>
-            <p style="font-size: 1.3rem; margin-bottom: 2rem; opacity: 0.9;">Professional websites in 24 hours</p>
+            <p style="font-size: 1.3rem; margin-bottom: 1.5rem; opacity: 0.9;">Professional websites in 24 hours</p>
+            <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 700; color: #00ff88; margin-bottom: 0.5rem;">⚡</div>
+                    <div style="font-weight: 600; margin-bottom: 0.25rem;">24-Hour Launch</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8;">Your site live tomorrow</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 700; color: #00ff88; margin-bottom: 0.5rem;">💰</div>
+                    <div style="font-weight: 600; margin-bottom: 0.25rem;">No Upfront Cost</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8;">Cancel anytime</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 700; color: #00ff88; margin-bottom: 0.5rem;">📱</div>
+                    <div style="font-weight: 600; margin-bottom: 0.25rem;">Mobile-First</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8;">Looks great everywhere</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -747,8 +775,8 @@
                 <div class="pricing-card">
                     <div class="plan-name">Pro</div>
                     <div class="price">$199<span style="font-size: 1.2rem; color: #00ff88; margin-left: 0.5rem;">/month</span></div>
-                    <div style="background: linear-gradient(135deg, #00ff88, #00cc6a); color: #000; padding: 0.5rem 1rem; border-radius: 8px; margin: 1rem 0; font-weight: 700; text-align: center;">
-                        🎉 First 3 months: $99/month
+                    <div style="background: linear-gradient(135deg, #00ff88, #00cc6a); color: #000; padding: 1rem 1.5rem; border-radius: 12px; margin: 1.5rem 0; font-weight: 800; text-align: center; font-size: 1.1rem; box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4); border: 2px solid #00ff88; animation: pulse 2s ease-in-out infinite;">
+                        🎉 LIMITED TIME: First 3 months just $99/month
                     </div>
                     <ul class="feature-list">
                         <li><span class="feature-icon"></span>Everything in Standard</li>
