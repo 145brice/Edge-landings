@@ -1,6 +1,17 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const crypto = require('crypto');
 const users = require('./users');
+
+// Initialize Stripe only if key is available
+let stripe = null;
+if (process.env.STRIPE_SECRET_KEY) {
+  try {
+    stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+  } catch (error) {
+    console.error('Failed to initialize Stripe:', error.message);
+  }
+} else {
+  console.warn('STRIPE_SECRET_KEY environment variable is not set');
+}
 
 module.exports = async (req, res) => {
   // Set CORS headers
@@ -36,9 +47,9 @@ module.exports = async (req, res) => {
     }
 
     // Check if customer already exists in Stripe
-    // Only create Stripe customer if STRIPE_SECRET_KEY is set
+    // Only create Stripe customer if STRIPE_SECRET_KEY is set and Stripe is initialized
     let customerId = null;
-    if (process.env.STRIPE_SECRET_KEY) {
+    if (stripe && process.env.STRIPE_SECRET_KEY) {
       try {
         const existingCustomers = await stripe.customers.list({
           email: email,
