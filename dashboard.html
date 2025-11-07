@@ -703,10 +703,14 @@
 
             const billingInterval = (billing.interval || 'per month').replace('per ', '');
             const planStatusCopy = account.plan.status === 'trial'
-                ? `${account.plan.trialDaysRemaining} days left in your trial`
+                ? `${account.plan.trialDaysRemaining} days left in your free trial. Billing starts after ${formatDate(account.plan.trialEndsAt)}.`
                 : account.plan.status === 'active'
                     ? 'Auto-renew is enabled'
                     : 'Plan currently paused';
+
+            const pricingCaption = account.plan.status === 'trial'
+                ? 'per month after trial'
+                : (billing.interval || 'per month');
 
             quickStats.innerHTML = `
                 <div class="stat-item">
@@ -770,11 +774,15 @@
                 ? formatDate(billing.nextInvoice)
                 : (account.plan.status === 'trial' ? 'After trial' : 'Pending');
 
+            const autopayDisplay = account.plan.status === 'trial'
+                ? 'Starts after trial'
+                : (billing.autopay ? 'Enabled' : 'Disabled');
+
             content.innerHTML = `
                 <div class="dashboard-card plan-card">
                     <h2><span class="card-icon">🏷️</span>Your Plan</h2>
                     <span class="status-chip ${planStatusClass}">${account.plan.status.toUpperCase()}</span>
-                    <p class="pricing-line">$${billing.amount}<span>/month</span></p>
+                    <p class="pricing-line">$${billing.amount}<span>${pricingCaption}</span></p>
                     <p class="muted">${planStatusCopy}</p>
                     <div class="card-divider"></div>
                     <ul class="info-list">
@@ -782,7 +790,7 @@
                         <li><span class="info-label">Billing cadence</span><span class="info-value">${billing.interval || 'per month'}</span></li>
                         <li><span class="info-label">Trial ends</span><span class="info-value">${trialEndDisplay}</span></li>
                         <li><span class="info-label">Next invoice</span><span class="info-value">${nextInvoiceDisplay}</span></li>
-                        <li><span class="info-label">Autopay</span><span class="info-value">${billing.autopay ? 'Enabled' : 'Disabled'}</span></li>
+                        <li><span class="info-label">Autopay</span><span class="info-value">${autopayDisplay}</span></li>
                     </ul>
                     <div class="button-row">
                         <a class="btn btn-secondary" href="mailto:145brice@gmail.com?subject=Upgrade%20My%20Plan">Request plan change</a>
