@@ -85,7 +85,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Email is required' });
     }
 
-    const normalizedEmail = String(email).trim().toLowerCase();
+    const normalizedEmail = String(email).trim();
     const user = await users.get(normalizedEmail);
 
     if (!user) {
