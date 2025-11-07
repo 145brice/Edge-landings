@@ -600,6 +600,25 @@
             box-shadow: inset 0 0 0 1px rgba(0, 255, 136, 0.08);
         }
 
+        .calendly-container::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            background: linear-gradient(180deg, rgba(0, 255, 136, 0.25), rgba(0, 255, 136, 0) 65%);
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .calendly-container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 65%);
+            pointer-events: none;
+        }
+
         .calendly-inline-widget {
             min-width: 100% !important;
             width: 100%;
