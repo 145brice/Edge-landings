@@ -573,6 +573,255 @@
             display: none;
         }
 
+        .scheduler-shell {
+            position: relative;
+            border-radius: 18px;
+            padding: 1.8rem;
+            background: radial-gradient(circle at 15% -20%, rgba(0, 255, 136, 0.35), rgba(10, 10, 10, 0.95) 50%);
+            border: 1px solid rgba(0, 255, 136, 0.35);
+            box-shadow: 0 20px 55px rgba(0, 255, 136, 0.2);
+        }
+
+        .scheduler-shell::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(140deg, rgba(0, 255, 136, 0.22), rgba(0, 255, 136, 0));
+            pointer-events: none;
+        }
+
+        .scheduler-preamble {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .scheduler-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(0, 255, 136, 0.12);
+            border: 1px solid rgba(0, 255, 136, 0.38);
+            color: #00ff88;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .scheduler-shell .microcopy {
+            opacity: 0.65;
+            font-size: 0.85rem;
+        }
+
+        .scheduler-body {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .scheduler-calendar {
+            border-radius: 16px;
+            background: rgba(6, 16, 12, 0.95);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            box-shadow: inset 0 0 0 1px rgba(0, 255, 136, 0.08);
+            padding: 1.25rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-month {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+        }
+
+        .calendar-nav {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 255, 136, 0.35);
+            background: rgba(0, 255, 136, 0.12);
+            color: #00ff88;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .calendar-nav:hover:not(:disabled) {
+            transform: translateY(-2px);
+            background: rgba(0, 255, 136, 0.22);
+        }
+
+        .calendar-nav:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            color: rgba(255, 255, 255, 0.55);
+            margin-bottom: 0.6rem;
+        }
+
+        .calendar-weekdays span {
+            padding: 0.35rem 0;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 0.45rem;
+        }
+
+        .calendar-day {
+            border-radius: 14px;
+            padding: 0.75rem 0.45rem;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .calendar-day .day-number {
+            font-size: 1rem;
+        }
+
+        .calendar-day .day-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #00ff88;
+            margin-top: 0.32rem;
+            opacity: 0;
+        }
+
+        .calendar-day.available .day-dot {
+            opacity: 1;
+        }
+
+        .calendar-day.available:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 255, 136, 0.55);
+            box-shadow: 0 10px 18px rgba(0, 255, 136, 0.2);
+        }
+
+        .calendar-day.selected {
+            background: linear-gradient(150deg, rgba(0, 255, 136, 0.28), rgba(0, 255, 136, 0.08));
+            border-color: rgba(0, 255, 136, 0.75);
+            color: #06150f;
+            box-shadow: 0 16px 28px rgba(0, 255, 136, 0.32);
+        }
+
+        .calendar-day.unavailable {
+            color: rgba(255, 255, 255, 0.28);
+            border-style: dashed;
+            cursor: not-allowed;
+        }
+
+        .calendar-day.placeholder {
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .scheduler-slots {
+            background: rgba(5, 14, 10, 0.92);
+            border-radius: 16px;
+            padding: 1.3rem;
+            border: 1px solid rgba(0, 255, 136, 0.28);
+            box-shadow: inset 0 0 0 1px rgba(0, 255, 136, 0.12);
+        }
+
+        .slots-heading {
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            font-size: 0.75rem;
+            color: rgba(196, 255, 234, 0.85);
+        }
+
+        .slots-summary {
+            margin-top: 0.4rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.68);
+            font-size: 0.95rem;
+        }
+
+        .slots-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+        }
+
+        .slot-chip {
+            padding: 0.55rem 1.05rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.38);
+            background: rgba(0, 255, 136, 0.12);
+            color: #00ff88;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .slot-chip:hover {
+            background: rgba(0, 255, 136, 0.22);
+            transform: translateY(-2px);
+        }
+
+        .slot-chip.selected {
+            background: linear-gradient(140deg, #00ff88, #00cc6a);
+            color: #03150e;
+            border-color: transparent;
+            box-shadow: 0 10px 22px rgba(0, 255, 136, 0.35);
+        }
+
+        .scheduler-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.3rem;
+            align-items: flex-start;
+        }
+
+        .scheduler-note {
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .scheduler-followup {
+            margin-top: 1.3rem;
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .scheduler-followup .btn {
+            flex: 1 1 220px;
+        }
+
 
         .calendly-pill {
             background: rgba(0, 255, 136, 0.12);
@@ -755,6 +1004,30 @@
             
             .welcome-section .quick-stats {
                 grid-template-columns: 1fr;
+            }
+
+            .scheduler-shell {
+                padding: 1.2rem;
+            }
+
+            .calendar-grid {
+                gap: 0.35rem;
+            }
+
+            .calendar-day {
+                padding: 0.6rem 0.3rem;
+            }
+
+            .slots-list {
+                flex-direction: column;
+            }
+
+            .scheduler-followup {
+                flex-direction: column;
+            }
+
+            .scheduler-followup .btn {
+                width: 100%;
             }
 
         }
@@ -1082,11 +1355,49 @@
                 </div>
                 <div class="dashboard-card" id="schedule-kickoff">
                     <h2><span class="card-icon">📅</span>Schedule Kickoff Call</h2>
-                    <p class="muted">We’ll drop a real-time calendar in here next. For now, just click the button below and tell us what works.</p>
-                    <div class="button-row">
-                        <a class="btn" href="mailto:145brice@gmail.com?subject=Schedule%20my%20kickoff%20call">Email us your best time</a>
-                        <button type="button" class="btn btn-secondary mark-progress" data-task-id="book-kickoff" data-state="in-progress">I sent availability</button>
-                        <button type="button" class="btn mark-complete" data-task-id="book-kickoff">Kickoff booked</button>
+                    <p class="muted">Pick a day, choose a time, and we’ll lock in your 15-minute kickoff session.</p>
+                    <div class="scheduler-shell">
+                        <div class="scheduler-preamble">
+                            <span class="scheduler-badge">Live scheduling</span>
+                            <span class="microcopy">Green dates have open slots. We’ll confirm with a calendar invite.</span>
+                        </div>
+                        <div class="scheduler-body">
+                            <div class="scheduler-calendar">
+                                <div class="calendar-header">
+                                    <button type="button" class="calendar-nav" data-calendar-prev aria-label="Previous month">‹</button>
+                                    <div class="calendar-month" data-calendar-month>Loading…</div>
+                                    <button type="button" class="calendar-nav" data-calendar-next aria-label="Next month">›</button>
+                                </div>
+                                <div class="calendar-weekdays">
+                                    <span>Sun</span>
+                                    <span>Mon</span>
+                                    <span>Tue</span>
+                                    <span>Wed</span>
+                                    <span>Thu</span>
+                                    <span>Fri</span>
+                                    <span>Sat</span>
+                                </div>
+                                <div class="calendar-grid" data-calendar-grid></div>
+                            </div>
+                            <div class="scheduler-slots">
+                                <div class="slots-heading">Available times</div>
+                                <div class="slots-summary" data-slot-summary>Select a day to view openings.</div>
+                                <div class="slots-list" data-slot-list></div>
+                                <form class="scheduler-actions" id="scheduleRequestForm" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                                    <input type="hidden" name="task" value="Kickoff scheduling request">
+                                    <input type="hidden" name="customerEmail" value="${account.email}">
+                                    <input type="hidden" name="scheduledDate" id="scheduledDateInput">
+                                    <input type="hidden" name="scheduledTime" id="scheduledTimeInput">
+                                    <button type="submit" class="btn" data-slot-confirm disabled>Confirm selected time</button>
+                                    <span class="scheduler-note">We’ll email a calendar invite within the hour.</span>
+                                    <p class="form-success" id="scheduleSuccessMessage" data-message="Kickoff slot received! We’ll confirm shortly."></p>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="scheduler-followup">
+                            <button type="button" class="btn btn-secondary mark-progress" data-task-id="book-kickoff" data-state="in-progress">I'll decide later</button>
+                            <button type="button" class="btn mark-complete" data-task-id="book-kickoff">Kickoff already booked</button>
+                        </div>
                     </div>
                 </div>
                 <div class="dashboard-card" id="connect-domain">
@@ -1310,6 +1621,267 @@
                     });
                 }
             });
+
+            function initScheduler(accountEmail) {
+                const shell = document.querySelector('.scheduler-shell');
+                if (!shell) return;
+
+                const config = {
+                    windowDays: 30,
+                    slotsByWeekday: {
+                        1: ['9:00 AM', '1:00 PM', '3:30 PM'],
+                        2: ['10:00 AM', '2:30 PM'],
+                        3: ['9:30 AM', '12:30 PM', '4:00 PM'],
+                        4: ['11:00 AM', '2:00 PM'],
+                        5: ['10:30 AM', '1:30 PM']
+                    },
+                    blackoutDates: []
+                };
+
+                const calendarGrid = shell.querySelector('[data-calendar-grid]');
+                const monthLabel = shell.querySelector('[data-calendar-month]');
+                const prevBtn = shell.querySelector('[data-calendar-prev]');
+                const nextBtn = shell.querySelector('[data-calendar-next]');
+                const slotSummary = shell.querySelector('[data-slot-summary]');
+                const slotList = shell.querySelector('[data-slot-list]');
+                const confirmBtn = shell.querySelector('[data-slot-confirm]');
+                const scheduleForm = shell.querySelector('#scheduleRequestForm');
+                const dateInput = shell.querySelector('#scheduledDateInput');
+                const timeInput = shell.querySelector('#scheduledTimeInput');
+                const successMessage = shell.querySelector('#scheduleSuccessMessage');
+
+                if (!calendarGrid || !monthLabel || !slotSummary || !slotList || !confirmBtn || !scheduleForm) {
+                    return;
+                }
+
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const maxDate = new Date(today);
+                maxDate.setDate(maxDate.getDate() + config.windowDays);
+                const minMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+                let focusDate = new Date(minMonth);
+                let selectedDate = null;
+                let selectedTime = null;
+
+                const isBlackout = (dateObj) => config.blackoutDates.some((entry) => {
+                    const blackout = new Date(entry);
+                    blackout.setHours(0, 0, 0, 0);
+                    return blackout.getTime() === dateObj.getTime();
+                });
+
+                const isWithinWindow = (dateObj) => dateObj >= today && dateObj <= maxDate;
+
+                const formatDateLabel = (dateObj) => dateObj.toLocaleDateString(undefined, {
+                    weekday: 'long',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                const updateConfirmButton = () => {
+                    if (selectedDate && selectedTime) {
+                        confirmBtn.disabled = false;
+                        confirmBtn.textContent = `Confirm ${selectedTime}`;
+                        dateInput.value = selectedDate.toISOString();
+                        timeInput.value = selectedTime;
+                    } else if (selectedDate) {
+                        confirmBtn.disabled = true;
+                        confirmBtn.textContent = 'Choose a time';
+                        dateInput.value = selectedDate.toISOString();
+                        timeInput.value = '';
+                    } else {
+                        confirmBtn.disabled = true;
+                        confirmBtn.textContent = 'Confirm selected time';
+                        dateInput.value = '';
+                        timeInput.value = '';
+                    }
+                    if (successMessage) {
+                        successMessage.style.display = 'none';
+                    }
+                };
+
+                const renderSlots = (availableSlots, dateObj) => {
+                    slotList.innerHTML = '';
+
+                    if (!dateObj) {
+                        slotSummary.textContent = 'Select a day to view openings.';
+                        updateConfirmButton();
+                        return;
+                    }
+
+                    if (!availableSlots.length) {
+                        slotSummary.textContent = `${formatDateLabel(dateObj)} • no openings available`;
+                        updateConfirmButton();
+                        return;
+                    }
+
+                    slotSummary.textContent = `${formatDateLabel(dateObj)} • ${availableSlots.length} opening${availableSlots.length > 1 ? 's' : ''}`;
+
+                    availableSlots.forEach((timeLabel) => {
+                        const slotBtn = document.createElement('button');
+                        slotBtn.type = 'button';
+                        slotBtn.className = 'slot-chip';
+                        slotBtn.textContent = timeLabel;
+                        if (selectedTime === timeLabel) {
+                            slotBtn.classList.add('selected');
+                        }
+                        slotBtn.addEventListener('click', () => {
+                            selectedTime = timeLabel;
+                            slotList.querySelectorAll('.slot-chip').forEach((btn) => btn.classList.remove('selected'));
+                            slotBtn.classList.add('selected');
+                            updateConfirmButton();
+                            setChecklistState('book-kickoff', 'in-progress');
+                        });
+                        slotList.appendChild(slotBtn);
+                    });
+
+                    updateConfirmButton();
+                };
+
+                const updateNavButtons = () => {
+                    const focusMonthStart = new Date(focusDate.getFullYear(), focusDate.getMonth(), 1);
+                    const maxMonth = new Date(maxDate.getFullYear(), maxDate.getMonth(), 1);
+                    if (prevBtn) {
+                        prevBtn.disabled = focusMonthStart.getTime() <= minMonth.getTime();
+                    }
+                    if (nextBtn) {
+                        nextBtn.disabled = focusMonthStart.getTime() >= maxMonth.getTime();
+                    }
+                };
+
+                const renderCalendar = () => {
+                    calendarGrid.innerHTML = '';
+                    monthLabel.textContent = focusDate.toLocaleString(undefined, { month: 'long', year: 'numeric' });
+
+                    const firstWeekday = new Date(focusDate.getFullYear(), focusDate.getMonth(), 1).getDay();
+                    const daysInMonth = new Date(focusDate.getFullYear(), focusDate.getMonth() + 1, 0).getDate();
+                    const totalCells = Math.ceil((firstWeekday + daysInMonth) / 7) * 7;
+
+                    let dayCounter = 1;
+                    for (let cellIndex = 0; cellIndex < totalCells; cellIndex++) {
+                        if (cellIndex < firstWeekday || dayCounter > daysInMonth) {
+                            const spacer = document.createElement('div');
+                            spacer.className = 'calendar-day placeholder';
+                            calendarGrid.appendChild(spacer);
+                            continue;
+                        }
+
+                        const dateObj = new Date(focusDate.getFullYear(), focusDate.getMonth(), dayCounter);
+                        const weekday = dateObj.getDay();
+                        const slots = config.slotsByWeekday[weekday] || [];
+                        const dayBtn = document.createElement('button');
+                        dayBtn.type = 'button';
+                        dayBtn.className = 'calendar-day';
+
+                        const numberSpan = document.createElement('span');
+                        numberSpan.className = 'day-number';
+                        numberSpan.textContent = dayCounter;
+                        dayBtn.appendChild(numberSpan);
+
+                        const dotSpan = document.createElement('span');
+                        dotSpan.className = 'day-dot';
+                        dayBtn.appendChild(dotSpan);
+
+                        if (!slots.length || !isWithinWindow(dateObj) || isBlackout(dateObj)) {
+                            dayBtn.classList.add('unavailable');
+                            dayBtn.disabled = true;
+                            dotSpan.remove();
+                        } else {
+                            dayBtn.classList.add('available');
+                            dayBtn.addEventListener('click', () => {
+                                selectedDate = new Date(dateObj);
+                                selectedTime = null;
+                                renderCalendar();
+                                renderSlots(slots, dateObj);
+                                setChecklistState('book-kickoff', 'in-progress');
+                            });
+                        }
+
+                        if (selectedDate && dateObj.toDateString() === selectedDate.toDateString()) {
+                            dayBtn.classList.add('selected');
+                        }
+
+                        calendarGrid.appendChild(dayBtn);
+                        dayCounter += 1;
+                    }
+
+                    updateNavButtons();
+                };
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        if (prevBtn.disabled) return;
+                        focusDate = new Date(focusDate.getFullYear(), focusDate.getMonth() - 1, 1);
+                        renderCalendar();
+                    });
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        if (nextBtn.disabled) return;
+                        focusDate = new Date(focusDate.getFullYear(), focusDate.getMonth() + 1, 1);
+                        renderCalendar();
+                    });
+                }
+
+                scheduleForm.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    if (!selectedDate || !selectedTime) {
+                        slotSummary.textContent = 'Choose a day and time before confirming.';
+                        return;
+                    }
+
+                    confirmBtn.disabled = true;
+                    const originalLabel = confirmBtn.textContent;
+                    confirmBtn.textContent = 'Sending...';
+                    if (successMessage) {
+                        successMessage.style.display = 'none';
+                    }
+
+                    const formData = new FormData(scheduleForm);
+                    formData.set('customerEmail', accountEmail);
+                    formData.set('scheduledDate', selectedDate.toISOString());
+                    formData.set('scheduledTime', selectedTime);
+
+                    try {
+                        const response = await fetch(scheduleForm.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                Accept: 'application/json'
+                            }
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Failed to send scheduling request.');
+                        }
+
+                        confirmBtn.textContent = 'Request sent!';
+                        if (successMessage) {
+                            successMessage.textContent = successMessage.dataset.message || 'Kickoff slot received! We’ll confirm shortly.';
+                            successMessage.style.display = 'block';
+                        }
+                        setChecklistState('book-kickoff', 'complete');
+                        updateConfirmButton();
+                        setTimeout(() => {
+                            confirmBtn.textContent = originalLabel;
+                        }, 2500);
+                    } catch (error) {
+                        confirmBtn.disabled = false;
+                        confirmBtn.textContent = originalLabel;
+                        if (successMessage) {
+                            successMessage.textContent = 'Could not send request. Please email 145brice@gmail.com.';
+                            successMessage.style.display = 'block';
+                        }
+                        console.error('Scheduling request failed:', error);
+                    }
+                });
+
+                renderCalendar();
+                renderSlots([], null);
+                updateConfirmButton();
+            }
+
+            initScheduler(account.email);
 
             updateChecklistUI();
 
