@@ -195,17 +195,17 @@ module.exports = async (req, res) => {
         {
           title: 'Upload assets',
           description: 'Secure portal for uploading logos, photos, and brand files.',
-          href: 'mailto:145brice@gmail.com?subject=Upload%20Assets'
+          href: '#upload-assets'
         },
         {
           title: 'Book strategy call',
           description: 'Schedule a 15-minute check-in to review your build progress.',
-          href: 'mailto:145brice@gmail.com?subject=Schedule%20Strategy%20Call'
+          href: '#schedule-kickoff'
         },
         {
           title: 'Request content help',
           description: 'Need copy tweaks or photo sourcing? We can help.',
-          href: 'mailto:145brice@gmail.com?subject=Content%20Help'
+          href: '#copy-approval'
         },
       ],
       support: {
