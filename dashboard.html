@@ -826,15 +826,21 @@
                     ? 'trial'
                     : 'paused';
 
+            const checklistStateKey = `websiteChecklistState:${account.email}`;
+            const storedChecklistState = JSON.parse(localStorage.getItem(checklistStateKey) || '{}');
+
             const checklistMarkup = (website.checklist || []).map(item => {
                 const href = item.link || `mailto:${support.email}?subject=${encodeURIComponent(item.label)}`;
-                const target = href.startsWith('/') ? '_self' : '_blank';
+                const target = href.startsWith('/') || href.startsWith('#') ? '_self' : '_blank';
+                const derivedState = item.status ? 'complete' : 'pending';
+                const state = storedChecklistState[item.id] || derivedState;
+                const statusLabel = state === 'complete' ? 'Completed' : state === 'in-progress' ? 'In progress' : 'Not started';
                 return `
-                    <a class="checklist-item ${item.status ? 'complete' : 'pending'}" href="${href}" target="${target}" rel="noopener">
+                    <a class="checklist-item ${item.status ? 'complete' : 'pending'} state-${state}" data-task-id="${item.id}" href="${href}" target="${target}" rel="noopener">
                         <span class="icon">${item.status ? '✅' : '⏳'}</span>
                         <div>
                             <strong>${item.label}</strong>
-                            <span class="muted">${item.status ? 'Completed' : 'Click to update'}</span>
+                            <span class="item-status">${statusLabel}</span>
                         </div>
                     </a>
                 `;
@@ -965,6 +971,77 @@
                 <div class="dashboard-card" id="upload-assets">
                     <h2><span class="card-icon">📁</span>Upload Brand Assets</h2>
                     <p class="muted">Share links to your logo, photography, brand guide, or any must-use media.</p>
+                    <form class="task-form" data-task-id="upload-assets" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                        <input type="hidden" name="task" value="Upload brand assets">
+                        <input type="hidden" name="customerEmail" value="${account.email}">
+                        <label>Asset folder or sharing link
+                            <input type="url" name="assetLink" placeholder="https://drive.google.com/..." required>
+                        </label>
+                        <label>Additional notes
+                            <textarea name="notes" placeholder="Anything we should know about usage, brand colors, or fonts?"></textarea>
+                        </label>
+                        <small>Need to email files directly? Send them to 145brice@gmail.com.</small>
+                        <button type="submit">Send assets</button>
+                    </form>
+                </div>
+                <div class="dashboard-card" id="homepage-review">
+                    <h2><span class="card-icon">📝</span>Homepage Feedback</h2>
+                    <p class="muted">Drop feedback for your first homepage draft—what you love, what you'd tweak.</p>
+                    <form class="task-form" data-task-id="homepage-review" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                        <input type="hidden" name="task" value="Homepage review feedback">
+                        <input type="hidden" name="customerEmail" value="${account.email}">
+                        <label>Headline or hero feedback
+                            <textarea name="headlineFeedback" placeholder="Headline feels great, maybe swap the second sentence..."></textarea>
+                        </label>
+                        <label>Sections to adjust
+                            <textarea name="sectionChanges" placeholder="Hero CTA button text, gallery order, etc."></textarea>
+                        </label>
+                        <small>We'll confirm updates within 24 hours.</small>
+                        <button type="submit">Submit homepage notes</button>
+                    </form>
+                </div>
+                <div class="dashboard-card" id="copy-approval">
+                    <h2><span class="card-icon">✍️</span>Copy Approval</h2>
+                    <p class="muted">Approve or revise the copy we've drafted—headlines, blurbs, calls-to-action.</p>
+                    <form class="task-form" data-task-id="copy-approval" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                        <input type="hidden" name="task" value="Copy approval">
+                        <input type="hidden" name="customerEmail" value="${account.email}">
+                        <label>Approval status
+                            <select name="approvalStatus" required>
+                                <option value="">Choose one...</option>
+                                <option value="approved">Looks good – ship it!</option>
+                                <option value="needs-edits">Needs edits</option>
+                            </select>
+                        </label>
+                        <label>Notes or edits
+                            <textarea name="copyNotes" placeholder="If edits needed, list them here."></textarea>
+                        </label>
+                        <button type="submit">Send copy response</button>
+                    </form>
+                </div>
+                <div class="dashboard-card" id="mobile-polish">
+                    <h2><span class="card-icon">📱</span>Mobile Polish Checklist</h2>
+                    <p class="muted">Give mobile view a final pass. Let us know if anything feels off on phones/tablets.</p>
+                    <form class="task-form" data-task-id="mobile-polish" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                        <input type="hidden" name="task" value="Mobile polish feedback">
+                        <input type="hidden" name="customerEmail" value="${account.email}">
+                        <label>Device tested on
+                            <input type="text" name="device" placeholder="iPhone 14, Galaxy S22, iPad Mini, etc." required>
+                        </label>
+                        <label>Anything to polish?
+                            <textarea name="mobileIssues" placeholder="Buttons feel small, hero image cropped, etc."></textarea>
+                        </label>
+                        <button type="submit">Send mobile feedback</button>
+                    </form>
+                </div>
+            `;
+
+            content.innerHTML += taskForms;
+
+            const taskForms = `
+                <div class="dashboard-card" id="upload-assets">
+                    <h2><span class="card-icon">📁</span>Upload Brand Assets</h2>
+                    <p class="muted">Share links to your logo, photography, brand guide, or any must-use media.</p>
                     <form class="task-form" action="https://formspree.io/f/xpzqkqkq" method="POST">
                         <input type="hidden" name="task" value="Upload brand assets">
                         <input type="hidden" name="customerEmail" value="${account.email}">
@@ -1043,6 +1120,42 @@
                 input.value = account.email;
             });
 
+            function setChecklistState(taskId, newState) {
+                if (!taskId) return;
+                storedChecklistState[taskId] = newState;
+                localStorage.setItem(checklistStateKey, JSON.stringify(storedChecklistState));
+                updateChecklistUI();
+            }
+
+            function updateChecklistUI() {
+                document.querySelectorAll('.checklist-item').forEach(link => {
+                    const taskId = link.dataset.taskId;
+                    const fallback = link.classList.contains('complete') ? 'complete' : 'pending';
+                    const state = storedChecklistState[taskId] || fallback;
+                    link.classList.remove('state-pending', 'state-in-progress', 'state-complete');
+                    link.classList.add(`state-${state}`);
+                    const statusSpan = link.querySelector('.item-status');
+                    if (statusSpan) {
+                        statusSpan.textContent = state === 'complete' ? 'Completed' : state === 'in-progress' ? 'In progress' : 'Not started';
+                    }
+                    if (!storedChecklistState[taskId] && link.classList.contains('complete')) {
+                        storedChecklistState[taskId] = 'complete';
+                    }
+                });
+                localStorage.setItem(checklistStateKey, JSON.stringify(storedChecklistState));
+            }
+
+            document.querySelectorAll('.checklist-item').forEach(link => {
+                const taskId = link.dataset.taskId;
+                link.addEventListener('click', () => {
+                    if (storedChecklistState[taskId] !== 'complete') {
+                        setChecklistState(taskId, 'in-progress');
+                    }
+                });
+            });
+
+            updateChecklistUI();
+
             // Onboarding tasks with local storage persistence
             const tasks = (onboarding?.tasks || []);
             const taskStateKey = `dashboardTasks:${account.email}`;
@@ -1119,6 +1232,49 @@
             if (resourceListEl && !resourcesMarkup) {
                 resourceListEl.innerHTML = '<li class="muted">Resources coming soon.</li>';
             }
+
+            // Handle task forms submission -> mark checklist complete
+            document.querySelectorAll('.task-form').forEach(form => {
+                const taskId = form.getAttribute('data-task-id');
+                form.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    const submitButton = form.querySelector('button');
+                    const originalText = submitButton.textContent;
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'Sending...';
+
+                    const formData = new FormData(form);
+
+                    try {
+                        const response = await fetch(form.action, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json'
+                            },
+                            body: formData
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Failed to submit form');
+                        }
+
+                        if (taskId) {
+                            setChecklistState(taskId, 'complete');
+                        }
+
+                        submitButton.textContent = 'Sent!';
+                        form.reset();
+                        setTimeout(() => {
+                            submitButton.textContent = originalText;
+                            submitButton.disabled = false;
+                        }, 2000);
+                    } catch (error) {
+                        console.error('Task form submission failed:', error);
+                        submitButton.textContent = 'Try again';
+                        submitButton.disabled = false;
+                    }
+                });
+            });
         }
 
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
