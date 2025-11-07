@@ -493,6 +493,59 @@
             font-weight: 600;
         }
         
+        .task-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            margin-top: 1rem;
+        }
+        
+        .task-form label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+        
+        .task-form input,
+        .task-form textarea,
+        .task-form select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(10, 10, 10, 0.85);
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+        
+        .task-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .task-form button {
+            align-self: flex-start;
+            padding: 0.7rem 1.6rem;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .task-form button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+        }
+        
+        .task-form small {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
         .activity-list {
             list-style: none;
             padding: 0;
@@ -908,12 +961,87 @@
                 </div>
             `;
 
+            const taskForms = `
+                <div class="dashboard-card" id="upload-assets">
+                    <h2><span class="card-icon">📁</span>Upload Brand Assets</h2>
+                    <p class="muted">Share links to your logo, photography, brand guide, or any must-use media.</p>
+                    <form class="task-form" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                        <input type="hidden" name="task" value="Upload brand assets">
+                        <input type="hidden" name="customerEmail" value="${account.email}">
+                        <label>Asset folder or sharing link
+                            <input type="url" name="assetLink" placeholder="https://drive.google.com/..." required>
+                        </label>
+                        <label>Additional notes
+                            <textarea name="notes" placeholder="Anything we should know about usage, brand colors, or fonts?"></textarea>
+                        </label>
+                        <small>Need to email files directly? Send them to 145brice@gmail.com.</small>
+                        <button type="submit">Send assets</button>
+                    </form>
+                </div>
+                <div class="dashboard-card" id="homepage-review">
+                    <h2><span class="card-icon">📝</span>Homepage Feedback</h2>
+                    <p class="muted">Drop feedback for your first homepage draft—what you love, what you'd tweak.</p>
+                    <form class="task-form" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                        <input type="hidden" name="task" value="Homepage review feedback">
+                        <input type="hidden" name="customerEmail" value="${account.email}">
+                        <label>Headline or hero feedback
+                            <textarea name="headlineFeedback" placeholder="Headline feels great, maybe swap the second sentence..."></textarea>
+                        </label>
+                        <label>Sections to adjust
+                            <textarea name="sectionChanges" placeholder="Hero CTA button text, gallery order, etc."></textarea>
+                        </label>
+                        <small>We'll confirm updates within 24 hours.</small>
+                        <button type="submit">Submit homepage notes</button>
+                    </form>
+                </div>
+                <div class="dashboard-card" id="copy-approval">
+                    <h2><span class="card-icon">✍️</span>Copy Approval</h2>
+                    <p class="muted">Approve or revise the copy we've drafted—headlines, blurbs, calls-to-action.</p>
+                    <form class="task-form" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                        <input type="hidden" name="task" value="Copy approval">
+                        <input type="hidden" name="customerEmail" value="${account.email}">
+                        <label>Approval status
+                            <select name="approvalStatus" required>
+                                <option value="">Choose one...</option>
+                                <option value="approved">Looks good – ship it!</option>
+                                <option value="needs-edits">Needs edits</option>
+                            </select>
+                        </label>
+                        <label>Notes or edits
+                            <textarea name="copyNotes" placeholder="If edits needed, list them here."></textarea>
+                        </label>
+                        <button type="submit">Send copy response</button>
+                    </form>
+                </div>
+                <div class="dashboard-card" id="mobile-polish">
+                    <h2><span class="card-icon">📱</span>Mobile Polish Checklist</h2>
+                    <p class="muted">Give mobile view a final pass. Let us know if anything feels off on phones/tablets.</p>
+                    <form class="task-form" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                        <input type="hidden" name="task" value="Mobile polish feedback">
+                        <input type="hidden" name="customerEmail" value="${account.email}">
+                        <label>Device tested on
+                            <input type="text" name="device" placeholder="iPhone 14, Galaxy S22, iPad Mini, etc." required>
+                        </label>
+                        <label>Anything to polish?
+                            <textarea name="mobileIssues" placeholder="Buttons feel small, hero image cropped, etc."></textarea>
+                        </label>
+                        <button type="submit">Send mobile feedback</button>
+                    </form>
+                </div>
+            `;
+
+            content.innerHTML += taskForms;
+
             const websiteProgressFill = document.getElementById('websiteProgressFill');
             if (websiteProgressFill) {
                 requestAnimationFrame(() => {
                     websiteProgressFill.style.width = `${website.progress}%`;
                 });
             }
+
+            document.querySelectorAll('.task-form input[name="customerEmail"]').forEach(input => {
+                input.value = account.email;
+            });
 
             // Onboarding tasks with local storage persistence
             const tasks = (onboarding?.tasks || []);

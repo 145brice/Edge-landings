@@ -147,24 +147,28 @@ module.exports = async (req, res) => {
           ? user.websiteChecklist
           : [
               {
+                id: 'upload-assets',
                 label: 'Upload brand assets',
                 status: websiteProgress >= 15,
-                link: 'mailto:145brice@gmail.com?subject=Uploading%20brand%20assets'
+                link: '#upload-assets'
               },
               {
+                id: 'homepage-review',
                 label: 'Review homepage draft',
                 status: websiteProgress >= 35,
-                link: '/dashboard.html#homepage-review'
+                link: '#homepage-review'
               },
               {
+                id: 'copy-approval',
                 label: 'Approve website copy',
                 status: websiteProgress >= 55,
-                link: 'mailto:145brice@gmail.com?subject=Approve%20website%20copy'
+                link: '#copy-approval'
               },
               {
+                id: 'mobile-polish',
                 label: 'Final mobile polish',
                 status: websiteProgress >= 85,
-                link: '/dashboard.html#mobile-polish'
+                link: '#mobile-polish'
               }
             ],
         assetsNeeded,
