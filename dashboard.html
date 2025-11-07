@@ -52,6 +52,22 @@
             align-items: center;
         }
         
+        .header-nav .home-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header-nav .home-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
         .header-nav .logout-btn {
             background: rgba(255, 255, 255, 0.1);
             color: #ffffff;
@@ -627,6 +643,7 @@
         <div class="container">
             <a href="/" class="logo">EDGE WEBSITES</a>
             <div class="nav-links">
+                <a href="/" class="home-btn">← Home</a>
                 <a href="#" class="logout-btn" id="logoutBtn">Logout</a>
             </div>
         </div>
