@@ -698,24 +698,30 @@
             const firstNameToken = (account?.email || '').split('@')[0].split(/[._-]/)[0] || 'there';
             const capitalizedName = firstNameToken.charAt(0).toUpperCase() + firstNameToken.slice(1);
 
+            const hasPlan = !!account.plan.hasSelectedPlan;
+
             welcomeTitle.textContent = `Welcome back, ${capitalizedName}!`;
-            welcomeText.textContent = `You're on the ${account.plan.name}. Here's what's happening today.`;
+            welcomeText.textContent = hasPlan
+                ? `You're on the ${account.plan.name}. Here's what's happening today.`
+                : `You're in your free trial. No plan selected yet—choose one whenever you're ready.`;
 
-            const billingInterval = (billing.interval || 'per month').replace('per ', '');
-            const planStatusCopy = account.plan.status === 'trial'
-                ? `${account.plan.trialDaysRemaining} days left in your free trial. Billing starts after ${formatDate(account.plan.trialEndsAt)}.`
-                : account.plan.status === 'active'
-                    ? 'Auto-renew is enabled'
-                    : 'Plan currently paused';
+            const billingInterval = hasPlan ? (billing.interval || 'per month').replace('per ', '') : 'month';
+            const planStatusCopy = !hasPlan
+                ? 'No plan on file. Pick Basic or Pro whenever you’re ready—no payment required during trial.'
+                : account.plan.status === 'trial'
+                    ? `${account.plan.trialDaysRemaining} days left in your free trial. Billing starts after ${formatDate(account.plan.trialEndsAt)}.`
+                    : account.plan.status === 'active'
+                        ? 'Auto-renew is enabled'
+                        : 'Plan currently paused';
 
-            const pricingCaption = account.plan.status === 'trial'
-                ? 'per month after trial'
-                : (billing.interval || 'per month');
+            const pricingCaption = hasPlan
+                ? (account.plan.status === 'trial' ? 'per month after trial' : (billing.interval || 'per month'))
+                : 'Choose a plan when you’re ready';
 
             quickStats.innerHTML = `
                 <div class="stat-item">
                     <div class="stat-label">Current Plan</div>
-                    <div class="stat-value">$${billing.amount}/${billingInterval}</div>
+                    <div class="stat-value">${hasPlan ? `$${billing.amount}/${billingInterval}` : 'No plan selected'}</div>
                     <div class="stat-subtitle">${planStatusCopy}</div>
                 </div>
                 <div class="stat-item">
@@ -770,31 +776,46 @@
             const trialEndDisplay = account.plan.trialDaysRemaining > 0
                 ? formatDate(account.plan.trialEndsAt)
                 : 'Trial completed';
-            const nextInvoiceDisplay = billing.nextInvoice
-                ? formatDate(billing.nextInvoice)
-                : (account.plan.status === 'trial' ? 'After trial' : 'Pending');
+            const nextInvoiceDisplay = hasPlan
+                ? (billing.nextInvoice ? formatDate(billing.nextInvoice) : (account.plan.status === 'trial' ? 'After trial' : 'Pending'))
+                : 'Not scheduled';
 
-            const autopayDisplay = account.plan.status === 'trial'
-                ? 'Starts after trial'
-                : (billing.autopay ? 'Enabled' : 'Disabled');
+            const autopayDisplay = !hasPlan
+                ? 'Not set (no plan yet)'
+                : account.plan.status === 'trial'
+                    ? 'Starts after trial'
+                    : (billing.autopay ? 'Enabled' : 'Disabled');
+
+            const pricingLineHTML = hasPlan
+                ? `<p class="pricing-line">$${billing.amount}<span>${pricingCaption}</span></p>`
+                : `<p class="pricing-line">No plan selected<span>${pricingCaption}</span></p>`;
+
+            const planInfoListHTML = `
+                <li><span class="info-label">Plan level</span><span class="info-value">${hasPlan ? account.plan.name : 'Not selected yet'}</span></li>
+                <li><span class="info-label">Billing cadence</span><span class="info-value">${hasPlan ? (billing.interval || 'per month') : '—'}</span></li>
+                <li><span class="info-label">Trial ends</span><span class="info-value">${trialEndDisplay}</span></li>
+                <li><span class="info-label">Next invoice</span><span class="info-value">${nextInvoiceDisplay}</span></li>
+                <li><span class="info-label">Autopay</span><span class="info-value">${autopayDisplay}</span></li>
+            `;
+
+            const planButtonRowHTML = hasPlan
+                ? `<a class="btn btn-secondary" href="mailto:145brice@gmail.com?subject=Upgrade%20My%20Plan">Request plan change</a>
+                   <a class="btn btn-secondary" href="mailto:145brice@gmail.com?subject=Pause%20My%20Subscription">Pause or cancel plan</a>`
+                : `<a class="btn" href="/#pricing">Select a plan</a>
+                   <a class="btn btn-secondary" href="mailto:145brice@gmail.com?subject=Help%20Choosing%20a%20Plan">Talk with us about options</a>`;
 
             content.innerHTML = `
                 <div class="dashboard-card plan-card">
                     <h2><span class="card-icon">🏷️</span>Your Plan</h2>
                     <span class="status-chip ${planStatusClass}">${account.plan.status.toUpperCase()}</span>
-                    <p class="pricing-line">$${billing.amount}<span>${pricingCaption}</span></p>
+                    ${pricingLineHTML}
                     <p class="muted">${planStatusCopy}</p>
                     <div class="card-divider"></div>
                     <ul class="info-list">
-                        <li><span class="info-label">Plan level</span><span class="info-value">${account.plan.name}</span></li>
-                        <li><span class="info-label">Billing cadence</span><span class="info-value">${billing.interval || 'per month'}</span></li>
-                        <li><span class="info-label">Trial ends</span><span class="info-value">${trialEndDisplay}</span></li>
-                        <li><span class="info-label">Next invoice</span><span class="info-value">${nextInvoiceDisplay}</span></li>
-                        <li><span class="info-label">Autopay</span><span class="info-value">${autopayDisplay}</span></li>
+                        ${planInfoListHTML}
                     </ul>
                     <div class="button-row">
-                        <a class="btn btn-secondary" href="mailto:145brice@gmail.com?subject=Upgrade%20My%20Plan">Request plan change</a>
-                        <a class="btn btn-secondary" href="mailto:145brice@gmail.com?subject=Pause%20My%20Subscription">Pause or cancel plan</a>
+                        ${planButtonRowHTML}
                     </div>
                 </div>
                 <div class="dashboard-card website-card">
@@ -846,7 +867,7 @@
                     <ul class="info-list">
                         <li><span class="info-label">Email</span><span class="info-value">${account.email}</span></li>
                         <li><span class="info-label">Member since</span><span class="info-value">${memberSince}</span></li>
-                        <li><span class="info-label">Plan tier</span><span class="info-value">${account.plan.tier}</span></li>
+                        <li><span class="info-label">Plan tier</span><span class="info-value">${hasPlan ? account.plan.tier : 'Trial access'}</span></li>
                         ${account.customerId ? `<li><span class="info-label">Account ID</span><span class="info-value">${account.customerId}</span></li>` : ''}
                     </ul>
                     <div class="button-row">

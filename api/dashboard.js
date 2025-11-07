@@ -93,10 +93,16 @@ module.exports = async (req, res) => {
     }
 
     const createdAt = user.createdAt || new Date().toISOString();
-    const planName = user.plan || 'Basic Launch Plan';
-    const planTier = planName.toLowerCase().includes('pro') ? 'Pro' : 'Basic';
-    const planAmount = user.planAmount || (planTier === 'Pro' ? 199 : 99);
+    const rawPlanName = user.plan ? String(user.plan).trim() : null;
+    const hasSelectedPlan = !!rawPlanName;
+    const planTier = hasSelectedPlan
+      ? (rawPlanName.toLowerCase().includes('pro') ? 'Pro' : 'Basic')
+      : null;
+    const planAmount = hasSelectedPlan
+      ? (user.planAmount || (planTier === 'Pro' ? 199 : 99))
+      : 0;
     const planStatus = user.planStatus || 'trial';
+    const billingInterval = hasSelectedPlan ? (user.billingInterval || 'Monthly') : null;
     const { trialEndsAt, trialDaysRemaining } = getTrialInfo(createdAt, user.trialEndsAt);
 
     const websiteProgress = Math.min(100, Math.max(0, Number(user.websiteProgress ?? 40)));
@@ -122,13 +128,14 @@ module.exports = async (req, res) => {
         customerId: user.customerId || customerId,
         createdAt,
         plan: {
-          name: planName,
+          name: rawPlanName,
           tier: planTier,
           status: planStatus,
           amount: planAmount,
-          billingInterval: 'Monthly',
+          billingInterval,
           trialEndsAt,
           trialDaysRemaining,
+          hasSelectedPlan,
         },
       },
       website: {
@@ -148,10 +155,10 @@ module.exports = async (req, res) => {
       },
       billing: {
         amount: planAmount,
-        interval: 'per month',
+        interval: hasSelectedPlan ? (user.billingInterval || 'per month') : null,
         status: planStatus === 'active' ? 'Active' : planStatus === 'trial' ? 'Trial' : 'Paused',
-        nextInvoice: user.nextInvoice || null,
-        autopay: user.autopay ?? true,
+        nextInvoice: hasSelectedPlan ? (user.nextInvoice || null) : null,
+        autopay: hasSelectedPlan ? (user.autopay ?? true) : false,
       },
       onboarding: {
         tasks: onboardingTasks,
