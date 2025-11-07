@@ -146,10 +146,26 @@ module.exports = async (req, res) => {
         checklist: Array.isArray(user.websiteChecklist) && user.websiteChecklist.length
           ? user.websiteChecklist
           : [
-              { label: 'Brand assets received', status: websiteProgress >= 15 },
-              { label: 'Homepage layout drafted', status: websiteProgress >= 35 },
-              { label: 'Copy review in progress', status: websiteProgress >= 55 },
-              { label: 'Mobile optimization', status: websiteProgress >= 85 }
+              {
+                label: 'Upload brand assets',
+                status: websiteProgress >= 15,
+                link: 'mailto:145brice@gmail.com?subject=Uploading%20brand%20assets'
+              },
+              {
+                label: 'Review homepage draft',
+                status: websiteProgress >= 35,
+                link: '/dashboard.html#homepage-review'
+              },
+              {
+                label: 'Approve website copy',
+                status: websiteProgress >= 55,
+                link: 'mailto:145brice@gmail.com?subject=Approve%20website%20copy'
+              },
+              {
+                label: 'Final mobile polish',
+                status: websiteProgress >= 85,
+                link: '/dashboard.html#mobile-polish'
+              }
             ],
         assetsNeeded,
       },

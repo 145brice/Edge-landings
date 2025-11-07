@@ -413,6 +413,15 @@
             gap: 0.75rem;
             padding: 0.6rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.2s ease;
+            border-radius: 10px;
+            padding-right: 0.75rem;
+        }
+        
+        .checklist-item:hover {
+            background: rgba(0, 255, 136, 0.08);
         }
         
         .checklist-item:last-child {
@@ -764,14 +773,19 @@
                     ? 'trial'
                     : 'paused';
 
-            const checklistMarkup = (website.checklist || []).map(item => `
-                <li class="checklist-item ${item.status ? 'complete' : 'pending'}">
-                    <span class="icon">${item.status ? '✅' : '⏳'}</span>
-                    <div>
-                        <strong>${item.label}</strong>
-                    </div>
-                </li>
-            `).join('');
+            const checklistMarkup = (website.checklist || []).map(item => {
+                const href = item.link || `mailto:${support.email}?subject=${encodeURIComponent(item.label)}`;
+                const target = href.startsWith('/') ? '_self' : '_blank';
+                return `
+                    <a class="checklist-item ${item.status ? 'complete' : 'pending'}" href="${href}" target="${target}" rel="noopener">
+                        <span class="icon">${item.status ? '✅' : '⏳'}</span>
+                        <div>
+                            <strong>${item.label}</strong>
+                            <span class="muted">${item.status ? 'Completed' : 'Click to update'}</span>
+                        </div>
+                    </a>
+                `;
+            }).join('');
 
             const assetsMarkup = (website.assetsNeeded || []).map(asset => `
                 <span class="asset-tag">${asset}</span>
@@ -842,7 +856,7 @@
                     <p class="muted">Next milestone: <strong>${website.nextMilestone}</strong></p>
                     <div class="card-divider"></div>
                     <h3 class="section-subheading">Build checklist</h3>
-                    <ul class="checklist">${checklistMarkup || '<li class="muted">No build tasks yet.</li>'}</ul>
+                    <div class="checklist">${checklistMarkup || '<div class="muted">No build tasks yet.</div>'}</div>
                     <div class="card-divider"></div>
                     <h3 class="section-subheading">Assets we still need</h3>
                     <div class="assets-list">${assetsMarkup || '<span class="muted">Nothing pending right now.</span>'}</div>
