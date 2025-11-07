@@ -413,8 +413,17 @@
             content.className = 'dashboard-grid';
 
             const statusClass = data.subscription?.status === 'active' ? 'active' : 
-                               data.subscription?.status === 'canceled' ? 'cancelled' : 'pending';
+                               data.subscription?.status === 'canceled' ? 'cancelled' : data.subscription?.status ? 'pending' : 'pending';
             const statusText = data.subscription?.status || 'No subscription';
+
+            const portalButton = (data.portalConfigured && data.portalUrl)
+                ? `<a href="${data.portalUrl}" target="_blank" class="btn">Manage Subscription</a>
+                    <p style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); text-align: center;">
+                        Update payment, cancel, or change plan
+                    </p>`
+                : `<div class="error-message" style="margin-top: 1rem;">
+                        ${data.portalMessage || 'Billing portal is not configured yet. Contact support to manage your subscription.'}
+                   </div>`;
 
             content.innerHTML = `
                 <div class="dashboard-card">
@@ -433,10 +442,7 @@
                         <span class="info-value">${data.subscription?.nextBillingDate || 'N/A'}</span>
                     </div>
                     ${data.subscription ? `
-                        <a href="${data.portalUrl}" target="_blank" class="btn">Manage Subscription</a>
-                        <p style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); text-align: center;">
-                            Update payment, cancel, or change plan
-                        </p>
+                        ${portalButton}
                     ` : `
                         <a href="/#pricing" class="btn">Select a Plan</a>
                         <p style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); text-align: center;">
@@ -468,9 +474,15 @@
                 <div class="dashboard-card">
                     <h2><span class="card-icon">⚙️</span>Quick Actions</h2>
                     <ul class="action-list">
-                        <li><a href="${data.portalUrl}" target="_blank">💳 Update Payment Method</a></li>
-                        <li><a href="${data.portalUrl}" target="_blank">📄 View Billing History</a></li>
-                        <li><a href="${data.portalUrl}" target="_blank">📥 Download Invoices</a></li>
+                        ${data.portalConfigured && data.portalUrl ? `
+                            <li><a href="${data.portalUrl}" target="_blank">💳 Update Payment Method</a></li>
+                            <li><a href="${data.portalUrl}" target="_blank">📄 View Billing History</a></li>
+                            <li><a href="${data.portalUrl}" target="_blank">📥 Download Invoices</a></li>
+                        ` : `
+                            <li>💳 Update Payment Method (portal not set up)</li>
+                            <li>📄 View Billing History (portal not set up)</li>
+                            <li>📥 Download Invoices (portal not set up)</li>
+                        `}
                         <li><a href="mailto:145brice@gmail.com?subject=Account Question">❓ Account Questions</a></li>
                     </ul>
                     <a href="mailto:145brice@gmail.com" class="btn btn-secondary">Contact Support</a>
