@@ -153,22 +153,28 @@ module.exports = async (req, res) => {
                 link: '#upload-assets'
               },
               {
-                id: 'homepage-review',
+                id: 'complete-questionnaire',
+                label: 'Complete business questionnaire',
+                status: websiteProgress >= 25,
+                link: '#business-questionnaire'
+              },
+              {
+                id: 'book-kickoff',
+                label: 'Schedule kickoff call',
+                status: websiteProgress >= 45,
+                link: '#schedule-kickoff'
+              },
+              {
+                id: 'connect-domain',
+                label: 'Connect your domain',
+                status: websiteProgress >= 65,
+                link: '#connect-domain'
+              },
+              {
+                id: 'review-homepage',
                 label: 'Review homepage draft',
-                status: websiteProgress >= 35,
-                link: '#homepage-review'
-              },
-              {
-                id: 'copy-approval',
-                label: 'Approve website copy',
-                status: websiteProgress >= 55,
-                link: '#copy-approval'
-              },
-              {
-                id: 'mobile-polish',
-                label: 'Final mobile polish',
                 status: websiteProgress >= 85,
-                link: '#mobile-polish'
+                link: '#homepage-review'
               }
             ],
         assetsNeeded,

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Edge Websites</title>
+    <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
@@ -86,6 +87,24 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem 20px;
+        }
+
+        .dashboard-title {
+            background: transparent;
+        }
+
+        .dashboard-title h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #00ff88;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-title p {
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 720px;
         }
         
         .welcome-section {
@@ -545,6 +564,14 @@
             font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.5);
         }
+
+        .form-success {
+            margin-top: 0.75rem;
+            color: #00ff88;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: none;
+        }
         
         .activity-list {
             list-style: none;
@@ -711,6 +738,13 @@
         </div>
     </nav>
 
+    <header class="dashboard-title">
+        <div class="container">
+            <h1>Dashboard</h1>
+            <p>Track your build, complete tasks, and keep everything moving toward launch.</p>
+        </div>
+    </header>
+
     <div class="container">
         <div id="errorContainer"></div>
         
@@ -805,8 +839,8 @@
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Build Progress</div>
-                    <div class="stat-value">${website.progress}%</div>
-                    <div class="stat-subtitle">${website.status}</div>
+                    <div class="stat-value"><span id="buildProgressPercent">${website.progress}%</span></div>
+                    <div class="stat-subtitle" id="buildStatusText">${website.status}</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Next Milestone</div>
@@ -910,7 +944,7 @@
                     </div>
                 <div class="dashboard-card website-card">
                     <h2><span class="card-icon">🚀</span>Website Build Status</h2>
-                    <div class="progress-label"><span>${website.status}</span><span>${website.progress}%</span></div>
+                    <div class="progress-label"><span id="websiteStatusLabel">${website.status}</span><span id="websiteProgressLabel">${website.progress}%</span></div>
                     <div class="progress-track"><div class="progress-fill" id="websiteProgressFill"></div></div>
                     <p class="muted">Next milestone: <strong>${website.nextMilestone}</strong></p>
                     <div class="card-divider"></div>
@@ -982,12 +1016,80 @@
                         </label>
                         <small>Need to email files directly? Send them to 145brice@gmail.com.</small>
                         <button type="submit">Send assets</button>
+                        <p class="form-success" data-message="Assets received! We'll start designing right away."></p>
                     </form>
+                </div>
+                <div class="dashboard-card" id="business-questionnaire">
+                    <h2><span class="card-icon">🧠</span>Business Questionnaire</h2>
+                    <p class="muted">Answer a few quick questions so we can dial in your positioning and offers.</p>
+                    <form class="task-form" data-task-id="complete-questionnaire" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                        <input type="hidden" name="task" value="Business questionnaire">
+                        <input type="hidden" name="customerEmail" value="${account.email}">
+                        <label>Your business name
+                            <input type="text" name="businessName" required placeholder="Edge Bakery Co.">
+                        </label>
+                        <label>What do you sell?
+                            <textarea name="coreOffer" required placeholder="Cupcakes, celebration cakes, walk-in bakery items..."></textarea>
+                        </label>
+                        <label>Top goal for this website
+                            <select name="primaryGoal" required>
+                                <option value="">Choose one...</option>
+                                <option value="book-more-jobs">Book more jobs</option>
+                                <option value="sell-products-online">Sell products online</option>
+                                <option value="showcase-portfolio">Showcase portfolio</option>
+                                <option value="improve-branding">Improve branding</option>
+                            </select>
+                        </label>
+                        <label>Anything else we should know?
+                            <textarea name="notes" placeholder="Special offers, differentiators, tone, etc."></textarea>
+                        </label>
+                        <button type="submit">Submit questionnaire</button>
+                        <p class="form-success" data-message="Questionnaire submitted! We'll use this to guide your build."></p>
+                    </form>
+                </div>
+                <div class="dashboard-card" id="schedule-kickoff">
+                    <h2><span class="card-icon">📅</span>Schedule Kickoff Call</h2>
+                    <p class="muted">Book your 15-minute alignment call so we can lock in content and next steps.</p>
+                    <div class="calendly-inline-widget" data-url="https://calendly.com/edgewebsites/kickoff-call" style="min-width:320px;height:620px;"></div>
+                    <div class="button-row" style="margin-top: 1.5rem;">
+                        <button type="button" class="btn btn-secondary mark-progress" data-task-id="book-kickoff" data-state="in-progress">I'm scheduling now</button>
+                        <button type="button" class="btn mark-complete" data-task-id="book-kickoff">I booked my call</button>
                     </div>
+                </div>
+                <div class="dashboard-card" id="connect-domain">
+                    <h2><span class="card-icon">🌐</span>Connect Your Domain</h2>
+                    <p class="muted">Send us access so we can point your custom domain at your new Edge site.</p>
+                    <ol class="muted" style="margin: 1rem 0 1.5rem 1.5rem; display: grid; gap: 0.75rem;">
+                        <li>Log in to your domain registrar (GoDaddy, Namecheap, Google Domains, etc.).</li>
+                        <li>Add support@edgewebsites.com (or share temporary access) so we can update DNS settings.</li>
+                        <li>Let us know the domain you want live and any subdomains we should keep.</li>
+                    </ol>
+                    <form class="task-form" data-task-id="connect-domain" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                        <input type="hidden" name="task" value="Domain access details">
+                        <input type="hidden" name="customerEmail" value="${account.email}">
+                        <label>Registrar (where you bought the domain)
+                            <input type="text" name="registrar" placeholder="GoDaddy" required>
+                        </label>
+                        <label>Login or collaborator email we can use
+                            <input type="email" name="accessEmail" placeholder="support@edgewebsites.com" required>
+                        </label>
+                        <label>Domain(s) to launch
+                            <input type="text" name="domain" placeholder="edgebakery.com" required>
+                        </label>
+                        <label>Notes or special instructions
+                            <textarea name="domainNotes" placeholder="Keep blog.edgebakery.com on Squarespace..."></textarea>
+                        </label>
+                        <button type="submit">Send domain details</button>
+                        <p class="form-success" data-message="Domain instructions received."></p>
+                    </form>
+                    <div class="button-row" style="margin-top: 1rem;">
+                        <button type="button" class="btn mark-complete" data-task-id="connect-domain">Domain is connected</button>
+                    </div>
+                </div>
                 <div class="dashboard-card" id="homepage-review">
                     <h2><span class="card-icon">📝</span>Homepage Feedback</h2>
                     <p class="muted">Drop feedback for your first homepage draft—what you love, what you'd tweak.</p>
-                    <form class="task-form" data-task-id="homepage-review" action="https://formspree.io/f/xpzqkqkq" method="POST">
+                    <form class="task-form" data-task-id="review-homepage" action="https://formspree.io/f/xpzqkqkq" method="POST">
                         <input type="hidden" name="task" value="Homepage review feedback">
                         <input type="hidden" name="customerEmail" value="${account.email}">
                         <label>Headline or hero feedback
@@ -998,8 +1100,9 @@
                         </label>
                         <small>We'll confirm updates within 24 hours.</small>
                         <button type="submit">Submit homepage notes</button>
+                        <p class="form-success" data-message="Homepage feedback sent!"></p>
                     </form>
-                    </div>
+                </div>
                 <div class="dashboard-card" id="copy-approval">
                     <h2><span class="card-icon">✍️</span>Copy Approval</h2>
                     <p class="muted">Approve or revise the copy we've drafted—headlines, blurbs, calls-to-action.</p>
@@ -1017,6 +1120,7 @@
                             <textarea name="copyNotes" placeholder="If edits needed, list them here."></textarea>
                         </label>
                         <button type="submit">Send copy response</button>
+                        <p class="form-success" data-message="Copy response received."></p>
                     </form>
                 </div>
                 <div class="dashboard-card" id="mobile-polish">
@@ -1032,22 +1136,84 @@
                             <textarea name="mobileIssues" placeholder="Buttons feel small, hero image cropped, etc."></textarea>
                         </label>
                         <button type="submit">Send mobile feedback</button>
+                        <p class="form-success" data-message="Mobile feedback sent - thanks!"></p>
                     </form>
                 </div>
             `;
 
             content.innerHTML += taskForms;
 
-            const websiteProgressFill = document.getElementById('websiteProgressFill');
-            if (websiteProgressFill) {
-                requestAnimationFrame(() => {
-                    websiteProgressFill.style.width = `${website.progress}%`;
-                });
+            if (!document.getElementById('calendlyScript')) {
+                const calendlyScript = document.createElement('script');
+                calendlyScript.id = 'calendlyScript';
+                calendlyScript.src = 'https://assets.calendly.com/assets/external/widget.js';
+                calendlyScript.async = true;
+                document.body.appendChild(calendlyScript);
             }
 
             document.querySelectorAll('.task-form input[name="customerEmail"]').forEach(input => {
                 input.value = account.email;
             });
+
+            const progressBarFill = document.getElementById('websiteProgressFill');
+            const buildProgressPercentEl = document.getElementById('buildProgressPercent');
+            const websiteProgressLabelEl = document.getElementById('websiteProgressLabel');
+            const websiteStatusLabelEl = document.getElementById('websiteStatusLabel');
+            const buildStatusTextEl = document.getElementById('buildStatusText');
+            const totalChecklistItems = (website.checklist || []).length;
+            const defaultStatus = website.status || 'In design queue';
+            let baseProgress = Math.max(0, Number(website.progress || 0));
+
+            function recalculateProgress() {
+                if (!totalChecklistItems) {
+                    if (progressBarFill) progressBarFill.style.width = `${baseProgress}%`;
+                    if (buildProgressPercentEl) buildProgressPercentEl.textContent = `${baseProgress}%`;
+                    if (websiteProgressLabelEl) websiteProgressLabelEl.textContent = `${baseProgress}%`;
+                    if (websiteStatusLabelEl) websiteStatusLabelEl.textContent = defaultStatus;
+                    if (buildStatusTextEl) buildStatusTextEl.textContent = defaultStatus;
+                    return;
+                }
+
+                let completedCount = 0;
+                let inProgressCount = 0;
+
+                (website.checklist || []).forEach(item => {
+                    const fallback = item.status ? 'complete' : 'pending';
+                    const state = storedChecklistState[item.id] || fallback;
+                    if (state === 'complete') {
+                        completedCount += 1;
+                    } else if (state === 'in-progress') {
+                        inProgressCount += 1;
+                    }
+                });
+
+                const derivedProgress = Math.round(((completedCount + inProgressCount * 0.5) / totalChecklistItems) * 100);
+                const combinedProgress = Math.min(100, Math.max(baseProgress, derivedProgress));
+
+                if (progressBarFill) {
+                    progressBarFill.style.width = `${combinedProgress}%`;
+                }
+                if (buildProgressPercentEl) {
+                    buildProgressPercentEl.textContent = `${combinedProgress}%`;
+                }
+                if (websiteProgressLabelEl) {
+                    websiteProgressLabelEl.textContent = `${combinedProgress}%`;
+                }
+
+                let statusCopy = defaultStatus;
+                if (completedCount >= totalChecklistItems) {
+                    statusCopy = 'Launch ready';
+                } else if (completedCount > 0 || inProgressCount > 0) {
+                    statusCopy = 'In production';
+                }
+
+                if (websiteStatusLabelEl) {
+                    websiteStatusLabelEl.textContent = statusCopy;
+                }
+                if (buildStatusTextEl) {
+                    buildStatusTextEl.textContent = statusCopy;
+                }
+            }
 
             function setChecklistState(taskId, newState) {
                 if (!taskId) return;
@@ -1072,6 +1238,7 @@
                     }
                 });
                 localStorage.setItem(checklistStateKey, JSON.stringify(storedChecklistState));
+                recalculateProgress();
             }
 
             document.querySelectorAll('.checklist-item').forEach(link => {
@@ -1079,6 +1246,25 @@
                 link.addEventListener('click', () => {
                     if (storedChecklistState[taskId] !== 'complete') {
                         setChecklistState(taskId, 'in-progress');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.mark-progress').forEach(button => {
+                button.addEventListener('click', () => {
+                    const taskId = button.dataset.taskId;
+                    const nextState = button.dataset.state || 'in-progress';
+                    if (taskId) {
+                        setChecklistState(taskId, nextState);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.mark-complete').forEach(button => {
+                button.addEventListener('click', () => {
+                    const taskId = button.dataset.taskId;
+                    if (taskId) {
+                        setChecklistState(taskId, 'complete');
                     }
                 });
             });
@@ -1169,8 +1355,12 @@
                     event.preventDefault();
                     const submitButton = form.querySelector('button');
                     const originalText = submitButton.textContent;
+                    const successMessage = form.querySelector('.form-success');
                     submitButton.disabled = true;
                     submitButton.textContent = 'Sending...';
+                    if (successMessage) {
+                        successMessage.style.display = 'none';
+                    }
 
                     const formData = new FormData(form);
 
@@ -1193,6 +1383,14 @@
 
                         submitButton.textContent = 'Sent!';
                         form.reset();
+                        const hiddenEmail = form.querySelector('input[name="customerEmail"]');
+                        if (hiddenEmail) {
+                            hiddenEmail.value = account.email;
+                        }
+                        if (successMessage) {
+                            successMessage.textContent = successMessage.dataset.message || 'Thanks! We got it.';
+                            successMessage.style.display = 'block';
+                        }
                         setTimeout(() => {
                             submitButton.textContent = originalText;
                             submitButton.disabled = false;
@@ -1201,6 +1399,9 @@
                         console.error('Task form submission failed:', error);
                         submitButton.textContent = 'Try again';
                         submitButton.disabled = false;
+                        if (successMessage) {
+                            successMessage.style.display = 'none';
+                        }
                     }
                 });
             });
