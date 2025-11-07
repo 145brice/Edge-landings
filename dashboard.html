@@ -591,41 +591,187 @@
             pointer-events: none;
         }
 
-        .calendly-container {
+        .calendar-wrapper {
             position: relative;
             border-radius: 14px;
-            overflow: hidden;
-            background: linear-gradient(160deg, rgba(0, 255, 136, 0.35), rgba(0, 0, 0, 0.75));
+            padding: 1.25rem;
+            background: rgba(5, 5, 5, 0.9);
+            border: 1px solid rgba(0, 255, 136, 0.32);
+            box-shadow: inset 0 0 0 1px rgba(0, 255, 136, 0.12);
+        }
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-month {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .calendar-nav {
+            background: rgba(0, 255, 136, 0.12);
+            color: #00ff88;
             border: 1px solid rgba(0, 255, 136, 0.4);
-            box-shadow: inset 0 0 0 1px rgba(0, 255, 136, 0.15), 0 12px 35px rgba(0, 255, 136, 0.18);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .calendly-container::before {
-            content: "";
-            position: absolute;
-            inset: -1px;
-            border-radius: inherit;
-            background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0));
-            opacity: 0.8;
-            pointer-events: none;
+        .calendar-nav:hover:not(:disabled) {
+            background: rgba(0, 255, 136, 0.22);
+            transform: translateY(-2px);
         }
 
-        .calendly-container::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: linear-gradient(200deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.85) 60%);
-            pointer-events: none;
+        .calendar-nav:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
         }
 
-        .calendly-inline-widget {
-            min-width: 100% !important;
-            width: 100%;
-            height: 620px;
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.55);
+            margin-bottom: 0.5rem;
+        }
+
+        .calendar-weekdays span {
+            text-align: center;
+            padding: 0.35rem 0;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 0.45rem;
+        }
+
+        .calendar-day {
+            position: relative;
+            border-radius: 12px;
+            padding: 0.75rem 0.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .calendar-day .day-number {
+            font-size: 1rem;
+        }
+
+        .calendar-day .day-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #00ff88;
+            margin-top: 0.35rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .calendar-day.available .day-dot {
+            opacity: 1;
+        }
+
+        .calendar-day.available:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 255, 136, 0.55);
+        }
+
+        .calendar-day.unavailable {
+            color: rgba(255, 255, 255, 0.28);
+            border-style: dashed;
+            cursor: not-allowed;
+        }
+
+        .calendar-day.unavailable .day-dot {
+            opacity: 0;
+        }
+
+        .calendar-day.placeholder {
             background: transparent;
-            filter: saturate(0.65) contrast(1.05) brightness(0.92);
-            mix-blend-mode: screen;
+            border: none;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .calendar-day.selected {
+            background: linear-gradient(160deg, rgba(0, 255, 136, 0.3), rgba(0, 255, 136, 0.05));
+            border-color: rgba(0, 255, 136, 0.75);
+            box-shadow: 0 10px 22px rgba(0, 255, 136, 0.3);
+            color: #04130c;
+        }
+
+        .time-slot-panel {
+            margin-top: 1.3rem;
+            background: rgba(5, 5, 5, 0.92);
+            border-radius: 14px;
+            padding: 1.2rem;
+            border: 1px solid rgba(0, 255, 136, 0.28);
+            box-shadow: inset 0 0 0 1px rgba(0, 255, 136, 0.08);
+        }
+
+        .time-slot-heading {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: rgba(200, 255, 234, 0.85);
+        }
+
+        .time-slot-subheading {
+            margin-top: 0.35rem;
+            margin-bottom: 0.9rem;
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.95rem;
+        }
+
+        .time-slot-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+        }
+
+        .time-slot {
+            padding: 0.55rem 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.35);
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .time-slot:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .time-slot.selected {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #03150e;
+            border-color: transparent;
+            box-shadow: 0 8px 18px rgba(0, 255, 136, 0.3);
         }
 
         .calendly-controls {
@@ -633,6 +779,14 @@
             gap: 0.6rem;
             margin-top: 1rem;
             flex-wrap: wrap;
+        }
+
+        .calendly-controls .btn {
+            flex: 1 1 220px;
+        }
+
+        .calendly-controls .btn.btn-secondary {
+            flex: 1 1 180px;
         }
 
         .calendly-pill {
@@ -816,6 +970,28 @@
             
             .welcome-section .quick-stats {
                 grid-template-columns: 1fr;
+            }
+
+            .calendly-shell {
+                padding: 1.2rem;
+            }
+
+            .calendar-grid {
+                gap: 0.35rem;
+            }
+
+            .calendar-day {
+                padding: 0.6rem 0.35rem;
+            }
+
+            .calendly-controls {
+                flex-direction: column;
+            }
+
+            .calendly-controls .btn,
+            .calendly-controls .btn.btn-secondary {
+                flex: 1 1 auto;
+                width: 100%;
             }
         }
     </style>
@@ -1143,12 +1319,32 @@
                 <div class="dashboard-card" id="schedule-kickoff">
                     <h2><span class="card-icon">📅</span>Schedule Kickoff Call</h2>
                     <p class="muted">Book your 15-minute alignment call so we can lock in content and next steps.</p>
-                    <div class="calendly-shell">
+                    <div class="calendly-shell custom-scheduler">
                         <span class="calendly-pill">Live Scheduling</span>
-                        <div class="calendly-container">
-                            <div class="calendly-inline-widget" data-url="https://calendly.com/145brice?hide_gdpr_banner=1&hide_event_type_details=1&background_color=0a0a0a&text_color=c8ffea&primary_color=00ff88"></div>
+                        <div class="calendar-wrapper">
+                            <div class="calendar-header">
+                                <button type="button" class="calendar-nav prev" id="calendarPrevBtn" aria-label="Previous month">‹</button>
+                                <div class="calendar-month" id="calendarMonthLabel">Loading…</div>
+                                <button type="button" class="calendar-nav next" id="calendarNextBtn" aria-label="Next month">›</button>
+                            </div>
+                            <div class="calendar-weekdays">
+                                <span>Sun</span>
+                                <span>Mon</span>
+                                <span>Tue</span>
+                                <span>Wed</span>
+                                <span>Thu</span>
+                                <span>Fri</span>
+                                <span>Sat</span>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid"></div>
+                        </div>
+                        <div class="time-slot-panel">
+                            <div class="time-slot-heading">Available Times</div>
+                            <div class="time-slot-subheading" id="timeSlotSummary">Select a day to view openings.</div>
+                            <div class="time-slot-list" id="timeSlotList"></div>
                         </div>
                         <div class="calendly-controls">
+                            <button type="button" class="btn" id="bookCalendlyBtn" disabled>Open Calendly to confirm</button>
                             <button type="button" class="btn btn-secondary mark-progress" data-task-id="book-kickoff" data-state="in-progress">I'm scheduling now</button>
                             <button type="button" class="btn mark-complete" data-task-id="book-kickoff">I booked my call</button>
                         </div>
@@ -1240,14 +1436,6 @@
             `;
 
             content.innerHTML += taskForms;
-
-            if (!document.getElementById('calendlyScript')) {
-                const calendlyScript = document.createElement('script');
-                calendlyScript.id = 'calendlyScript';
-                calendlyScript.src = 'https://assets.calendly.com/assets/external/widget.js';
-                calendlyScript.async = true;
-                document.body.appendChild(calendlyScript);
-            }
 
             document.querySelectorAll('.task-form input[name="customerEmail"]').forEach(input => {
                 input.value = account.email;
@@ -1383,6 +1571,216 @@
                     });
                 }
             });
+
+            function initCustomScheduler() {
+                const scheduler = document.querySelector('.custom-scheduler');
+                if (!scheduler) return;
+
+                const calendarGrid = scheduler.querySelector('#calendarGrid');
+                const monthLabel = scheduler.querySelector('#calendarMonthLabel');
+                const prevBtn = scheduler.querySelector('#calendarPrevBtn');
+                const nextBtn = scheduler.querySelector('#calendarNextBtn');
+                const timeSlotSummary = scheduler.querySelector('#timeSlotSummary');
+                const timeSlotList = scheduler.querySelector('#timeSlotList');
+                const bookBtn = scheduler.querySelector('#bookCalendlyBtn');
+
+                if (!calendarGrid || !monthLabel || !timeSlotSummary || !timeSlotList || !bookBtn) {
+                    return;
+                }
+
+                const availabilityByWeekday = {
+                    1: ['9:00 AM', '1:00 PM', '3:30 PM'],
+                    2: ['10:00 AM', '2:30 PM'],
+                    3: ['9:30 AM', '12:30 PM', '4:00 PM'],
+                    4: ['11:00 AM', '2:00 PM'],
+                    5: ['10:30 AM', '1:30 PM']
+                };
+
+                const baseCalendlyUrl = 'https://calendly.com/145brice';
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                let focusDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                const minFocus = new Date(focusDate);
+                const maxFocus = new Date(today.getFullYear(), today.getMonth() + 2, 1);
+
+                let selectedDate = null;
+                let selectedTime = null;
+
+                function isDateInPast(date) {
+                    return date < today;
+                }
+
+                function formatDateLabel(date) {
+                    return date.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
+                }
+
+                function updateNavButtons() {
+                    if (prevBtn) {
+                        const isAtMin = focusDate.getFullYear() === minFocus.getFullYear() && focusDate.getMonth() === minFocus.getMonth();
+                        prevBtn.disabled = isAtMin;
+                    }
+                    if (nextBtn) {
+                        const isAtMax = focusDate.getFullYear() === maxFocus.getFullYear() && focusDate.getMonth() === maxFocus.getMonth();
+                        nextBtn.disabled = isAtMax;
+                    }
+                }
+
+                function updateBookBtn() {
+                    if (!bookBtn) return;
+                    if (selectedDate && selectedTime) {
+                        const dateParam = selectedDate.toISOString().split('T')[0];
+                        bookBtn.disabled = false;
+                        bookBtn.textContent = `Open Calendly for ${selectedTime}`;
+                        bookBtn.dataset.date = dateParam;
+                        bookBtn.dataset.time = selectedTime;
+                    } else if (selectedDate) {
+                        bookBtn.disabled = true;
+                        bookBtn.textContent = 'Choose a time';
+                        delete bookBtn.dataset.date;
+                        delete bookBtn.dataset.time;
+                    } else {
+                        bookBtn.disabled = true;
+                        bookBtn.textContent = 'Open Calendly to confirm';
+                        delete bookBtn.dataset.date;
+                        delete bookBtn.dataset.time;
+                    }
+                }
+
+                function renderTimeSlots(times, dateObj) {
+                    timeSlotList.innerHTML = '';
+                    if (!dateObj) {
+                        timeSlotSummary.textContent = 'Select a day to view openings.';
+                        updateBookBtn();
+                        return;
+                    }
+
+                    const label = formatDateLabel(dateObj);
+                    if (!times.length) {
+                        timeSlotSummary.textContent = `${label} • no openings available`;
+                        updateBookBtn();
+                        return;
+                    }
+
+                    timeSlotSummary.textContent = `${label} • ${times.length} available slot${times.length > 1 ? 's' : ''}`;
+                    times.forEach((time) => {
+                        const slotBtn = document.createElement('button');
+                        slotBtn.type = 'button';
+                        slotBtn.className = 'time-slot';
+                        slotBtn.textContent = time;
+                        if (selectedTime === time) {
+                            slotBtn.classList.add('selected');
+                        }
+                        slotBtn.addEventListener('click', () => {
+                            selectedTime = time;
+                            renderTimeSlots(times, dateObj);
+                            updateBookBtn();
+                            setChecklistState('book-kickoff', 'in-progress');
+                        });
+                        timeSlotList.appendChild(slotBtn);
+                    });
+                    updateBookBtn();
+                }
+
+                function renderCalendar() {
+                    calendarGrid.innerHTML = '';
+                    monthLabel.textContent = focusDate.toLocaleString(undefined, { month: 'long', year: 'numeric' });
+
+                    const firstWeekday = focusDate.getDay();
+                    const daysInMonth = new Date(focusDate.getFullYear(), focusDate.getMonth() + 1, 0).getDate();
+                    const totalCells = Math.ceil((firstWeekday + daysInMonth) / 7) * 7;
+
+                    let dayCounter = 1;
+                    for (let cellIndex = 0; cellIndex < totalCells; cellIndex++) {
+                        const cell = document.createElement('button');
+                        cell.type = 'button';
+                        cell.className = 'calendar-day placeholder';
+                        cell.tabIndex = -1;
+
+                        if (cellIndex >= firstWeekday && dayCounter <= daysInMonth) {
+                            const dateObj = new Date(focusDate.getFullYear(), focusDate.getMonth(), dayCounter);
+                            cell.className = 'calendar-day';
+                            cell.tabIndex = 0;
+
+                            const numberSpan = document.createElement('span');
+                            numberSpan.className = 'day-number';
+                            numberSpan.textContent = dayCounter;
+
+                            const dotSpan = document.createElement('span');
+                            dotSpan.className = 'day-dot';
+
+                            cell.appendChild(numberSpan);
+                            cell.appendChild(dotSpan);
+
+                            const weekday = dateObj.getDay();
+                            const slots = availabilityByWeekday[weekday] || [];
+                            const isPast = isDateInPast(dateObj);
+
+                            if (!slots.length || isPast) {
+                                cell.classList.add('unavailable');
+                                cell.disabled = true;
+                                if (!slots.length) {
+                                    dotSpan.remove();
+                                }
+                            } else {
+                                cell.classList.add('available');
+                                cell.disabled = false;
+                                cell.addEventListener('click', () => {
+                                    selectedDate = dateObj;
+                                    selectedTime = null;
+                                    renderCalendar();
+                                    renderTimeSlots(slots, dateObj);
+                                    setChecklistState('book-kickoff', 'in-progress');
+                                });
+                            }
+
+                            if (selectedDate && dateObj.toDateString() === selectedDate.toDateString()) {
+                                cell.classList.add('selected');
+                            }
+
+                            dayCounter += 1;
+                        } else {
+                            cell.disabled = true;
+                        }
+
+                        calendarGrid.appendChild(cell);
+                    }
+
+                    updateNavButtons();
+                }
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        if (prevBtn.disabled) return;
+                        focusDate = new Date(focusDate.getFullYear(), focusDate.getMonth() - 1, 1);
+                        renderCalendar();
+                    });
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        if (nextBtn.disabled) return;
+                        focusDate = new Date(focusDate.getFullYear(), focusDate.getMonth() + 1, 1);
+                        renderCalendar();
+                    });
+                }
+
+                if (bookBtn) {
+                    bookBtn.addEventListener('click', () => {
+                        if (!selectedDate || !selectedTime) return;
+                        const dateParam = bookBtn.dataset.date;
+                        const timeParam = encodeURIComponent(selectedTime.replace(/\s+/g, ''));
+                        const targetUrl = `${baseCalendlyUrl}?date=${dateParam}&time=${timeParam}`;
+                        window.open(targetUrl, '_blank', 'noopener');
+                        setChecklistState('book-kickoff', 'in-progress');
+                    });
+                }
+
+                renderCalendar();
+                renderTimeSlots([], null);
+                updateBookBtn();
+            }
+
+            initCustomScheduler();
 
             updateChecklistUI();
 
