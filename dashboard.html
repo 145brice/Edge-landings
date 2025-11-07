@@ -119,6 +119,12 @@
             font-weight: 700;
         }
         
+        .stat-subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            margin-top: 0.35rem;
+        }
+        
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -273,6 +279,306 @@
             color: #00cc6a;
         }
         
+        .status-chip {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            background: rgba(0, 255, 136, 0.15);
+            color: #00ff88;
+            text-transform: uppercase;
+        }
+        
+        .status-chip.trial {
+            background: rgba(0, 123, 255, 0.2);
+            color: #4dabff;
+        }
+        
+        .status-chip.paused {
+            background: rgba(255, 191, 0, 0.2);
+            color: #ffc857;
+        }
+        
+        .pricing-line {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin: 0.75rem 0;
+        }
+        
+        .pricing-line span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.65);
+            margin-left: 0.3rem;
+        }
+        
+        .muted {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .card-divider {
+            height: 1px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 1.2rem 0;
+        }
+        
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .info-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .progress-track {
+            margin: 0.75rem 0 1rem;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            transition: width 0.4s ease;
+        }
+        
+        .assets-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .asset-tag {
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            background: rgba(0, 255, 136, 0.13);
+            color: #00ff88;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+        
+        .checklist-item .icon {
+            font-size: 1.1rem;
+            margin-top: 0.1rem;
+            color: #00ff88;
+        }
+        
+        .checklist-item.pending .icon {
+            color: rgba(255, 255, 255, 0.35);
+        }
+        
+        .checklist-item strong {
+            font-size: 1rem;
+        }
+        
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .task-item.done {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+        
+        .task-checkbox {
+            width: 18px;
+            height: 18px;
+            margin-top: 0.2rem;
+        }
+        
+        .task-content strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .task-content span {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.9rem;
+        }
+        
+        .tag {
+            margin-left: auto;
+            background: rgba(0, 255, 136, 0.15);
+            color: #00ff88;
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .activity-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .activity-item {
+            border-left: 2px solid rgba(0, 255, 136, 0.4);
+            padding-left: 1rem;
+        }
+        
+        .activity-item strong {
+            display: block;
+            font-size: 1rem;
+        }
+        
+        .activity-item .time {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        
+        .activity-item p {
+            margin-top: 0.25rem;
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.9rem;
+        }
+        
+        .resource-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .resource-list a {
+            display: block;
+            padding: 0.9rem 1rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        
+        .resource-list a:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 255, 136, 0.35);
+        }
+        
+        .resource-list span {
+            display: block;
+            margin-top: 0.35rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .support-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #00ff88;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .support-status.offline {
+            color: #ff6b6b;
+        }
+        
+        .support-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+        
+        .button-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 1.2rem;
+        }
+        
+        .section-subheading {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255, 255, 255, 0.55);
+            font-weight: 700;
+        }
+        
+        @media (max-width: 768px) {
+            .task-item {
+                flex-direction: column;
+            }
+            
+            .tag {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                align-self: flex-start;
+            }
+        }
+        
         .loading {
             text-align: center;
             padding: 4rem;
@@ -339,26 +645,33 @@
     </div>
 
     <script>
-        // Check if user is logged in
         const customerEmail = sessionStorage.getItem('customerEmail');
         const customerId = sessionStorage.getItem('customerId');
 
-        if (!customerEmail || !customerId) {
+        if (!customerEmail) {
             window.location.href = '/login.html';
         }
 
-        // Load dashboard data
+        function formatDate(isoString) {
+            if (!isoString) return '—';
+            const date = new Date(isoString);
+            if (Number.isNaN(date.getTime())) return '—';
+            return date.toLocaleDateString();
+        }
+
         async function loadDashboard() {
             try {
+                const payload = { email: customerEmail };
+                if (customerId) {
+                    payload.customerId = customerId;
+                }
+
                 const response = await fetch('/api/dashboard', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        email: customerEmail,
-                        customerId: customerId
-                    }),
+                    body: JSON.stringify(payload),
                 });
 
                 const data = await response.json();
@@ -369,200 +682,263 @@
 
                 displayDashboard(data);
             } catch (error) {
-                document.getElementById('errorContainer').innerHTML = 
-                    `<div class="error-message">${error.message}</div>`;
+                document.getElementById('errorContainer').innerHTML = `<div class="error-message">${error.message}</div>`;
                 document.getElementById('dashboardContent').innerHTML = '';
             }
         }
 
         function displayDashboard(data) {
-            // Welcome Section
+            const { account, billing, website, onboarding, activity, resources, support } = data;
+
             const welcomeSection = document.getElementById('welcomeSection');
             const welcomeTitle = document.getElementById('welcomeTitle');
             const welcomeText = document.getElementById('welcomeText');
             const quickStats = document.getElementById('quickStats');
-            
-            const firstName = data.email.split('@')[0].split('.')[0];
-            const capitalizedName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
-            
+
+            const firstNameToken = (account?.email || '').split('@')[0].split(/[._-]/)[0] || 'there';
+            const capitalizedName = firstNameToken.charAt(0).toUpperCase() + firstNameToken.slice(1);
+
             welcomeTitle.textContent = `Welcome back, ${capitalizedName}!`;
-            welcomeText.textContent = `Here's everything you need to manage your Edge Websites account.`;
-            
-            const isActive = data.subscription?.status === 'active';
+            welcomeText.textContent = `You're on the ${account.plan.name}. Here's what's happening today.`;
+
+            const billingInterval = (billing.interval || 'per month').replace('per ', '');
+            const planStatusCopy = account.plan.status === 'trial'
+                ? `${account.plan.trialDaysRemaining} days left in your trial`
+                : account.plan.status === 'active'
+                    ? 'Auto-renew is enabled'
+                    : 'Plan currently paused';
+
             quickStats.innerHTML = `
                 <div class="stat-item">
-                    <div class="stat-label">Subscription Status</div>
-                    <div class="stat-value" style="color: ${isActive ? '#00ff88' : '#ff6b6b'}">
-                        ${isActive ? 'Active' : 'Inactive'}
-                    </div>
-                </div>
-                <div class="stat-item">
                     <div class="stat-label">Current Plan</div>
-                    <div class="stat-value">$${data.subscription?.amount || '0'}/mo</div>
+                    <div class="stat-value">$${billing.amount}/${billingInterval}</div>
+                    <div class="stat-subtitle">${planStatusCopy}</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-label">Next Billing</div>
-                    <div class="stat-value" style="font-size: 1.1rem;">${data.subscription?.nextBillingDate || 'N/A'}</div>
+                    <div class="stat-label">Build Progress</div>
+                    <div class="stat-value">${website.progress}%</div>
+                    <div class="stat-subtitle">${website.status}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Next Milestone</div>
+                    <div class="stat-value" style="font-size: 1.1rem;">${website.nextMilestone}</div>
+                    <div class="stat-subtitle">${website.estimatedLaunch}</div>
                 </div>
             `;
-            
+
             welcomeSection.style.display = 'block';
 
-            // Dashboard Cards
             const content = document.getElementById('dashboardContent');
             content.className = 'dashboard-grid';
 
-            const statusClass = data.subscription?.status === 'active' ? 'active' : 
-                               data.subscription?.status === 'canceled' ? 'cancelled' : data.subscription?.status ? 'pending' : 'pending';
-            const statusText = data.subscription?.status || 'No subscription';
+            const planStatusClass = account.plan.status === 'active'
+                ? 'active'
+                : account.plan.status === 'trial'
+                    ? 'trial'
+                    : 'paused';
 
-            const portalButton = (data.portalConfigured && data.portalUrl)
-                ? `<a href="${data.portalUrl}" target="_blank" class="btn">Manage Subscription</a>
-                    <p style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); text-align: center;">
-                        Update payment, cancel, or change plan
-                    </p>`
-                : `<div class="error-message" style="margin-top: 1rem;">
-                        ${data.portalMessage || 'Billing portal is not configured yet. Contact support to manage your subscription.'}
-                   </div>`;
+            const checklistMarkup = (website.checklist || []).map(item => `
+                <li class="checklist-item ${item.status ? 'complete' : 'pending'}">
+                    <span class="icon">${item.status ? '✅' : '⏳'}</span>
+                    <div>
+                        <strong>${item.label}</strong>
+                    </div>
+                </li>
+            `).join('');
+
+            const assetsMarkup = (website.assetsNeeded || []).map(asset => `
+                <span class="asset-tag">${asset}</span>
+            `).join('');
+
+            const activityMarkup = (activity || []).map(item => `
+                <li class="activity-item">
+                    <strong>${item.title}</strong>
+                    <span class="time">${item.timestamp}</span>
+                    <p>${item.detail}</p>
+                </li>
+            `).join('');
+
+            const resourcesMarkup = (resources || []).map(link => `
+                <li><a href="${link.href}" target="_blank">${link.title}<span>${link.description}</span></a></li>
+            `).join('');
+
+            const memberSince = formatDate(account.createdAt);
+            const trialEndDisplay = account.plan.trialDaysRemaining > 0
+                ? formatDate(account.plan.trialEndsAt)
+                : 'Trial completed';
+            const nextInvoiceDisplay = billing.nextInvoice
+                ? formatDate(billing.nextInvoice)
+                : (account.plan.status === 'trial' ? 'After trial' : 'Pending');
 
             content.innerHTML = `
-                <div class="dashboard-card">
-                    <h2><span class="card-icon">💳</span>Subscription</h2>
-                    <span class="status ${statusClass}">${statusText.toUpperCase()}</span>
-                    <div class="info-row">
-                        <span class="info-label">Plan</span>
-                        <span class="info-value">${data.subscription?.planName || 'N/A'}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Monthly Cost</span>
-                        <span class="info-value">$${data.subscription?.amount || '0'}/month</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Next Billing</span>
-                        <span class="info-value">${data.subscription?.nextBillingDate || 'N/A'}</span>
-                    </div>
-                    ${data.subscription ? `
-                        ${portalButton}
-                    ` : `
-                        <a href="/#pricing" class="btn">Select a Plan</a>
-                        <p style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); text-align: center;">
-                            Choose a plan to get started with your website
-                        </p>
-                    `}
-                </div>
-                
-                <div class="dashboard-card">
-                    <h2><span class="card-icon">🌐</span>Your Website</h2>
-                    <div class="info-row">
-                        <span class="info-label">Status</span>
-                        <span class="info-value" style="color: #00ff88;">${data.website?.status || 'Active'}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Website URL</span>
-                        <span class="info-value">
-                            ${data.website?.url ? `<a href="${data.website.url}" target="_blank" style="color: #00ff88; text-decoration: none;">View Site</a>` : 'Coming soon...'}
-                        </span>
-                    </div>
-                    <ul class="action-list">
-                        <li><a href="mailto:145brice@gmail.com?subject=Website Changes Request">📝 Request Changes</a></li>
-                        <li><a href="mailto:145brice@gmail.com?subject=SEO Update Request">⚡ Request SEO Update</a></li>
-                        <li><a href="mailto:145brice@gmail.com?subject=Content Update">✏️ Update Content</a></li>
+                <div class="dashboard-card plan-card">
+                    <h2><span class="card-icon">🏷️</span>Your Plan</h2>
+                    <span class="status-chip ${planStatusClass}">${account.plan.status.toUpperCase()}</span>
+                    <p class="pricing-line">$${billing.amount}<span>/month</span></p>
+                    <p class="muted">${planStatusCopy}</p>
+                    <div class="card-divider"></div>
+                    <ul class="info-list">
+                        <li><span class="info-label">Plan level</span><span class="info-value">${account.plan.name}</span></li>
+                        <li><span class="info-label">Billing cadence</span><span class="info-value">${billing.interval || 'per month'}</span></li>
+                        <li><span class="info-label">Trial ends</span><span class="info-value">${trialEndDisplay}</span></li>
+                        <li><span class="info-label">Next invoice</span><span class="info-value">${nextInvoiceDisplay}</span></li>
+                        <li><span class="info-label">Autopay</span><span class="info-value">${billing.autopay ? 'Enabled' : 'Disabled'}</span></li>
                     </ul>
-                    <button class="btn btn-secondary" onclick="window.location.href='mailto:145brice@gmail.com?subject=Website Support'">Contact About Website</button>
-                </div>
-                
-                <div class="dashboard-card">
-                    <h2><span class="card-icon">⚙️</span>Quick Actions</h2>
-                    <ul class="action-list">
-                        ${data.portalConfigured && data.portalUrl ? `
-                            <li><a href="${data.portalUrl}" target="_blank">💳 Update Payment Method</a></li>
-                            <li><a href="${data.portalUrl}" target="_blank">📄 View Billing History</a></li>
-                            <li><a href="${data.portalUrl}" target="_blank">📥 Download Invoices</a></li>
-                        ` : `
-                            <li>💳 Update Payment Method (portal not set up)</li>
-                            <li>📄 View Billing History (portal not set up)</li>
-                            <li>📥 Download Invoices (portal not set up)</li>
-                        `}
-                        <li><a href="mailto:145brice@gmail.com?subject=Account Question">❓ Account Questions</a></li>
-                    </ul>
-                    <a href="mailto:145brice@gmail.com" class="btn btn-secondary">Contact Support</a>
-                </div>
-                
-                <div class="dashboard-card">
-                    <h2><span class="card-icon">📊</span>Plan Features</h2>
-                    <div style="margin-bottom: 1rem;">
-                        ${data.subscription?.amount >= 299 ? `
-                            <span class="feature-badge">Full Backend Access</span>
-                            <span class="feature-badge">Constant Updates</span>
-                            <span class="feature-badge">CRM Auto with Zapier</span>
-                            <span class="feature-badge">Priority Support</span>
-                            <span class="feature-badge">Advanced SEO</span>
-                        ` : `
-                            <span class="feature-badge">Up to 5 Pages</span>
-                            <span class="feature-badge">1 Hour Monthly Tweaks</span>
-                            <span class="feature-badge">Domain Included</span>
-                            <span class="feature-badge">SEO Tune-up</span>
-                        `}
+                    <div class="button-row">
+                        <a class="btn btn-secondary" href="mailto:145brice@gmail.com?subject=Upgrade%20My%20Plan">Request plan change</a>
+                        <a class="btn btn-secondary" href="mailto:145brice@gmail.com?subject=Pause%20My%20Subscription">Pause or cancel plan</a>
                     </div>
-                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1rem;">
-                        ${data.subscription?.amount >= 299 ? 
-                            'You have access to all Pro features including full backend, CRM automation, and priority support.' :
-                            'Upgrade to Pro for full backend access, CRM automation with Zapier, and constant updates.'}
-                    </p>
-                    ${data.subscription?.amount < 299 ? `
-                        <a href="https://buy.stripe.com/9B66oJ8Pu6ef2LMcLl63K04" target="_blank" class="btn">Upgrade to Pro</a>
-                    ` : ''}
                 </div>
-                
-                <div class="dashboard-card">
+                <div class="dashboard-card website-card">
+                    <h2><span class="card-icon">🚀</span>Website Build Status</h2>
+                    <div class="progress-label"><span>${website.status}</span><span>${website.progress}%</span></div>
+                    <div class="progress-track"><div class="progress-fill" id="websiteProgressFill"></div></div>
+                    <p class="muted">Next milestone: <strong>${website.nextMilestone}</strong></p>
+                    <div class="card-divider"></div>
+                    <h3 class="section-subheading">Build checklist</h3>
+                    <ul class="checklist">${checklistMarkup || '<li class="muted">No build tasks yet.</li>'}</ul>
+                    <div class="card-divider"></div>
+                    <h3 class="section-subheading">Assets we still need</h3>
+                    <div class="assets-list">${assetsMarkup || '<span class="muted">Nothing pending right now.</span>'}</div>
+                </div>
+                <div class="dashboard-card onboarding-card">
+                    <h2><span class="card-icon">✅</span>Onboarding Checklist</h2>
+                    <p class="muted">${onboarding?.notes || 'Complete these steps to keep your launch on schedule.'}</p>
+                    <div class="progress-label"><span>Checklist progress</span><span id="taskProgressPercent">0%</span></div>
+                    <div class="progress-track"><div class="progress-fill" id="taskProgressFill"></div></div>
+                    <p class="muted" id="taskProgressValue"></p>
+                    <ul class="task-list" id="taskList"></ul>
+                </div>
+                <div class="dashboard-card activity-card">
+                    <h2><span class="card-icon">🗓️</span>Recent Activity</h2>
+                    <ul class="activity-list" id="activityList">${activityMarkup || '<li class="muted">No activity yet.</li>'}</ul>
+                </div>
+                <div class="dashboard-card resources-card">
+                    <h2><span class="card-icon">📚</span>Resource Library</h2>
+                    <ul class="resource-list" id="resourceList">${resourcesMarkup || '<li class="muted">Resources coming soon.</li>'}</ul>
+                </div>
+                <div class="dashboard-card support-card">
                     <h2><span class="card-icon">💬</span>Support</h2>
-                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 1rem;">
-                        Need help? We're here for you 24/7.
-                    </p>
-                    <div class="info-row">
-                        <span class="info-label">Email</span>
-                        <span class="info-value">145brice@gmail.com</span>
+                    <div class="support-status ${support.status?.toLowerCase() === 'online' ? '' : 'offline'}">
+                        <span>●</span>
+                        <span>${support.status || 'Online'}</span>
                     </div>
-                    <div class="info-row">
-                        <span class="info-label">Response Time</span>
-                        <span class="info-value" style="color: #00ff88;">Within 24 hours</span>
-                    </div>
-                    <ul class="action-list" style="margin-top: 1rem;">
-                        <li><a href="mailto:145brice@gmail.com?subject=Technical Support">🔧 Technical Support</a></li>
-                        <li><a href="mailto:145brice@gmail.com?subject=Billing Question">💳 Billing Question</a></li>
-                        <li><a href="mailto:145brice@gmail.com?subject=Feature Request">💡 Feature Request</a></li>
+                    <p class="muted" style="margin-top: 0.75rem;">Response time: ${support.responseTime || 'Under 24 hours'}</p>
+                    <ul class="info-list" style="margin-top: 1rem;">
+                        <li><span class="info-label">Email</span><span class="info-value">${support.email}</span></li>
+                        ${support.phone ? `<li><span class="info-label">Phone</span><span class="info-value">${support.phone}</span></li>` : ''}
                     </ul>
+                    <div class="support-actions">
+                        <a class="btn btn-secondary" href="mailto:${support.email}?subject=Technical%20Support">Request technical help</a>
+                        <a class="btn btn-secondary" href="mailto:${support.email}?subject=Content%20Update">Request content changes</a>
+                    </div>
                 </div>
-                
-                <div class="dashboard-card">
-                    <h2><span class="card-icon">📋</span>Account Info</h2>
-                    <div class="info-row">
-                        <span class="info-label">Email</span>
-                        <span class="info-value">${data.email}</span>
+                <div class="dashboard-card account-card">
+                    <h2><span class="card-icon">👤</span>Account &amp; Tools</h2>
+                    <ul class="info-list">
+                        <li><span class="info-label">Email</span><span class="info-value">${account.email}</span></li>
+                        <li><span class="info-label">Member since</span><span class="info-value">${memberSince}</span></li>
+                        <li><span class="info-label">Plan tier</span><span class="info-value">${account.plan.tier}</span></li>
+                        ${account.customerId ? `<li><span class="info-label">Account ID</span><span class="info-value">${account.customerId}</span></li>` : ''}
+                    </ul>
+                    <div class="button-row">
+                        <a class="btn btn-secondary" href="/forgot-password.html">Reset password</a>
+                        <a class="btn btn-secondary" href="mailto:${support.email}?subject=New%20Feature%20Request">Request a new feature</a>
                     </div>
-                    <div class="info-row">
-                        <span class="info-label">Account Status</span>
-                        <span class="info-value" style="color: ${isActive ? '#00ff88' : '#ff6b6b'}">
-                            ${isActive ? 'Active' : 'Inactive'}
-                        </span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Member Since</span>
-                        <span class="info-value">${new Date().toLocaleDateString()}</span>
-                    </div>
-                    <a href="${data.portalUrl}" target="_blank" class="btn btn-secondary" style="margin-top: 1rem;">Update Account Details</a>
                 </div>
             `;
+
+            const websiteProgressFill = document.getElementById('websiteProgressFill');
+            if (websiteProgressFill) {
+                requestAnimationFrame(() => {
+                    websiteProgressFill.style.width = `${website.progress}%`;
+                });
+            }
+
+            // Onboarding tasks with local storage persistence
+            const tasks = (onboarding?.tasks || []);
+            const taskStateKey = `dashboardTasks:${account.email}`;
+            const storedTaskState = JSON.parse(localStorage.getItem(taskStateKey) || '{}');
+            const normalizedTasks = tasks.map(task => ({
+                ...task,
+                completed: Object.prototype.hasOwnProperty.call(storedTaskState, task.id)
+                    ? storedTaskState[task.id]
+                    : !!task.completed,
+            }));
+
+            const taskListEl = document.getElementById('taskList');
+            if (taskListEl) {
+                if (!normalizedTasks.length) {
+                    taskListEl.innerHTML = '<li class="muted">No onboarding tasks at the moment.</li>';
+                } else {
+                    taskListEl.innerHTML = normalizedTasks.map(task => `
+                        <li class="task-item ${task.completed ? 'done' : ''}">
+                            <input type="checkbox" class="task-checkbox" data-task-id="${task.id}" ${task.completed ? 'checked' : ''}>
+                            <div class="task-content">
+                                <strong>${task.title}</strong>
+                                <span>${task.description}</span>
+                            </div>
+                            <span class="tag">${task.category}</span>
+                        </li>
+                    `).join('');
+                }
+            }
+
+            const taskProgressFill = document.getElementById('taskProgressFill');
+            const taskProgressPercent = document.getElementById('taskProgressPercent');
+            const taskProgressValue = document.getElementById('taskProgressValue');
+
+            function updateTaskProgress() {
+                const total = normalizedTasks.length;
+                const completedCount = normalizedTasks.filter(task => task.completed).length;
+                const percent = total ? Math.round((completedCount / total) * 100) : 0;
+
+                if (taskProgressFill) {
+                    taskProgressFill.style.width = `${percent}%`;
+                }
+                if (taskProgressPercent) {
+                    taskProgressPercent.textContent = `${percent}%`;
+                }
+                if (taskProgressValue) {
+                    taskProgressValue.textContent = `${completedCount} of ${total} tasks complete`;
+                }
+            }
+
+            if (taskListEl && normalizedTasks.length) {
+                taskListEl.querySelectorAll('.task-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        const taskId = checkbox.dataset.taskId;
+                        const task = normalizedTasks.find(item => item.id === taskId);
+                        if (!task) return;
+
+                        task.completed = checkbox.checked;
+                        storedTaskState[taskId] = checkbox.checked;
+                        localStorage.setItem(taskStateKey, JSON.stringify(storedTaskState));
+                        checkbox.closest('.task-item').classList.toggle('done', checkbox.checked);
+                        updateTaskProgress();
+                    });
+                });
+            }
+
+            updateTaskProgress();
+
+            const activityListEl = document.getElementById('activityList');
+            if (activityListEl && !activityMarkup) {
+                activityListEl.innerHTML = '<li class="muted">No activity yet.</li>';
+            }
+
+            const resourceListEl = document.getElementById('resourceList');
+            if (resourceListEl && !resourcesMarkup) {
+                resourceListEl.innerHTML = '<li class="muted">Resources coming soon.</li>';
+            }
         }
 
-        // Logout function
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             sessionStorage.clear();
             window.location.href = '/login.html';
         });
 
-        // Load dashboard on page load
         loadDashboard();
     </script>
 </body>

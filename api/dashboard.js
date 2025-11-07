@@ -1,13 +1,67 @@
-let stripe = null;
-if (process.env.STRIPE_SECRET_KEY) {
-  try {
-    stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-  } catch (error) {
-    console.error('Failed to initialize Stripe in dashboard endpoint:', error.message);
-    stripe = null;
+const users = require('./users');
+
+const DEFAULT_TASKS = [
+  {
+    id: 'upload-assets',
+    title: 'Upload brand assets',
+    description: 'Send us your logo, brand colors, and any existing imagery.',
+    category: 'Launch prep'
+  },
+  {
+    id: 'complete-questionnaire',
+    title: 'Complete business questionnaire',
+    description: 'Answer 6 quick questions so we can nail your messaging.',
+    category: 'Launch prep'
+  },
+  {
+    id: 'book-kickoff',
+    title: 'Schedule your kickoff call',
+    description: 'Get on a 15-minute strategy call to align on goals.',
+    category: 'Launch prep'
+  },
+  {
+    id: 'connect-domain',
+    title: 'Connect your domain',
+    description: 'We’ll walk you through pointing your domain to Edge.',
+    category: 'Go live'
+  },
+  {
+    id: 'review-homepage',
+    title: 'Review homepage preview',
+    description: 'Leave comments or approvals on your first draft.',
+    category: 'Go live'
   }
-} else {
-  console.warn('STRIPE_SECRET_KEY environment variable is not set - dashboard portal features disabled');
+];
+
+const DEFAULT_ACTIVITY = [
+  {
+    title: 'Website brief received',
+    timestamp: 'Today',
+    detail: 'You submitted your business questionnaire.'
+  },
+  {
+    title: 'Assets reviewed',
+    timestamp: 'Yesterday',
+    detail: 'Brand assets packaged and sent to design team.'
+  },
+  {
+    title: 'Strategy call booked',
+    timestamp: '2 days ago',
+    detail: 'Kickoff call scheduled for this week.'
+  }
+];
+
+function getTrialInfo(createdAt, explicitTrialEnd) {
+  const created = createdAt ? new Date(createdAt) : new Date();
+  const defaultEnd = new Date(created.getTime() + 7 * 24 * 60 * 60 * 1000);
+  const trialEnd = explicitTrialEnd ? new Date(explicitTrialEnd) : defaultEnd;
+  const msRemaining = trialEnd.getTime() - Date.now();
+  const daysRemaining = Math.max(0, Math.ceil(msRemaining / (1000 * 60 * 60 * 24)));
+
+  return {
+    trialEndsAt: trialEnd.toISOString(),
+    trialDaysRemaining: daysRemaining,
+  };
 }
 
 module.exports = async (req, res) => {
@@ -25,78 +79,111 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { email, customerId } = req.body;
+    const { email, customerId = null } = req.body || {};
 
-    if (!email || !customerId) {
-      return res.status(400).json({ error: 'Email and customer ID are required' });
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
     }
 
-    let subscriptionData = null;
-    let portalUrl = null;
-    let portalConfigured = false;
-    let portalMessage = null;
+    const normalizedEmail = String(email).trim().toLowerCase();
+    const user = await users.get(normalizedEmail);
 
-    if (!stripe) {
-      portalMessage = 'Stripe is not configured. Please add STRIPE_SECRET_KEY in Vercel to enable billing management.';
-    } else {
-      try {
-        const customer = await stripe.customers.retrieve(customerId);
-
-        const subscriptions = await stripe.subscriptions.list({
-          customer: customerId,
-          limit: 1,
-          status: 'all',
-        });
-
-        if (subscriptions.data.length > 0) {
-          const subscription = subscriptions.data[0];
-          const priceId = subscription.items.data[0].price.id;
-          const price = await stripe.prices.retrieve(priceId);
-
-          subscriptionData = {
-            status: subscription.status,
-            planName: price.nickname || `$${price.unit_amount / 100}/month`,
-            amount: price.unit_amount / 100,
-            nextBillingDate: subscription.current_period_end
-              ? new Date(subscription.current_period_end * 1000).toLocaleDateString()
-              : null,
-          };
-        }
-
-        try {
-          const portalSession = await stripe.billingPortal.sessions.create({
-            customer: customerId,
-            return_url: `${req.headers.origin || 'https://edgelandings.com'}/dashboard.html`,
-          });
-
-          portalUrl = portalSession.url;
-          portalConfigured = true;
-        } catch (portalError) {
-          console.error('Stripe portal creation error:', portalError.message);
-          if (portalError.message?.includes('No configuration provided')) {
-            portalMessage = 'Stripe customer portal is not configured. Visit https://dashboard.stripe.com/settings/billing/portal in LIVE mode, save the settings to create a default portal configuration, then retry.';
-          } else {
-            portalMessage = `Unable to create billing portal session: ${portalError.message}`;
-          }
-        }
-      } catch (stripeError) {
-        console.error('Stripe error while loading dashboard:', stripeError.message);
-        portalMessage = stripeError.message;
-      }
+    if (!user) {
+      return res.status(404).json({ error: 'Account not found. Please sign up first.' });
     }
 
-    res.json({
-      email: email,
-      customerId: customerId,
-      subscription: subscriptionData,
-      portalUrl,
-      portalConfigured,
-      portalMessage,
+    const createdAt = user.createdAt || new Date().toISOString();
+    const planName = user.plan || 'Basic Launch Plan';
+    const planTier = planName.toLowerCase().includes('pro') ? 'Pro' : 'Basic';
+    const planAmount = user.planAmount || (planTier === 'Pro' ? 199 : 99);
+    const planStatus = user.planStatus || 'trial';
+    const { trialEndsAt, trialDaysRemaining } = getTrialInfo(createdAt, user.trialEndsAt);
+
+    const websiteProgress = Math.min(100, Math.max(0, Number(user.websiteProgress ?? 40)));
+    const websiteStatus = user.websiteStatus || (websiteProgress >= 100 ? 'Live' : 'In design queue');
+    const nextMilestone = user.nextMilestone || (websiteProgress >= 100 ? 'Post-launch optimization' : 'Homepage preview coming up');
+    const assetsNeeded = Array.isArray(user.assetsNeeded) && user.assetsNeeded.length
+      ? user.assetsNeeded
+      : ['Brand assets (logo, colors)', 'Copy for hero section', 'Primary call-to-action'];
+
+    const completedTasks = Array.isArray(user.completedTasks) ? user.completedTasks : [];
+    const onboardingTasks = DEFAULT_TASKS.map((task) => ({
+      ...task,
+      completed: completedTasks.includes(task.id),
+    }));
+
+    const activityLog = Array.isArray(user.activityLog) && user.activityLog.length
+      ? user.activityLog
+      : DEFAULT_ACTIVITY;
+
+    const dashboardPayload = {
+      account: {
+        email: normalizedEmail,
+        customerId: user.customerId || customerId,
+        createdAt,
+        plan: {
+          name: planName,
+          tier: planTier,
+          status: planStatus,
+          amount: planAmount,
+          billingInterval: 'Monthly',
+          trialEndsAt,
+          trialDaysRemaining,
+        },
+      },
       website: {
-        status: 'Active',
-        url: 'https://edgelandings.com',
-      }
-    });
+        status: websiteStatus,
+        progress: websiteProgress,
+        nextMilestone,
+        estimatedLaunch: user.estimatedLaunch || 'Within 5 business days',
+        checklist: Array.isArray(user.websiteChecklist) && user.websiteChecklist.length
+          ? user.websiteChecklist
+          : [
+              { label: 'Brand assets received', status: websiteProgress >= 15 },
+              { label: 'Homepage layout drafted', status: websiteProgress >= 35 },
+              { label: 'Copy review in progress', status: websiteProgress >= 55 },
+              { label: 'Mobile optimization', status: websiteProgress >= 85 }
+            ],
+        assetsNeeded,
+      },
+      billing: {
+        amount: planAmount,
+        interval: 'per month',
+        status: planStatus === 'active' ? 'Active' : planStatus === 'trial' ? 'Trial' : 'Paused',
+        nextInvoice: user.nextInvoice || null,
+        autopay: user.autopay ?? true,
+      },
+      onboarding: {
+        tasks: onboardingTasks,
+        notes: user.onboardingNotes || 'Complete the checklist to keep your launch on schedule. Need help? Drop us a line anytime.',
+      },
+      activity: activityLog,
+      resources: user.resources || [
+        {
+          title: 'Upload assets',
+          description: 'Secure portal for uploading logos, photos, and brand files.',
+          href: 'mailto:145brice@gmail.com?subject=Upload%20Assets'
+        },
+        {
+          title: 'Book strategy call',
+          description: 'Schedule a 15-minute check-in to review your build progress.',
+          href: 'mailto:145brice@gmail.com?subject=Schedule%20Strategy%20Call'
+        },
+        {
+          title: 'Request content help',
+          description: 'Need copy tweaks or photo sourcing? We can help.',
+          href: 'mailto:145brice@gmail.com?subject=Content%20Help'
+        },
+      ],
+      support: {
+        email: '145brice@gmail.com',
+        responseTime: 'Under 24 hours',
+        status: 'Online',
+        phone: user.supportPhone || null,
+      },
+    };
+
+    res.json(dashboardPayload);
   } catch (error) {
     console.error('Error loading dashboard:', error);
     res.status(500).json({ error: error.message });
