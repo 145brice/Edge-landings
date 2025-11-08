@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edge Websites – Local Sites in 24h</title>
-    <meta name="description" content="Your shop, fully booked, mobile-first site, live in 24 hours – $97/mo and up. Local barbers, doctors, tattoo shops, coffee shops. No upfront fees, cancel anytime.">
+    <meta name="description" content="Launch-ready sites and ongoing care for local businesses. One-time builds from $99, monthly care plans from $69. Mobile-first, fast, and tailored to your shop.">
     <link rel="canonical" href="https://edgelandings.com">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -102,36 +102,24 @@
             color: #00ff88;
         }
         
-        .header-nav .signup-btn {
-            background: transparent;
-            color: #00ff88;
-            padding: 0.6rem 1.2rem;
-            border: 2px solid #00ff88;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-        
-        .header-nav .signup-btn:hover {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: #00cc6a;
-            transform: translateY(-2px);
-        }
-        
+        .header-nav .dashboard-btn,
+        .header-nav .signup-btn,
         .header-nav .login-btn {
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            color: #000000;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
             padding: 0.6rem 1.2rem;
             border-radius: 6px;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 600;
             transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
         
+        .header-nav .dashboard-btn:hover,
+        .header-nav .signup-btn:hover,
         .header-nav .login-btn:hover {
-            background: linear-gradient(135deg, #00cc6a, #00ff88);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.25);
         }
         
         .hero {
@@ -745,49 +733,79 @@
     <section id="pricing" class="pricing">
         <div class="container">
             <h2>Pricing</h2>
-            <p class="pricing-tagline">No Ads, no cash upfront, all tools you can learn in a day.</p>
+            <p class="pricing-tagline">Pick a one-time build or ongoing care plan. Start small, level up whenever you need.</p>
             
             <!-- Demo Buttons -->
             <div style="display: flex; gap: 1rem; justify-content: center; margin: 2rem 0 3rem; flex-wrap: wrap;">
                 <a href="/bakery-basic.html" target="_blank" style="display: inline-block; padding: 1rem 2rem; background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 2px solid #00ff88; border-radius: 10px; text-align: center; text-decoration: none; font-weight: 700; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);">
-                    👀 View Basic Demo ($99/month)
+                    👀 View Starter Template Demo ($99 one-time)
                 </a>
                 <a href="/bakery-pro.html" target="_blank" style="display: inline-block; padding: 1rem 2rem; background: linear-gradient(135deg, #00ff88, #00cc6a); color: #000000; border: 2px solid #00ff88; border-radius: 10px; text-align: center; text-decoration: none; font-weight: 700; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);">
-                    🚀 View Pro Demo ($199/month)
+                    🚀 View Pro Custom Demo ($199 one-time)
                 </a>
             </div>
             
             <div class="pricing-grid">
-                <div class="pricing-card popular">
-                    <div class="popular-badge">Most Popular</div>
-                    <div class="plan-name">Standard</div>
-                    <div class="price">$99</div>
+                <div class="pricing-card">
+                    <div class="plan-name">Starter One-Time</div>
+                    <div class="price">$99<span style="font-size: 1.2rem; color: #00ff88; margin-left: 0.5rem;">one-time</span></div>
                     <ul class="feature-list">
-                        <li><span class="feature-icon"></span>Up to 5 pages live in 24 hours</li>
-                        <li><span class="feature-icon"></span>1 hour monthly tweaks (text, photos, buttons)</li>
-                        <li><span class="feature-icon"></span>Domain setup (free first year)</li>
-                        <li><span class="feature-icon"></span>Speed & SEO tune-up</li>
-                        <li><span class="feature-icon"></span>Everything you need (with limits)</li>
+                        <li><span class="feature-icon"></span>3-page template tailored to your industry</li>
+                        <li><span class="feature-icon"></span>Copy tweaks and color updates to match your brand</li>
+                        <li><span class="feature-icon"></span>Delivered as a ready-to-launch ZIP file</li>
+                        <li><span class="feature-icon"></span>Perfect if you already handle hosting</li>
                     </ul>
-                    <a href="https://buy.stripe.com/5kQ7sN3vacCDcmm9z963K02" target="_blank" class="subscribe-btn">Start Now - $99/month</a>
-                    <p class="cancel-note">7-day free trial • Cancel anytime, no questions asked</p>
+                    <a href="#contact" class="subscribe-btn">Request Starter Package</a>
+                    <p class="cancel-note">DIY launch • No hosting included • Delivered in 3 business days</p>
                 </div>
                 <div class="pricing-card">
-                    <div class="plan-name">Pro</div>
-                    <div class="price">$199<span style="font-size: 1.2rem; color: #00ff88; margin-left: 0.5rem;">/month</span></div>
-                    <div style="background: linear-gradient(135deg, #00ff88, #00cc6a); color: #000; padding: 1rem 1.5rem; border-radius: 12px; margin: 1.5rem 0; font-weight: 800; text-align: center; font-size: 1.1rem; box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4); border: 2px solid #00ff88; animation: pulse 2s ease-in-out infinite;">
-                        🎉 LIMITED TIME: First 3 months just $99/month
-                    </div>
+                    <div class="plan-name">Pro One-Time</div>
+                    <div class="price">$199<span style="font-size: 1.2rem; color: #00ff88; margin-left: 0.5rem;">one-time</span></div>
                     <ul class="feature-list">
-                        <li><span class="feature-icon"></span>Everything in Standard</li>
-                        <li><span class="feature-icon"></span>Full backend access</li>
-                        <li><span class="feature-icon"></span>Constant tweaks & updates</li>
-                        <li><span class="feature-icon"></span>Priority support</li>
-                        <li><span class="feature-icon"></span>Advanced SEO & analytics</li>
-                        <li><span class="feature-icon"></span>CRM auto with Zapier</li>
+                        <li><span class="feature-icon"></span>5 custom pages designed around your offers</li>
+                        <li><span class="feature-icon"></span>Light copywriting, brand polish, and custom sections</li>
+                        <li><span class="feature-icon"></span>ZIP delivery with launch checklist</li>
+                        <li><span class="feature-icon"></span>Best for DIY teams who just need a pro build</li>
                     </ul>
-                    <a href="https://buy.stripe.com/9B66oJ8Pu6ef2LMcLl63K04" target="_blank" class="subscribe-btn">Start Now - $99/month (first 3 months)</a>
-                    <p class="cancel-note">$99/month for 3 months, then $199/month • 7-day free trial • Cancel anytime</p>
+                    <a href="#contact" class="subscribe-btn">Request Pro Package</a>
+                    <p class="cancel-note">Hands-off build • No ongoing support • Launch on your timeline</p>
+                </div>
+                <div class="pricing-card">
+                    <div class="plan-name">Care Lite</div>
+                    <div class="price">$69<span style="font-size: 1.2rem; color: #00ff88; margin-left: 0.5rem;">/month</span></div>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon"></span>Hosting on Edge’s optimized stack</li>
+                        <li><span class="feature-icon"></span>Automatic backups & uptime monitoring</li>
+                        <li><span class="feature-icon"></span>Bug fixes and emergency support</li>
+                        <li><span class="feature-icon"></span>Keep the lights on without touching the tech</li>
+                    </ul>
+                    <a href="mailto:145brice@gmail.com?subject=Care%20Lite%20Plan%20Signup&body=I%E2%80%99d%20like%20to%20start%20the%20Care%20Lite%20plan%20at%20%2469%2Fmonth." class="subscribe-btn">Start Care Lite - $69/mo</a>
+                    <p class="cancel-note">Cancel anytime • Hosting & maintenance covered</p>
+                </div>
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="plan-name">Growth Care</div>
+                    <div class="price">$139<span style="font-size: 1.2rem; color: #00ff88; margin-left: 0.5rem;">/month</span></div>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon"></span>Everything in Care Lite</li>
+                        <li><span class="feature-icon"></span>Monthly SEO tune-ups and reporting</li>
+                        <li><span class="feature-icon"></span>Speed optimization & performance monitoring</li>
+                        <li><span class="feature-icon"></span>Quarterly strategy check-ins</li>
+                    </ul>
+                    <a href="mailto:145brice@gmail.com?subject=Growth%20Care%20Plan%20Signup&body=I%E2%80%99m%20ready%20for%20the%20Growth%20Care%20plan%20at%20%24139%2Fmonth." class="subscribe-btn">Start Growth Care - $139/mo</a>
+                    <p class="cancel-note">Month-to-month • Includes proactive SEO & speed work</p>
+                </div>
+                <div class="pricing-card">
+                    <div class="plan-name">Full Care</div>
+                    <div class="price">$299<span style="font-size: 1.2rem; color: #00ff88; margin-left: 0.5rem;">/month</span></div>
+                    <ul class="feature-list">
+                        <li><span class="feature-icon"></span>Unlimited content updates & offer launches</li>
+                        <li><span class="feature-icon"></span>A/B testing and conversion experiments</li>
+                        <li><span class="feature-icon"></span>Priority support with same-day responses</li>
+                        <li><span class="feature-icon"></span>Full concierge care for growth-focused teams</li>
+                    </ul>
+                    <a href="mailto:145brice@gmail.com?subject=Full%20Care%20Plan%20Inquiry&body=Let%E2%80%99s%20kick%20off%20the%20Full%20Care%20plan%20at%20%24299%2Fmonth." class="subscribe-btn">Talk About Full Care - $299/mo</a>
+                    <p class="cancel-note">White-glove partnership • Custom roadmap included</p>
                 </div>
             </div>
         </div>
@@ -852,7 +870,7 @@
 
     <footer>
         <p><strong>Edge Websites</strong> | Professional websites in 24 hours</p>
-        <p>Old Hickory, TN 37138 | Plans from $99/month. Cancel anytime.</p>
+        <p>Old Hickory, TN 37138 | Plans from $69/month. Cancel anytime.</p>
         <p style="margin-top: 1rem; font-size: 0.85rem;">
             <a href="/manage-subscription.html" style="color: #00ff88; text-decoration: none;">Manage Subscription</a>
         </p>

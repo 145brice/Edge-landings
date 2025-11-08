@@ -1,9 +1,18 @@
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const Anthropic = require('@anthropic-ai/sdk');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const anthroModel = process.env.ANTHROPIC_MODEL || 'claude-3-5-sonnet-20241022';
+const anthropicClient = process.env.ANTHROPIC_API_KEY
+  ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+  : null;
+
+if (!process.env.ANTHROPIC_API_KEY) {
+  console.warn('ANTHROPIC_API_KEY is not set. Claude assistant endpoint is disabled.');
+}
 
 // Middleware
 app.use(express.json());
@@ -131,6 +140,74 @@ app.post('/api/dashboard', async (req, res) => {
   } catch (error) {
     console.error('Error loading dashboard:', error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/claude', async (req, res) => {
+  if (!anthropicClient) {
+    return res.status(503).json({ error: 'Claude assistant is not configured on this server.' });
+  }
+
+  const { prompt, conversation = [], system } = req.body || {};
+
+  if (!prompt || typeof prompt !== 'string' || !prompt.trim()) {
+    return res.status(400).json({ error: 'Prompt is required.' });
+  }
+
+  const history = [];
+
+  if (Array.isArray(conversation)) {
+    conversation.forEach((entry) => {
+      if (!entry || typeof entry !== 'object') return;
+      const role = entry.role === 'assistant' ? 'assistant' : 'user';
+      const text = typeof entry.content === 'string' ? entry.content.trim() : '';
+      if (!text) return;
+      history.push({
+        role,
+        content: [{ type: 'text', text }],
+      });
+    });
+  }
+
+  history.push({
+    role: 'user',
+    content: [{ type: 'text', text: prompt.trim() }],
+  });
+
+  const messages = history.filter((message, index) => {
+    if (index === 0 && message.role !== 'user') {
+      return false;
+    }
+    return true;
+  });
+
+  try {
+    const response = await anthropicClient.messages.create({
+      model: anthroModel,
+      max_tokens: 1024,
+      system: typeof system === 'string' && system.trim() ? system.trim() : undefined,
+      messages,
+    });
+
+    const replyText = (response?.content || [])
+      .map((part) => (part.type === 'text' ? part.text : ''))
+      .join('')
+      .trim();
+
+    res.json({
+      reply: replyText,
+      model: response?.model || anthroModel,
+      usage: response?.usage || null,
+      stop_reason: response?.stop_reason || null,
+    });
+  } catch (error) {
+    console.error('Error calling Claude:', error);
+    const status = error?.status || error?.statusCode || 500;
+    const message =
+      error?.response?.data?.error?.message ||
+      error?.message ||
+      'Failed to reach Claude assistant.';
+    res.status(status).json({ error: message });
   }
 });
 
