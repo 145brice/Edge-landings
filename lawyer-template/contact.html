@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Carter &amp; Cole Law Group | Dallas Personal Injury Consultation</title>
+  <meta name="description" content="Contact Carter &amp; Cole Law Group for a free Dallas personal injury consultation. Submit the form to reach a trial-ready attorney in minutes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a class="brand" href="index.html"><span>Carter</span> &amp; Cole Law</a>
+      <button class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" fill="#fff" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <nav class="nav-links">
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html" class="btn btn-gold grow" aria-current="page">Free Case Review</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" style="background: linear-gradient(110deg, rgba(17, 26, 42, 0.96), rgba(17, 26, 42, 0.88));">
+      <div class="hero-content">
+        <h1>Request Your Free Case Evaluation</h1>
+        <p>Complete the secure form or call us 24/7. A Dallas personal injury lawyer will respond within one hour.</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold grow" href="tel:+12145551234">Call 214-555-1234</a>
+          <a class="btn btn-outline grow" href="mailto:intake@cartercolelaw.com">Email intake@cartercolelaw.com</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="contact-card">
+          <h2 class="section-title" style="margin-bottom: 0;">Tell Us About the Incident</h2>
+          <p class="section-subtitle">Provide as much detail as possible so we can protect evidence and start helping immediately.</p>
+          <form class="contact-form" action="https://formspree.io/f/xpzqkqkq" method="POST">
+            <label for="name">Your Name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" />
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="214-555-1234" />
+
+            <label for="incident">Accident Type</label>
+            <select id="incident" name="incident" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Car Accident</option>
+              <option>18-Wheeler Crash</option>
+              <option>Slip / Trip / Fall</option>
+              <option>Wrongful Death</option>
+              <option>Other Serious Injury</option>
+            </select>
+
+            <label for="message">What happened?</label>
+            <textarea id="message" name="message" rows="5" required placeholder="Describe how the injury occurred, medical treatment received, and insurance contact if available."></textarea>
+
+            <input type="hidden" name="_subject" value="New Dallas PI Lead" />
+            <input type="hidden" name="_redirect" value="https://edgelandings.com/lawyer/thank-you.html" />
+
+            <div class="form-footer">
+              <button class="btn-submit" type="submit">Send to My Attorney</button>
+              <p>Submitting this form does not create an attorney-client relationship. Please do not include confidential details.</p>
+            </div>
+          </form>
+          <div style="display: grid; gap: 1rem; font-size: 0.95rem; color: var(--stone);">
+            <div><strong>Office:</strong> 3131 McKinney Ave, Suite 400, Dallas, TX 75204</div>
+            <div><strong>Hours:</strong> Monday–Friday 8am–6pm • On-call weekends</div>
+            <div><strong>Parking:</strong> Validated parking available in the McKinney Avenue garage.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <strong>Carter &amp; Cole Law Group</strong> • 3131 McKinney Ave, Suite 400, Dallas, TX 75204 • (214) 555-1234
+  </footer>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
