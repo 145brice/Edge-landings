@@ -5,322 +5,257 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Edge Websites</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@600;700&display=swap');
+
+        :root {
+            --bg: #040711;
+            --bg-alt: #050a19;
+            --surface: rgba(11, 18, 32, 0.85);
+            --card: rgba(9, 14, 24, 0.9);
+            --border: rgba(255, 255, 255, 0.12);
+            --accent: #00f18c;
+            --accent-dark: #00c873;
+            --text: #eef3ff;
+            --muted: #8fa3c5;
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(120% 120% at 50% 0%, rgba(0, 241, 140, 0.08), rgba(0, 241, 140, 0) 55%),
+                        linear-gradient(160deg, var(--bg), var(--bg-alt));
+            color: var(--text);
             min-height: 100vh;
-            padding: 140px 2rem 2rem;
+            -webkit-font-smoothing: antialiased;
         }
-        
-        .header-wrapper {
-            position: fixed;
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        header {
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            width: 100%;
+            z-index: 20;
+            background: rgba(4, 7, 17, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
         }
-        
-        .trial-banner {
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            color: #000000;
-            padding: 12px 0;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1rem;
-            width: 100%;
-            display: block;
-            position: relative;
-        }
-        
-        .header-nav {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
-            padding: 1rem 0;
-        }
-        
-        .header-nav .container {
-            max-width: 1200px;
+
+        .nav {
+            max-width: 960px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 1.3rem 1.6rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        .header-nav .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #00ff88;
-            text-decoration: none;
-        }
-        
-        .header-nav .nav-links {
-            display: flex;
             gap: 1.5rem;
-            align-items: center;
         }
-        
-        .header-nav .signup-btn {
-            background: transparent;
-            color: #00ff88;
-            padding: 0.6rem 1.2rem;
-            border: 2px solid #00ff88;
-            border-radius: 6px;
-            text-decoration: none;
+
+        .brand {
+            font-family: "Merriweather", serif;
             font-weight: 700;
-            transition: all 0.3s ease;
+            letter-spacing: 0.08em;
+            font-size: 1.15rem;
         }
-        
-        .header-nav .signup-btn:hover {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: #00cc6a;
-            transform: translateY(-2px);
-        }
-        
-        .header-nav .login-btn {
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            color: #000000;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-        
-        .header-nav .login-btn:hover {
-            background: linear-gradient(135deg, #00cc6a, #00ff88);
-            transform: translateY(-2px);
-        }
-        
-        footer {
-            background: #0a0a0a;
-            color: #ffffff;
-            text-align: center;
-            padding: 3rem 2rem;
-            margin-top: 4rem;
-            border-top: 1px solid rgba(0, 255, 136, 0.2);
-        }
-        
-        footer p {
-            margin: 0.5rem 0;
-        }
-        
-        footer a {
-            color: #00ff88;
-            text-decoration: none;
-        }
-        
-        footer a:hover {
-            text-decoration: underline;
-        }
-        
-        .page-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            min-height: calc(100vh - 200px);
+
+        .nav-links {
             display: flex;
+            gap: 1.25rem;
             align-items: center;
-            justify-content: center;
-        }
-        
-        .container {
-            max-width: 450px;
-            width: 100%;
-            background: #1a1a1a;
-            border: 2px solid rgba(0, 255, 136, 0.3);
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.15);
-        }
-        
-        .logo {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 800;
-            color: #00ff88;
-            margin-bottom: 2rem;
-        }
-        
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
-            text-align: center;
-        }
-        
-        .subtitle {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 2rem;
+            flex-wrap: wrap;
             font-size: 0.95rem;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            color: rgba(238, 243, 255, 0.72);
+        }
+
+        .nav-links a:hover,
+        .nav-links a:focus-visible,
+        .nav-links a[aria-current="page"] {
+            color: var(--accent);
+        }
+
+        main {
+            max-width: 960px;
+            margin: 4rem auto;
+            padding: 0 1.6rem 5rem;
+            display: grid;
+            justify-items: center;
+        }
+
+        .card {
+            width: min(430px, 100%);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: clamp(2.1rem, 5vw, 3rem);
+            box-shadow: 0 20px 46px rgba(4, 12, 24, 0.35);
+            display: grid;
+            gap: 1.4rem;
+        }
+
+        h1 {
+            font-family: "Merriweather", serif;
+            font-size: 2rem;
             text-align: center;
         }
-        
+
+        .subtitle {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
         .form-group {
-            margin-bottom: 1.5rem;
+            display: grid;
+            gap: 0.55rem;
         }
-        
+
         label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: #ffffff;
+            font-weight: 600;
         }
-        
+
         input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            background: #0a0a0a;
-            color: #ffffff;
-            font-family: inherit;
-            font-size: 1rem;
+            font: inherit;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
         }
-        
+
         input:focus {
             outline: none;
-            border-color: #00ff88;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 241, 140, 0.2);
         }
-        
+
         .btn {
             width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            color: #000000;
+            padding: 0.95rem;
+            border-radius: 999px;
             border: none;
-            border-radius: 8px;
             font-weight: 700;
-            font-size: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #04111f;
+            box-shadow: 0 16px 34px rgba(0, 241, 140, 0.3);
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        
-        .btn:hover {
-            background: linear-gradient(135deg, #00cc6a, #00ff88);
+
+        .btn:hover,
+        .btn:focus-visible {
             transform: translateY(-2px);
+            box-shadow: 0 20px 38px rgba(0, 241, 140, 0.38);
         }
-        
+
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
-        
+
         .error {
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid rgba(255, 0, 0, 0.3);
-            color: #ff6b6b;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
+            background: rgba(255, 82, 82, 0.1);
+            border: 1px solid rgba(255, 82, 82, 0.3);
+            color: #ff8a8a;
+            padding: 0.9rem 1rem;
+            border-radius: 12px;
             display: none;
+            font-size: 0.9rem;
         }
-        
+
         .error.show {
             display: block;
         }
-        
-        .back-link {
+
+        .links {
             text-align: center;
-            margin-top: 1.5rem;
-        }
-        
-        .back-link a {
-            color: #00ff88;
-            text-decoration: none;
+            display: grid;
+            gap: 0.8rem;
+            color: var(--muted);
             font-size: 0.9rem;
         }
-        
-        .back-link a:hover {
-            text-decoration: underline;
+
+        .links a {
+            color: var(--accent);
         }
-        
-        .login-link {
+
+        footer {
             text-align: center;
-            margin-top: 1rem;
-            color: rgba(255, 255, 255, 0.7);
+            padding: 2.5rem 1.6rem 3rem;
+            color: rgba(234, 240, 255, 0.55);
             font-size: 0.9rem;
         }
-        
-        .login-link a {
-            color: #00ff88;
-            text-decoration: none;
-        }
-        
-        .login-link a:hover {
-            text-decoration: underline;
+
+        @media (max-width: 640px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            main {
+                margin: 3rem auto;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header-wrapper">
-        <div class="trial-banner">
-            <p>🎉 <strong>7-DAY FREE TRIAL</strong> • Try it risk-free, cancel anytime!</p>
+    <header>
+        <div class="nav">
+            <a class="brand" href="/">EDGE WEBSITES</a>
+            <nav class="nav-links">
+                <a href="/">Overview</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/signup.html">Sign Up</a>
+                <a href="/login.html" aria-current="page">Login</a>
+            </nav>
         </div>
-        <nav class="header-nav">
-            <div class="container">
-                <a href="/" class="logo">EDGE WEBSITES</a>
-                <div class="nav-links">
-                    <a href="/signup.html" class="signup-btn">Sign Up</a>
-                    <a href="/login.html" class="login-btn">Login</a>
-                </div>
+    </header>
+
+    <main>
+        <div class="card">
+            <div style="display:grid; gap:0.4rem; text-align:center;">
+                <span style="font-size:0.75rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--accent); font-weight:600;">Client access</span>
+                <h1>Log in to your dashboard</h1>
+                <p class="subtitle">Enter your credentials to view your project status, assets, and billing.</p>
             </div>
-        </nav>
-    </div>
-    
-    <div class="page-container">
-        <div class="container">
-        <h1>Login to Dashboard</h1>
-        <p class="subtitle">Enter your email to access your account</p>
-        
-        <div class="error" id="error"></div>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="your@email.com" required autofocus>
-                <div style="text-align: right; margin-top: 0.5rem;">
-                    <a href="mailto:145brice@gmail.com?subject=Forgot My Email" style="color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem;">Forgot your email?</a>
+
+            <div class="error" id="error"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required autofocus>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                <div style="text-align: right; margin-top: 0.5rem;">
-                    <a href="/forgot-password.html" style="color: #00ff88; text-decoration: none; font-size: 0.9rem;">Forgot password?</a>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
+
+                <button type="submit" class="btn" id="submitBtn">Login</button>
+            </form>
+
+            <div class="links">
+                <a href="/forgot-password.html">Forgot password?</a>
+                <span>Need an account? <a href="/signup.html">Sign up here</a></span>
+                <a href="/">← Back to home</a>
             </div>
-            <button type="submit" class="btn" id="submitBtn">Login</button>
-        </form>
-        
-        <div class="login-link">
-            Don't have an account? <a href="/signup.html">Sign up here</a>
         </div>
-        
-        <div class="back-link">
-            <a href="/">← Back to Home</a>
-        </div>
-    </div>
-    </div>
-    
+    </main>
+
     <footer>
-        <p><strong>Edge Websites</strong> | Professional websites in 24 hours</p>
-        <p>Old Hickory, TN 37138 | Plans from $99/month. Cancel anytime.</p>
-        <p style="margin-top: 1rem; font-size: 0.85rem;">
-            <a href="/manage-subscription.html">Manage Subscription</a>
-        </p>
+        Edge Websites • Old Hickory, TN • 24-hour sites for local businesses
     </footer>
     
     <script>
