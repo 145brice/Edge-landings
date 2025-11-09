@@ -11,13 +11,15 @@
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=80">
     <style>
         :root {
-            --navy: #0f1a2a;
-            --navy-dark: #0b1420;
-            --gold: #00ff88;
-            --body: #e6f1ff;
-            --stone: #99a8c2;
-            --slate: #06121f;
-            --white: #ffffff;
+            --bg: #040711;
+            --bg-alt: #050a19;
+            --surface: rgba(11, 18, 32, 0.85);
+            --card: rgba(9, 14, 24, 0.9);
+            --border: rgba(255, 255, 255, 0.12);
+            --accent: #00f18c;
+            --accent-dark: #00c873;
+            --text: #eef3ff;
+            --muted: #8fa3c5;
         }
 
         * {
@@ -26,9 +28,10 @@
 
         body {
             margin: 0;
-            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            color: var(--body);
-            background-color: var(--slate);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(120% 120% at 50% 0%, rgba(0, 241, 140, 0.08), rgba(0, 241, 140, 0) 55%),
+                        linear-gradient(160deg, var(--bg), var(--bg-alt));
+            color: var(--text);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
@@ -39,27 +42,29 @@
         }
 
         header {
-            background: rgba(6, 18, 31, 0.88);
-            backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
-            z-index: 1000;
-            padding: 1.25rem 1.5rem;
+            z-index: 20;
+            background: rgba(4, 7, 17, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
         }
 
-        .header-nav {
-            max-width: 1100px;
+        .nav {
+            max-width: 960px;
             margin: 0 auto;
+            padding: 1.3rem 1.6rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1.5rem;
         }
 
-        .logo {
+        .brand {
             font-family: "Merriweather", serif;
-            font-size: 1.4rem;
+            font-weight: 700;
             letter-spacing: 0.08em;
-            color: var(--white);
+            font-size: 1.15rem;
         }
 
         .nav-links {
@@ -72,19 +77,22 @@
 
         .nav-links a {
             font-weight: 600;
-            color: rgba(230, 241, 255, 0.85);
+            color: rgba(238, 243, 255, 0.72);
         }
 
+        .nav-links a:hover,
+        .nav-links a:focus-visible,
         .nav-links a[aria-current="page"] {
-            color: var(--gold);
+            color: var(--accent);
         }
 
         .hero {
-            background: linear-gradient(115deg, rgba(15, 26, 42, 0.92), rgba(18, 32, 54, 0.88)),
+            background:
+                linear-gradient(160deg, rgba(4, 7, 17, 0.92), rgba(4, 7, 17, 0.82)),
                 url("https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
-            color: var(--white);
+            color: var(--text);
             text-align: center;
-            padding: clamp(4rem, 7vw, 6rem) 1.5rem;
+            padding: clamp(4rem, 7vw, 6rem) 1.6rem;
         }
 
         .hero-content {
@@ -110,7 +118,7 @@
 
         .hero-proof strong {
             font-size: 1.5rem;
-            color: var(--gold);
+            color: var(--accent);
         }
 
         .hero-proof span {
@@ -138,18 +146,21 @@
         }
 
         .btn-gold {
-            background: linear-gradient(135deg, #24ffa4, var(--gold));
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
             color: #06121f;
-            box-shadow: 0 14px 32px rgba(0, 255, 136, 0.25);
+            box-shadow: 0 14px 32px rgba(0, 241, 140, 0.25);
         }
 
         .btn-outline {
             border: 2px solid rgba(255, 255, 255, 0.4);
-            color: var(--white);
+            color: var(--text);
+            background: rgba(4, 11, 22, 0.6);
         }
 
-        .btn:hover {
+        .btn:hover,
+        .btn:focus-visible {
             transform: translateY(-2px);
+            box-shadow: 0 18px 36px rgba(0, 241, 140, 0.32);
         }
 
         .section {
@@ -161,19 +172,20 @@
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 960px;
             margin: 0 auto;
+            padding: 0 1.6rem;
         }
 
         .section-title {
             font-family: "Merriweather", serif;
             font-size: clamp(2.1rem, 4vw, 2.8rem);
             margin: 0 0 0.75rem;
-            color: var(--white);
+            color: var(--text);
         }
 
         .section-subtitle {
-            color: var(--stone);
+            color: var(--muted);
             font-size: 1.05rem;
             margin: 0 0 2rem;
             max-width: 720px;
@@ -206,7 +218,7 @@
             top: 1.1rem;
             right: 1.25rem;
             background: rgba(0, 255, 136, 0.15);
-            color: var(--gold);
+            color: var(--accent);
             padding: 0.35rem 0.8rem;
             border-radius: 999px;
             font-weight: 700;
@@ -218,13 +230,13 @@
         .plan-name {
             font-family: "Merriweather", serif;
             font-size: 1.3rem;
-            color: var(--white);
+            color: var(--text);
         }
 
         .price {
             font-size: 2.4rem;
             font-weight: 700;
-            color: var(--gold);
+            color: var(--accent);
         }
 
         .price-term {
@@ -247,7 +259,7 @@
         .feature-list li::before {
             content: "✓";
             margin-right: 0.55rem;
-            color: var(--gold);
+            color: var(--accent);
             font-weight: 700;
         }
 
@@ -258,7 +270,7 @@
             padding: 0.85rem 1.6rem;
             border-radius: 999px;
             background: rgba(0, 255, 136, 0.15);
-            color: var(--gold);
+            color: var(--accent);
             font-weight: 600;
             transition: background 0.2s ease;
         }
@@ -305,13 +317,13 @@
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             background: rgba(255, 255, 255, 0.05);
-            color: var(--white);
+            color: var(--text);
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.2);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 241, 140, 0.2);
         }
 
         .form-card {
@@ -357,20 +369,21 @@
 </head>
 <body>
     <header>
-        <div class="header-nav">
-            <a href="/" class="logo">EDGE WEBSITES</a>
-            <div class="nav-links">
+        <div class="nav">
+            <a class="brand" href="/">EDGE WEBSITES</a>
+            <nav class="nav-links">
+                <a href="/">Overview</a>
                 <a href="/pricing.html" aria-current="page">Pricing</a>
                 <a href="/signup.html">Sign Up</a>
                 <a href="/login.html">Login</a>
-            </div>
+            </nav>
         </div>
     </header>
 
     <main>
         <section class="hero">
             <div class="hero-content">
-                <span class="badge" style="background: rgba(0, 255, 136, 0.15); color: var(--gold); font-weight: 700; padding: 0.45rem 1rem; border-radius: 999px;">Start free • Decide later</span>
+                <span class="badge" style="background: rgba(0, 255, 136, 0.15); color: var(--accent); font-weight: 700; padding: 0.45rem 1rem; border-radius: 999px;">Start free • Decide later</span>
                 <h1>Free 24-hour build, upgrades only if you love it.</h1>
                 <p>We launch a working version at no cost. Keep it, or upgrade to a paid build and optional care when you’re ready.</p>
                 <div class="hero-actions">
