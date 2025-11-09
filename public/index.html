@@ -4,833 +4,367 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edge Websites – Local Sites in 24h</title>
-    <meta name="description" content="Launch-ready sites and ongoing care for local businesses. One-time builds from $99, monthly care plans from $69. Mobile-first, fast, and tailored to your shop.">
-    <link rel="canonical" href="https://edgelandings.com">
+    <meta name="description" content="Edge Websites builds conversion-ready local sites in 24 hours with $0 upfront cost. Reserve a free build slot and decide later if you want upgrades or care." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@600;700&display=swap" rel="stylesheet">
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=80">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
-            }
-            50% {
-                transform: scale(1.02);
-                box-shadow: 0 6px 25px rgba(0, 255, 136, 0.6);
-            }
+        :root {
+            --bg: #040711;
+            --bg-alt: #050a19;
+            --surface: rgba(11, 18, 32, 0.85);
+            --card: rgba(9, 14, 24, 0.9);
+            --border: rgba(255, 255, 255, 0.1);
+            --accent: #00f18c;
+            --accent-dark: #00c873;
+            --text: #eef3ff;
+            --muted: #8fa3c5;
         }
-        
+
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             margin: 0;
             padding: 0;
-            padding-top: 140px;
-            color: #222;
-            line-height: 1.6;
-            background: #0a0a0a;
-            color: #ffffff;
+        }
+
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(120% 120% at 50% 0%, rgba(0, 241, 140, 0.08), rgba(0, 241, 140, 0) 55%),
+                        linear-gradient(160deg, var(--bg), var(--bg-alt));
+            color: var(--text);
+            min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
-        
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
         .container {
-            max-width: 1200px;
+            max-width: 960px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 1.6rem;
         }
-        
-        .header-wrapper {
-            position: fixed;
+
+        header {
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            width: 100%;
+            z-index: 20;
+            background: rgba(4, 7, 17, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
         }
-        
-        .trial-banner {
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            color: #000000;
-            padding: 12px 0;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1rem;
-            width: 100%;
-            display: block;
-            position: relative;
-        }
-        
-        .header-nav {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
-            padding: 1rem 0;
-        }
-        
-        .header-nav .container {
+
+        .nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 1.3rem 0;
         }
-        
-        .header-nav .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #00ff88;
-            text-decoration: none;
+
+        .brand {
+            font-family: "Merriweather", serif;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            font-size: 1.15rem;
         }
-        
-        .header-nav .nav-links {
+
+        .links {
             display: flex;
-            gap: 1.5rem;
+            gap: 1.25rem;
             align-items: center;
             flex-wrap: wrap;
+            font-size: 0.95rem;
         }
-        
-        .header-nav .nav-link {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .header-nav .nav-link:hover {
-            color: #00ff88;
-        }
-        
-        .header-nav .dashboard-btn,
-        .header-nav .signup-btn,
-        .header-nav .login-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            text-decoration: none;
+
+        .links a {
+            color: rgba(238, 243, 255, 0.7);
             font-weight: 600;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.15);
         }
-        
-        .header-nav .dashboard-btn:hover,
-        .header-nav .signup-btn:hover,
-        .header-nav .login-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.25);
+
+        .links a:hover,
+        .links a:focus-visible {
+            color: var(--accent);
         }
-        
+
+        main {
+            display: grid;
+            gap: 4rem;
+            padding: 4rem 0 5rem;
+        }
+
         .hero {
-            background: linear-gradient(110deg, rgba(15, 26, 42, 0.9), rgba(18, 32, 54, 0.92)),
-                url("https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
-            color: var(--white);
-            padding: 5rem 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 241, 140, 0.12), rgba(0, 241, 140, 0)),
+                        url("https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            padding: clamp(3.2rem, 6vw, 5rem) clamp(2rem, 6vw, 4rem);
+            text-align: center;
             display: grid;
-            place-items: center;
-            text-align: center;
-        }
- 
-         .hero-content {
-             max-width: 640px;
-             display: grid;
-             gap: 1.5rem;
-         }
- 
-         .hero-content h1 {
-             font-family: "Merriweather", serif;
-             font-size: clamp(2.2rem, 4vw, 3rem);
-             letter-spacing: 0.04em;
-             line-height: 1.2;
-             margin: 0;
-         }
- 
-         .hero-content p {
-             font-size: 1.05rem;
-             opacity: 0.92;
-         }
-        
-        .btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            border: 1.5px solid rgba(255, 255, 255, 0.3);
-            display: inline-block;
-            margin: 0.5rem;
-            transition: all 0.3s ease;
-        }
-        
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .pricing {
-            max-width: 1200px;
-            margin: 3rem auto;
-            padding: 0 1rem;
-        }
-        
-        .pricing-table-wrapper {
-            overflow-x: auto;
-        }
-        
-        .pricing h2 {
-            text-align: center;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            margin-bottom: 2rem;
-            color: #ffffff;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            overflow: hidden;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-        }
-        
-        th {
-            background: #000000;
-            padding: 1.2rem 1rem;
-            text-align: left;
-            font-size: 0.95rem;
-            color: #00ff88;
-            font-weight: 700;
-            border-bottom: 2px solid #00ff88;
-        }
-        
-        td {
-            padding: 1.2rem 1rem;
-            border-top: 1px solid #2a2a2a;
-            color: #ffffff;
-            vertical-align: top;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-        
-        td ul {
-            margin: 0;
-            padding-left: 1.2rem;
-            list-style: none;
-        }
-        
-        td ul li {
-            padding: 0.25rem 0;
-            position: relative;
-        }
-        
-        td ul li:before {
-            content: "•";
-            position: absolute;
-            left: -1rem;
-            color: #00ff88;
-        }
-        
-        tbody tr {
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-        
-        tbody tr:hover {
-            background: rgba(0, 255, 136, 0.08);
-        }
-        
-        .plan-btn {
-            display: inline-block;
-            padding: 0.6rem 1.2rem;
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            color: #000000;
-            border: none;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-decoration: none;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 255, 136, 0.2);
-        }
-        
-        .plan-btn:hover {
-            background: linear-gradient(135deg, #00cc6a, #00ff88);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
-        }
-        
-        .plan-btn:active {
-            transform: translateY(0);
-        }
-        
-        .plan-select-cell {
-            text-align: center;
-        }
-        
-        .price {
-            font-weight: 700;
-            color: #00ff88;
-            font-size: 1.4rem;
-        }
-        
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .feature-list li {
-            padding: 0.25rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-            color: #ffffff;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        
-        .feature-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #00ff88;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-        
-        .table-note {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-            display: block;
-            margin-top: 4px;
-        }
-        
-        .pricing-note {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-style: italic;
-        }
-        
-        .pricing-tagline {
-            text-align: center;
-            font-size: 1.1rem;
-            color: rgba(0, 255, 136, 0.9);
-            margin-bottom: 2rem;
-            font-weight: 600;
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .pricing-groups {
-            display: grid;
-            gap: 3.5rem;
-            margin-top: 2.5rem;
-        }
-
-        .pricing-group-title {
-            text-align: center;
-            font-size: 1.85rem;
-            color: #ffffff;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .pricing-group-subtitle {
-            text-align: center;
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 680px;
-            margin: 0 auto;
-        }
-
-        .pricing-group .pricing-grid {
-            margin-top: 2rem;
-        }
-
-        .price-term {
-            margin-top: 0.35rem;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: rgba(255, 255, 255, 0.55);
-        }
-        
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .pricing-card {
-            background: linear-gradient(135deg, #1a1a1a 0%, #1f1f1f 100%);
-            border: 2px solid rgba(0, 255, 136, 0.3);
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.15), 0 4px 20px rgba(0, 0, 0, 0.4);
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.8s ease-out;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-        
-        .pricing-card.popular {
-            border-color: #00ff88;
-            box-shadow: 0 12px 40px rgba(0, 255, 136, 0.25), 0 6px 24px rgba(0, 0, 0, 0.5);
-        }
-        
-        .popular-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            color: #000000;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .pricing-card::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            border-radius: 16px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .pricing-card:hover::after {
-            opacity: 0.5;
-        }
-        
-        .pricing-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .pricing-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 255, 136, 0.25), 0 6px 24px rgba(0, 0, 0, 0.5);
-        }
-        
-        .pricing-card:hover::before {
-            left: 100%;
-        }
-        
-        .pricing-card .price {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            animation: pulse 2s ease-in-out infinite;
-            position: relative;
-        }
-        
-        .plan-name {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 1rem;
-        }
-        
-        .pricing-card .feature-list {
-            margin-bottom: 2rem;
-        }
-        
-        .pricing-card .feature-list li {
-            padding: 0.5rem 0;
-            padding-left: 2rem;
-            transition: transform 0.2s ease, color 0.2s ease;
-            animation: fadeInLeft 0.6s ease-out backwards;
-        }
-        
-        .pricing-card .feature-list li:nth-child(1) { animation-delay: 0.1s; }
-        .pricing-card .feature-list li:nth-child(2) { animation-delay: 0.2s; }
-        .pricing-card .feature-list li:nth-child(3) { animation-delay: 0.3s; }
-        .pricing-card .feature-list li:nth-child(4) { animation-delay: 0.4s; }
-        
-        .pricing-card .feature-list li:hover {
-            transform: translateX(4px);
-            color: #00ff88;
-        }
-        
-        .pricing-card .feature-list li::before {
-            font-size: 1.2rem;
-            left: 0.25rem;
-        }
-        
-        .pricing-card .extra-info {
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(0, 255, 136, 0.2);
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), transparent);
-            padding: 1.5rem;
-            border-radius: 8px;
-            animation: fadeIn 1s ease-out 0.5s backwards;
-        }
-        
-        .feature-icon {
-            display: inline-block;
-            margin-right: 0.75rem;
-            width: 6px;
-            height: 6px;
-            background: #00ff88;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.02);
-            }
-        }
-        
-        .testimonials {
-            padding: 4rem 1rem;
-            background: #0f0f0f;
-        }
-        
-        .testimonials h2 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #ffffff;
-        }
-        
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
-            max-width: 1000px;
-            margin: 0 auto;
+            box-shadow: 0 26px 60px rgba(4, 12, 24, 0.35);
         }
-        
-        .testimonial-card {
-            background: #1a1a1a;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid #2a2a2a;
-        }
-        
-        .testimonial-card p {
-            margin-bottom: 0.5rem;
-            font-style: italic;
-        }
-        
-        .testimonial-card .author {
+
+        .eyebrow {
             font-weight: 600;
-            color: #00ff88;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--accent);
         }
-        
-        .contact {
-            padding: 4rem 1rem;
-            max-width: 600px;
+
+        .hero h1 {
+            font-family: "Merriweather", serif;
+            font-size: clamp(2.3rem, 5vw, 3.4rem);
+            line-height: 1.15;
             margin: 0 auto;
+            max-width: 640px;
         }
-        
-        .contact h2 {
-            text-align: center;
-            margin-bottom: 2rem;
+
+        .hero p {
+            max-width: 620px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 1.05rem;
         }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
+
+        .hero-buttons,
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            background: #1a1a1a;
-            color: #ffffff;
-            font-family: inherit;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #00ff88;
-        }
-        
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background: #00ff88;
-            color: #000000;
-            border: none;
-            border-radius: 8px;
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.85rem 2.1rem;
+            border-radius: 999px;
             font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
         }
-        
-        .submit-btn:hover {
-            background: #00cc6a;
+
+        .button-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #04111f;
+            box-shadow: 0 14px 34px rgba(0, 241, 140, 0.26);
         }
-        
-        .subscribe-btn {
-            display: block;
-            width: 100%;
-            padding: 1.2rem 2rem;
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            color: #000000;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
-            animation: fadeInUp 1s ease-out 0.6s backwards;
+
+        .button-ghost {
+            border: 1px solid var(--border);
+            color: var(--text);
+            background: rgba(4, 11, 22, 0.6);
         }
-        
-        .subscribe-btn:hover {
-            background: linear-gradient(135deg, #00cc6a, #00ff88);
+
+        .button:hover,
+        .button:focus-visible {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+            box-shadow: 0 18px 36px rgba(0, 241, 140, 0.36);
         }
-        
-        .cancel-note {
-            text-align: center;
-            margin-top: 1rem;
+
+        .section-title {
+            font-family: "Merriweather", serif;
+            font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+            margin-bottom: 0.8rem;
+        }
+
+        .section-subtitle {
+            color: var(--muted);
+            max-width: 640px;
+            margin-bottom: 2.2rem;
+            font-size: 1rem;
+        }
+
+        .features {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            gap: 1.4rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.75rem;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .feature-card h3 {
+            font-family: "Merriweather", serif;
+            font-size: 1.15rem;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .process {
+            background: linear-gradient(145deg, rgba(0, 241, 140, 0.05), rgba(0, 241, 140, 0));
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: clamp(2.5rem, 5vw, 4rem);
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .step-list {
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .step {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.4rem 1.6rem;
+            display: grid;
+            gap: 0.4rem;
+        }
+
+        .step strong {
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-style: italic;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent);
         }
-        
+
+        .step h3 {
+            font-family: "Merriweather", serif;
+            font-size: 1.2rem;
+        }
+
+        .step p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .cta {
+            display: flex;
+            justify-content: center;
+        }
+
+        .cta-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 26px;
+            padding: clamp(2.5rem, 5vw, 3.5rem);
+            text-align: center;
+            display: grid;
+            gap: 1rem;
+            max-width: 720px;
+            box-shadow: 0 20px 46px rgba(4, 12, 24, 0.4);
+        }
+
         footer {
             text-align: center;
-            padding: 2rem;
+            padding: 2.5rem 1.5rem 3rem;
+            color: rgba(234, 240, 255, 0.55);
             font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            border-top: 1px solid #1a1a1a;
         }
-        
-        @media (max-width: 768px) {
-            .pricing-table-wrapper {
-                -webkit-overflow-scrolling: touch;
+
+        @media (max-width: 640px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
             }
-            
-            table {
-                font-size: 0.85rem;
-            }
-            
-            th, td {
-                padding: 0.75rem 0.5rem;
-                font-size: 0.85rem;
-            }
-            
-            td ul {
-                padding-left: 1rem;
-            }
-        }
-        
-        @media (max-width: 600px) {
-            th {
-                font-size: 0.75rem;
-                padding: 0.6rem 0.4rem;
-            }
-            
-            td {
-                font-size: 0.75rem;
-                padding: 0.6rem 0.4rem;
-            }
-            
-            .price {
-                font-size: 1.1rem;
+
+            .hero {
+                padding: 2.8rem 1.6rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header-wrapper">
-        <div class="trial-banner">
-            <p>🎉 <strong>7-DAY FREE TRIAL</strong> • Try it risk-free, cancel anytime!</p>
+    <header>
+        <div class="container nav">
+            <a class="brand" href="/">EDGE WEBSITES</a>
+            <nav class="links">
+                <a href="/">Overview</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/signup.html">Sign Up</a>
+                <a href="/login.html">Login</a>
+            </nav>
         </div>
-        <nav class="header-nav">
-            <div class="container">
-                <a href="/" class="logo">EDGE WEBSITES</a>
-                <div class="nav-links">
-                    <a href="/pricing.html">Pricing</a>
-                    <a href="/signup.html" class="signup-btn">Sign Up</a>
-                    <a href="/login.html" class="login-btn">Login</a>
-                </div>
-            </div>
-        </nav>
-    </div>
+    </header>
 
-    <section class="hero">
-        <div class="container">
-            <h1>EDGE WEBSITES</h1>
-            <p style="font-size: 1.3rem; margin-bottom: 1.5rem; opacity: 0.9;">Launch a pro site in 24 hours for $0 upfront.</p>
-            <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
-                <div style="text-align: center;">
-                    <div style="font-size: 2rem; font-weight: 700; color: #00ff88; margin-bottom: 0.5rem;">⚡</div>
-                    <div style="font-weight: 600; margin-bottom: 0.25rem;">24-Hour Launch</div>
-                    <div style="font-size: 0.9rem; opacity: 0.8;">Basic plan only</div>
-                </div>
-                <div style="text-align: center;">
-                    <div style="font-size: 2rem; font-weight: 700; color: #00ff88; margin-bottom: 0.5rem;">💰</div>
-                    <div style="font-weight: 600; margin-bottom: 0.25rem;">No Upfront Cost</div>
-                    <div style="font-size: 0.9rem; opacity: 0.8;">Cancel anytime</div>
-                </div>
-                <div style="text-align: center;">
-                    <div style="font-size: 2rem; font-weight: 700; color: #00ff88; margin-bottom: 0.5rem;">📱</div>
-                    <div style="font-weight: 600; margin-bottom: 0.25rem;">Mobile-First</div>
-                    <div style="font-size: 0.9rem; opacity: 0.8;">Looks great everywhere</div>
-                </div>
+    <main class="container">
+        <section class="hero" id="top">
+            <span class="eyebrow">24-hour local launches</span>
+            <h1>Launch a polished site in 24 hours for $0 upfront.</h1>
+            <p>Send us your offers at noon. Wake up to a conversion-ready site you can keep, upgrade, or walk away from—no invoices unless you love it.</p>
+            <div class="hero-buttons">
+                <a class="button button-primary" href="/pricing.html">Build mine free</a>
+                <a class="button button-ghost" href="/pricing.html#tiers">See pricing breakdown</a>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section" id="process">
-        <div class="container">
-            <h2 class="section-title">Three steps to launch</h2>
-            <p class="section-subtitle">We grab your assets at noon, build overnight, and review the site with you the next morning.</p>
-            <div class="services-grid">
-                <div class="about-card">
-                    <h3>1. Kickoff call</h3>
-                    <p>Share your offers, booking links, and brand personality in a 20-minute call.</p>
-                </div>
-                <div class="about-card">
-                    <h3>2. Overnight build</h3>
-                    <p>We write the copy, design the layout, and wire up forms while you sleep.</p>
-                </div>
-                <div class="about-card">
-                    <h3>3. Morning hand-off</h3>
-                    <p>Approve the draft, request rapid edits, and decide if you want ongoing care.</p>
-                </div>
+        <section class="features" id="highlights">
+            <h2 class="section-title">Why busy local founders call us first</h2>
+            <p class="section-subtitle">Every project is built overnight by a small team that lives inside booking flows, POS systems, and local SEO every day.</p>
+            <div class="features-grid">
+                <article class="feature-card">
+                    <h3>Overnight momentum</h3>
+                    <p>Drop assets before lunch, approve a fully built draft the next morning, and launch with confidence.</p>
+                </article>
+                <article class="feature-card">
+                    <h3>Zero-risk kickoff</h3>
+                    <p>The first build is free. Upgrade to a paid tier only if the site hits your brand, metrics, and marketing goals.</p>
+                </article>
+                <article class="feature-card">
+                    <h3>Local-first strategy</h3>
+                    <p>Copy, design, and tracking tuned for service businesses—bookings, map packs, and repeat customers.</p>
+                </article>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section dark">
-        <div class="container" style="text-align: center;">
-            <h2 class="section-title">Ready to see pricing?</h2>
-            <p class="section-subtitle">The free build offer, tier breakdowns, testimonials, and the 24-hour launch proof live on our pricing page.</p>
-            <div class="hero-actions" style="justify-content: center;">
-                <a class="btn btn-gold grow" href="/pricing.html">Build mine free</a>
-                <a class="btn btn-outline grow" href="/pricing.html#tiers">See pricing</a>
+        <section class="process" id="process">
+            <h2 class="section-title">How the 24-hour build works</h2>
+            <ol class="step-list">
+                <li class="step">
+                    <strong>Step 1</strong>
+                    <h3>Noon intake call</h3>
+                    <p>Share your offers, brand assets, and booking tools. We collect everything needed in a 20-minute call.</p>
+                </li>
+                <li class="step">
+                    <strong>Step 2</strong>
+                    <h3>Overnight build sprint</h3>
+                    <p>We write the copy, design each page, wire up forms, and install analytics while you sleep.</p>
+                </li>
+                <li class="step">
+                    <strong>Step 3</strong>
+                    <h3>Breakfast review</h3>
+                    <p>Wake up to a working site. Approve, request edits, or upgrade to a care plan for ongoing support.</p>
+                </li>
+            </ol>
+        </section>
+
+        <section class="cta" id="cta">
+            <div class="cta-card">
+                <h2 class="section-title">Reserve your free build slot</h2>
+                <p class="section-subtitle">Pick a day, upload your assets, and get a conversion-ready site in your inbox 24 hours later.</p>
+                <div class="cta-buttons">
+                    <a class="button button-primary" href="/pricing.html">Build mine free</a>
+                    <a class="button button-ghost" href="/pricing.html#tiers">Compare tiers</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <footer>
-        <p><strong>Edge Websites</strong> | Professional websites in 24 hours</p>
-        <p>Old Hickory, TN 37138 | Care plans from $69 per month. Cancel anytime.</p>
-        <div class="hero-actions">
-            <a class="btn btn-gold grow" href="/pricing.html">Build mine free</a>
-            <a class="btn btn-outline grow" href="#process">See how it works</a>
-        </div>
-        <p style="margin-top: 1rem; font-size: 0.85rem;">
-            <a href="/manage-subscription.html" style="color: #00ff88; text-decoration: none;">Manage Subscription</a>
-        </p>
+        Edge Websites • Old Hickory, TN • 24-hour sites for local businesses
     </footer>
-
-    <script>
-        // Demo links
-        document.querySelector('a[href="#barber-demo"]')?.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open('barber-demo.html', '_blank');
-        });
-        document.querySelector('a[href="#doctor-demo"]')?.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open('doctor-demo.html', '_blank');
-        });
-        document.querySelector('a[href="#tattoo-demo"]')?.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open('tattoo-demo.html', '_blank');
-        });
-        document.querySelector('a[href="#coffee-demo"]')?.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open('coffee-demo.html', '_blank');
-        });
-        document.querySelector('a[href="#fitness-demo"]')?.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open('fitness-demo.html', '_blank');
-        });
-        document.querySelector('a[href="#auto-demo"]')?.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open('auto-demo.html', '_blank');
-        });
-    </script>
 </body>
 </html>
 
