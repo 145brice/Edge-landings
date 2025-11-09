@@ -6,6 +6,7 @@
     <title>Edge Websites – Local Sites in 24h</title>
     <meta name="description" content="Launch-ready sites and ongoing care for local businesses. One-time builds from $99, monthly care plans from $69. Mobile-first, fast, and tailored to your shop.">
     <link rel="canonical" href="https://edgelandings.com">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=80">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
@@ -89,6 +90,7 @@
             display: flex;
             gap: 1.5rem;
             align-items: center;
+            flex-wrap: wrap;
         }
         
         .header-nav .nav-link {
@@ -123,31 +125,51 @@
         }
         
         .hero {
+            background: linear-gradient(110deg, rgba(15, 26, 42, 0.9), rgba(18, 32, 54, 0.92)),
+                url("https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+            color: var(--white);
+            padding: 5rem 1.5rem;
+            display: grid;
+            place-items: center;
             text-align: center;
-            padding: 4rem 1rem;
-            padding-top: 2rem;
-            background: #0a0a0a;
-            color: white;
         }
-        
-        .hero h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin: 0 0 1rem;
-            font-weight: 800;
-            color: #ffffff;
+ 
+         .hero-content {
+             max-width: 640px;
+             display: grid;
+             gap: 1.5rem;
+         }
+ 
+         .hero-content h1 {
+             font-family: "Merriweather", serif;
+             font-size: clamp(2.2rem, 4vw, 3rem);
+             letter-spacing: 0.04em;
+             line-height: 1.2;
+             margin: 0;
+         }
+ 
+         .hero-content p {
+             font-size: 1.05rem;
+             opacity: 0.92;
+         }
+
+        .hero-proof {
+            display: grid;
+            gap: 1rem;
+            justify-items: center;
+            margin-top: 1rem;
         }
-        
-        .hero p {
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
+
+        .hero-proof span {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
         }
-        
-        .hero .tagline {
-            font-size: clamp(1rem, 3vw, 1.4rem);
-            color: rgba(0, 255, 136, 0.9);
-            margin-bottom: 2rem;
+
+        .hero-proof strong {
+            display: block;
+            font-size: 1.4rem;
+            color: #00ff88;
         }
         
         .btn {
@@ -735,7 +757,7 @@
     <section class="hero">
         <div class="container">
             <h1>EDGE WEBSITES</h1>
-            <p style="font-size: 1.3rem; margin-bottom: 1.5rem; opacity: 0.9;">Professional websites in 24 hours</p>
+            <p style="font-size: 1.3rem; margin-bottom: 1.5rem; opacity: 0.9;">Launch a pro site in 24 hours for $0 upfront.</p>
             <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
                 <div style="text-align: center;">
                     <div style="font-size: 2rem; font-weight: 700; color: #00ff88; margin-bottom: 0.5rem;">⚡</div>
@@ -932,6 +954,12 @@
     <footer>
         <p><strong>Edge Websites</strong> | Professional websites in 24 hours</p>
         <p>Old Hickory, TN 37138 | Care plans from $69 per month. Cancel anytime.</p>
+        <div class="hero-proof" aria-label="Launch proof">
+            <strong>24h launch clock</strong>
+            <span>Most sites ship in 18h 32m. See the countdown in your kickoff call.</span>
+            <strong>“Booked solid in one weekend.”</strong>
+            <span>— Mike&apos;s Barbershop, Franklin</span>
+        </div>
         <p style="margin-top: 1rem; font-size: 0.85rem;">
             <a href="/manage-subscription.html" style="color: #00ff88; text-decoration: none;">Manage Subscription</a>
         </p>
