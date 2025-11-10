@@ -203,49 +203,45 @@
         .pricing-grid {
             display: grid;
             gap: clamp(1.5rem, 4vw, 2.3rem);
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            align-items: stretch;
         }
 
         .pricing-legend {
-            display: none;
+            background: rgba(11, 20, 32, 0.85);
+            border: 1px solid rgba(0, 255, 136, 0.18);
+            border-radius: 24px;
+            padding: clamp(1.8rem, 4vw, 2.2rem);
+            box-shadow: 0 20px 44px rgba(5, 12, 24, 0.35);
+            display: grid;
+            gap: 0.85rem;
+            margin-bottom: clamp(1.6rem, 4vw, 2.4rem);
+        }
+
+        .pricing-legend h3 {
+            margin: 0;
+            font-size: 1.35rem;
+            font-family: "Merriweather", serif;
+            color: var(--text);
+        }
+
+        .pricing-legend ul {
+            margin: 0;
+            padding-left: 1.1rem;
+            color: rgba(230, 241, 255, 0.74);
+            font-size: 0.95rem;
+            display: grid;
+            gap: 0.45rem;
+            list-style: disc;
+        }
+
+        .pricing-legend li strong {
+            color: var(--text);
         }
 
         @media (min-width: 960px) {
             .pricing-grid {
-                grid-template-columns: minmax(240px, 1.1fr) repeat(3, minmax(260px, 1fr));
-                align-items: stretch;
-            }
-
-            .pricing-legend {
-                display: flex;
-                flex-direction: column;
-                gap: 0.9rem;
-                background: rgba(11, 20, 32, 0.85);
-                border: 1px solid rgba(0, 255, 136, 0.18);
-                border-radius: 24px;
-                padding: 2.2rem;
-                box-shadow: 0 20px 44px rgba(5, 12, 24, 0.35);
-            }
-
-            .pricing-legend h3 {
-                margin: 0;
-                font-size: 1.4rem;
-                font-family: "Merriweather", serif;
-                color: var(--text);
-            }
-
-            .pricing-legend ul {
-                margin: 0;
-                padding-left: 1.1rem;
-                color: rgba(230, 241, 255, 0.74);
-                font-size: 0.95rem;
-                display: grid;
-                gap: 0.45rem;
-                list-style: disc;
-            }
-
-            .pricing-legend li strong {
-                color: var(--text);
+                grid-template-columns: repeat(3, minmax(240px, 1fr));
             }
         }
 
@@ -698,16 +694,16 @@
             <div class="container">
                 <h2 class="section-title">Choose Your Website Package</h2>
                 <p class="section-subtitle">Cancel anytime. First month 50% off for new clients.</p>
+                <div class="pricing-legend" aria-label="Included with every plan">
+                    <h3>Every plan includes</h3>
+                    <ul>
+                        <li><strong>24-hour build kickoff</strong> with a dedicated project manager.</li>
+                        <li><strong>Free hosting, SSL, and maintenance</strong> so you never worry about uptime.</li>
+                        <li><strong>Calendly scheduling</strong> embedded on your site for instant bookings.</li>
+                        <li><strong>Cancel anytime</strong> — keep the site even if you leave.</li>
+                    </ul>
+                </div>
                 <div class="pricing-grid">
-                    <div class="pricing-legend" aria-label="Included with every plan">
-                        <h3>Every plan includes</h3>
-                        <ul>
-                            <li><strong>24-hour build kickoff</strong> with a dedicated project manager.</li>
-                            <li><strong>Free hosting, SSL, and maintenance</strong> so you never worry about uptime.</li>
-                            <li><strong>Calendly scheduling</strong> embedded on your site for instant bookings.</li>
-                            <li><strong>Cancel anytime</strong> — keep the site even if you leave.</li>
-                        </ul>
-                    </div>
                     <div class="pricing-card">
                         <div class="plan-header">
                             <div class="plan-name">Basic</div>
