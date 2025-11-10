@@ -291,10 +291,6 @@
             gap: 0.35rem;
         }
 
-        .comparison-cell.plan.no-feature {
-            justify-content: flex-end;
-        }
-
         .comparison-cell.plan .icon {
             width: 28px;
             height: 28px;
@@ -340,9 +336,6 @@
                 height: 24px;
             }
 
-            .comparison-cell.plan.no-feature {
-                justify-content: flex-end;
-            }
         }
 
         .popular-badge {
@@ -391,39 +384,6 @@
         .plan-description {
             color: rgba(230, 241, 255, 0.7);
             font-size: 0.98rem;
-        }
-
-        .feature-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: grid;
-            gap: 0.7rem;
-            color: rgba(230, 241, 255, 0.82);
-            font-size: 0.96rem;
-        }
-
-        .feature-list li {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 0.65rem;
-            align-items: center;
-        }
-
-        .feature-list li::before {
-            content: "✓";
-            width: 1.35rem;
-            height: 1.35rem;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #2bc48a, #1f9b68);
-            color: #04111f;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 0.8rem;
-            box-shadow: 0 10px 18px rgba(43, 196, 138, 0.32);
-            margin-top: 0.1rem;
         }
 
         .plan-button {
@@ -635,15 +595,6 @@
                             <div class="plan-price">$99 <span>per month</span></div>
                             <p class="plan-description">Launch fast with a streamlined one-page site and ongoing essentials handled.</p>
                         </div>
-                        <ul class="feature-list">
-                            <li>Simple one-page website</li>
-                            <li>Mobile-friendly design</li>
-                            <li>Basic contact form</li>
-                            <li>Hosting included</li>
-                            <li>Calendly scheduling integration</li>
-                            <li>1 revision round</li>
-                            <li>Built in 3 days</li>
-                        </ul>
                         <a class="plan-button basic" href="https://buy.stripe.com/5kQ7sN3vacCDcmm9z963K02" target="_blank" rel="noopener">Start Now - $99/mo</a>
                     </div>
                     <div class="pricing-card popular">
@@ -653,20 +604,6 @@
                             <div class="plan-price">$299 <span>per month</span></div>
                             <p class="plan-description">Step up to multi-page storytelling, lead capture, and priority turnaround.</p>
                         </div>
-                        <ul class="feature-list">
-                            <li>Everything in Basic</li>
-                            <li>Up to 5 pages</li>
-                            <li>Custom domain setup</li>
-                            <li>SEO optimization</li>
-                            <li>Lead-capture forms + popups</li>
-                            <li>Backend integrations (CRMs, Zapier)</li>
-                            <li>E-commerce ready (up to 5 products)</li>
-                            <li>Google Analytics integration</li>
-                            <li>Calendly scheduling integration</li>
-                            <li>Unlimited revisions</li>
-                            <li>Built in 5 days</li>
-                            <li>Priority support</li>
-                        </ul>
                         <a class="plan-button pro" href="https://buy.stripe.com/aFa14p0iYauv866cLl63K03" target="_blank" rel="noopener">Most Popular - $299/mo</a>
                     </div>
                     <div class="pricing-card">
@@ -675,18 +612,6 @@
                             <div class="plan-price">$499 <span>per month</span></div>
                             <p class="plan-description">Full-scale marketing engine with ecommerce, content, and 24/7 support.</p>
                         </div>
-                        <ul class="feature-list">
-                            <li>Everything in Pro</li>
-                            <li>Unlimited pages</li>
-                            <li>E-commerce ready (up to 50 products)</li>
-                            <li>Advanced backend integrations & automations</li>
-                            <li>Blog setup</li>
-                            <li>Email marketing integration</li>
-                            <li>Calendly scheduling integration</li>
-                            <li>Monthly performance report</li>
-                            <li>Built in 7 days</li>
-                            <li>24/7 phone support</li>
-                        </ul>
                         <a class="plan-button premium" href="https://buy.stripe.com/cNi5kF8Pu5ab866cLl63K05" target="_blank" rel="noopener">Go Premium - $499/mo</a>
                     </div>
                 </div>
@@ -730,7 +655,7 @@
                         </div>
                         <div class="comparison-row" role="listitem">
                             <div class="comparison-cell feature">E-commerce products</div>
-                            <div class="comparison-cell plan no-feature">
+                            <div class="comparison-cell plan">
                                 <span class="icon icon-minus" aria-hidden="true">×</span>
                             </div>
                             <div class="comparison-cell plan">
@@ -744,7 +669,7 @@
                         </div>
                         <div class="comparison-row" role="listitem">
                             <div class="comparison-cell feature">Backend integrations</div>
-                            <div class="comparison-cell plan no-feature">
+                            <div class="comparison-cell plan">
                                 <span class="icon icon-minus" aria-hidden="true">×</span>
                             </div>
                             <div class="comparison-cell plan">
