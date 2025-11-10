@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing | Edge Websites</title>
-    <meta name="description" content="Review Edge Websites pricing tiers. Start with a free 24-hour build, then upgrade to Basic, Plus, or Pro plans and optional care add-ons." />
+    <meta name="description" content="Choose a monthly website subscription: Basic, Pro, or Premium. Cancel anytime with hosting, SSL, and support included. First month 50% off." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
@@ -193,57 +193,86 @@
 
         .pricing-grid {
             display: grid;
-            gap: 1.5rem;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: clamp(1.5rem, 4vw, 2.3rem);
+        }
+
+        @media (min-width: 960px) {
+            .pricing-grid {
+                grid-template-columns: repeat(3, 1fr);
+                align-items: stretch;
+            }
         }
 
         .pricing-card {
-            background: rgba(11, 20, 32, 0.85);
-            border-radius: 16px;
-            padding: 2.2rem;
-            border: 1px solid rgba(0, 255, 136, 0.15);
-            box-shadow: 0 16px 40px rgba(5, 12, 24, 0.45);
+            background: rgba(11, 20, 32, 0.9);
+            border-radius: 24px;
+            padding: clamp(2rem, 5vw, 2.7rem);
+            border: 1px solid rgba(0, 255, 136, 0.18);
+            box-shadow: 0 24px 60px rgba(5, 12, 24, 0.36);
             position: relative;
             display: grid;
-            gap: 1.2rem;
+            gap: 1.5rem;
         }
 
         .pricing-card.popular {
-            border: 1px solid rgba(0, 255, 136, 0.5);
-            box-shadow: 0 18px 48px rgba(0, 255, 136, 0.22);
+            border: 1px solid rgba(84, 164, 255, 0.55);
+            box-shadow: 0 28px 68px rgba(58, 126, 255, 0.38);
+            transform: translateY(-8px);
+            background: linear-gradient(185deg, rgba(24, 40, 72, 0.95), rgba(10, 18, 36, 0.96));
+        }
+
+        @media (max-width: 959px) {
+            .pricing-card.popular {
+                transform: none;
+            }
         }
 
         .popular-badge {
             position: absolute;
-            top: 1.1rem;
-            right: 1.25rem;
-            background: rgba(0, 255, 136, 0.15);
-            color: var(--accent);
-            padding: 0.35rem 0.8rem;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #5aa2ff, #3a7eff);
+            color: #021028;
+            padding: 0.45rem 1.5rem;
             border-radius: 999px;
             font-weight: 700;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
+            box-shadow: 0 18px 40px rgba(58, 126, 255, 0.4);
+        }
+
+        .plan-header {
+            display: grid;
+            gap: 0.45rem;
         }
 
         .plan-name {
             font-family: "Merriweather", serif;
-            font-size: 1.3rem;
+            font-size: clamp(1.4rem, 3vw, 1.6rem);
             color: var(--text);
         }
 
-        .price {
-            font-size: 2.4rem;
+        .plan-price {
+            font-size: clamp(2.4rem, 5vw, 3.1rem);
             font-weight: 700;
-            color: var(--accent);
+            display: flex;
+            align-items: baseline;
+            gap: 0.45rem;
         }
 
-        .price-term {
-            font-size: 0.85rem;
+        .plan-price span {
+            font-size: 0.95rem;
+            font-weight: 600;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: rgba(230, 241, 255, 0.55);
+            color: rgba(230, 241, 255, 0.6);
+        }
+
+        .plan-description {
+            color: rgba(230, 241, 255, 0.7);
+            font-size: 0.98rem;
         }
 
         .feature-list {
@@ -251,32 +280,76 @@
             margin: 0;
             padding: 0;
             display: grid;
-            gap: 0.55rem;
-            color: rgba(230, 241, 255, 0.78);
-            font-size: 0.95rem;
+            gap: 0.7rem;
+            color: rgba(230, 241, 255, 0.82);
+            font-size: 0.96rem;
+        }
+
+        .feature-list li {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.65rem;
+            align-items: flex-start;
         }
 
         .feature-list li::before {
             content: "✓";
-            margin-right: 0.55rem;
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        .subscribe-btn {
+            width: 1.35rem;
+            height: 1.35rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2bc48a, #1f9b68);
+            color: #04111f;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.85rem 1.6rem;
-            border-radius: 999px;
-            background: rgba(0, 255, 136, 0.15);
-            color: var(--accent);
-            font-weight: 600;
-            transition: background 0.2s ease;
+            font-weight: 800;
+            font-size: 0.8rem;
+            box-shadow: 0 10px 18px rgba(43, 196, 138, 0.32);
+            margin-top: 0.1rem;
         }
 
-        .subscribe-btn:hover {
-            background: rgba(0, 255, 136, 0.25);
+        .plan-button {
+            border: none;
+            border-radius: 999px;
+            padding: 1rem 1.9rem;
+            font-weight: 700;
+            font-size: 1.02rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 0.4rem;
+        }
+
+        .plan-button:hover,
+        .plan-button:focus-visible {
+            transform: translateY(-3px);
+        }
+
+        .plan-button.basic {
+            background: linear-gradient(135deg, #2bc48a, #1c9e68);
+            color: #04111f;
+            box-shadow: 0 22px 40px rgba(27, 158, 104, 0.35);
+        }
+
+        .plan-button.pro {
+            background: linear-gradient(135deg, #5aa2ff, #3a7eff);
+            color: #021028;
+            box-shadow: 0 24px 48px rgba(58, 126, 255, 0.4);
+        }
+
+        .plan-button.premium {
+            background: linear-gradient(135deg, #f9a856, #f57f2d);
+            color: #220d03;
+            box-shadow: 0 24px 48px rgba(245, 127, 45, 0.35);
+        }
+
+        .plan-note {
+            text-align: center;
+            color: rgba(230, 241, 255, 0.62);
+            font-size: 0.9rem;
         }
 
         .testimonial-grid {
@@ -383,12 +456,12 @@
     <main>
         <section class="hero">
             <div class="hero-content">
-                <span class="badge" style="background: rgba(0, 255, 136, 0.15); color: var(--accent); font-weight: 700; padding: 0.45rem 1rem; border-radius: 999px;">Start free • Decide later</span>
-                <h1>Free 24-hour build, upgrades only if you love it.</h1>
-                <p>We launch a working version at no cost. Keep it, or upgrade to a paid build and optional care when you’re ready.</p>
+                <span class="badge" style="background: rgba(0, 255, 136, 0.15); color: var(--accent); font-weight: 700; padding: 0.45rem 1rem; border-radius: 999px;">Monthly plans • First month 50% off</span>
+                <h1>Website, hosting, and support on a simple monthly subscription.</h1>
+                <p>Pick the package that fits your pace. We build fast, keep it updated, and stay on call so you can focus on bookings.</p>
                 <div class="hero-actions">
-                    <a class="btn btn-gold" href="#tiers">View tiers</a>
-                    <a class="btn btn-outline" href="#contact">Reserve my build</a>
+                    <a class="btn btn-gold" href="#tiers">Compare plans</a>
+                    <a class="btn btn-outline" href="#contact">Talk to the team</a>
                 </div>
                 <div class="hero-proof" aria-label="Proof of performance">
                     <strong>24h launch clock</strong>
@@ -400,103 +473,65 @@
 
         <section class="section" id="tiers">
             <div class="container">
-                <h2 class="section-title">Free first, then the upgrades</h2>
-                <p class="section-subtitle">Choose the plan that matches how much help you want after the free build. No contracts. Cancel anytime.</p>
-                <div class="pricing-grid">
-                    <div class="pricing-card popular">
-                        <div class="popular-badge">Start here</div>
-                        <div class="plan-name">Free Kickoff</div>
-                        <div class="price">$0</div>
-                        <div class="price-term">one-time</div>
-                        <ul class="feature-list">
-                            <li>20-minute intake call</li>
-                            <li>24-hour homepage build</li>
-                            <li>Screen share review + edit list</li>
-                            <li>Yours to keep even if you don’t upgrade</li>
-                        </ul>
-                        <a class="subscribe-btn" href="#contact">Reserve my build</a>
-                    </div>
-                    <div class="pricing-card">
-                        <div class="plan-name">Basic Build</div>
-                        <div class="price">$99</div>
-                        <div class="price-term">one-time</div>
-                        <ul class="feature-list">
-                            <li>3-page site tailored to your industry</li>
-                            <li>Brand fonts, colors, & copy polish</li>
-                            <li>Ready-to-launch ZIP + instructions</li>
-                            <li>Ideal if you self-host</li>
-                        </ul>
-                        <a class="subscribe-btn" href="#contact">Upgrade to Basic</a>
-                    </div>
-                    <div class="pricing-card">
-                        <div class="plan-name">Plus Build</div>
-                        <div class="price">$199</div>
-                        <div class="price-term">one-time</div>
-                        <ul class="feature-list">
-                            <li>5 custom pages built around your offers</li>
-                            <li>Conversion copy + hero imagery</li>
-                            <li>Launch checklist and recorded handoff</li>
-                            <li>Best for busy local teams</li>
-                        </ul>
-                        <a class="subscribe-btn" href="#contact">Upgrade to Plus</a>
-                    </div>
-                    <div class="pricing-card">
-                        <div class="plan-name">Pro Build</div>
-                        <div class="price">$1,500</div>
-                        <div class="price-term">one-time</div>
-                        <ul class="feature-list">
-                            <li>Strategy workshop + UX wireframes</li>
-                            <li>Up to 8 pages with premium imagery</li>
-                            <li>Launch management & DNS support</li>
-                            <li>30-day polish sprint after go-live</li>
-                        </ul>
-                        <a class="subscribe-btn" href="#contact">Talk about Pro</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section dark" id="care">
-            <div class="container">
-                <h2 class="section-title">Optional care add-ons</h2>
-                <p class="section-subtitle">Keep us on the team once the site is live. Cancel anytime.</p>
+                <h2 class="section-title">Choose Your Website Package</h2>
+                <p class="section-subtitle">Cancel anytime. First month 50% off for new clients.</p>
                 <div class="pricing-grid">
                     <div class="pricing-card">
-                        <div class="plan-name">Basic Care</div>
-                        <div class="price">$69</div>
-                        <div class="price-term">per month</div>
+                        <div class="plan-header">
+                            <div class="plan-name">Basic</div>
+                            <div class="plan-price">$99 <span>per month</span></div>
+                            <p class="plan-description">Launch fast with a streamlined one-page site and ongoing essentials handled.</p>
+                        </div>
                         <ul class="feature-list">
-                            <li>Hosting on our optimized stack</li>
-                            <li>Backups, updates, emergency fixes</li>
-                            <li>Uptime monitoring</li>
+                            <li>Simple one-page website</li>
+                            <li>Mobile-friendly design</li>
+                            <li>Basic contact form</li>
+                            <li>Hosting included</li>
+                            <li>1 revision round</li>
+                            <li>Built in 7 days</li>
                         </ul>
-                        <a class="subscribe-btn" href="mailto:145brice@gmail.com?subject=Start%20Basic%20Care">Start Basic Care</a>
-                    </div>
-                    <div class="pricing-card">
-                        <div class="plan-name">Plus Care</div>
-                        <div class="price">$139</div>
-                        <div class="price-term">per month</div>
-                        <ul class="feature-list">
-                            <li>Everything in Basic Care</li>
-                            <li>Monthly content & offer updates</li>
-                            <li>SEO tune-ups & performance reporting</li>
-                        </ul>
-                        <a class="subscribe-btn" href="mailto:145brice@gmail.com?subject=Start%20Plus%20Care">Start Plus Care</a>
+                        <button class="plan-button basic" type="button">Start Now - $99/mo</button>
                     </div>
                     <div class="pricing-card popular">
-                        <div class="popular-badge">Most popular</div>
-                        <div class="plan-name">Pro Care</div>
-                        <div class="price">$299</div>
-                        <div class="price-term">per month</div>
+                        <div class="popular-badge">Most Popular</div>
+                        <div class="plan-header">
+                            <div class="plan-name">Pro</div>
+                            <div class="plan-price">$299 <span>per month</span></div>
+                            <p class="plan-description">Step up to multi-page storytelling, lead capture, and priority turnaround.</p>
+                        </div>
                         <ul class="feature-list">
-                            <li>Unlimited update requests</li>
-                            <li>Conversion experiments & landing launches</li>
-                            <li>Priority same-day support & live chat</li>
-                            <li>Constant SEO campaign management & reporting</li>
+                            <li>Everything in Basic</li>
+                            <li>Up to 5 pages</li>
+                            <li>Custom domain setup</li>
+                            <li>SEO optimization</li>
+                            <li>Lead-capture forms + popups</li>
+                            <li>Google Analytics integration</li>
+                            <li>Unlimited revisions</li>
+                            <li>Built in 5 days</li>
+                            <li>Priority support</li>
                         </ul>
-                        <a class="subscribe-btn" href="mailto:145brice@gmail.com?subject=Start%20Pro%20Care">Start Pro Care</a>
+                        <button class="plan-button pro" type="button">Most Popular - $299/mo</button>
+                    </div>
+                    <div class="pricing-card">
+                        <div class="plan-header">
+                            <div class="plan-name">Premium</div>
+                            <div class="plan-price">$499 <span>per month</span></div>
+                            <p class="plan-description">Full-scale marketing engine with ecommerce, content, and 24/7 support.</p>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Everything in Pro</li>
+                            <li>Unlimited pages</li>
+                            <li>E-commerce ready (up to 10 products)</li>
+                            <li>Blog setup</li>
+                            <li>Email marketing integration</li>
+                            <li>Monthly performance report</li>
+                            <li>Built in 3 days</li>
+                            <li>24/7 phone support</li>
+                        </ul>
+                        <button class="plan-button premium" type="button">Go Premium - $499/mo</button>
                     </div>
                 </div>
+                <p class="plan-note">All plans include free hosting, SSL certificate, and no setup fees.</p>
             </div>
         </section>
 
@@ -523,8 +558,8 @@
         <section class="section" id="contact">
             <div class="container">
                 <div class="form-card">
-                    <h2 class="section-title">Reserve your free build</h2>
-                    <p class="section-subtitle">We’ll hold a 24-hour slot and send a short prep checklist.</p>
+                    <h2 class="section-title">Need help choosing a plan?</h2>
+                    <p class="section-subtitle">Tell us about your business and we’ll confirm the right package, timeline, and kickoff date.</p>
                     <form action="https://formspree.io/f/xpzqkqkq" method="POST">
                         <label for="name">Your name</label>
                         <input id="name" name="name" type="text" placeholder="Jane Smith" required>
@@ -546,10 +581,10 @@
                         </select>
 
                         <label for="message">What do you need?</label>
-                        <textarea id="message" name="message" rows="4" placeholder="Share your current site (if any) and what needs to happen in the first 24 hours." required></textarea>
+                        <textarea id="message" name="message" rows="4" placeholder="Tell us about your goals, deadlines, and anything we should prep before kickoff." required></textarea>
 
                         <input type="hidden" name="_subject" value="Edge Websites Pricing Lead" />
-                        <button type="submit" class="btn-submit">Hold my 24h slot</button>
+                        <button type="submit" class="btn-submit">Schedule my consult</button>
                     </form>
                 </div>
             </div>
