@@ -211,6 +211,57 @@
             gap: 1.2rem;
         }
 
+        .lead {
+            display: grid;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .cta-badge {
+            justify-self: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            background: rgba(0, 241, 140, 0.15);
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .cta-list {
+            margin-top: 0.4rem;
+            padding: 1.1rem 1.2rem;
+            border-radius: 18px;
+            background: rgba(4, 18, 30, 0.72);
+            border: 1px solid rgba(0, 241, 140, 0.12);
+            display: grid;
+            gap: 0.65rem;
+            text-align: left;
+        }
+
+        .cta-list li {
+            list-style: none;
+            display: grid;
+            gap: 0.25rem;
+            color: rgba(238, 243, 255, 0.78);
+            font-size: 0.94rem;
+        }
+
+        .cta-list li strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .cta-note {
+            font-size: 0.82rem;
+            color: rgba(238, 243, 255, 0.55);
+            text-align: center;
+        }
+
         .inline-links {
             text-align: center;
             display: grid;
@@ -268,9 +319,15 @@
     <main>
         <section class="card">
             <div class="stack">
-                <div>
-                    <h1>Create your account</h1>
-                    <p class="subtitle">Claim your dashboard to reserve free build slots and manage your care plan.</p>
+                <div class="lead">
+                    <span class="cta-badge">Free build • No card required</span>
+                    <h1>Reserve your 24-hour build slot</h1>
+                    <p class="subtitle">We spin up your site overnight, then unlock the dashboard so you can approve, edit, or add care in minutes.</p>
+                    <ul class="cta-list">
+                        <li><strong>0 upfront cost</strong> — review the finished build before you choose a plan.</li>
+                        <li><strong>Live in under a day</strong> — we collect assets at noon and deliver the next morning.</li>
+                        <li><strong>Care optional</strong> — keep us on retainer only if you want ongoing SEO and updates.</li>
+                    </ul>
                 </div>
 
                 <div class="form-feedback error" id="error" role="alert"></div>
@@ -298,8 +355,10 @@
                         <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter your password" required autocomplete="new-password">
                     </div>
 
-                    <button type="submit" class="button button-primary" id="submitBtn">Create account</button>
+                    <button type="submit" class="button button-primary" id="submitBtn">Reserve my 24-hour build</button>
                 </form>
+
+                <p class="cta-note">No purchase required today. We’ll confirm your slot and send a short prep checklist.</p>
 
                 <div class="inline-links">
                     <span>Already have an account? <a href="/login.html">Log in</a></span>
