@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing | Edge Websites</title>
-    <meta name="description" content="Choose a monthly website subscription: Basic, Pro, or Premium. Cancel anytime with hosting, SSL, and support included. First month 50% off." />
+    <meta name="description" content="Choose a monthly website subscription: Basic, Pro, or Premium. Cancel anytime with hosting, SSL, support, and first-month 50% off." />
+    <meta property="og:title" content="Edge Websites Pricing – Basic, Pro, Premium Plans" />
+    <meta property="og:description" content="Pick the monthly website package that fits your business. Hosting, SSL, support, and a 50% off first month are included." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://edge-landings.vercel.app/pricing.html" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=80" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Edge Websites Pricing – Basic, Pro, Premium Plans" />
+    <meta name="twitter:description" content="Monthly website plans built for local businesses. Cancel anytime and get 50% off your first month." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
@@ -352,6 +360,32 @@
             font-size: 0.9rem;
         }
 
+        .faq-grid {
+            display: grid;
+            gap: 1.2rem;
+            margin-top: 2.5rem;
+        }
+
+        .faq-item {
+            background: rgba(11, 20, 32, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 1.6rem;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .faq-item h3 {
+            font-size: 1.15rem;
+            margin: 0;
+            color: var(--text);
+        }
+
+        .faq-item p {
+            margin: 0;
+            color: rgba(230, 241, 255, 0.75);
+        }
+
         .testimonial-grid {
             display: grid;
             gap: 1.3rem;
@@ -551,6 +585,31 @@
                         “Patients love the new booking flow. No-shows dropped 15% after the rebuild and monthly reports show exactly why.”
                         <span>— Dr. Sarah’s Clinic, Dallas</span>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section dark" id="faq">
+            <div class="container">
+                <h2 class="section-title">Frequently asked questions</h2>
+                <p class="section-subtitle">Straight answers before you commit. Still unsure? Drop us a note and we’ll hop on a call.</p>
+                <div class="faq-grid">
+                    <article class="faq-item">
+                        <h3>Can I cancel after the first month?</h3>
+                        <p>Yes. Every plan is month-to-month. If you cancel, we package your site so you can host it wherever you like.</p>
+                    </article>
+                    <article class="faq-item">
+                        <h3>What happens during the 24-hour build?</h3>
+                        <p>We write copy, design the layout, wire up forms, and set up analytics. You receive a review link and can request edits before going live.</p>
+                    </article>
+                    <article class="faq-item">
+                        <h3>Do you migrate my current website?</h3>
+                        <p>We’ll pull over your winning content, update the design, and handle redirects so you don’t lose any SEO traction.</p>
+                    </article>
+                    <article class="faq-item">
+                        <h3>Is ongoing SEO really included?</h3>
+                        <p>Pro and Premium plans come with monthly optimization reports and adjustments to keep you ranking and capturing leads.</p>
+                    </article>
                 </div>
             </div>
         </section>

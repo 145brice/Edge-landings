@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edge Websites – Local Sites in 24h</title>
-    <meta name="description" content="Edge Websites builds conversion-ready local sites in 24 hours with $0 upfront cost. Reserve a free build slot and decide later if you want upgrades or care." />
+    <meta name="description" content="Edge Websites builds high-converting local business sites in 24 hours with $0 upfront cost, SEO basics, and hosting handled. Reserve a free build slot today." />
+    <meta property="og:title" content="Edge Websites – 24-Hour Local Business Sites" />
+    <meta property="og:description" content="Get a conversion-ready website in 24 hours, pay only if you love it. SEO tuned, mobile-first, hosting included." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://edge-landings.vercel.app/" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=80" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Edge Websites – 24-Hour Local Business Sites" />
+    <meta name="twitter:description" content="Launch-ready in 24 hours with $0 upfront. Reserve your free build slot and decide later." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@600;700&display=swap" rel="stylesheet">
@@ -129,6 +137,57 @@
             margin: 0 auto;
             color: var(--muted);
             font-size: 1.05rem;
+        }
+
+        .proof-block {
+            display: grid;
+            gap: 1.2rem;
+            justify-items: center;
+            margin-top: 1.8rem;
+        }
+
+        .hero-proof {
+            display: grid;
+            gap: 0.5rem;
+            justify-items: center;
+            background: rgba(6, 14, 26, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.2rem 1.6rem;
+        }
+
+        .hero-proof strong {
+            font-size: 1.15rem;
+            color: var(--accent);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .hero-proof span {
+            color: rgba(234, 240, 255, 0.78);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .trust-badges {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .trust-badges li {
+            background: rgba(6, 14, 26, 0.6);
+            border: 1px solid rgba(0, 241, 140, 0.25);
+            border-radius: 999px;
+            padding: 0.45rem 0.95rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: rgba(234, 240, 255, 0.75);
         }
 
         .hero-buttons,
@@ -284,6 +343,14 @@
             .hero {
                 padding: 2.8rem 1.6rem;
             }
+
+            .hero-proof {
+                width: 100%;
+            }
+
+            .trust-badges {
+                gap: 0.6rem;
+            }
         }
     </style>
 </head>
@@ -306,8 +373,20 @@
             <h1>Launch a polished site in 24 hours for $0 upfront.</h1>
             <p>Send us your offers at noon. Wake up to a conversion-ready site you can keep, upgrade, or walk away from—no invoices unless you love it.</p>
             <div class="hero-buttons">
-                <a class="button button-primary" href="/pricing.html">Build mine free</a>
-                <a class="button button-ghost" href="/pricing.html#tiers">See pricing breakdown</a>
+                <a class="button button-primary" href="/pricing.html" aria-label="Build my site for free">Build mine free</a>
+                <a class="button button-ghost" href="/pricing.html#tiers" aria-label="See pricing breakdown">See pricing breakdown</a>
+            </div>
+            <div class="proof-block">
+                <div class="hero-proof" aria-label="Proof of performance">
+                    <strong>24h launch clock</strong>
+                    <span>Average go-live time: 18h 32m</span>
+                    <span aria-label="Client testimonial">“Booked solid in one weekend.” — Mike’s Barbershop</span>
+                </div>
+                <ul class="trust-badges" aria-label="Included guarantees">
+                    <li>Free hosting &amp; SSL</li>
+                    <li>Cancel anytime</li>
+                    <li>SEO &amp; analytics ready</li>
+                </ul>
             </div>
         </section>
 
