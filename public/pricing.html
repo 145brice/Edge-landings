@@ -202,9 +202,12 @@
 
         .pricing-grid {
             display: grid;
-            gap: clamp(1.5rem, 4vw, 2.3rem);
+            gap: clamp(1.5rem, 3.2vw, 2.1rem);
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             align-items: stretch;
+            justify-items: stretch;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         @media (min-width: 960px) {
@@ -215,7 +218,7 @@
 
         @media (min-width: 1200px) {
             .pricing-grid {
-                grid-template-columns: repeat(4, minmax(220px, 1fr));
+                grid-template-columns: repeat(4, minmax(240px, 1fr));
             }
         }
 
@@ -260,7 +263,9 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            gap: 1.4rem;
+            gap: 1.35rem;
+            text-align: left;
+            align-items: flex-start;
         }
 
         .pricing-card.popular {
@@ -277,12 +282,13 @@
         }
 
         .comparison-table {
-            margin-top: clamp(2rem, 5vw, 3rem);
+            margin: clamp(2rem, 5vw, 3rem) auto 0;
             background: rgba(9, 16, 28, 0.92);
             border-radius: 24px;
             border: 1px solid rgba(0, 255, 136, 0.15);
             box-shadow: 0 24px 60px rgba(5, 12, 24, 0.36);
             overflow: hidden;
+            max-width: 1200px;
         }
 
         .comparison-grid {
@@ -511,6 +517,7 @@
             display: grid;
             gap: 0.45rem;
             flex: 1;
+            width: 100%;
         }
 
         .plan-name {
@@ -542,6 +549,8 @@
             font-size: 0.96rem;
             line-height: 1.55;
             text-wrap: balance;
+            margin: 0;
+            max-width: 32ch;
         }
 
         .plan-audience {
