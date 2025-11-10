@@ -203,12 +203,49 @@
         .pricing-grid {
             display: grid;
             gap: clamp(1.5rem, 4vw, 2.3rem);
+            grid-template-columns: 1fr;
+        }
+
+        .pricing-legend {
+            display: none;
         }
 
         @media (min-width: 960px) {
             .pricing-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: minmax(240px, 1.1fr) repeat(3, minmax(0, 1fr));
                 align-items: stretch;
+            }
+
+            .pricing-legend {
+                display: flex;
+                flex-direction: column;
+                gap: 0.9rem;
+                background: rgba(11, 20, 32, 0.85);
+                border: 1px solid rgba(0, 255, 136, 0.18);
+                border-radius: 24px;
+                padding: 2.2rem;
+                box-shadow: 0 20px 44px rgba(5, 12, 24, 0.35);
+            }
+
+            .pricing-legend h3 {
+                margin: 0;
+                font-size: 1.4rem;
+                font-family: "Merriweather", serif;
+                color: var(--text);
+            }
+
+            .pricing-legend ul {
+                margin: 0;
+                padding-left: 1.1rem;
+                color: rgba(230, 241, 255, 0.74);
+                font-size: 0.95rem;
+                display: grid;
+                gap: 0.45rem;
+                list-style: disc;
+            }
+
+            .pricing-legend li strong {
+                color: var(--text);
             }
         }
 
@@ -247,7 +284,7 @@
 
         .comparison-grid {
             display: grid;
-            grid-template-columns: 1.4fr repeat(3, 1fr);
+            grid-template-columns: minmax(240px, 1.15fr) repeat(3, minmax(0, 1fr));
             align-items: stretch;
         }
 
@@ -291,6 +328,11 @@
             gap: 0.35rem;
         }
 
+        .comparison-cell.plan.plan-missing {
+            justify-content: flex-end;
+            align-items: center;
+        }
+
         .comparison-cell.plan .icon {
             width: 28px;
             height: 28px;
@@ -322,7 +364,7 @@
 
         @media (max-width: 720px) {
             .comparison-grid {
-                grid-template-columns: 1.2fr repeat(3, 1fr);
+                grid-template-columns: minmax(180px, 1.1fr) repeat(3, minmax(0, 1fr));
             }
 
             .comparison-cell {
@@ -336,6 +378,9 @@
                 height: 24px;
             }
 
+            .comparison-cell.plan.plan-missing {
+                justify-content: flex-end;
+            }
         }
 
         .popular-badge {
@@ -589,6 +634,15 @@
                 <h2 class="section-title">Choose Your Website Package</h2>
                 <p class="section-subtitle">Cancel anytime. First month 50% off for new clients.</p>
                 <div class="pricing-grid">
+                    <div class="pricing-legend" aria-label="Included with every plan">
+                        <h3>Every plan includes</h3>
+                        <ul>
+                            <li><strong>24-hour build kickoff</strong> with a dedicated project manager.</li>
+                            <li><strong>Free hosting, SSL, and maintenance</strong> so you never worry about uptime.</li>
+                            <li><strong>Calendly scheduling</strong> embedded on your site for instant bookings.</li>
+                            <li><strong>Cancel anytime</strong> — keep the site even if you leave.</li>
+                        </ul>
+                    </div>
                     <div class="pricing-card">
                         <div class="plan-header">
                             <div class="plan-name">Basic</div>
@@ -654,22 +708,125 @@
                             </div>
                         </div>
                         <div class="comparison-row" role="listitem">
-                            <div class="comparison-cell feature">E-commerce products</div>
+                            <div class="comparison-cell feature">Mobile-friendly design</div>
                             <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Responsive layout</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Responsive + QA</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Device-level QA</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row" role="listitem">
+                            <div class="comparison-cell feature">Hosting &amp; SSL</div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Included hosting</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Managed hosting + SSL</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Managed + staging site</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row" role="listitem">
+                            <div class="comparison-cell feature">Contact capture &amp; forms</div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Simple contact form</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Forms + popups</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Advanced funnels</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row" role="listitem">
+                            <div class="comparison-cell feature">Bakery ordering tools</div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Menu + inquiry form</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Daily specials pre-order</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Full online ordering</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row" role="listitem">
+                            <div class="comparison-cell feature">E-commerce ready</div>
+                            <div class="comparison-cell plan plan-missing">
                                 <span class="icon icon-minus" aria-hidden="true">×</span>
                             </div>
                             <div class="comparison-cell plan">
                                 <span class="icon icon-check" aria-hidden="true">✓</span>
-                                <span class="plan-detail">Up to 5 products</span>
+                                <span class="plan-detail">Sell up to 5 products</span>
                             </div>
                             <div class="comparison-cell plan">
                                 <span class="icon icon-check" aria-hidden="true">✓</span>
-                                <span class="plan-detail">Up to 50 products</span>
+                                <span class="plan-detail">Sell up to 50 products</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row" role="listitem">
+                            <div class="comparison-cell feature">Custom domain setup</div>
+                            <div class="comparison-cell plan plan-missing">
+                                <span class="icon icon-minus" aria-hidden="true">×</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Domain connected</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Domain + DNS records</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row" role="listitem">
+                            <div class="comparison-cell feature">SEO &amp; reporting</div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Local SEO essentials</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Monthly optimizations</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Advanced + reporting</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row" role="listitem">
+                            <div class="comparison-cell feature">Google Analytics &amp; tracking</div>
+                            <div class="comparison-cell plan plan-missing">
+                                <span class="icon icon-minus" aria-hidden="true">×</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">GA4 + conversions</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">GA4 + dashboards</span>
                             </div>
                         </div>
                         <div class="comparison-row" role="listitem">
                             <div class="comparison-cell feature">Backend integrations</div>
-                            <div class="comparison-cell plan">
+                            <div class="comparison-cell plan plan-missing">
                                 <span class="icon icon-minus" aria-hidden="true">×</span>
                             </div>
                             <div class="comparison-cell plan">
@@ -682,7 +839,33 @@
                             </div>
                         </div>
                         <div class="comparison-row" role="listitem">
-                            <div class="comparison-cell feature">Scheduling integration</div>
+                            <div class="comparison-cell feature">Blog &amp; content engine</div>
+                            <div class="comparison-cell plan plan-missing">
+                                <span class="icon icon-minus" aria-hidden="true">×</span>
+                            </div>
+                            <div class="comparison-cell plan plan-missing">
+                                <span class="icon icon-minus" aria-hidden="true">×</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Blog + RSS setup</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row" role="listitem">
+                            <div class="comparison-cell feature">Email marketing integration</div>
+                            <div class="comparison-cell plan plan-missing">
+                                <span class="icon icon-minus" aria-hidden="true">×</span>
+                            </div>
+                            <div class="comparison-cell plan plan-missing">
+                                <span class="icon icon-minus" aria-hidden="true">×</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">ESP automation</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row" role="listitem">
+                            <div class="comparison-cell feature">Scheduling &amp; calendar</div>
                             <div class="comparison-cell plan">
                                 <span class="icon icon-check" aria-hidden="true">✓</span>
                                 <span class="plan-detail">Calendly embed</span>
@@ -694,6 +877,21 @@
                             <div class="comparison-cell plan">
                                 <span class="icon icon-check" aria-hidden="true">✓</span>
                                 <span class="plan-detail">Calendly + reminders</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row" role="listitem">
+                            <div class="comparison-cell feature">Revision rounds</div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">1 revision round</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Unlimited revisions</span>
+                            </div>
+                            <div class="comparison-cell plan">
+                                <span class="icon icon-check" aria-hidden="true">✓</span>
+                                <span class="plan-detail">Unlimited revisions</span>
                             </div>
                         </div>
                         <div class="comparison-row" role="listitem">
@@ -712,18 +910,16 @@
                             </div>
                         </div>
                         <div class="comparison-row" role="listitem">
-                            <div class="comparison-cell feature">SEO &amp; reporting</div>
-                            <div class="comparison-cell plan">
-                                <span class="icon icon-check" aria-hidden="true">✓</span>
-                                <span class="plan-detail">Local SEO essentials</span>
+                            <div class="comparison-cell feature">Monthly performance report</div>
+                            <div class="comparison-cell plan plan-missing">
+                                <span class="icon icon-minus" aria-hidden="true">×</span>
+                            </div>
+                            <div class="comparison-cell plan plan-missing">
+                                <span class="icon icon-minus" aria-hidden="true">×</span>
                             </div>
                             <div class="comparison-cell plan">
                                 <span class="icon icon-check" aria-hidden="true">✓</span>
-                                <span class="plan-detail">SEO + analytics</span>
-                            </div>
-                            <div class="comparison-cell plan">
-                                <span class="icon icon-check" aria-hidden="true">✓</span>
-                                <span class="plan-detail">SEO + report</span>
+                                <span class="plan-detail">Delivered monthly</span>
                             </div>
                         </div>
                     </div>
