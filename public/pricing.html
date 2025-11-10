@@ -248,6 +248,7 @@
         .comparison-grid {
             display: grid;
             grid-template-columns: 1.4fr repeat(3, 1fr);
+            align-items: stretch;
         }
 
         .comparison-header {
@@ -271,16 +272,23 @@
             gap: 0.65rem;
             font-size: 0.95rem;
             color: rgba(230, 241, 255, 0.85);
+            min-height: 72px;
         }
 
         .comparison-cell.feature {
             font-weight: 600;
             color: rgba(238, 243, 255, 0.9);
             background: rgba(0, 0, 0, 0.12);
+            align-items: flex-start;
+            text-align: left;
         }
 
         .comparison-cell.plan {
             justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.35rem;
         }
 
         .comparison-cell.plan .icon {
@@ -291,12 +299,13 @@
             align-items: center;
             justify-content: center;
             font-size: 0.95rem;
+            border: 1px solid rgba(0, 241, 140, 0.45);
         }
 
         .icon-check {
-            background: linear-gradient(135deg, #2bc48a, #1f9b68);
-            color: #04111f;
-            box-shadow: 0 8px 20px rgba(27, 158, 104, 0.35);
+            background: rgba(0, 241, 140, 0.12);
+            color: #00f18c;
+            box-shadow: 0 0 0 rgba(27, 158, 104, 0.35);
         }
 
         .icon-minus {
@@ -324,6 +333,7 @@
             .comparison-cell {
                 padding: 0.85rem 0.9rem;
                 font-size: 0.9rem;
+                min-height: 60px;
             }
 
             .comparison-cell.plan .icon {
