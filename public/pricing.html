@@ -291,6 +291,10 @@
             gap: 0.35rem;
         }
 
+        .comparison-cell.plan.no-feature {
+            justify-content: flex-end;
+        }
+
         .comparison-cell.plan .icon {
             width: 28px;
             height: 28px;
@@ -334,6 +338,10 @@
             .comparison-cell.plan .icon {
                 width: 24px;
                 height: 24px;
+            }
+
+            .comparison-cell.plan.no-feature {
+                justify-content: flex-end;
             }
         }
 
@@ -399,7 +407,7 @@
             display: grid;
             grid-template-columns: auto 1fr;
             gap: 0.65rem;
-            align-items: flex-start;
+            align-items: center;
         }
 
         .feature-list li::before {
@@ -431,6 +439,8 @@
             align-items: center;
             text-align: center;
             gap: 0.4rem;
+            width: 100%;
+            min-height: 56px;
         }
 
         .plan-button:hover,
@@ -720,7 +730,7 @@
                         </div>
                         <div class="comparison-row" role="listitem">
                             <div class="comparison-cell feature">E-commerce products</div>
-                            <div class="comparison-cell plan">
+                            <div class="comparison-cell plan no-feature">
                                 <span class="icon icon-minus" aria-hidden="true">×</span>
                             </div>
                             <div class="comparison-cell plan">
@@ -734,7 +744,7 @@
                         </div>
                         <div class="comparison-row" role="listitem">
                             <div class="comparison-cell feature">Backend integrations</div>
-                            <div class="comparison-cell plan">
+                            <div class="comparison-cell plan no-feature">
                                 <span class="icon icon-minus" aria-hidden="true">×</span>
                             </div>
                             <div class="comparison-cell plan">
