@@ -16,6 +16,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=80">
     <style>
         :root {
@@ -455,6 +456,13 @@
             box-shadow: 0 12px 28px rgba(0, 255, 136, 0.28);
         }
 
+        .calendly-hint {
+            text-align: center;
+            font-size: 0.85rem;
+            color: rgba(230, 241, 255, 0.6);
+            margin: -0.3rem 0 0;
+        }
+
         footer {
             text-align: center;
             padding: 2rem 1.5rem;
@@ -540,6 +548,7 @@
                             <li>Custom domain setup</li>
                             <li>SEO optimization</li>
                             <li>Lead-capture forms + popups</li>
+                            <li>Backend integrations (CRMs, Zapier)</li>
                             <li>E-commerce ready (up to 5 products)</li>
                             <li>Google Analytics integration</li>
                             <li>Calendly scheduling integration</li>
@@ -559,6 +568,7 @@
                             <li>Everything in Pro</li>
                             <li>Unlimited pages</li>
                             <li>E-commerce ready (up to 50 products)</li>
+                            <li>Advanced backend integrations & automations</li>
                             <li>Blog setup</li>
                             <li>Email marketing integration</li>
                             <li>Calendly scheduling integration</li>
@@ -623,7 +633,7 @@
                 <div class="form-card">
                     <h2 class="section-title">Need help choosing a plan?</h2>
                     <p class="section-subtitle">Tell us about your business and we’ll confirm the right package, timeline, and kickoff date.</p>
-                    <form action="https://formspree.io/f/xpzqkqkq" method="POST">
+                    <form id="consultForm" action="https://formspree.io/f/xpzqkqkq" method="POST" data-calendly-url="https://calendly.com/145brice/new-meeting">
                         <label for="name">Your name</label>
                         <input id="name" name="name" type="text" placeholder="Jane Smith" required>
 
@@ -648,6 +658,7 @@
 
                         <input type="hidden" name="_subject" value="Edge Websites Pricing Lead" />
                         <button type="submit" class="btn-submit">Schedule my consult</button>
+                        <p class="calendly-hint">After you choose a time, we’ll send a confirmation with next steps.</p>
                     </form>
                 </div>
             </div>
@@ -658,4 +669,52 @@
         Edge Websites • Old Hickory, TN • 24-hour local site builds
     </footer>
 </body>
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('consultForm');
+        if (!form) return;
+
+        const calendlyUrl = form.dataset.calendlyUrl;
+        if (!calendlyUrl) return;
+
+        let bypassCalendly = false;
+
+        form.addEventListener('submit', function (event) {
+            if (bypassCalendly) return;
+            event.preventDefault();
+
+            if (window.Calendly && typeof Calendly.initPopupWidget === 'function') {
+                Calendly.initPopupWidget({ url: calendlyUrl });
+            } else {
+                bypassCalendly = true;
+                form.submit();
+            }
+        });
+
+        window.addEventListener('message', function (messageEvent) {
+            if (messageEvent.origin !== 'https://calendly.com') return;
+            if (!messageEvent.data || messageEvent.data.event !== 'calendly.event_scheduled') return;
+
+            if (window.Calendly && typeof Calendly.closePopupWidget === 'function') {
+                Calendly.closePopupWidget();
+            }
+
+            const payload = messageEvent.data.payload || {};
+            const eventDetails = payload.event || {};
+
+            let eventField = form.querySelector('input[name="calendly_event_uri"]');
+            if (!eventField) {
+                eventField = document.createElement('input');
+                eventField.type = 'hidden';
+                eventField.name = 'calendly_event_uri';
+                form.appendChild(eventField);
+            }
+            eventField.value = eventDetails.uri || '';
+
+            bypassCalendly = true;
+            form.submit();
+        });
+    });
+</script>
 </html>
