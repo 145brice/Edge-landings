@@ -16,6 +16,17 @@ if (!process.env.ANTHROPIC_API_KEY) {
 
 // Middleware
 app.use(express.json());
+
+// Add no-cache headers for HTML files
+app.use((req, res, next) => {
+  if (req.path.endsWith('.html')) {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+  }
+  next();
+});
+
 app.use(express.static('.'));
 
 // Create checkout session
