@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Pricing | Edge Websites</title>
     <meta name="description" content="Choose a monthly website subscription: Basic, Pro, or Premium. Cancel anytime with hosting, SSL, support, and first-month 50% off." />
     <meta property="og:title" content="Edge Websites Pricing – Basic, Pro, Premium Plans" />
@@ -290,11 +290,38 @@
             border: 1px solid rgba(0, 255, 136, 0.15);
             box-shadow: 0 24px 60px rgba(5, 12, 24, 0.36);
             overflow: hidden;
+            position: relative;
+        }
+
+        .comparison-table::before {
+            content: "Pinch to zoom • Swipe to scroll";
+            display: block;
+            text-align: center;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(200, 220, 240, 0.5);
+            padding: 0.6rem 1rem 0.4rem;
+            pointer-events: none;
+        }
+
+        @media (min-width: 721px) {
+            .comparison-table::before {
+                display: none;
+            }
         }
 
         .comparison-scroll {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            touch-action: pan-x pan-y pinch-zoom;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .comparison-scroll:active {
+            -webkit-user-select: auto;
+            user-select: auto;
         }
 
         .comparison-scroll::-webkit-scrollbar {
