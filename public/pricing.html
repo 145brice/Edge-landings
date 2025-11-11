@@ -303,6 +303,11 @@
             max-width: 940px;
         }
 
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .comparison-grid {
             display: grid;
             grid-template-columns: minmax(190px, 1.15fr) repeat(3, minmax(170px, 1fr));
@@ -489,26 +494,68 @@
 
         @media (max-width: 720px) {
             .comparison-grid {
-                grid-template-columns: minmax(150px, 1.1fr) repeat(4, minmax(130px, 1fr));
+                grid-template-columns: minmax(120px, 1fr) repeat(3, minmax(100px, 1fr));
             }
 
             .comparison-cell {
-                padding: 0.85rem 0.9rem;
-                font-size: 0.9rem;
-                min-height: 60px;
+                padding: 0.75rem 0.5rem;
+                font-size: 0.78rem;
+                min-height: 50px;
+            }
+
+            .comparison-cell.feature {
+                padding: 0.75rem 0.65rem;
+                font-size: 0.8rem;
             }
 
             .comparison-cell.plan .icon {
-                width: 24px;
-                height: 24px;
+                width: 20px;
+                height: 20px;
+                font-size: 0.75rem;
             }
 
             .comparison-cell.plan.plan-missing {
                 padding-bottom: 0.6rem;
             }
 
+            .plan-detail {
+                font-size: 0.6rem;
+            }
+
+            .comparison-table {
+                border-radius: 16px;
+            }
+
+            .comparison-header {
+                font-size: 0.7rem;
+            }
+
             .demo-grid {
                 margin: 1.8rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .comparison-grid {
+                grid-template-columns: minmax(100px, 1fr) repeat(3, minmax(85px, 1fr));
+            }
+
+            .comparison-cell {
+                padding: 0.65rem 0.4rem;
+                font-size: 0.72rem;
+            }
+
+            .comparison-cell.feature {
+                padding: 0.65rem 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .plan-detail {
+                font-size: 0.58rem;
+            }
+
+            .comparison-header {
+                font-size: 0.65rem;
             }
         }
 
