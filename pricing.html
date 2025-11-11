@@ -427,7 +427,13 @@
             display: grid;
             gap: clamp(1.3rem, 4vw, 1.8rem);
             margin: clamp(1.6rem, 4vw, 2.5rem) 0;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 720px) {
+            .demo-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
         }
 
         @media (min-width: 960px) {

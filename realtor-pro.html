@@ -132,6 +132,20 @@
             color: var(--primary);
         }
 
+        h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: var(--primary);
+            font-weight: 700;
+            margin: 0;
+        }
+
+        h3 {
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            color: var(--primary);
+            font-weight: 600;
+            margin: 0;
+        }
+
         .hero p {
             color: var(--muted);
             font-size: 1rem;
@@ -220,6 +234,15 @@
         .panel > * {
             position: relative;
             z-index: 1;
+        }
+
+        .panel p {
+            color: var(--muted);
+        }
+
+        .panel h2,
+        .panel h3 {
+            color: var(--primary);
         }
 
         #mls .panel {
