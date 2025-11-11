@@ -293,6 +293,14 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'edge-landings.html'));
 });
 
+// Explicitly serve realtor-pro.html to ensure correct version
+app.get('/realtor-pro.html', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.sendFile(path.join(__dirname, 'realtor-pro.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Visit: http://localhost:${PORT}`);
