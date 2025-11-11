@@ -226,8 +226,7 @@
 
         .pricing-legend,
         .pricing-grid,
-        .comparison-table,
-        .demo-grid {
+        .comparison-table {
             width: 100%;
             max-width: 940px;
             margin-left: auto;
@@ -438,17 +437,21 @@
             gap: clamp(1.3rem, 4vw, 1.8rem);
             margin: clamp(1.6rem, 4vw, 2.5rem) 0;
             grid-template-columns: 1fr;
+            width: 100%;
+            max-width: 940px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         @media (min-width: 720px) {
             .demo-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (min-width: 960px) {
             .demo-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
+                grid-template-columns: 1fr 1fr 1fr !important;
             }
         }
 
