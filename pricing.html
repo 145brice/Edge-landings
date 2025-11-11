@@ -442,7 +442,13 @@
 
         @media (min-width: 960px) {
             .demo-grid {
-                grid-template-columns: 1fr 1fr 1fr !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .demo-grid {
+                grid-template-columns: repeat(4, 1fr) !important;
             }
         }
 
@@ -921,6 +927,13 @@
                         <p>Calendly bookings, Twilio SMS reminders, MLS search, Mailchimp alerts, and a live leads counter—all wired for $199/mo.</p>
                         <a class="demo-links" href="/realtor-pro.html" target="_blank" rel="noopener">
                             View realtor engine →
+                        </a>
+                    </div>
+                    <div class="demo-card">
+                        <h3>Lawyer Template</h3>
+                        <p>Five-page legal site with navy/gold theme, trust badges, local SEO keywords, and Formspree contact forms—ready for $1,500 one-time handoff.</p>
+                        <a class="demo-links" href="/lawyer-template/index.html" target="_blank" rel="noopener">
+                            View lawyer template →
                         </a>
                     </div>
                 </div>
