@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrightKey Realty Engine | Full Realtor Demo</title>
+    <meta name="description" content="BrightKey Realty Engine: Book viewings in one click, trigger automated SMS reminders, capture MLS leads, and keep clients warm with email drops. Built to demo the $199/mo Pro plan." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    <style>
+        :root {
+            --bg: #0b1220;
+            --bg-alt: #10192c;
+            --panel: rgba(18, 28, 46, 0.82);
+            --accent: #2ed1a2;
+            --accent-soft: rgba(46, 209, 162, 0.18);
+            --gold: #f4c058;
+            --text: #f5f8ff;
+            --muted: rgba(216, 224, 238, 0.72);
+            --shadow: 0 24px 64px rgba(5, 12, 24, 0.55);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #132139, #060b16 60%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: clamp(1.4rem, 4vw, 2rem) clamp(1.4rem, 6vw, 4rem);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(18px);
+            background: rgba(6, 12, 22, 0.82);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .brand {
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-size: 0.92rem;
+        }
+
+        nav {
+            display: flex;
+            gap: clamp(1rem, 2vw, 2.4rem);
+            font-size: 0.9rem;
+        }
+
+        nav a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover,
+        nav a:focus-visible {
+            color: var(--accent);
+        }
+
+        main {
+            padding: clamp(2rem, 6vw, 5rem) clamp(1.3rem, 6vw, 4rem);
+            display: grid;
+            gap: clamp(2rem, 5vw, 3.5rem);
+        }
+
+        .hero {
+            display: grid;
+            gap: 1.8rem;
+            background: linear-gradient(135deg, rgba(46, 209, 162, 0.12), rgba(46, 209, 162, 0));
+            border: 1px solid rgba(46, 209, 162, 0.24);
+            border-radius: 28px;
+            padding: clamp(2.4rem, 6vw, 4.4rem);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: -40% 20% auto auto;
+            width: clamp(220px, 40vw, 360px);
+            height: clamp(220px, 40vw, 360px);
+            background: radial-gradient(circle at center, rgba(46, 209, 162, 0.22), transparent 68%);
+            filter: blur(0px);
+            opacity: 0.9;
+        }
+
+        .hero-copy {
+            max-width: 640px;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            gap: 1.2rem;
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.28em;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        h1 {
+            font-size: clamp(2rem, 4.4vw, 3.3rem);
+            line-height: 1.2;
+            text-wrap: balance;
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 1rem;
+            max-width: 56ch;
+        }
+
+        .cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.9rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #20b788);
+            color: #07121f;
+            box-shadow: 0 18px 44px rgba(46, 209, 162, 0.35);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: var(--text);
+        }
+
+        .btn-outline {
+            border: 1.5px solid rgba(46, 209, 162, 0.45);
+            color: var(--text);
+        }
+
+        .btn:hover,
+        .btn:focus-visible {
+            transform: translateY(-3px);
+            box-shadow: 0 22px 48px rgba(46, 209, 162, 0.42);
+        }
+
+        .grid-two {
+            display: grid;
+            gap: clamp(1.5rem, 4vw, 2.4rem);
+        }
+
+        @media (min-width: 960px) {
+            .grid-two {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .panel {
+            background: var(--panel);
+            backdrop-filter: blur(16px);
+            border-radius: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: clamp(1.8rem, 4vw, 2.8rem);
+            display: grid;
+            gap: 1.4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel::before {
+            content: "";
+            position: absolute;
+            inset: -40% auto auto -30%;
+            width: clamp(180px, 30vw, 260px);
+            height: clamp(180px, 30vw, 260px);
+            background: radial-gradient(circle at center, rgba(244, 192, 88, 0.28), transparent 70%);
+            filter: blur(0px);
+            opacity: 0.65;
+            pointer-events: none;
+        }
+
+        .panel > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .label {
+            font-size: 0.74rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .list {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .list li {
+            list-style: none;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            color: rgba(218, 226, 240, 0.78);
+        }
+
+        .list li::before {
+            content: "✔";
+            color: var(--accent);
+            font-weight: 700;
+            margin-top: 0.1rem;
+        }
+
+        .booking-card {
+            display: grid;
+            gap: 1.2rem;
+        }
+
+        .booking-actions {
+            display: grid;
+            gap: 0.7rem;
+        }
+
+        .meta {
+            font-size: 0.82rem;
+            color: rgba(210, 222, 240, 0.62);
+        }
+
+        .mock-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        @media (min-width: 720px) {
+            .mock-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .mock-card {
+            background: rgba(7, 14, 26, 0.78);
+            border-radius: 18px;
+            border: 1px solid rgba(46, 209, 162, 0.18);
+            padding: 1.1rem 1.3rem;
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .mock-card strong {
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+        }
+
+        .sms-log {
+            display: grid;
+            gap: 0.4rem;
+            font-size: 0.82rem;
+            color: rgba(204, 218, 238, 0.75);
+        }
+
+        .sms-log span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sms-log span::before {
+            content: "✉";
+            font-size: 0.78rem;
+            color: var(--accent);
+        }
+
+        .mls-results {
+            margin-top: 1.2rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .listing {
+            background: rgba(7, 12, 24, 0.88);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.1rem 1.3rem;
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .listing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .listing-price {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .listing-meta {
+            display: flex;
+            gap: 1.4rem;
+            font-size: 0.82rem;
+            color: rgba(208, 220, 238, 0.68);
+        }
+
+        .email-preview {
+            margin-top: 1.2rem;
+            background: rgba(9, 16, 28, 0.86);
+            border-radius: 18px;
+            border: 1px solid rgba(244, 192, 88, 0.24);
+            padding: 1.2rem 1.4rem;
+            display: grid;
+            gap: 0.55rem;
+        }
+
+        .email-preview header {
+            position: relative;
+            background: none;
+            border: none;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(244, 192, 88, 0.82);
+        }
+
+        .email-preview header::before {
+            content: "From: you@brightkeyhomes.com";
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(244, 192, 88, 0.62);
+        }
+
+        .email-preview p {
+            color: rgba(230, 233, 244, 0.78);
+            font-size: 0.9rem;
+        }
+
+        .tip-options {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .pill {
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            font-size: 0.82rem;
+            color: rgba(228, 236, 248, 0.72);
+        }
+
+        .mls-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .mls-form label {
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(218, 230, 246, 0.58);
+        }
+
+        .mls-form input,
+        .mls-form select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 16px;
+            padding: 0.85rem 1rem;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .alert-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            background: rgba(9, 16, 28, 0.82);
+            padding: 1.6rem;
+            border-radius: 22px;
+            border: 1px solid rgba(244, 192, 88, 0.28);
+        }
+
+        .alert-form input[type="email"],
+        .alert-form input[type="text"] {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 14px;
+            padding: 0.8rem 1rem;
+            color: var(--text);
+        }
+
+        .alert-form button {
+            background: linear-gradient(135deg, var(--gold), #e99d41);
+            color: #0b1220;
+            border: none;
+            border-radius: 999px;
+            padding: 0.85rem 1.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .alert-form button:hover,
+        .alert-form button:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 42px rgba(244, 192, 88, 0.38);
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(46, 209, 162, 0.14);
+            border: 1px solid rgba(46, 209, 162, 0.3);
+            border-radius: 99px;
+            padding: 0.55rem 1.1rem;
+            font-size: 0.88rem;
+            color: rgba(197, 244, 230, 0.92);
+            width: fit-content;
+        }
+
+        .stats-grid {
+            display: grid;
+            gap: 1.2rem;
+        }
+
+        @media (min-width: 720px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        .stat {
+            background: rgba(10, 18, 34, 0.85);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 1.4rem;
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .stat strong {
+            font-size: 1.4rem;
+        }
+
+        .carousel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .testimonial {
+            min-width: 100%;
+            padding: clamp(1.6rem, 4vw, 2.6rem);
+            background: rgba(12, 22, 39, 0.9);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: grid;
+            gap: 1rem;
+        }
+
+        .testimonial p {
+            font-size: 1.05rem;
+            color: rgba(232, 238, 248, 0.86);
+        }
+
+        .testimonial span {
+            color: rgba(180, 198, 222, 0.65);
+            font-size: 0.88rem;
+        }
+
+        .carousel-controls {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent);
+            transform: scale(1.15);
+        }
+
+        footer {
+            padding: 2.6rem 1.6rem 3.4rem;
+            text-align: center;
+            color: rgba(200, 210, 226, 0.55);
+            font-size: 0.86rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 1.6rem;
+            right: 1.6rem;
+            background: rgba(7, 18, 36, 0.94);
+            border: 1px solid rgba(46, 209, 162, 0.4);
+            border-radius: 16px;
+            padding: 1rem 1.4rem;
+            display: flex;
+            gap: 0.7rem;
+            align-items: center;
+            color: rgba(202, 240, 229, 0.88);
+            box-shadow: 0 16px 42px rgba(3, 12, 26, 0.52);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(16px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 40;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .toast strong {
+            color: var(--accent);
+        }
+
+        @media (max-width: 640px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+            .cta-row {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1 1 auto;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <span class="brand">BrightKey Realty Engine</span>
+        <nav>
+            <a href="#book">Book a showing</a>
+            <a href="#mls">MLS search</a>
+            <a href="#alerts">Price alerts</a>
+            <a href="#testimonials">Testimonials</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="book">
+            <div class="hero-copy">
+                <span class="eyebrow">Pro plan realtor demo</span>
+                <h1>Book viewings, trigger SMS reminders, and warm leads without touching your CRM.</h1>
+                <p>Built on the $199/mo Edge Pro stack: Calendly for one-click appointments, Twilio for auto-SMS nudges, Stripe for tip jar donations, and Mailchimp alerts when a listing price drops under your buyer&rsquo;s target.</p>
+                <div class="counter" aria-live="polite">
+                    <span>Live leads today:</span>
+                    <strong id="leadCounter">284</strong>
+                </div>
+                <div class="cta-row">
+                    <button class="btn btn-primary" id="calendlyButton">Book a walkthrough</button>
+                    <a class="btn btn-secondary" href="#mls">Search MLS</a>
+                    <a class="btn btn-outline" href="https://buy.stripe.com/test_0fZ4iQ2zQfYj5ew5km" target="_blank" rel="noopener">Tip the staging crew</a>
+                </div>
+                <p class="meta">Calendly slots trigger Twilio SMS reminders automatically. Cancel or reschedule links are injected in the text, no manual follow-up needed.</p>
+                <div class="mock-grid" aria-label="SMS reminder timeline">
+                    <div class="mock-card">
+                        <strong>Reminder timeline</strong>
+                        <div class="sms-log">
+                            <span>Confirmation sent 10:02 AM · “See you at 4PM. Reply C to cancel.”</span>
+                            <span>3-hour reminder armed · “Tap for directions + lockbox code.”</span>
+                            <span>Post-tour follow up queued · “Rate the home, we’ll prep next steps.”</span>
+                        </div>
+                    </div>
+                    <div class="mock-card">
+                        <strong>Tip jar snapshot</strong>
+                        <p class="meta">Live checkout handoff via Stripe (mocked for demo):</p>
+                        <div class="tip-options">
+                            <span class="pill">$10 staging snacks</span>
+                            <span class="pill">$25 fresh florals</span>
+                            <span class="pill">$50 signage + traffic ads</span>
+                            <span class="pill">Custom amount</span>
+                        </div>
+                        <button class="btn btn-secondary" id="tipJarDemo" type="button">Preview tip checkout</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid-two">
+            <article class="panel booking-card">
+                <span class="label">One-click booking</span>
+                <h2>Calendly powers instant showings</h2>
+                <p>Prospects tap once, pick a slot, and the Edge Pro automation fires off confirmations, Twilio SMS nudges, and a same-day reminder.</p>
+                <div class="booking-actions">
+                    <button class="btn btn-primary" id="bookNow">Schedule 4PM today</button>
+                    <button class="btn btn-secondary" id="textMe">Text me the reminder flow</button>
+                </div>
+                <p class="meta">Need last-minute edits? Reply to the booking thread or text us, we deploy changes in minutes.</p>
+            </article>
+
+            <article class="panel stats-card">
+                <span class="label">MLS + automation</span>
+                <h2>Lead-gen that updates itself</h2>
+                <ul class="list">
+                    <li>MLS search pulls active, pending, and sold comps in real-time.</li>
+                    <li>Mailchimp drip waits for a price drop under $400k, then emails buyers instantly.</li>
+                    <li>Stripe tip jar collects open-house donations or staging upcharges in seconds.</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="grid-two" id="mls">
+            <article class="panel">
+                <span class="label">MLS search</span>
+                <h2>Find the next listing worth touring</h2>
+                <form class="mls-form" action="#" method="GET">
+                    <div>
+                        <label for="mls-location">City or ZIP</label>
+                        <input type="text" id="mls-location" name="location" placeholder="e.g. Franklin, TN" required>
+                    </div>
+                    <div>
+                        <label for="mls-price">Max price</label>
+                        <input type="number" id="mls-price" name="price" placeholder="$450,000" min="50000" step="5000">
+                    </div>
+                    <div>
+                        <label for="mls-type">Property type</label>
+                        <select id="mls-type" name="type">
+                            <option value="single">Single family</option>
+                            <option value="condo">Condo</option>
+                            <option value="townhome">Townhome</option>
+                            <option value="multi">Multi-family</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-secondary" type="submit">Search live MLS feed</button>
+                </form>
+                <div class="mls-results" role="status" aria-live="polite">
+                    <article class="listing">
+                        <div class="listing-header">
+                            <h3>412 Willow Bend Dr, Franklin TN</h3>
+                            <span class="listing-price">$392,500</span>
+                        </div>
+                        <div class="listing-meta">
+                            <span>3 bed • 2.5 bath • 2,120 sqft</span>
+                            <span>DOM: 3</span>
+                            <span>Open house: Sat 1-4 PM</span>
+                        </div>
+                        <p class="meta">Auto-tagged for “Price-drop watch” list. Buyers under $400k get pinged instantly.</p>
+                    </article>
+                    <article class="listing">
+                        <div class="listing-header">
+                            <h3>209 Ridgeline Ct, Brentwood TN</h3>
+                            <span class="listing-price">$428,900</span>
+                        </div>
+                        <div class="listing-meta">
+                            <span>4 bed • 3 bath • 2,780 sqft</span>
+                            <span>DOM: 1</span>
+                            <span>Includes 3D walkthrough</span>
+                        </div>
+                        <p class="meta">Marked hot lead. Twilio workflow sends property highlights via SMS drip.</p>
+                    </article>
+                </div>
+                <p class="meta">MLS integration connects to your IDX or preferred MLS provider. Edge wires the feed, compliance, and caching—no plugin maintenance.</p>
+            </article>
+
+            <article class="panel" id="alerts">
+                <span class="label">Price drop alert</span>
+                <h2>Email me when this listing dips under $400k</h2>
+                <form class="alert-form" action="https://YOUR-DOMAIN.us21.list-manage.com/subscribe/post" method="post" target="_blank" novalidate>
+                    <input type="hidden" name="u" value="REPLACE_WITH_MAILCHIMP_U">
+                    <input type="hidden" name="id" value="REPLACE_WITH_MAILCHIMP_ID">
+                    <label class="label" for="alert-address">Listing address</label>
+                    <input type="text" id="alert-address" name="MMERGE1" placeholder="1234 Sycamore Ln" required>
+                    <label class="label" for="alert-email">Buyer email</label>
+                    <input type="email" id="alert-email" name="EMAIL" placeholder="buyer@email.com" required>
+                    <input type="hidden" name="MMERGE5" value="400000">
+                    <button type="submit">Notify me below $400k</button>
+                    <span class="meta">Connected directly to Mailchimp. Swap the form action + hidden IDs with your live list and the alert flows instantly.</span>
+                </form>
+                <aside class="email-preview" aria-label="Mailchimp automation preview">
+                    <header>
+                        <strong>Subject: Price alert — Willow Bend now $389,900</strong>
+                        <span>Send time: Instant</span>
+                    </header>
+                    <p>Hi Jamie,</p>
+                    <p>412 Willow Bend just slipped under your $400k ceiling. Tap below to book a walkthrough before the weekend rush.</p>
+                    <button class="btn btn-primary" type="button">Book the showing →</button>
+                </aside>
+            </article>
+        </section>
+
+        <section class="panel" id="automation">
+            <span class="label">Automation snapshot</span>
+            <h2>Everything runs in the background</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <strong>1-click</strong>
+                    <span>Booking sets the appointment, syncs to Google Calendar, and texts your buyer automatically.</span>
+                </div>
+                <div class="stat">
+                    <strong>2 min</strong>
+                    <span>We can swap copy, pricing blocks, or hero media in under two minutes—just text us.</span>
+                </div>
+                <div class="stat">
+                    <strong>6 touchpoints</strong>
+                    <span>Calendly confirmation, Twilio SMS, price-drop email, testimonial follow-up, recap email, tip jar receipt.</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel" id="testimonials">
+            <span class="label">What agents say</span>
+            <h2>Proof the engine keeps deals warm</h2>
+            <div class="carousel" aria-live="polite">
+                <div class="carousel-track" id="testimonialTrack">
+                    <article class="testimonial">
+                        <p>“Edge wired my Calendly, Twilio, and MLS feed in one weekend. The automated texts cut no-shows down to almost zero.”</p>
+                        <span>— Priya Patel • Keller Williams Downtown</span>
+                    </article>
+                    <article class="testimonial">
+                        <p>“The price-drop Mailchimp alert has buyers cheering within seconds. I don’t babysit listings anymore—the site does it.”</p>
+                        <span>— Miguel Alvarez • Compass East Nashville</span>
+                    </article>
+                    <article class="testimonial">
+                        <p>“We raised $1,200 in staging donations through the Stripe tip jar on our last open house. That just wasn’t happening before.”</p>
+                        <span>— Tara Jennings • Urban Nest Realty</span>
+                    </article>
+                </div>
+            </div>
+            <div class="carousel-controls" role="group" aria-label="Testimonial slides">
+                <button class="dot active" data-slide="0" aria-label="Show testimonial 1"></button>
+                <button class="dot" data-slide="1" aria-label="Show testimonial 2"></button>
+                <button class="dot" data-slide="2" aria-label="Show testimonial 3"></button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        BrightKey Realty Engine • Edge Websites Pro Demo • SMS + MLS integrations handled for you
+    </footer>
+
+    <div class="toast" role="status" aria-live="assertive" id="toast">
+        <strong>Twilio SMS armed</strong>
+        <span id="toastMessage">Buyer reminder will send 3 hours before the showing.</span>
+    </div>
+
+    <script>
+        (function () {
+            const calendlyUrl = "https://calendly.com/edge-realty/showing-demo";
+            const calendlyButton = document.getElementById("calendlyButton");
+            const bookButtons = [calendlyButton, document.getElementById("bookNow")];
+            const toast = document.getElementById("toast");
+            const toastMessage = document.getElementById("toastMessage");
+            const leadsEl = document.getElementById("leadCounter");
+            const counterMin = 284;
+            let leads = counterMin;
+            const tipJarDemo = document.getElementById("tipJarDemo");
+            const mlsForm = document.querySelector(".mls-form");
+            const alertForm = document.querySelector(".alert-form");
+
+            function showToast(message) {
+                toastMessage.textContent = message;
+                toast.classList.add("visible");
+                setTimeout(() => {
+                    toast.classList.remove("visible");
+                }, 3600);
+            }
+
+            function openCalendly(url) {
+                if (window.Calendly && typeof Calendly.initPopupWidget === "function") {
+                    Calendly.initPopupWidget({ url });
+                } else {
+                    window.location.href = url;
+                }
+            }
+
+            bookButtons.forEach((btn) => {
+                btn?.addEventListener("click", () => {
+                    openCalendly(calendlyUrl);
+                });
+            });
+
+            document.getElementById("textMe")?.addEventListener("click", () => {
+                showToast("Demo SMS flow sent. Imagine this hitting your buyer&rsquo;s phone now.");
+            });
+
+            tipJarDemo?.addEventListener("click", () => {
+                showToast("Stripe checkout preview loaded. Replace with your live link when ready.");
+            });
+
+            mlsForm?.addEventListener("submit", (event) => {
+                event.preventDefault();
+                showToast("MLS feed refreshed • 32 matching properties queued.");
+            });
+
+            alertForm?.addEventListener("submit", (event) => {
+                event.preventDefault();
+                showToast("Mailchimp alert primed. Buyers will get the email the second this home dips.");
+            });
+
+            window.addEventListener("message", (event) => {
+                if (event.origin !== "https://calendly.com") return;
+                if (!event.data || event.data.event !== "calendly.event_scheduled") return;
+                showToast("Buyer confirmed. Twilio reminder scheduled 3 hours before go-time.");
+            });
+
+            setInterval(() => {
+                const bump = Math.floor(Math.random() * 3) + 1;
+                leads += bump;
+                leadsEl.textContent = leads.toLocaleString();
+            }, 5000);
+
+            const dots = document.querySelectorAll(".dot");
+            const track = document.getElementById("testimonialTrack");
+            let currentSlide = 0;
+
+            function goToSlide(index) {
+                currentSlide = index;
+                const offset = -index * 100;
+                track.style.transform = `translateX(${offset}%)`;
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle("active", i === index);
+                });
+            }
+
+            dots.forEach((dot) => {
+                dot.addEventListener("click", () => {
+                    goToSlide(parseInt(dot.dataset.slide, 10));
+                });
+            });
+
+            setInterval(() => {
+                const next = (currentSlide + 1) % dots.length;
+                goToSlide(next);
+            }, 7000);
+        })();
+    </script>
+</body>
+</html>

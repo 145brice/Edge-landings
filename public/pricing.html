@@ -577,23 +577,19 @@
         }
 
         .plan-button {
-            border: none;
-            border-radius: 999px;
-            padding: 0.4rem 0.85rem;
-            font-weight: 700;
-            font-size: 0.82rem;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: inline-flex;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            gap: 0.35rem;
-            width: 100%;
-            max-width: 100px;
-            min-height: 36px;
-            margin-top: auto;
-            align-self: center;
+            justify-content: center;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.55rem 1.6rem;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 255, 136, 0.32);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-size: 0.85rem;
+            color: var(--text);
+            background: rgba(0, 255, 136, 0.12);
+            cursor: pointer;
         }
 
         .plan-button:hover,
@@ -750,6 +746,37 @@
                 flex-direction: column;
             }
         }
+
+        .toast {
+            position: fixed;
+            bottom: 1.6rem;
+            right: 1.6rem;
+            background: rgba(6, 14, 26, 0.92);
+            border: 1px solid rgba(0, 255, 136, 0.32);
+            border-radius: 16px;
+            padding: 0.95rem 1.4rem;
+            display: flex;
+            gap: 0.65rem;
+            align-items: center;
+            color: rgba(214, 238, 230, 0.88);
+            box-shadow: 0 18px 42px rgba(2, 10, 22, 0.48);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(16px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 50;
+        }
+
+        .toast strong {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -804,7 +831,7 @@
                             <p class="plan-description">Your site, your calendar, your phone—all hooked up. No jargon. No wait. 48 hours.</p>
                             <p class="plan-audience">Solo founders & first sites</p>
                         </div>
-                        <a class="plan-button basic" href="https://buy.stripe.com/5kQ7sN3vacCDcmm9z963K02" target="_blank" rel="noopener">Start Basic</a>
+                        <a class="plan-button basic plan-checkout" href="#" data-plan="Basic" data-amount="149">Start Basic</a>
                     </div>
                     <div class="pricing-card popular">
                         <div class="popular-badge">Best Value</div>
@@ -814,7 +841,7 @@
                             <p class="plan-description">Full Realtor Engine—site, calendar, auto-texts, email drip, MLS sync, all in 48 hours.</p>
                             <p class="plan-audience">Agents, brokers, and busy closers</p>
                         </div>
-                        <a class="plan-button pro" href="https://buy.stripe.com/aFa14p0iYauv866cLl63K03" target="_blank" rel="noopener">Choose Pro</a>
+                        <a class="plan-button pro plan-checkout" href="#" data-plan="Pro" data-amount="199">Choose Pro</a>
                     </div>
                     <div class="pricing-card">
                         <div class="plan-header">
@@ -823,7 +850,7 @@
                             <p class="plan-description">Everything Basic gives you, plus auto-lead follow-up, email blasts that actually open, and me checking in every month like your tech mom.</p>
                             <p class="plan-audience">Most teams choose this—why risk Basic?</p>
                         </div>
-                        <a class="plan-button premium" href="https://buy.stripe.com/cNi5kF8Pu5ab866cLl63K05" target="_blank" rel="noopener">Go Premium</a>
+                        <a class="plan-button premium plan-checkout" href="#" data-plan="Premium" data-amount="299">Go Premium</a>
                     </div>
                 </div>
                 <div class="demo-grid" aria-label="See example builds for each plan">
@@ -839,6 +866,13 @@
                         <p>Multi-page experience with daily specials pre-order flow, testimonials, and SEO-tuned service sections.</p>
                         <a class="demo-links" href="/bakery-pro.html" target="_blank" rel="noopener">
                             View pro demo →
+                        </a>
+                    </div>
+                    <div class="demo-card">
+                        <h3>Pro Realtor Demo</h3>
+                        <p>Calendly bookings, Twilio SMS reminders, MLS search, Mailchimp alerts, and a live leads counter—all wired for $199/mo.</p>
+                        <a class="demo-links" href="/realtor-pro.html" target="_blank" rel="noopener">
+                            View realtor engine →
                         </a>
                     </div>
                 </div>
@@ -1091,10 +1125,36 @@
     <footer>
         Edge Websites • Old Hickory, TN • 24-hour local site builds
     </footer>
+    <div class="toast" role="status" aria-live="assertive" id="checkoutToast">
+        <strong id="toastPlan">Plan</strong>
+        <span id="toastCopy">Checkout mock ready.</span>
+    </div>
 </body>
 <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const toast = document.getElementById('checkoutToast');
+        const toastPlan = document.getElementById('toastPlan');
+        const toastCopy = document.getElementById('toastCopy');
+
+        function showCheckoutToast(plan, amount) {
+            toastPlan.textContent = `${plan} plan`;
+            toastCopy.textContent = `Stripe checkout is mocked here. Real link will charge $${amount}/month when connected.`;
+            toast.classList.add('visible');
+            setTimeout(() => {
+                toast.classList.remove('visible');
+            }, 3400);
+        }
+
+        document.querySelectorAll('.plan-checkout').forEach((button) => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                const plan = button.dataset.plan || 'Plan';
+                const amount = button.dataset.amount || '?';
+                showCheckoutToast(plan, amount);
+            });
+        });
+
         const form = document.getElementById('consultForm');
         if (!form) return;
 
