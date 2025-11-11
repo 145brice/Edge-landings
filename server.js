@@ -19,10 +19,14 @@ app.use(express.json());
 
 // EXPLICIT ROUTE FOR REALTOR-PRO.HTML - MUST BE BEFORE STATIC
 app.get('/realtor-pro.html', (req, res) => {
-  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
-  res.sendFile(path.join(__dirname, 'realtor-pro.html'));
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.sendFile(path.join(__dirname, 'realtor-pro.html'), { 
+    etag: false,
+    lastModified: false 
+  });
 });
 
 // Add no-cache headers for HTML files
