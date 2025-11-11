@@ -313,15 +313,18 @@
 
         .comparison-scroll {
             overflow-x: auto;
+            overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            touch-action: pan-x pan-y pinch-zoom;
-            -webkit-user-select: none;
-            user-select: none;
+            -webkit-touch-callout: default;
+            -webkit-user-select: text;
+            user-select: text;
         }
 
-        .comparison-scroll:active {
-            -webkit-user-select: auto;
-            user-select: auto;
+        @media (max-width: 720px) {
+            .comparison-scroll {
+                touch-action: auto;
+                -webkit-overflow-scrolling: touch;
+            }
         }
 
         .comparison-scroll::-webkit-scrollbar {
