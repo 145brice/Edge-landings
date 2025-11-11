@@ -245,44 +245,136 @@
             color: var(--primary);
         }
 
+        #mls {
+            display: block;
+            width: 100%;
+        }
+
         #mls .panel {
-            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
-            border-color: rgba(26, 54, 93, 0.3);
-            border-left: 4px solid rgba(26, 54, 93, 0.4);
+            background: #ffffff;
+            border: 3px solid rgba(26, 54, 93, 0.2);
+            border-left: 6px solid rgba(26, 54, 93, 0.6);
+            border-radius: 0;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(26, 54, 93, 0.1);
         }
 
         #mls .label {
-            color: rgba(26, 54, 93, 0.8);
-            background: rgba(26, 54, 93, 0.08);
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
+            color: #1a365d;
+            background: #e8f0f8;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
             display: inline-block;
+            font-weight: 700;
+            border: 1px solid rgba(26, 54, 93, 0.2);
+        }
+
+        #mls h2 {
+            color: #0f2438;
+            font-size: 1.8rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         #mls .mls-form {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 1.4rem;
-            border-radius: 16px;
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
             border: 2px solid rgba(26, 54, 93, 0.15);
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1.5fr auto;
+            gap: 1rem;
+            align-items: end;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 960px) {
+            #mls .mls-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        #mls .mls-form > div {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        #mls .mls-form button {
+            align-self: end;
+            height: fit-content;
+        }
+
+        @media (max-width: 960px) {
+            #mls .mls-form button {
+                align-self: stretch;
+            }
+        }
+
+        #mls .mls-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.2rem;
+        }
+
+        #mls .listing {
+            background: #ffffff;
+            border: 2px solid rgba(26, 54, 93, 0.2);
+            border-radius: 8px;
+            padding: 1.2rem;
+            box-shadow: 0 2px 8px rgba(26, 54, 93, 0.08);
+        }
+
+        #alerts {
+            display: flex;
+            justify-content: center;
+            width: 100%;
         }
 
         #alerts .panel {
-            background: linear-gradient(135deg, #fffef8 0%, #fff9e6 100%);
-            border-color: rgba(201, 169, 97, 0.4);
-            border-right: 4px solid rgba(201, 169, 97, 0.5);
-            box-shadow: 0 4px 20px rgba(201, 169, 97, 0.15);
+            background: linear-gradient(180deg, #fff9e6 0%, #fff5d6 100%);
+            border: 3px solid rgba(201, 169, 97, 0.5);
+            border-top: 6px solid rgba(201, 169, 97, 0.7);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 24px rgba(201, 169, 97, 0.2);
+            max-width: 600px;
+            width: 100%;
         }
 
         #alerts .label {
-            color: rgba(201, 169, 97, 0.9);
-            background: rgba(201, 169, 97, 0.12);
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
+            color: #8b6914;
+            background: rgba(201, 169, 97, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
             display: inline-block;
+            font-weight: 700;
+            border: 2px solid rgba(201, 169, 97, 0.3);
         }
 
         #alerts h2 {
-            color: var(--accent-dark);
+            color: #6b5010;
+            font-size: 1.6rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        #alerts .alert-form {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            border: 2px solid rgba(201, 169, 97, 0.3);
+            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.15);
+        }
+
+        #alerts .email-preview {
+            margin-top: 1.5rem;
+            background: #ffffff;
+            border: 2px solid rgba(201, 169, 97, 0.4);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(201, 169, 97, 0.1);
         }
 
         .label {
@@ -804,7 +896,7 @@
             </article>
         </section>
 
-        <section class="grid-two" id="mls">
+        <section id="mls">
             <article class="panel">
                 <span class="label">MLS search</span>
                 <h2>Find the next listing worth touring</h2>
@@ -839,7 +931,7 @@
                             <span>DOM: 3</span>
                             <span>Open house: Sat 1-4 PM</span>
                         </div>
-                        <p class="meta">Auto-tagged for “Price-drop watch” list. Buyers under $400k get pinged instantly.</p>
+                        <p class="meta">Auto-tagged for "Price-drop watch" list. Buyers under $400k get pinged instantly.</p>
                     </article>
                     <article class="listing">
                         <div class="listing-header">
@@ -856,8 +948,10 @@
                 </div>
                 <p class="meta">MLS integration connects to your IDX or preferred MLS provider. Edge wires the feed, compliance, and caching—no plugin maintenance.</p>
             </article>
+        </section>
 
-            <article class="panel" id="alerts">
+        <section id="alerts">
+            <article class="panel">
                 <span class="label">Price drop alert</span>
                 <h2>Email me when this listing dips under $400k</h2>
                 <form class="alert-form" action="https://YOUR-DOMAIN.us21.list-manage.com/subscribe/post" method="post" target="_blank" novalidate>
