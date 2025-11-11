@@ -247,12 +247,42 @@
 
         #mls .panel {
             background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
-            border-color: rgba(26, 54, 93, 0.25);
+            border-color: rgba(26, 54, 93, 0.3);
+            border-left: 4px solid rgba(26, 54, 93, 0.4);
+        }
+
+        #mls .label {
+            color: rgba(26, 54, 93, 0.8);
+            background: rgba(26, 54, 93, 0.08);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        #mls .mls-form {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1.4rem;
+            border-radius: 16px;
+            border: 2px solid rgba(26, 54, 93, 0.15);
         }
 
         #alerts .panel {
             background: linear-gradient(135deg, #fffef8 0%, #fff9e6 100%);
-            border-color: rgba(201, 169, 97, 0.35);
+            border-color: rgba(201, 169, 97, 0.4);
+            border-right: 4px solid rgba(201, 169, 97, 0.5);
+            box-shadow: 0 4px 20px rgba(201, 169, 97, 0.15);
+        }
+
+        #alerts .label {
+            color: rgba(201, 169, 97, 0.9);
+            background: rgba(201, 169, 97, 0.12);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        #alerts h2 {
+            color: var(--accent-dark);
         }
 
         .label {
@@ -357,6 +387,36 @@
             display: grid;
             gap: 0.35rem;
             box-shadow: 0 2px 8px rgba(15, 36, 56, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .listing:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 54, 93, 0.15);
+            border-color: rgba(26, 54, 93, 0.25);
+        }
+
+        #mls .btn-secondary {
+            background: rgba(26, 54, 93, 0.1);
+            border-color: rgba(26, 54, 93, 0.3);
+            color: var(--primary);
+        }
+
+        #mls .btn-secondary:hover {
+            background: rgba(26, 54, 93, 0.15);
+            border-color: rgba(26, 54, 93, 0.4);
+        }
+
+        #alerts .alert-form button {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #ffffff;
+            border: none;
+            border-radius: 999px;
+            padding: 0.85rem 1.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
         }
 
         .listing-header {
@@ -500,6 +560,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
         }
 
         .alert-form button:hover,
