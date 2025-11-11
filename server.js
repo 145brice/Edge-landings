@@ -17,6 +17,14 @@ if (!process.env.ANTHROPIC_API_KEY) {
 // Middleware
 app.use(express.json());
 
+// EXPLICIT ROUTE FOR REALTOR-PRO.HTML - MUST BE BEFORE STATIC
+app.get('/realtor-pro.html', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.sendFile(path.join(__dirname, 'realtor-pro.html'));
+});
+
 // Add no-cache headers for HTML files
 app.use((req, res, next) => {
   if (req.path.endsWith('.html')) {
