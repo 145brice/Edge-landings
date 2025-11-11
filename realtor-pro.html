@@ -11,15 +11,19 @@
     <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
     <style>
         :root {
-            --bg: #0b1220;
-            --bg-alt: #10192c;
-            --panel: rgba(18, 28, 46, 0.82);
-            --accent: #2ed1a2;
-            --accent-soft: rgba(46, 209, 162, 0.18);
-            --gold: #f4c058;
-            --text: #f5f8ff;
-            --muted: rgba(216, 224, 238, 0.72);
-            --shadow: 0 24px 64px rgba(5, 12, 24, 0.55);
+            --bg: #f8f6f2;
+            --bg-alt: #ffffff;
+            --panel: #ffffff;
+            --accent: #c9a961;
+            --accent-dark: #a68a4f;
+            --accent-soft: rgba(201, 169, 97, 0.12);
+            --primary: #1a365d;
+            --primary-dark: #0f2438;
+            --gold: #d4af37;
+            --text: #1a1a1a;
+            --muted: rgba(26, 26, 26, 0.65);
+            --border: rgba(201, 169, 97, 0.2);
+            --shadow: 0 8px 32px rgba(15, 36, 56, 0.12);
         }
 
         * {
@@ -30,7 +34,7 @@
 
         body {
             font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: radial-gradient(circle at top, #132139, #060b16 60%);
+            background: linear-gradient(to bottom, #f8f6f2 0%, #ffffff 100%);
             color: var(--text);
             line-height: 1.6;
             min-height: 100vh;
@@ -44,9 +48,10 @@
             position: sticky;
             top: 0;
             z-index: 20;
-            backdrop-filter: blur(18px);
-            background: rgba(6, 12, 22, 0.82);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 2px solid var(--border);
+            box-shadow: 0 2px 12px rgba(15, 36, 56, 0.08);
         }
 
         .brand {
@@ -54,6 +59,7 @@
             letter-spacing: 0.16em;
             text-transform: uppercase;
             font-size: 0.92rem;
+            color: var(--primary);
         }
 
         nav {
@@ -66,6 +72,7 @@
             color: var(--muted);
             text-decoration: none;
             transition: color 0.2s ease;
+            font-weight: 500;
         }
 
         nav a:hover,
@@ -82,9 +89,9 @@
         .hero {
             display: grid;
             gap: 1.8rem;
-            background: linear-gradient(135deg, rgba(46, 209, 162, 0.12), rgba(46, 209, 162, 0));
-            border: 1px solid rgba(46, 209, 162, 0.24);
-            border-radius: 28px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f6f2 100%);
+            border: 2px solid var(--border);
+            border-radius: 24px;
             padding: clamp(2.4rem, 6vw, 4.4rem);
             box-shadow: var(--shadow);
             position: relative;
@@ -97,7 +104,7 @@
             inset: -40% 20% auto auto;
             width: clamp(220px, 40vw, 360px);
             height: clamp(220px, 40vw, 360px);
-            background: radial-gradient(circle at center, rgba(46, 209, 162, 0.22), transparent 68%);
+            background: radial-gradient(circle at center, rgba(201, 169, 97, 0.15), transparent 68%);
             filter: blur(0px);
             opacity: 0.9;
         }
@@ -114,13 +121,15 @@
             text-transform: uppercase;
             font-size: 0.75rem;
             letter-spacing: 0.28em;
-            color: rgba(255, 255, 255, 0.72);
+            color: var(--accent);
+            font-weight: 600;
         }
 
         h1 {
             font-size: clamp(2rem, 4.4vw, 3.3rem);
             line-height: 1.2;
             text-wrap: balance;
+            color: var(--primary);
         }
 
         .hero p {
@@ -149,26 +158,27 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--accent), #20b788);
-            color: #07121f;
-            box-shadow: 0 18px 44px rgba(46, 209, 162, 0.35);
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(201, 169, 97, 0.3);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            color: var(--text);
+            background: var(--bg-alt);
+            border: 2px solid var(--border);
+            color: var(--primary);
         }
 
         .btn-outline {
-            border: 1.5px solid rgba(46, 209, 162, 0.45);
-            color: var(--text);
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            background: transparent;
         }
 
         .btn:hover,
         .btn:focus-visible {
-            transform: translateY(-3px);
-            box-shadow: 0 22px 48px rgba(46, 209, 162, 0.42);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.35);
         }
 
         .grid-two {
@@ -185,13 +195,14 @@
         .panel {
             background: var(--panel);
             backdrop-filter: blur(16px);
-            border-radius: 26px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            border: 2px solid var(--border);
             padding: clamp(1.8rem, 4vw, 2.8rem);
             display: grid;
             gap: 1.4rem;
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow);
         }
 
         .panel::before {
@@ -200,7 +211,7 @@
             inset: -40% auto auto -30%;
             width: clamp(180px, 30vw, 260px);
             height: clamp(180px, 30vw, 260px);
-            background: radial-gradient(circle at center, rgba(244, 192, 88, 0.28), transparent 70%);
+            background: radial-gradient(circle at center, rgba(201, 169, 97, 0.12), transparent 70%);
             filter: blur(0px);
             opacity: 0.65;
             pointer-events: none;
@@ -211,11 +222,22 @@
             z-index: 1;
         }
 
+        #mls .panel {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+            border-color: rgba(26, 54, 93, 0.25);
+        }
+
+        #alerts .panel {
+            background: linear-gradient(135deg, #fffef8 0%, #fff9e6 100%);
+            border-color: rgba(201, 169, 97, 0.35);
+        }
+
         .label {
             font-size: 0.74rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--accent);
+            font-weight: 600;
         }
 
         .list {
@@ -228,7 +250,7 @@
             display: flex;
             gap: 0.75rem;
             align-items: flex-start;
-            color: rgba(218, 226, 240, 0.78);
+            color: var(--muted);
         }
 
         .list li::before {
@@ -250,7 +272,7 @@
 
         .meta {
             font-size: 0.82rem;
-            color: rgba(210, 222, 240, 0.62);
+            color: var(--muted);
         }
 
         .mock-grid {
@@ -265,12 +287,13 @@
         }
 
         .mock-card {
-            background: rgba(7, 14, 26, 0.78);
-            border-radius: 18px;
-            border: 1px solid rgba(46, 209, 162, 0.18);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            border: 2px solid var(--border);
             padding: 1.1rem 1.3rem;
             display: grid;
             gap: 0.6rem;
+            box-shadow: 0 2px 8px rgba(15, 36, 56, 0.08);
         }
 
         .mock-card strong {
@@ -282,7 +305,7 @@
             display: grid;
             gap: 0.4rem;
             font-size: 0.82rem;
-            color: rgba(204, 218, 238, 0.75);
+            color: var(--muted);
         }
 
         .sms-log span {
@@ -297,43 +320,6 @@
             color: var(--accent);
         }
 
-        .tip-options {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-        }
-
-        .pill {
-            padding: 0.35rem 0.9rem;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            font-size: 0.82rem;
-            color: rgba(228, 236, 248, 0.72);
-        }
-
-        .mls-form {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .mls-form label {
-            font-size: 0.8rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: rgba(218, 230, 246, 0.58);
-        }
-
-        .mls-form input,
-        .mls-form select {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 16px;
-            padding: 0.85rem 1rem;
-            color: var(--text);
-            font-size: 0.95rem;
-        }
-
         .mls-results {
             margin-top: 1.2rem;
             display: grid;
@@ -341,18 +327,24 @@
         }
 
         .listing {
-            background: rgba(7, 12, 24, 0.88);
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            border: 2px solid rgba(26, 54, 93, 0.15);
             padding: 1.1rem 1.3rem;
             display: grid;
             gap: 0.35rem;
+            box-shadow: 0 2px 8px rgba(15, 36, 56, 0.08);
         }
 
         .listing-header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
+        }
+
+        .listing-header h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
         }
 
         .listing-price {
@@ -365,17 +357,18 @@
             display: flex;
             gap: 1.4rem;
             font-size: 0.82rem;
-            color: rgba(208, 220, 238, 0.68);
+            color: var(--muted);
         }
 
         .email-preview {
             margin-top: 1.2rem;
-            background: rgba(9, 16, 28, 0.86);
+            background: rgba(255, 254, 248, 0.95);
             border-radius: 18px;
-            border: 1px solid rgba(244, 192, 88, 0.24);
+            border: 2px solid rgba(201, 169, 97, 0.3);
             padding: 1.2rem 1.4rem;
             display: grid;
             gap: 0.55rem;
+            box-shadow: 0 2px 12px rgba(201, 169, 97, 0.15);
         }
 
         .email-preview header {
@@ -386,7 +379,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: rgba(244, 192, 88, 0.82);
+            color: var(--accent);
         }
 
         .email-preview header::before {
@@ -394,37 +387,90 @@
             font-size: 0.72rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: rgba(244, 192, 88, 0.62);
+            color: var(--muted);
         }
 
         .email-preview p {
-            color: rgba(230, 233, 244, 0.78);
+            color: var(--text);
             font-size: 0.9rem;
+        }
+
+        .tip-options {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .pill {
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            border: 2px solid var(--border);
+            font-size: 0.82rem;
+            color: var(--muted);
+            background: var(--bg-alt);
+        }
+
+        .mls-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .mls-form label {
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .mls-form input,
+        .mls-form select {
+            width: 100%;
+            background: var(--bg-alt);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .mls-form input:focus,
+        .mls-form select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
         }
 
         .alert-form {
             display: flex;
             flex-direction: column;
             gap: 0.9rem;
-            background: rgba(9, 16, 28, 0.82);
+            background: rgba(255, 254, 248, 0.95);
             padding: 1.6rem;
-            border-radius: 22px;
-            border: 1px solid rgba(244, 192, 88, 0.28);
+            border-radius: 20px;
+            border: 2px solid rgba(201, 169, 97, 0.35);
+            box-shadow: 0 4px 16px rgba(201, 169, 97, 0.12);
         }
 
         .alert-form input[type="email"],
         .alert-form input[type="text"] {
             width: 100%;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 14px;
+            background: var(--bg-alt);
+            border: 2px solid var(--border);
+            border-radius: 12px;
             padding: 0.8rem 1rem;
             color: var(--text);
         }
 
+        .alert-form input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
         .alert-form button {
-            background: linear-gradient(135deg, var(--gold), #e99d41);
-            color: #0b1220;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #ffffff;
             border: none;
             border-radius: 999px;
             padding: 0.85rem 1.8rem;
@@ -436,20 +482,25 @@
         .alert-form button:hover,
         .alert-form button:focus-visible {
             transform: translateY(-2px);
-            box-shadow: 0 18px 42px rgba(244, 192, 88, 0.38);
+            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.35);
         }
 
         .counter {
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
-            background: rgba(46, 209, 162, 0.14);
-            border: 1px solid rgba(46, 209, 162, 0.3);
+            background: var(--accent-soft);
+            border: 2px solid var(--border);
             border-radius: 99px;
             padding: 0.55rem 1.1rem;
             font-size: 0.88rem;
-            color: rgba(197, 244, 230, 0.92);
+            color: var(--primary);
             width: fit-content;
+            font-weight: 600;
+        }
+
+        .counter strong {
+            color: var(--accent);
         }
 
         .stats-grid {
@@ -464,16 +515,22 @@
         }
 
         .stat {
-            background: rgba(10, 18, 34, 0.85);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: var(--bg-alt);
+            border-radius: 18px;
+            border: 2px solid var(--border);
             padding: 1.4rem;
             display: grid;
             gap: 0.35rem;
+            box-shadow: var(--shadow);
         }
 
         .stat strong {
             font-size: 1.4rem;
+            color: var(--accent);
+        }
+
+        .stat span {
+            color: var(--muted);
         }
 
         .carousel {
@@ -489,20 +546,21 @@
         .testimonial {
             min-width: 100%;
             padding: clamp(1.6rem, 4vw, 2.6rem);
-            background: rgba(12, 22, 39, 0.9);
-            border-radius: 24px;
-            border: 1pxolid rgba(255, 255, 255, 0.06);
+            background: var(--bg-alt);
+            border-radius: 20px;
+            border: 2px solid var(--border);
             display: grid;
             gap: 1rem;
+            box-shadow: var(--shadow);
         }
 
         .testimonial p {
             font-size: 1.05rem;
-            color: rgba(232, 238, 248, 0.86);
+            color: var(--text);
         }
 
         .testimonial span {
-            color: rgba(180, 198, 222, 0.65);
+            color: var(--muted);
             font-size: 0.88rem;
         }
 
@@ -517,7 +575,7 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.25);
+            background: var(--border);
             border: none;
             cursor: pointer;
             transition: background 0.3s ease, transform 0.3s ease;
@@ -531,7 +589,7 @@
         footer {
             padding: 2.6rem 1.6rem 3.4rem;
             text-align: center;
-            color: rgba(200, 210, 226, 0.55);
+            color: var(--muted);
             font-size: 0.86rem;
         }
 
@@ -539,15 +597,15 @@
             position: fixed;
             bottom: 1.6rem;
             right: 1.6rem;
-            background: rgba(7, 18, 36, 0.94);
-            border: 1px solid rgba(46, 209, 162, 0.4);
+            background: var(--bg-alt);
+            border: 2px solid var(--accent);
             border-radius: 16px;
             padding: 1rem 1.4rem;
             display: flex;
             gap: 0.7rem;
             align-items: center;
-            color: rgba(202, 240, 229, 0.88);
-            box-shadow: 0 16px 42px rgba(3, 12, 26, 0.52);
+            color: var(--text);
+            box-shadow: 0 8px 24px rgba(15, 36, 56, 0.2);
             opacity: 0;
             pointer-events: none;
             transform: translateY(16px);
@@ -604,7 +662,7 @@
             <div class="hero-copy">
                 <span class="eyebrow">Pro plan realtor demo</span>
                 <h1>Book viewings, trigger SMS reminders, and warm leads without touching your CRM.</h1>
-                <p>Built on the $199/mo Edge Pro stack: Calendly for one-click appointments, Twilio for auto-SMS nudges, Stripe for tip jar donations, and Mailchimp alerts when a listing price drops under your buyer’s target.</p>
+                <p>Built on the $199/mo Edge Pro stack: Calendly for one-click appointments, Twilio for auto-SMS nudges, Stripe for tip jar donations, and Mailchimp alerts when a listing price drops under your buyer&rsquo;s target.</p>
                 <div class="counter" aria-live="polite">
                     <span>Live leads today:</span>
                     <strong id="leadCounter">284</strong>
@@ -612,7 +670,7 @@
                 <div class="cta-row">
                     <button class="btn btn-primary" id="calendlyButton">Book a walkthrough</button>
                     <a class="btn btn-secondary" href="#mls">Search MLS</a>
-                    <a class="btn btn-outline" href="#" id="tipButton">Tip the staging crew</a>
+                    <a class="btn btn-outline" href="https://buy.stripe.com/test_0fZ4iQ2zQfYj5ew5km" target="_blank" rel="noopener">Tip the staging crew</a>
                 </div>
                 <p class="meta">Calendly slots trigger Twilio SMS reminders automatically. Cancel or reschedule links are injected in the text, no manual follow-up needed.</p>
                 <div class="mock-grid" aria-label="SMS reminder timeline">
@@ -718,14 +776,16 @@
             <article class="panel" id="alerts">
                 <span class="label">Price drop alert</span>
                 <h2>Email me when this listing dips under $400k</h2>
-                <form class="alert-form" action="#" method="post" novalidate>
+                <form class="alert-form" action="https://YOUR-DOMAIN.us21.list-manage.com/subscribe/post" method="post" target="_blank" novalidate>
+                    <input type="hidden" name="u" value="REPLACE_WITH_MAILCHIMP_U">
+                    <input type="hidden" name="id" value="REPLACE_WITH_MAILCHIMP_ID">
                     <label class="label" for="alert-address">Listing address</label>
-                    <input type="text" id="alert-address" name="address" placeholder="1234 Sycamore Ln" required>
+                    <input type="text" id="alert-address" name="MMERGE1" placeholder="1234 Sycamore Ln" required>
                     <label class="label" for="alert-email">Buyer email</label>
-                    <input type="email" id="alert-email" name="email" placeholder="buyer@email.com" required>
-                    <input type="hidden" name="threshold" value="400000">
+                    <input type="email" id="alert-email" name="EMAIL" placeholder="buyer@email.com" required>
+                    <input type="hidden" name="MMERGE5" value="400000">
                     <button type="submit">Notify me below $400k</button>
-                    <span class="meta">Mocked Mailchimp automation. Replace with your live action + hidden fields to activate.</span>
+                    <span class="meta">Connected directly to Mailchimp. Swap the form action + hidden IDs with your live list and the alert flows instantly.</span>
                 </form>
                 <aside class="email-preview" aria-label="Mailchimp automation preview">
                     <header>
@@ -802,18 +862,14 @@
             const toast = document.getElementById("toast");
             const toastMessage = document.getElementById("toastMessage");
             const leadsEl = document.getElementById("leadCounter");
+            const counterMin = 284;
+            let leads = counterMin;
             const tipJarDemo = document.getElementById("tipJarDemo");
-            const tipButton = document.getElementById("tipButton");
             const mlsForm = document.querySelector(".mls-form");
             const alertForm = document.querySelector(".alert-form");
-            const dots = document.querySelectorAll(".dot");
-            const track = document.getElementById("testimonialTrack");
-
-            let leads = 284;
-            let currentSlide = 0;
 
             function showToast(message) {
-                toastMessage.innerHTML = message;
+                toastMessage.textContent = message;
                 toast.classList.add("visible");
                 setTimeout(() => {
                     toast.classList.remove("visible");
@@ -824,7 +880,7 @@
                 if (window.Calendly && typeof Calendly.initPopupWidget === "function") {
                     Calendly.initPopupWidget({ url });
                 } else {
-                    showToast("Calendly popup would open now. Demo keeps it onsite.");
+                    window.location.href = url;
                 }
             }
 
@@ -835,16 +891,11 @@
             });
 
             document.getElementById("textMe")?.addEventListener("click", () => {
-                showToast("Demo SMS flow sent. Imagine this hitting your buyer’s phone now.");
+                showToast("Demo SMS flow sent. Imagine this hitting your buyer&rsquo;s phone now.");
             });
 
             tipJarDemo?.addEventListener("click", () => {
                 showToast("Stripe checkout preview loaded. Replace with your live link when ready.");
-            });
-
-            tipButton?.addEventListener("click", (event) => {
-                event.preventDefault();
-                showToast("Staging crew tip jar opening… (mocked for demo)");
             });
 
             mlsForm?.addEventListener("submit", (event) => {
@@ -868,6 +919,10 @@
                 leads += bump;
                 leadsEl.textContent = leads.toLocaleString();
             }, 5000);
+
+            const dots = document.querySelectorAll(".dot");
+            const track = document.getElementById("testimonialTrack");
+            let currentSlide = 0;
 
             function goToSlide(index) {
                 currentSlide = index;
