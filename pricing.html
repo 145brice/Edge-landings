@@ -181,7 +181,7 @@
         }
 
         .container {
-            max-width: 960px;
+            max-width: 940px;
             margin: 0 auto;
             padding: 0 1.6rem;
         }
@@ -202,8 +202,8 @@
 
         .pricing-grid {
             display: grid;
-            gap: clamp(1rem, 2.6vw, 1.6rem);
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: clamp(1rem, 2.2vw, 1.4rem);
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             align-items: stretch;
             justify-items: stretch;
             max-width: 940px;
@@ -212,13 +212,15 @@
 
         @media (min-width: 960px) {
             .pricing-grid {
-                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                max-width: 940px;
             }
         }
 
         @media (min-width: 1200px) {
             .pricing-grid {
-                grid-template-columns: repeat(4, minmax(200px, 1fr));
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                max-width: 940px;
             }
         }
 
@@ -293,7 +295,7 @@
 
         .comparison-grid {
             display: grid;
-            grid-template-columns: minmax(190px, 1.15fr) repeat(4, minmax(170px, 1fr));
+            grid-template-columns: minmax(190px, 1.15fr) repeat(3, minmax(170px, 1fr));
             align-items: stretch;
         }
 
@@ -737,6 +739,16 @@
             .hero-actions {
                 flex-direction: column;
             }
+        }
+
+        .pricing-legend,
+        .pricing-grid,
+        .comparison-table,
+        .demo-grid {
+            width: 100%;
+            max-width: 940px;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
