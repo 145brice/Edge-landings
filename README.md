@@ -42,7 +42,7 @@ Created by **Brice Leasure**
 
 ## 💎 Pricing Tiers
 
-### Basic – $99/month
+### Basic Website – $99/month
 
 Perfect for small businesses needing a simple, professional online presence.
 
@@ -52,7 +52,7 @@ Perfect for small businesses needing a simple, professional online presence.
 - 2 revisions in first month only
 - Hosting & basic security updates
 
-### Pro – $179/month
+### Pro Website – $179/month
 
 Ideal for growing businesses that want more features and visibility.
 
@@ -63,15 +63,22 @@ Ideal for growing businesses that want more features and visibility.
 - 1 content update per month
 - Faster support
 
-### Elite – $299/month
+### Leads Only – $179/month
 
-Full-service solution for businesses that want complete online management.
+For contractors who want a steady stream of local job leads.
 
-- Everything in Pro
-- Full Google Business Profile management
-- Monthly performance report
-- Monthly blog/content added
-- Priority support + quarterly site audit
+- Unlimited fresh permit leads (roofing, HVAC, plumbing, electrical)
+- Free 1-page website included with contact form + Google Maps
+- Mobile-friendly design
+- Cancel anytime
+
+### Combo: Pro Website + Leads – $249/month
+
+The ultimate growth package. Save $109/year vs buying separately.
+
+- Everything in Pro Website
+- Unlimited contractor leads
+- Priority support
 
 ---
 
@@ -251,7 +258,8 @@ STRIPE_SECRET_KEY=sk_live_your_key_here
 STRIPE_WEBHOOK_SECRET=whsec_your_key_here
 STRIPE_PRICE_BASIC=price_id_basic
 STRIPE_PRICE_PRO=price_id_pro
-STRIPE_PRICE_ELITE=price_id_elite
+STRIPE_PRICE_LEADS=price_id_leads
+STRIPE_PRICE_COMBO=price_id_combo
 
 # Supabase Database
 SUPABASE_URL=https://your-project.supabase.co
@@ -291,9 +299,10 @@ See [DATABASE_SETUP.md](./DATABASE_SETUP.md) for detailed instructions.
 ### Setup Steps
 
 1. **Create Products & Prices:**
-   - Basic: $99/month
-   - Pro: $179/month
-   - Elite: $299/month
+   - Basic Website: $99/month
+   - Pro Website: $179/month
+   - Leads Only: $179/month
+   - Combo (Pro + Leads): $249/month
 
 2. **Configure Webhooks:**
    - Endpoint: `https://your-domain.com/webhook`
@@ -302,7 +311,8 @@ See [DATABASE_SETUP.md](./DATABASE_SETUP.md) for detailed instructions.
 3. **Add Price IDs to Environment Variables:**
    - `STRIPE_PRICE_BASIC`
    - `STRIPE_PRICE_PRO`
-   - `STRIPE_PRICE_ELITE`
+   - `STRIPE_PRICE_LEADS`
+   - `STRIPE_PRICE_COMBO`
 
 See [STRIPE_SETUP.md](./STRIPE_SETUP.md) for complete setup instructions.
 
