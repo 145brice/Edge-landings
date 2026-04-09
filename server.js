@@ -39,7 +39,22 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.static('.'));
+// Serve static files with correct MIME types
+app.use(express.static(path.join(__dirname), {
+  extensions: ['html'],
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+  }
+}));
+
+// Root route - serve index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // Create checkout session
 app.post('/create-checkout-session', async (req, res) => {
@@ -298,19 +313,6 @@ app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
   }
 
   res.json({received: true});
-});
-
-// Serve the main page
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'edge-landings.html'));
-});
-
-// Explicitly serve realtor-pro.html to ensure correct version
-app.get('/realtor-pro.html', (req, res) => {
-  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
-  res.sendFile(path.join(__dirname, 'realtor-pro.html'));
 });
 
 app.listen(PORT, () => {
