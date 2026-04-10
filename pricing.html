@@ -203,32 +203,24 @@
         .pricing-grid {
             display: grid;
             gap: clamp(1rem, 2.2vw, 1.4rem);
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: 1fr;
             align-items: stretch;
             justify-items: stretch;
-            max-width: 940px;
+            max-width: 680px;
             margin: 0 auto;
         }
 
-        @media (min-width: 960px) {
+        @media (min-width: 640px) {
             .pricing-grid {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-                max-width: 940px;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .pricing-grid {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-                max-width: 940px;
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 800px;
             }
         }
 
         .pricing-legend,
-        .pricing-grid,
         .comparison-table {
             width: 100%;
-            max-width: 940px;
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -347,7 +339,8 @@
 
         .comparison-grid {
             display: grid;
-            grid-template-columns: minmax(190px, 1.15fr) repeat(3, minmax(170px, 1fr));
+            min-width: 100%;
+            grid-template-columns: minmax(190px, 1.4fr) repeat(2, minmax(170px, 1fr));
             align-items: stretch;
         }
 
@@ -553,7 +546,7 @@
 
         @media (max-width: 720px) {
             .comparison-grid {
-                grid-template-columns: minmax(130px, 1.05fr) repeat(3, minmax(120px, 1fr));
+                grid-template-columns: minmax(130px, 1.3fr) repeat(2, minmax(110px, 1fr));
             }
 
             .comparison-cell {

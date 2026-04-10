@@ -2,60 +2,57 @@
 
 > **Professional websites for local businesses. Built in 24 hours. $0 upfront. Pay only after you approve it.**
 
-Edge Landings is a subscription-based website-building service for local businesses. We create conversion-ready websites with transparent pricing, hosting, SSL, security updates, and ongoing support—all included in one monthly subscription.
+Edge Landings is a subscription-based website-building service for local businesses. We create conversion-ready websites with transparent pricing, hosting, SSL, security updates, and ongoing support — all included in one monthly subscription.
 
-Created by **Brice Leasure**
+**Created by Brice Leasure**
 
 ---
 
 ## 📋 Table of Contents
 
-- [Features](#features)
-- [Pricing Tiers](#pricing-tiers)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Deployment](#deployment)
-- [API Endpoints](#api-endpoints)
-- [Environment Variables](#environment-variables)
-- [Database Setup](#database-setup)
-- [Stripe Integration](#stripe-integration)
-- [Demo Sites](#demo-sites)
-- [Website Generation Prompt](#website-generation-prompt)
-- [Documentation](#documentation)
-- [License](#license)
+| | |
+|---|---|
+| [✨ Features](#-features) | [🔌 API Endpoints](#-api-endpoints) |
+| [💎 Pricing Tiers](#-pricing-tiers) | [🔐 Environment Variables](#-environment-variables) |
+| [🛠 Tech Stack](#-tech-stack) | [🗄️ Database Setup](#-database-setup) |
+| [📁 Project Structure](#-project-structure) | [💳 Stripe Integration](#-stripe-integration) |
+| [🚀 Getting Started](#-getting-started) | [🎨 Demo Sites](#-demo-sites) |
+| [🌐 Deployment](#-deployment) | [📚 Documentation](#-documentation) |
 
 ---
 
 ## ✨ Features
 
-- ⚡ **24-Hour Delivery** — Professional websites built and delivered in 24 hours
-- 💰 **$0 Upfront** — Clients only pay after they approve their site
-- 🎨 **Industry-Specific Templates** — Roofing, HVAC, Plumbing, Bakery, Barber, Realtor, and more
-- 📱 **Mobile-Responsive** — All sites optimized for all devices
-- 🔒 **Hosting & SSL** — Included with every subscription
-- 🛡️ **Security Updates** — Ongoing maintenance handled automatically
-- 📈 **SEO-Optimized** — Pro and Elite tiers include search engine optimization
-- 🔄 **Cancel Anytime** — No long-term contracts required
+| Feature | Description |
+|---|---|
+| ⚡ **24-Hour Delivery** | Professional websites built and delivered in 24 hours |
+| 💰 **$0 Upfront** | Clients only pay after they approve their site |
+| 🎨 **Industry Templates** | Roofing, HVAC, Plumbing, Bakery, Barber, Realtor, and more |
+| 📱 **Mobile-Responsive** | All sites optimized for every device |
+| 🔒 **Hosting & SSL** | Included with every subscription |
+| 🛡️ **Security Updates** | Ongoing maintenance handled automatically |
+| 📈 **SEO-Optimized** | Pro and Elite tiers include search engine optimization |
+| 🔄 **Cancel Anytime** | No long-term contracts required |
 
 ---
 
 ## 💎 Pricing Tiers
 
-### Basic Website – $99/month
+| Plan | Price | Best For |
+|---|---|---|
+| **Basic Website** | $99/mo | Small businesses needing a simple online presence |
+| **Pro Website** | $179/mo | Growing businesses wanting more features & visibility |
+| **Leads Only** | $179/mo | Contractors wanting a steady stream of local job leads |
+| **Combo: Pro + Leads** | $249/mo | Maximum growth — save $109/year vs. buying separately |
 
-Perfect for small businesses needing a simple, professional online presence.
-
+### Basic Website — $99/month
 - 1-page professional website
 - Contact form + Google Maps integration
 - Mobile-friendly responsive design
 - 2 revisions in first month only
 - Hosting & basic security updates
 
-### Pro Website – $179/month
-
-Ideal for growing businesses that want more features and visibility.
-
+### Pro Website — $179/month
 - Up to 5 pages
 - SEO-optimized (title, meta, headings)
 - Google reviews widget
@@ -63,19 +60,13 @@ Ideal for growing businesses that want more features and visibility.
 - 1 content update per month
 - Faster support
 
-### Leads Only – $179/month
-
-For contractors who want a steady stream of local job leads.
-
+### Leads Only — $179/month
 - Unlimited fresh permit leads (roofing, HVAC, plumbing, electrical)
-- Free 1-page website included with contact form + Google Maps
+- Free 1-page website with contact form + Google Maps
 - Mobile-friendly design
 - Cancel anytime
 
-### Combo: Pro Website + Leads – $249/month
-
-The ultimate growth package. Save $109/year vs buying separately.
-
+### Combo: Pro Website + Leads — $249/month
 - Everything in Pro Website
 - Unlimited contractor leads
 - Priority support
@@ -85,7 +76,7 @@ The ultimate growth package. Save $109/year vs buying separately.
 ## 🛠 Tech Stack
 
 | Layer | Technology |
-|-------|-----------|
+|---|---|
 | **Frontend** | Static HTML/CSS/JS with Tailwind CSS + React components |
 | **Backend** | Node.js with Express (`server.js`) |
 | **Hosting** | Vercel (serverless functions + static hosting) |
@@ -222,10 +213,10 @@ See detailed setup guides:
 
 ## 🔌 API Endpoints
 
-### Server Routes (server.js)
+### Server Routes (`server.js`)
 
 | Route | Method | Description |
-|-------|--------|-------------|
+|---|---|---|
 | `/` | GET | Main landing page |
 | `/pricing.html` | GET | Pricing tiers page |
 | `/create-checkout-session` | POST | Create Stripe checkout session |
@@ -236,10 +227,10 @@ See detailed setup guides:
 | `/api/test` | GET | Health check |
 | `/webhook` | POST | Stripe webhook handler |
 
-### Serverless Functions (api/)
+### Serverless Functions (`api/`)
 
 | Endpoint | Description |
-|----------|-------------|
+|---|---|
 | `/api/signup` | Create user account + send welcome emails |
 | `/api/login` | Authenticate user credentials |
 | `/api/dashboard` | Fetch user subscription data |
@@ -323,7 +314,7 @@ See [STRIPE_SETUP.md](./STRIPE_SETUP.md) for complete setup instructions.
 Live demos to show prospective clients what their site could look like:
 
 | Tier | URL | Features |
-|------|-----|----------|
+|---|---|---|
 | **Basic** | `/bakery-basic.html` | 1-page site, contact form, mobile-responsive |
 | **Pro** | `/bakery-pro.html` | 5 pages, SEO, booking calendar, email capture, carousel |
 | **Realtor Pro** | `/realtor-pro.html` | Real estate focused Pro-tier template |
@@ -361,7 +352,7 @@ Use this prompt with Claude or Grok to generate new industry-specific websites:
 Additional documentation files in the root directory:
 
 | File | Purpose |
-|------|---------|
+|---|---|
 | [COMPLETE_SETUP.md](./COMPLETE_SETUP.md) | All-in-one setup guide with copy-paste code |
 | [DATABASE_SETUP.md](./DATABASE_SETUP.md) | Vercel KV (Redis) database setup |
 | [STRIPE_SETUP.md](./STRIPE_SETUP.md) | Stripe account and webhook configuration |
@@ -391,8 +382,12 @@ MIT License © Brice Leasure
 
 ## 🤝 Support
 
-For issues, questions, or contributions, please open an issue on GitHub or contact the development team.
+For issues, questions, or contributions, open an issue on GitHub or contact the development team.
 
 ---
 
+<div align="center">
+
 **Built with ❤️ for local businesses**
+
+</div>
