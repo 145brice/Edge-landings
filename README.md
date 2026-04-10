@@ -43,7 +43,7 @@ Edge Landings is a subscription-based website-building service for local busines
 | **Basic Website** | $99/mo | Small businesses needing a simple online presence |
 | **Pro Website** | $179/mo | Growing businesses wanting more features & visibility |
 | **Leads Only** | $179/mo | Contractors wanting a steady stream of local job leads |
-| **Combo: Pro + Leads** | $249/mo | Maximum growth — save $109/year vs. buying separately |
+| **Combo: Pro + Leads** | $249/mo | Maximum growth — save $109/mo vs. buying separately |
 
 ### Basic Website — $99/month
 - 1-page professional website
