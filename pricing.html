@@ -274,14 +274,7 @@
         .pricing-card.popular {
             border: 1px solid rgba(84, 164, 255, 0.55);
             box-shadow: 0 28px 68px rgba(58, 126, 255, 0.38);
-            transform: translateY(-8px);
             background: linear-gradient(185deg, rgba(24, 40, 72, 0.95), rgba(10, 18, 36, 0.96));
-        }
-
-        @media (max-width: 959px) {
-            .pricing-card.popular {
-                transform: none;
-            }
         }
 
         .comparison-table {
@@ -546,19 +539,21 @@
         }
 
         .popular-badge {
-            position: absolute;
-            top: -14px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            top: unset;
+            left: unset;
+            transform: none;
+            align-self: flex-start;
             background: linear-gradient(135deg, #5aa2ff, #3a7eff);
             color: #021028;
-            padding: 0.45rem 1.5rem;
+            padding: 0.35rem 1.1rem;
             border-radius: 999px;
             font-weight: 700;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            box-shadow: 0 18px 40px rgba(58, 126, 255, 0.4);
+            box-shadow: 0 8px 20px rgba(58, 126, 255, 0.35);
+            margin-bottom: 0.25rem;
         }
 
         .plan-header {
