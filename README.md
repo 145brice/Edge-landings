@@ -40,19 +40,20 @@ Edge Landings is a subscription-based website-building service for local busines
 
 | Plan | Price | Best For |
 |---|---|---|
-| **Basic Website** | $99/mo | Small businesses needing a simple online presence |
-| **Pro Website** | $179/mo | Growing businesses wanting more features & visibility |
-| **Leads Only** | $179/mo | Contractors wanting a steady stream of local job leads |
-| **Combo: Pro + Leads** | $249/mo | Maximum growth — save $109/mo vs. buying separately |
+| **Basic Website** | $59/mo | Small businesses needing a simple online presence |
+| **Pro Website** | $99/mo | Growing businesses wanting more features & visibility |
+| **Leads Only** | $79/mo | Contractors wanting a steady stream of local job leads |
+| **Basic + Leads** | $119/mo | Save $19/mo — starter bundle |
+| **Pro + Leads** | $159/mo | Save $59/mo — best value bundle |
 
-### Basic Website — $99/month
+### Basic Website — $59/month
 - 1-page professional website
 - Contact form + Google Maps integration
 - Mobile-friendly responsive design
 - 2 revisions in first month only
 - Hosting & basic security updates
 
-### Pro Website — $179/month
+### Pro Website — $99/month
 - Up to 5 pages
 - SEO-optimized (title, meta, headings)
 - Google reviews widget
@@ -60,16 +61,23 @@ Edge Landings is a subscription-based website-building service for local busines
 - 1 content update per month
 - Faster support
 
-### Leads Only — $179/month
+### Leads Only — $79/month
 - Unlimited fresh permit leads (roofing, HVAC, plumbing, electrical)
 - Free 1-page website with contact form + Google Maps
 - Mobile-friendly design
 - Cancel anytime
 
-### Combo: Pro Website + Leads — $249/month
-- Everything in Pro Website
+### Bundle Packages
+
+**Basic + Leads — $119/month** (save $19/mo)
+- One-page professional website
 - Unlimited contractor leads
-- Priority support
+- Perfect starter package
+
+**Pro + Leads — $159/month** (save $59/mo) — *Best Value*
+- Full 5-page SEO-optimized website
+- Unlimited contractor leads
+- The ultimate growth package
 
 ---
 
@@ -250,7 +258,8 @@ STRIPE_WEBHOOK_SECRET=whsec_your_key_here
 STRIPE_PRICE_BASIC=price_id_basic
 STRIPE_PRICE_PRO=price_id_pro
 STRIPE_PRICE_LEADS=price_id_leads
-STRIPE_PRICE_COMBO=price_id_combo
+STRIPE_PRICE_BASIC_LEADS=price_id_basic_leads
+STRIPE_PRICE_PRO_LEADS=price_id_pro_leads
 
 # Supabase Database
 SUPABASE_URL=https://your-project.supabase.co
@@ -290,10 +299,11 @@ See [DATABASE_SETUP.md](./DATABASE_SETUP.md) for detailed instructions.
 ### Setup Steps
 
 1. **Create Products & Prices:**
-   - Basic Website: $99/month
-   - Pro Website: $179/month
-   - Leads Only: $179/month
-   - Combo (Pro + Leads): $249/month
+   - Basic Website: $59/month
+   - Pro Website: $99/month
+   - Leads Only: $79/month
+   - Basic + Leads: $119/month
+   - Pro + Leads: $159/month
 
 2. **Configure Webhooks:**
    - Endpoint: `https://your-domain.com/webhook`
@@ -303,7 +313,8 @@ See [DATABASE_SETUP.md](./DATABASE_SETUP.md) for detailed instructions.
    - `STRIPE_PRICE_BASIC`
    - `STRIPE_PRICE_PRO`
    - `STRIPE_PRICE_LEADS`
-   - `STRIPE_PRICE_COMBO`
+   - `STRIPE_PRICE_BASIC_LEADS`
+   - `STRIPE_PRICE_PRO_LEADS`
 
 See [STRIPE_SETUP.md](./STRIPE_SETUP.md) for complete setup instructions.
 
