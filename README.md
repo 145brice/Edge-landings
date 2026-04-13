@@ -38,37 +38,45 @@ Edge Landings is a subscription-based website-building service for local busines
 
 ## 💎 Pricing Tiers
 
+### Main Plans (Featured at Top)
+
 | Plan | Price | Best For |
 |---|---|---|
 | **Basic** | $59/mo | 1-page professional website |
 | **Pro** | $99/mo | Full multi-page website with SEO |
 | **Pro + Leads** | $159/mo | Website + 15–20 leads/mo — Best Value |
 
+### Also Available (Secondary)
+
+| Plan | Price | Best For |
+|---|---|---|
+| **Leads Only** | $79/mo | 15–20 leads/mo with skip-traced info |
+| **Basic + Leads** | $119/mo | 1-page website + 15–20 leads/mo |
+
 ### Basic — $59/month
 *One-page professional website*
 
 - Professional 1-page website
-- Mobile-friendly design
-- Working contact form
+- Mobile friendly
+- Contact form
 - Your branding & colors
 - Fast loading speed
 
 ### Pro — $99/month
 *Full multi-page website*
 
-- Up to 5 full pages
-- Clean modern design
-- Full SEO setup
+- Up to 5 pages
+- Modern design + SEO
 - Google reviews widget
 - Monthly content updates
 
 ### Pro + Leads — $159/month
 *Complete package — Website + Leads*
 
-- Everything in the Pro website
-- 15–20 fresh filtered leads every month
-- Skip-traced owner contact info
-- Best value package
+- Full Pro website
+- 15–20 fresh leads/month
+- Skip-traced owner info
+- Private leads dashboard
 
 ---
 
@@ -249,6 +257,8 @@ STRIPE_WEBHOOK_SECRET=whsec_your_key_here
 STRIPE_PRICE_BASIC=price_id_basic
 STRIPE_PRICE_PRO=price_id_pro
 STRIPE_PRICE_PRO_LEADS=price_id_pro_leads
+STRIPE_PRICE_LEADS_ONLY=price_id_leads_only
+STRIPE_PRICE_BASIC_LEADS=price_id_basic_leads
 
 # Supabase Database
 SUPABASE_URL=https://your-project.supabase.co
@@ -291,6 +301,8 @@ See [DATABASE_SETUP.md](./DATABASE_SETUP.md) for detailed instructions.
    - Basic: $59/month
    - Pro: $99/month
    - Pro + Leads: $159/month
+   - Leads Only: $79/month
+   - Basic + Leads: $119/month
 
 2. **Configure Webhooks:**
    - Endpoint: `https://your-domain.com/webhook`
@@ -300,6 +312,8 @@ See [DATABASE_SETUP.md](./DATABASE_SETUP.md) for detailed instructions.
    - `STRIPE_PRICE_BASIC`
    - `STRIPE_PRICE_PRO`
    - `STRIPE_PRICE_PRO_LEADS`
+   - `STRIPE_PRICE_LEADS_ONLY`
+   - `STRIPE_PRICE_BASIC_LEADS`
 
 See [STRIPE_SETUP.md](./STRIPE_SETUP.md) for complete setup instructions.
 
