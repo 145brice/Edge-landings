@@ -844,9 +844,10 @@
                 <p class="section-subtitle" style="text-align: center; max-width: 500px; margin: 0 auto 2rem;">No contract. Cancel anytime.</p>
 
                 <!-- THREE MAIN CARDS -->
-                <div class="pricing-grid">
+                <div class="pricing-grid" style="align-items: stretch;">
                     <!-- BASIC -->
-                    <div class="pricing-card">
+                    <div class="pricing-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
                         <div class="plan-header">
                             <div class="plan-name">Basic</div>
                             <div class="plan-price">$59 <span>per month</span></div>
@@ -857,10 +858,12 @@
                             <li style="display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: var(--accent); font-size: 1.1rem;">✓</span> Contact form + Google Maps</li>
                             <li style="display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: var(--accent); font-size: 1.1rem;">✓</span> Your branding & colors</li>
                         </ul>
+                        </div>
                         <a class="plan-button basic plan-checkout" href="https://buy.stripe.com/5kQ7sN3vacCDcmm9z963K02" data-plan="Basic" data-amount="59" target="_blank" rel="noopener">Get Basic – $59</a>
                     </div>
                     <!-- PRO -->
-                    <div class="pricing-card popular">
+                    <div class="pricing-card popular" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
                         <div class="popular-badge">Most Popular</div>
                         <div class="plan-header">
                             <div class="plan-name">Pro</div>
@@ -872,21 +875,22 @@
                             <li style="display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: var(--accent); font-size: 1.1rem;">✓</span> Google reviews widget</li>
                             <li style="display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: var(--accent); font-size: 1.1rem;">✓</span> Monthly content updates</li>
                         </ul>
+                        </div>
                         <a class="plan-button pro plan-checkout" href="https://buy.stripe.com/aFa14p0iYauv866cLl63K03" data-plan="Pro" data-amount="99" target="_blank" rel="noopener">Get Pro – $99</a>
                     </div>
                     <!-- PRO + LEADS -->
-                    <div class="pricing-card" style="position: relative; border: 3px solid #00f18c; box-shadow: 0 0 40px rgba(0, 241, 140, 0.25), 0 32px 80px rgba(0, 241, 140, 0.15); background: linear-gradient(170deg, rgba(0, 241, 140, 0.06) 0%, rgba(9, 14, 24, 0.95) 40%);">
-                        <div style="position: absolute; top: -18px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #f57f2d, #ff9a3c); color: #1a0a00; font-weight: 900; font-size: 0.95rem; padding: 0.55rem 2rem; border-radius: 999px; box-shadow: 0 6px 20px rgba(245, 127, 45, 0.5); white-space: nowrap; letter-spacing: 0.06em; text-transform: uppercase;">★ Best Value — Most Popular ★</div>
-                        <div class="plan-header" style="margin-top: 0.8rem;">
+                    <div class="pricing-card" style="position: relative; border: 3px solid #00f18c; box-shadow: 0 0 40px rgba(0, 241, 140, 0.25), 0 32px 80px rgba(0, 241, 140, 0.15); background: linear-gradient(170deg, rgba(0, 241, 140, 0.06) 0%, rgba(9, 14, 24, 0.95) 40%); display: flex; flex-direction: column; justify-content: space-between;">
+                        <div style="position: absolute; top: -16px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #f57f2d, #ff9a3c); color: #1a0a00; font-weight: 900; font-size: 0.9rem; padding: 0.5rem 1.8rem; border-radius: 999px; box-shadow: 0 6px 20px rgba(245, 127, 45, 0.5); white-space: nowrap; letter-spacing: 0.06em; text-transform: uppercase; z-index: 2;">★ Best Value ★</div>
+                        <div class="plan-header" style="padding-top: 0.5rem;">
                             <div class="plan-name" style="font-size: 1.5rem;">Pro + Leads</div>
-                            <div class="plan-price" style="font-size: 2.6rem;">$159 <span>per month</span></div>
+                            <div class="plan-price" style="font-size: 2.4rem;">$159 <span>per month</span></div>
                         </div>
-                        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; color: rgba(230, 241, 255, 0.88); font-size: 0.95rem;">
+                        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.65rem; color: rgba(230, 241, 255, 0.88); font-size: 0.92rem;">
                             <li style="display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #00f18c; font-size: 1.15rem;">✓</span> Everything in the Pro website</li>
                             <li style="display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #00f18c; font-size: 1.15rem;">✓</span> 15–20 fresh filtered leads every month</li>
                             <li style="display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #00f18c; font-size: 1.15rem;">✓</span> Skip traced contact info</li>
                         </ul>
-                        <a class="plan-button premium plan-checkout" href="#" data-plan="Pro + Leads" data-amount="159" style="display: block; text-align: center; background: linear-gradient(135deg, #f57f2d, #ff9a3c); color: #1a0a00; font-size: 1.05rem; padding: 0.95rem 1.5rem; font-weight: 800; border-radius: 999px; text-decoration: none; box-shadow: 0 12px 32px rgba(245, 127, 45, 0.45); border: none;" target="_blank" rel="noopener">Get Pro + Leads – $159</a>
+                        <a class="plan-button premium plan-checkout" href="#" data-plan="Pro + Leads" data-amount="159" style="display: block; text-align: center; background: linear-gradient(135deg, #f57f2d, #ff9a3c); color: #1a0a00; font-size: 1rem; padding: 0.85rem 1.5rem; font-weight: 800; border-radius: 999px; text-decoration: none; box-shadow: 0 12px 32px rgba(245, 127, 45, 0.45); border: none; margin-top: auto;" target="_blank" rel="noopener">Get Pro + Leads – $159</a>
                     </div>
                 </div>
 
