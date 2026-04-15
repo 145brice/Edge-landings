@@ -1,225 +1,96 @@
-const users = require('./users');
+// Look up a user row from Google Sheet via Apps Script
+async function getUserFromSheet(email) {
+  const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
+  if (!scriptUrl) return null;
 
-const DEFAULT_TASKS = [
-  {
-    id: 'upload-assets',
-    title: 'Upload brand assets',
-    description: 'Send us your logo, brand colors, and any existing imagery.',
-    category: 'Launch prep'
-  },
-  {
-    id: 'complete-questionnaire',
-    title: 'Complete business questionnaire',
-    description: 'Answer 6 quick questions so we can nail your messaging.',
-    category: 'Launch prep'
-  },
-  {
-    id: 'book-kickoff',
-    title: 'Schedule your kickoff call',
-    description: 'Get on a 15-minute strategy call to align on goals.',
-    category: 'Launch prep'
-  },
-  {
-    id: 'connect-domain',
-    title: 'Connect your domain',
-    description: 'We’ll walk you through pointing your domain to Edge.',
-    category: 'Go live'
-  },
-  {
-    id: 'review-homepage',
-    title: 'Review homepage preview',
-    description: 'Leave comments or approvals on your first draft.',
-    category: 'Go live'
-  }
-];
-
-const DEFAULT_ACTIVITY = [
-  {
-    title: 'Website brief received',
-    timestamp: 'Today',
-    detail: 'You submitted your business questionnaire.'
-  },
-  {
-    title: 'Assets reviewed',
-    timestamp: 'Yesterday',
-    detail: 'Brand assets packaged and sent to design team.'
-  },
-  {
-    title: 'Strategy call booked',
-    timestamp: '2 days ago',
-    detail: 'Kickoff call scheduled for this week.'
-  }
-];
-
-function getTrialInfo(createdAt, explicitTrialEnd) {
-  const created = createdAt ? new Date(createdAt) : new Date();
-  const defaultEnd = new Date(created.getTime() + 7 * 24 * 60 * 60 * 1000);
-  const trialEnd = explicitTrialEnd ? new Date(explicitTrialEnd) : defaultEnd;
-  const msRemaining = trialEnd.getTime() - Date.now();
-  const daysRemaining = Math.max(0, Math.ceil(msRemaining / (1000 * 60 * 60 * 24)));
-
-  return {
-    trialEndsAt: trialEnd.toISOString(),
-    trialDaysRemaining: daysRemaining,
-  };
+  const url = `${scriptUrl}?action=getUser&email=${encodeURIComponent(email)}`;
+  const response = await fetch(url);
+  if (!response.ok) return null;
+  const data = await response.json();
+  return data.found ? data.user : null;
 }
 
+const DEFAULT_TASKS = [
+  { id: 'upload-assets',          title: 'Upload brand assets',              description: 'Send us your logo, brand colors, and any existing imagery.',          category: 'Launch prep' },
+  { id: 'complete-questionnaire', title: 'Complete business questionnaire',  description: 'Answer 6 quick questions so we can nail your messaging.',             category: 'Launch prep' },
+  { id: 'book-kickoff',           title: 'Schedule your kickoff call',       description: 'Get on a 15-minute strategy call to align on goals.',                  category: 'Launch prep' },
+  { id: 'connect-domain',         title: 'Connect your domain',              description: 'We\'ll walk you through pointing your domain to Edge.',                 category: 'Go live'     },
+  { id: 'review-homepage',        title: 'Review homepage preview',          description: 'Leave comments or approvals on your first draft.',                     category: 'Go live'     },
+];
+
 module.exports = async (req, res) => {
-  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { email, customerId = null } = req.body || {};
+    const { email } = req.body || {};
+    if (!email) return res.status(400).json({ error: 'Email is required' });
 
-    if (!email) {
-      return res.status(400).json({ error: 'Email is required' });
-    }
+    const user = await getUserFromSheet(email.trim().toLowerCase());
+    if (!user) return res.status(404).json({ error: 'Account not found.' });
 
-    const normalizedEmail = String(email).trim();
-    const user = await users.get(normalizedEmail);
+    const planName = user.plan || null;
+    const planTier = planName ? (planName.toLowerCase().includes('pro') ? 'Pro' : 'Basic') : null;
+    const planAmount = user.amount ? Number(user.amount) : (planTier === 'Pro' ? 99 : 59);
 
-    if (!user) {
-      return res.status(404).json({ error: 'Account not found. Please sign up first.' });
-    }
+    const onboardingTasks = DEFAULT_TASKS.map(task => ({ ...task, completed: false }));
 
-    const createdAt = user.createdAt || new Date().toISOString();
-    const rawPlanName = user.plan ? String(user.plan).trim() : null;
-    const hasSelectedPlan = !!rawPlanName;
-    const planTier = hasSelectedPlan
-      ? (rawPlanName.toLowerCase().includes('pro') ? 'Pro' : 'Basic')
-      : null;
-    const planAmount = hasSelectedPlan
-      ? (user.planAmount || (planTier === 'Pro' ? 199 : 99))
-      : 0;
-    const planStatus = user.planStatus || 'trial';
-    const billingInterval = hasSelectedPlan ? (user.billingInterval || 'Monthly') : null;
-    const { trialEndsAt, trialDaysRemaining } = getTrialInfo(createdAt, user.trialEndsAt);
-
-    const websiteProgress = Math.min(100, Math.max(0, Number(user.websiteProgress ?? 40)));
-    const websiteStatus = user.websiteStatus || (websiteProgress >= 100 ? 'Live' : 'In design queue');
-    const nextMilestone = user.nextMilestone || (websiteProgress >= 100 ? 'Post-launch optimization' : 'Homepage preview coming up');
-    const assetsNeeded = Array.isArray(user.assetsNeeded) && user.assetsNeeded.length
-      ? user.assetsNeeded
-      : ['Brand assets (logo, colors)', 'Copy for hero section', 'Primary call-to-action'];
-
-    const completedTasks = Array.isArray(user.completedTasks) ? user.completedTasks : [];
-    const onboardingTasks = DEFAULT_TASKS.map((task) => ({
-      ...task,
-      completed: completedTasks.includes(task.id),
-    }));
-
-    const activityLog = Array.isArray(user.activityLog) && user.activityLog.length
-      ? user.activityLog
-      : DEFAULT_ACTIVITY;
-
-    const dashboardPayload = {
+    return res.status(200).json({
       account: {
-        email: normalizedEmail,
-        customerId: user.customerId || customerId,
-        createdAt,
+        email: user.email,
+        customerId: user.customerId,
+        createdAt: user.createdAt,
         plan: {
-          name: rawPlanName,
+          name: planName,
           tier: planTier,
-          status: planStatus,
+          status: user.status || 'active',
           amount: planAmount,
-          billingInterval,
-          trialEndsAt,
-          trialDaysRemaining,
-          hasSelectedPlan,
+          billingInterval: 'Monthly',
+          hasSelectedPlan: !!planName,
         },
       },
       website: {
-        status: websiteStatus,
-        progress: websiteProgress,
-        nextMilestone,
-        estimatedLaunch: user.estimatedLaunch || 'Within 5 business days',
-        checklist: Array.isArray(user.websiteChecklist) && user.websiteChecklist.length
-          ? user.websiteChecklist
-          : [
-              {
-                id: 'upload-assets',
-                label: 'Upload brand assets',
-                status: websiteProgress >= 15,
-                link: '#upload-assets'
-              },
-              {
-                id: 'complete-questionnaire',
-                label: 'Complete business questionnaire',
-                status: websiteProgress >= 25,
-                link: '#business-questionnaire'
-              },
-              {
-                id: 'book-kickoff',
-                label: 'Schedule kickoff call',
-                status: websiteProgress >= 45,
-                link: '#schedule-kickoff'
-              },
-              {
-                id: 'connect-domain',
-                label: 'Connect your domain',
-                status: websiteProgress >= 65,
-                link: '#connect-domain'
-              },
-              {
-                id: 'review-homepage',
-                label: 'Review homepage draft',
-                status: websiteProgress >= 85,
-                link: '#homepage-review'
-              }
-            ],
-        assetsNeeded,
+        status: 'In design queue',
+        progress: 20,
+        nextMilestone: 'Homepage preview coming up',
+        estimatedLaunch: 'Within 24 hours',
+        checklist: [
+          { id: 'upload-assets',          label: 'Upload brand assets',             status: false, link: '#upload-assets'          },
+          { id: 'complete-questionnaire', label: 'Complete business questionnaire', status: false, link: '#business-questionnaire' },
+          { id: 'book-kickoff',           label: 'Schedule kickoff call',           status: false, link: '#schedule-kickoff'       },
+          { id: 'connect-domain',         label: 'Connect your domain',             status: false, link: '#connect-domain'         },
+          { id: 'review-homepage',        label: 'Review homepage draft',           status: false, link: '#homepage-review'        },
+        ],
+        assetsNeeded: ['Brand assets (logo, colors)', 'Copy for hero section', 'Primary call-to-action'],
       },
       billing: {
         amount: planAmount,
-        interval: hasSelectedPlan ? (user.billingInterval || 'per month') : null,
-        status: planStatus === 'active' ? 'Active' : planStatus === 'trial' ? 'Trial' : 'Paused',
-        nextInvoice: hasSelectedPlan ? (user.nextInvoice || null) : null,
-        autopay: hasSelectedPlan ? (user.autopay ?? true) : false,
+        interval: 'per month',
+        status: 'Active',
+        nextInvoice: null,
+        autopay: true,
       },
       onboarding: {
         tasks: onboardingTasks,
-        notes: user.onboardingNotes || 'Complete the checklist to keep your launch on schedule. Need help? Drop us a line anytime.',
+        notes: 'Complete the checklist to keep your launch on schedule. Need help? Drop us a line anytime.',
       },
-      activity: activityLog,
-      resources: user.resources || [
-        {
-          title: 'Upload assets',
-          description: 'Secure portal for uploading logos, photos, and brand files.',
-          href: '#upload-assets'
-        },
-        {
-          title: 'Book strategy call',
-          description: 'Schedule a 15-minute check-in to review your build progress.',
-          href: '#schedule-kickoff'
-        },
-        {
-          title: 'Request content help',
-          description: 'Need copy tweaks or photo sourcing? We can help.',
-          href: '#copy-approval'
-        },
+      activity: [
+        { title: 'Payment received',    timestamp: 'Today',      detail: `${planName} plan activated.`          },
+        { title: 'Build slot reserved', timestamp: 'Today',      detail: '24-hour build clock has started.'     },
+        { title: 'Welcome email sent',  timestamp: 'Just now',   detail: 'Check your inbox for login details.'  },
       ],
       support: {
         email: '145brice@gmail.com',
         responseTime: 'Under 24 hours',
         status: 'Online',
-        phone: user.supportPhone || null,
       },
-    };
-
-    res.json(dashboardPayload);
-  } catch (error) {
-    console.error('Error loading dashboard:', error);
-    res.status(500).json({ error: error.message });
+    });
+  } catch (err) {
+    console.error('Dashboard error:', err);
+    return res.status(500).json({ error: err.message });
   }
 };
-
