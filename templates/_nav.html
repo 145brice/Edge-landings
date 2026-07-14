@@ -1,0 +1,6 @@
+<nav class="app-tabs" aria-label="Dashboard navigation">
+  <a href="{{url_for('index')}}#new-scan">New Scan</a>
+  <a href="{{url_for('index')}}#recent-runs">Runs</a>
+  <a href="{{url_for('index')}}#results">Results</a>
+  <a href="{{url_for('tiers_overview')}}" {% if request.endpoint in ['tiers_overview','proposal'] %}class="active"{% endif %}>Pricing &amp; Benefits</a>
+</nav>

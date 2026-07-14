@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pricing &amp; Benefits</title>
+  <style>
+    :root{--bg:#0b1020;--card:#141b2d;--card2:#10182a;--line:#29334d;--accent:#6ee7b7;--text:#edf2f7;--muted:#9aa7bd;--blue:#8fb8ff}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+    .app-tabs{position:sticky;top:0;z-index:20;display:flex;gap:8px;overflow-x:auto;background:rgba(11,16,32,.96);border-bottom:1px solid var(--line);padding:12px max(20px,calc((100vw - 1180px)/2));backdrop-filter:blur(10px)}
+    .app-tabs a{color:var(--muted);text-decoration:none;padding:8px 14px;border:1px solid var(--line);border-radius:9px;white-space:nowrap}
+    .app-tabs a:hover,.app-tabs a.active{color:#062218;background:var(--accent);border-color:var(--accent)}
+    main{max-width:1180px;margin:auto;padding:38px 24px 50px}.hero{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:24px}.hero h1{font-size:clamp(28px,4vw,40px);line-height:1.05;margin:0 0 9px}.hero p{color:var(--muted);max-width:690px;margin:0}.hero a{color:#071f17;background:var(--accent);font-weight:800;text-decoration:none;padding:10px 16px;border-radius:9px;white-space:nowrap}
+    .tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:stretch}.tier{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;min-width:0;position:relative}.tier.popular{border-color:var(--accent);box-shadow:0 16px 45px rgba(36,194,145,.12)}
+    .topline{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.label{color:var(--blue);font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:800}.badge{color:#062218;background:var(--accent);font-size:10px;font-weight:900;padding:4px 8px;border-radius:999px}.tier h2{font-size:22px;margin:0 0 16px}
+    .pricing{border-block:1px solid var(--line);padding:14px 0;margin-bottom:13px}.project{font-size:25px;line-height:1.15;font-weight:850;color:var(--accent);letter-spacing:-.03em}.project small{display:block;color:var(--muted);font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}.monthly{color:var(--text);font-size:14px;margin-top:8px}.monthly strong{color:var(--accent);font-size:16px}.timeline{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;margin-bottom:15px}.timeline:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+    h3{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin:0 0 7px}.compact{list-style:none;padding:0;margin:0 0 15px;display:grid;gap:7px}.compact li{position:relative;padding-left:18px;font-size:13px}.compact li:before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:900}.benefit{color:#c9d4e7;background:#0c1425;border-radius:9px;padding:10px 12px;font-size:12px;margin:0 0 14px}.benefit strong{display:block;color:var(--blue);margin-bottom:3px}.tier .action{margin-top:auto;text-align:center;text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:9px;color:var(--text);font-weight:750}.tier.popular .action{background:var(--accent);color:#062218;border-color:var(--accent)}
+    .footnote{text-align:center;color:var(--muted);font-size:12px;max-width:850px;margin:20px auto 0}
+    @media(max-width:900px){.tiers{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.tier{max-width:650px;width:100%;margin:auto}}
+  </style>
+</head>
+<body>
+  {% include '_nav.html' %}
+  <main>
+    <header class="hero">
+      <div><h1>Pricing &amp; Benefits</h1><p>Three focused paths based on what the audit found. Final scope, score projection, and benefits are personalized for each lead.</p></div>
+      <a href="{{url_for('index')}}#results">Choose a lead &rarr;</a>
+    </header>
+    <section class="tiers">
+      {% for tier in tiers %}
+      {% set pricing = tier.price.split(' one-time + ') %}
+      <article class="tier {% if tier.name == 'Solid Rebuild' %}popular{% endif %}">
+        <div class="topline"><span class="label">Tier {{loop.index}}</span>{% if tier.name == 'Solid Rebuild' %}<span class="badge">MOST POPULAR</span>{% endif %}</div>
+        <h2>{{tier.name}}</h2>
+        <div class="pricing">
+          <div class="project"><small>Project investment</small>{{pricing[0]}}</div>
+          <div class="monthly"><strong>{{pricing[1]|replace('/month','')}}</strong> / month care</div>
+        </div>
+        <div class="timeline">Typical timeline: {{tier.timeline}}</div>
+        <h3>Core scope</h3>
+        <ul class="compact">{% for fix in tier.fixes[:4] %}<li>{{fix}}</li>{% endfor %}</ul>
+        <div class="benefit"><strong>Expected benefit</strong>{{tier.benefits[0]}}</div>
+        <a class="action" href="{{url_for('index')}}#results">View audit-based proposal</a>
+      </article>
+      {% endfor %}
+    </section>
+    <p class="footnote">Monthly care includes hosting, SSL, updates, and monitoring. Technical score projections are based on detected audit issues; traffic, ranking, and revenue outcomes are not guaranteed.</p>
+  </main>
+</body>
+</html>
