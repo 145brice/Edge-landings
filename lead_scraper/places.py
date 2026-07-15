@@ -90,6 +90,9 @@ class PlacesClient:
             latitude=location.get("latitude"),
             longitude=location.get("longitude"),
             google_maps_url=p.get("googleMapsUri", ""),
+            data_source="Google Places",
+            website_evidence=("Website URL listed in Google Places" if p.get("websiteUri")
+                              else "No website URL listed in Google Places; not independently verified"),
             city=city,
         )
 

@@ -18,6 +18,8 @@ class Business:
     latitude: float | None = None
     longitude: float | None = None
     google_maps_url: str = ""
+    data_source: str = ""
+    website_evidence: str = ""
     city: str = ""
     bucket: str = ""
     score: int = 0

@@ -16,6 +16,7 @@ from pathlib import Path
 from flask import Flask, jsonify, redirect, render_template, request, url_for
 
 from lead_scraper.pricing import build_tiers, recommended_tier
+from lead_scraper.config import Settings
 
 ROOT = Path(__file__).resolve().parent
 RUNS_DIR = ROOT / "runs"
@@ -104,7 +105,22 @@ def read_csv(path: Path, limit: int = 200) -> tuple[list[str], list[dict[str, st
         return [], []
     with path.open(encoding="utf-8-sig", newline="") as handle:
         reader = csv.DictReader(handle)
-        return reader.fieldnames or [], [row for _, row in zip(range(limit), reader)]
+        columns = reader.fieldnames or []
+        rows = [row for _, row in zip(range(limit), reader)]
+        if rows and "data_source" not in columns:
+            columns.extend(["data_source", "website_evidence"])
+            for row in rows:
+                source = "OpenStreetMap" if row.get("place_id", "").startswith("osm:") else "Google Places"
+                row["data_source"] = source
+                if source == "OpenStreetMap":
+                    row["rating"] = ""
+                    row["review_count"] = ""
+                row["website_evidence"] = (
+                    f"No website URL listed in {source}; not independently verified"
+                    if row.get("bucket") == "NO_WEBSITE"
+                    else f"Website URL listed in {source}"
+                )
+        return columns, rows
 
 
 def safe_result_file(filename: str) -> Path | None:
@@ -149,13 +165,18 @@ def index():
         recent_jobs = sorted(jobs.values(), key=lambda item: item.get("started", ""), reverse=True)[:10]
     return render_template(
         "dashboard.html", columns=columns, rows=rows, files=file_options,
-        selected=selected, jobs=recent_jobs,
+        selected=selected, jobs=recent_jobs, google_configured=bool(Settings.load().api_key),
     )
 
 
 @app.post("/run")
 def run_scraper():
     niche = request.form.get("niche", "").strip() or "local businesses"
+    discovery_source = request.form.get("discovery_source", "osm")
+    if discovery_source not in {"osm", "google"}:
+        return "Invalid discovery source.", 400
+    if discovery_source == "google" and not Settings.load().api_key:
+        return "Google Places requires GOOGLE_PLACES_API_KEY in .env.", 400
     location = request.form.get("location", "").strip()
     if not location:
         return "Location is required.", 400
@@ -174,7 +195,7 @@ def run_scraper():
         sys.executable, str(ROOT / "scraper.py"), "--niche", niche,
         "--location", location, "--radius", str(radius), "--min-score",
         str(min_score), "--max-results", str(max_results), "--concurrency", "2",
-        "--source", "osm", "--output", str(output), "--yes",
+        "--source", discovery_source, "--output", str(output), "--yes",
     ]
     if request.form.get("with_pitch") == "on":
         command.append("--with-pitch")

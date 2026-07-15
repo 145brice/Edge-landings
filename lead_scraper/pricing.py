@@ -49,7 +49,13 @@ BENEFITS = {
 
 def normalize_flaws(all_flaws: str | list[str]) -> list[str]:
     values = all_flaws if isinstance(all_flaws, list) else all_flaws.split("|")
-    return [value.strip().lower() for value in values if value.strip()]
+    normalized = []
+    for value in values:
+        flaw = value.strip().lower()
+        if not flaw:
+            continue
+        normalized.append("no website" if flaw.startswith("no website listed in ") else flaw)
+    return normalized
 
 
 def health_range(health: int, low: int, high: int) -> tuple[str, str]:

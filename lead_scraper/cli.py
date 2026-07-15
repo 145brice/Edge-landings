@@ -23,7 +23,7 @@ LOG = logging.getLogger(__name__)
 CSV_COLUMNS = [
     "business_name", "category", "city", "phone", "email", "website", "bucket",
     "score", "top_flaw", "all_flaws", "rating", "review_count", "outreach_channel",
-    "google_maps_url", "place_id", "scanned_at",
+    "google_maps_url", "place_id", "scanned_at", "data_source", "website_evidence",
     "health_score", "recommended_tier", "quick_win_price", "quick_win_target",
     "solid_rebuild_price", "solid_rebuild_target", "full_modernization_price",
     "full_modernization_target",
@@ -139,8 +139,10 @@ async def run(args: argparse.Namespace, settings: Settings) -> list[Business]:
                 business.bucket = bucket_for(business.website)
                 business.scanned_at = datetime.now(timezone.utc).isoformat()
                 if business.bucket == "NO_WEBSITE":
-                    business.score, business.flaws = 100, ["no website"]
-                    business.checks = {"no_website": True}
+                    source = business.data_source or "discovery source"
+                    business.score = 100
+                    business.flaws = [f"no website listed in {source}"]
+                    business.checks = {"no_website_listed": True, "independently_verified": False}
                 elif business.bucket == "SOCIAL_ONLY":
                     business.score, business.flaws = 85, ["no independent website"]
                     business.checks = {"social_only": True}
@@ -184,9 +186,11 @@ def export(leads: list[Business], output: Path, min_score: int, with_pitch: bool
             "phone": b.phone, "email": b.emails[0] if b.emails else "",
             "website": b.website, "bucket": b.bucket, "score": b.score,
             "top_flaw": b.flaws[0] if b.flaws else "", "all_flaws": "|".join(b.flaws),
-            "rating": b.rating, "review_count": b.review_count,
+            "rating": b.rating,
+            "review_count": ("" if b.data_source == "OpenStreetMap" else b.review_count),
             "outreach_channel": b.outreach_channel, "google_maps_url": b.google_maps_url,
             "place_id": b.place_id, "scanned_at": b.scanned_at,
+            "data_source": b.data_source, "website_evidence": b.website_evidence,
         }
         health, tiers = build_tiers(b.score, b.flaws, b.category)
         row.update({
@@ -204,7 +208,8 @@ def export(leads: list[Business], output: Path, min_score: int, with_pitch: bool
     columns = CSV_COLUMNS + (["pitch_line"] if with_pitch else [])
     frame = pd.DataFrame(rows, columns=columns)
     if not frame.empty:
-        frame = frame.sort_values(["score", "review_count"], ascending=[False, False])
+        frame["_review_sort"] = pd.to_numeric(frame["review_count"], errors="coerce").fillna(0)
+        frame = frame.sort_values(["score", "_review_sort"], ascending=[False, False]).drop(columns=["_review_sort"])
     output.parent.mkdir(parents=True, exist_ok=True)
     frame.to_csv(output, index=False)
     return frame

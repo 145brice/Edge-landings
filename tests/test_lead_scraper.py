@@ -37,3 +37,11 @@ def test_bare_zip_is_recognized_as_us_zip():
     # Regression guard: ZIP 37138 must not be treated as a Lithuanian postal code.
     assert normalize_us_location("37138") == "37138, USA"
     assert normalize_us_location("Lebanon, TN") == "Lebanon, TN"
+
+
+def test_osm_export_does_not_invent_ratings(tmp_path: Path):
+    lead = Business("osm:node:1", "Local Shop", data_source="OpenStreetMap", score=100,
+                    review_count=0, flaws=["no website listed in OpenStreetMap"])
+    frame = export([lead], tmp_path / "osm.csv", 35, False)
+    assert frame.iloc[0]["review_count"] == ""
+    assert frame.iloc[0]["data_source"] == "OpenStreetMap"

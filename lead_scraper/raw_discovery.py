@@ -84,7 +84,8 @@ class RawDiscoveryClient:
         per_tile_limit = max(25, min(max_results, 40))
         for tile_number, (tile_s, tile_w, tile_n, tile_e) in enumerate(tiles, start=1):
             query = f"""[out:json][timeout:15][bbox:{tile_s},{tile_w},{tile_n},{tile_e}];(
-              node[name][shop];node[name][craft];node[name][office];node[name][amenity];
+              node[name][shop];node[name][craft];node[name][office];
+              node[name][amenity~"^(restaurant|cafe|bar|pub|fast_food|clinic|dentist|doctors|veterinary|pharmacy|bank|car_rental|car_wash|fuel|nightclub|marketplace)$"];
             );out tags qt {per_tile_limit};"""
             tile_elements: list[dict[str, Any]] | None = None
             # Reuse the last healthy mirror first; fall back to the others if its
@@ -153,6 +154,9 @@ class RawDiscoveryClient:
                 longitude=center.get("lon"),
                 city=hits[0].get("display_name", location),
                 google_maps_url=f"https://www.openstreetmap.org/{item.get('type')}/{item.get('id')}",
+                data_source="OpenStreetMap",
+                website_evidence=("Website URL listed in OpenStreetMap" if website
+                                  else "No website URL listed in OpenStreetMap; not independently verified"),
             ))
             if len(businesses) >= max_results:
                 break
