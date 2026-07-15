@@ -24,7 +24,7 @@ CSV_COLUMNS = [
     "business_name", "category", "city", "phone", "email", "website", "bucket",
     "score", "top_flaw", "all_flaws", "rating", "review_count", "outreach_channel",
     "google_maps_url", "place_id", "scanned_at", "data_source", "website_evidence",
-    "health_score", "recommended_tier", "quick_win_price", "quick_win_target",
+    "score_scale", "recommended_tier", "quick_win_price", "quick_win_target",
     "solid_rebuild_price", "solid_rebuild_target", "full_modernization_price",
     "full_modernization_target",
 ]
@@ -66,7 +66,9 @@ def parser() -> argparse.ArgumentParser:
     group.add_argument("--niches-file", type=Path, help="One niche per line")
     p.add_argument("--location", required=True, help='Search location, e.g. "Lebanon, TN"')
     p.add_argument("--radius", type=float, default=15, help="Search radius in miles (default: 15)")
-    p.add_argument("--min-score", type=int, default=35)
+    p.add_argument("--max-score", type=int, default=65,
+                   help="Highest website health score to qualify (0=worst, 100=excellent)")
+    p.add_argument("--min-score", type=int, dest="legacy_min_score", help=argparse.SUPPRESS)
     p.add_argument("--max-results", type=int, default=60, help="Maximum results per niche")
     p.add_argument("--concurrency", type=int, default=10)
     p.add_argument("--output", type=Path, default=Path("leads.csv"))
@@ -140,11 +142,11 @@ async def run(args: argparse.Namespace, settings: Settings) -> list[Business]:
                 business.scanned_at = datetime.now(timezone.utc).isoformat()
                 if business.bucket == "NO_WEBSITE":
                     source = business.data_source or "discovery source"
-                    business.score = 100
+                    business.score = 0
                     business.flaws = [f"no website listed in {source}"]
                     business.checks = {"no_website_listed": True, "independently_verified": False}
                 elif business.bucket == "SOCIAL_ONLY":
-                    business.score, business.flaws = 85, ["no independent website"]
+                    business.score, business.flaws = 15, ["no independent website"]
                     business.checks = {"social_only": True}
             site_leads = [b for b in businesses if b.bucket == "HAS_SITE"]
             if site_leads:
@@ -177,8 +179,8 @@ def pitch_for(business: Business) -> str:
     )
 
 
-def export(leads: list[Business], output: Path, min_score: int, with_pitch: bool) -> pd.DataFrame:
-    qualified = [b for b in leads if b.score >= min_score]
+def export(leads: list[Business], output: Path, max_score: int, with_pitch: bool) -> pd.DataFrame:
+    qualified = [b for b in leads if b.score <= max_score]
     rows = []
     for b in qualified:
         row = {
@@ -191,10 +193,11 @@ def export(leads: list[Business], output: Path, min_score: int, with_pitch: bool
             "outreach_channel": b.outreach_channel, "google_maps_url": b.google_maps_url,
             "place_id": b.place_id, "scanned_at": b.scanned_at,
             "data_source": b.data_source, "website_evidence": b.website_evidence,
+            "score_scale": "0=worst, 100=excellent",
         }
-        health, tiers = build_tiers(b.score, b.flaws, b.category)
+        _, tiers = build_tiers(b.score, b.flaws, b.category)
         row.update({
-            "health_score": health, "recommended_tier": recommended_tier(b.score),
+            "recommended_tier": recommended_tier(b.score),
             "quick_win_price": tiers[0].price, "quick_win_target": tiers[0].projected_health,
             "solid_rebuild_price": tiers[1].price, "solid_rebuild_target": tiers[1].projected_health,
             "full_modernization_price": tiers[2].price,
@@ -209,16 +212,16 @@ def export(leads: list[Business], output: Path, min_score: int, with_pitch: bool
     frame = pd.DataFrame(rows, columns=columns)
     if not frame.empty:
         frame["_review_sort"] = pd.to_numeric(frame["review_count"], errors="coerce").fillna(0)
-        frame = frame.sort_values(["score", "_review_sort"], ascending=[False, False]).drop(columns=["_review_sort"])
+        frame = frame.sort_values(["score", "_review_sort"], ascending=[True, False]).drop(columns=["_review_sort"])
     output.parent.mkdir(parents=True, exist_ok=True)
     frame.to_csv(output, index=False)
     return frame
 
 
-def print_summary(leads: list[Business], frame: pd.DataFrame, min_score: int) -> None:
+def print_summary(leads: list[Business], frame: pd.DataFrame, max_score: int) -> None:
     buckets = Counter(b.bucket for b in leads)
     print(f"\nTotal new operational businesses: {len(leads)}")
-    print(f"Qualified (score >= {min_score}): {len(frame)}")
+    print(f"Qualified (website score <= {max_score}): {len(frame)}")
     print("Buckets: " + ", ".join(f"{name}={count}" for name, count in sorted(buckets.items())))
     if not frame.empty:
         print("\nTop 10 leads:")
@@ -227,7 +230,10 @@ def print_summary(leads: list[Business], frame: pd.DataFrame, min_score: int) ->
 
 def main() -> None:
     args = parser().parse_args()
-    if not 0 <= args.min_score <= 100 or args.radius <= 0 or args.max_results <= 0 or args.concurrency <= 0:
+    if args.legacy_min_score is not None:
+        # Preserve old commands: old problem score >= 35 equals new health score <= 65.
+        args.max_score = 100 - args.legacy_min_score
+    if not 0 <= args.max_score <= 100 or args.radius <= 0 or args.max_results <= 0 or args.concurrency <= 0:
         raise SystemExit("Scores must be 0-100; radius, max-results, and concurrency must be positive.")
     settings = Settings.load()
     if args.source == "google" and not settings.api_key:
@@ -238,6 +244,6 @@ def main() -> None:
     except DiscoveryError as exc:
         LOG.error("discovery_failed: %s", exc)
         raise SystemExit(f"Discovery failed after retries: {exc}") from exc
-    frame = export(leads, args.output, args.min_score, args.with_pitch)
-    print_summary(leads, frame, args.min_score)
+    frame = export(leads, args.output, args.max_score, args.with_pitch)
+    print_summary(leads, frame, args.max_score)
     print(f"\nCSV: {args.output.resolve()}\nLog: {log_path.resolve()}")

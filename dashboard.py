@@ -112,6 +112,21 @@ def read_csv(path: Path, limit: int = 200) -> tuple[list[str], list[dict[str, st
         reader = csv.DictReader(handle)
         columns = reader.fieldnames or []
         rows = [row for _, row in zip(range(limit), reader)]
+        # Older exports stored a higher-is-worse problem score plus its inverse
+        # in health_score. Normalize them when viewed in the current dashboard.
+        if rows and "score_scale" not in columns:
+            has_exported_health = "health_score" in columns
+            for row in rows:
+                try:
+                    old_score = int(float(row.get("score", 0)))
+                    score = int(float(row.get("health_score", old_score))) if has_exported_health else 100 - old_score
+                    row["score"] = str(max(0, min(100, score)))
+                    row["recommended_tier"] = recommended_tier(int(row["score"]))
+                except (TypeError, ValueError):
+                    pass
+                row["score_scale"] = "0=worst, 100=excellent"
+            columns = [column for column in columns if column != "health_score"]
+            columns.append("score_scale")
         if rows and "data_source" not in columns:
             columns.extend(["data_source", "website_evidence"])
             for row in rows:
@@ -187,19 +202,19 @@ def run_scraper():
         return "Location is required.", 400
     try:
         radius = float(request.form.get("radius", "15"))
-        min_score = int(request.form.get("min_score", "35"))
+        max_score = int(request.form.get("max_score", "65"))
         max_results = int(request.form.get("max_results", "10"))
     except ValueError:
         return "Radius, score, and max results must be numbers.", 400
-    if radius <= 0 or max_results <= 0 or not 0 <= min_score <= 100:
+    if radius <= 0 or max_results <= 0 or not 0 <= max_score <= 100:
         return "Invalid numeric range.", 400
 
     job_id = uuid.uuid4().hex[:8]
     output = RUNS_DIR / f"leads-{datetime.now():%Y%m%d-%H%M%S}-{job_id}.csv"
     command = [
         sys.executable, str(ROOT / "scraper.py"), "--niche", niche,
-        "--location", location, "--radius", str(radius), "--min-score",
-        str(min_score), "--max-results", str(max_results), "--concurrency", "2",
+        "--location", location, "--radius", str(radius), "--max-score",
+        str(max_score), "--max-results", str(max_results), "--concurrency", "2",
         "--source", discovery_source, "--output", str(output), "--yes",
     ]
     if request.form.get("with_pitch") == "on":
@@ -265,21 +280,21 @@ def proposal():
     if not lead:
         return "Lead not found", 404
     try:
-        audit_score = int(float(lead.get("score", 0)))
+        website_score = int(float(lead.get("score", 0)))
     except ValueError:
-        audit_score = 0
+        website_score = 0
     flaws = lead.get("all_flaws") or lead.get("top_flaw", "")
-    health, tiers = build_tiers(audit_score, flaws, lead.get("category", "local business"))
+    health, tiers = build_tiers(website_score, flaws, lead.get("category", "local business"))
     return render_template(
-        "proposal.html", lead=lead, audit_score=audit_score, health=health, tiers=tiers,
-        recommended=recommended_tier(audit_score), filename=path.name,
+        "proposal.html", lead=lead, website_score=website_score, health=health, tiers=tiers,
+        recommended=recommended_tier(website_score), filename=path.name,
     )
 
 
 @app.get("/tiers")
 def tiers_overview():
     _, tiers = build_tiers(
-        68, "not mobile-friendly|very slow to load|hard to contact|no tracking at all",
+        32, "not mobile-friendly|very slow to load|hard to contact|no tracking at all",
         "local business",
     )
     return render_template("tiers.html", tiers=tiers)

@@ -26,6 +26,11 @@ EMAIL_RE = re.compile(r"(?<![\w.+-])[\w.+-]+@[\w-]+(?:\.[\w-]+)+", re.I)
 YEAR_RE = re.compile(r"(?:©|copyright\s*)?\s*(20\d{2})", re.I)
 
 
+def score_from_deductions(deductions: int) -> int:
+    """Return website health where 0 is worst and 100 is excellent."""
+    return 100 - max(0, min(int(deductions), 100))
+
+
 def bucket_for(website: str) -> str:
     if not website.strip():
         return "NO_WEBSITE"
@@ -103,7 +108,7 @@ class SiteAuditor:
             business.scanned_at = datetime.now(timezone.utc).isoformat()
             result = await self.fetch(business.website)
             if result is None:
-                business.score = 60
+                business.score = 40
                 business.flaws = ["site unreachable"]
                 business.checks = {"site_unreachable": True}
                 await self.enrich(business, None, business.website)
@@ -116,12 +121,12 @@ class SiteAuditor:
                 "final_url": str(response.url), "status_code": response.status_code,
                 "load_seconds": round(elapsed, 3), "payload_bytes": len(response.content),
             }
-            score, flaws = 0, []
+            deductions, flaws = 0, []
 
             def fail(key: str, points: int, flaw: str, detail: object = True) -> None:
-                nonlocal score
+                nonlocal deductions
                 checks[key] = detail
-                score += points
+                deductions += points
                 if flaw and flaw not in flaws:
                     flaws.append(flaw)
 
@@ -163,7 +168,8 @@ class SiteAuditor:
             if not tracking:
                 fail("no_tracking", 5, "no tracking at all")
 
-            business.score = min(score, 100)
+            # Public score is website health: 0 is worst and 100 is excellent.
+            business.score = score_from_deductions(deductions)
             business.flaws = flaws
             business.checks = checks
             await self.enrich(business, soup, str(response.url))

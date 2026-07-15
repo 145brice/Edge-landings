@@ -19,7 +19,7 @@ Copy-Item .env.example .env
 Set `GOOGLE_PLACES_API_KEY` in `.env`, then run:
 
 ```powershell
-python scraper.py --niche "hvac" --location "Lebanon, TN" --radius 15 --min-score 35
+python scraper.py --niche "hvac" --location "Lebanon, TN" --radius 15 --max-score 65
 python scraper.py --niches-file niches.txt --location "Mount Juliet, TN" --radius 20 --with-pitch
 ```
 
@@ -32,10 +32,11 @@ geometric boundary.
 
 ## Behavior
 
-- Existing sites use the weighted audit score, capped at 100.
-- Unreachable sites score 60, `NO_WEBSITE` scores 100, and `SOCIAL_ONLY` scores 85.
+- Website scores run from 0 (worst) to 100 (excellent); detected flaws deduct weighted points.
+- Unreachable sites score 40, `NO_WEBSITE` scores 0, and `SOCIAL_ONLY` scores 15.
 - Raw checks are saved as JSON in SQLite; seen place IDs are skipped later.
-- The CSV includes qualified leads sorted by score, then review count.
+- By default, sites scoring 65 or lower qualify. The CSV sorts lowest score first,
+  then highest review count.
 - `--with-pitch` uses only the recorded top flaw.
 - The auditor honors robots.txt, limits each domain to one request per second,
   caps concurrency, identifies itself, and uses a 10-second default timeout.

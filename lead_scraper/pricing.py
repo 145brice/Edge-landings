@@ -65,9 +65,8 @@ def health_range(health: int, low: int, high: int) -> tuple[str, str]:
     return f"{lower}–{upper}/100", improvement
 
 
-def build_tiers(audit_score: int, flaws: str | list[str], category: str = "local business") -> tuple[int, list[ServiceTier]]:
-    audit_score = max(0, min(100, int(audit_score)))
-    health = 100 - audit_score
+def build_tiers(health_score: int, flaws: str | list[str], category: str = "local business") -> tuple[int, list[ServiceTier]]:
+    health = max(0, min(100, int(health_score)))
     detected = normalize_flaws(flaws) or ["website issue"]
     mapped_fixes = [(flaw, FIXES.get(flaw, (f"Correct detected issue: {flaw}",))) for flaw in detected]
 
@@ -94,9 +93,9 @@ def build_tiers(audit_score: int, flaws: str | list[str], category: str = "local
     return health, tiers
 
 
-def recommended_tier(audit_score: int) -> str:
-    if audit_score >= 65:
+def recommended_tier(health_score: int) -> str:
+    if health_score <= 35:
         return "Full Modernization"
-    if audit_score >= 35:
+    if health_score <= 65:
         return "Solid Rebuild"
     return "Quick Win"
