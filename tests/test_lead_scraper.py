@@ -6,6 +6,7 @@ from lead_scraper.audit import bucket_for, email_priority
 from lead_scraper.cli import export, pitch_for
 from lead_scraper.models import Business
 from lead_scraper.places import estimated_cost
+from lead_scraper.raw_discovery import normalize_us_location
 
 
 def test_buckets():
@@ -30,3 +31,9 @@ def test_export_ranking_and_pitch(tmp_path: Path):
     frame = export([a, b], tmp_path / "leads.csv", 35, True)
     assert list(frame.business_name) == ["Beta", "Alpha"]
     assert "very slow to load" in pitch_for(a)
+
+
+def test_bare_zip_is_recognized_as_us_zip():
+    # Regression guard: ZIP 37138 must not be treated as a Lithuanian postal code.
+    assert normalize_us_location("37138") == "37138, USA"
+    assert normalize_us_location("Lebanon, TN") == "Lebanon, TN"

@@ -17,7 +17,7 @@ from .database import LeadDatabase
 from .models import Business
 from .places import PlacesClient, estimated_cost
 from .pricing import build_tiers, recommended_tier
-from .raw_discovery import RawDiscoveryClient
+from .raw_discovery import DiscoveryError, RawDiscoveryClient
 
 LOG = logging.getLogger(__name__)
 CSV_COLUMNS = [
@@ -146,7 +146,11 @@ async def run(args: argparse.Namespace, settings: Settings) -> list[Business]:
                     business.checks = {"social_only": True}
             site_leads = [b for b in businesses if b.bucket == "HAS_SITE"]
             if site_leads:
-                audited = await asyncio.gather(*(auditor.audit(b) for b in site_leads))
+                audit_tasks = [asyncio.create_task(auditor.audit(b)) for b in site_leads]
+                audited = []
+                for completed_count, task in enumerate(asyncio.as_completed(audit_tasks), start=1):
+                    audited.append(await task)
+                    LOG.info("audit_progress: completed=%d total=%d", completed_count, len(site_leads))
                 by_id = {b.place_id: b for b in audited}
                 businesses = [by_id.get(b.place_id, b) for b in businesses]
             for business in businesses:
@@ -224,7 +228,11 @@ def main() -> None:
     if args.source == "google" and not settings.api_key:
         raise SystemExit("Google source requires GOOGLE_PLACES_API_KEY; use --source osm for no-key discovery.")
     log_path = configure_logging(settings.log_directory, args.verbose)
-    leads = asyncio.run(run(args, settings))
+    try:
+        leads = asyncio.run(run(args, settings))
+    except DiscoveryError as exc:
+        LOG.error("discovery_failed: %s", exc)
+        raise SystemExit(f"Discovery failed after retries: {exc}") from exc
     frame = export(leads, args.output, args.min_score, args.with_pitch)
     print_summary(leads, frame, args.min_score)
     print(f"\nCSV: {args.output.resolve()}\nLog: {log_path.resolve()}")
