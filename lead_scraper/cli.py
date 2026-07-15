@@ -21,8 +21,8 @@ from .raw_discovery import DiscoveryError, RawDiscoveryClient
 
 LOG = logging.getLogger(__name__)
 CSV_COLUMNS = [
-    "business_name", "category", "city", "phone", "email", "website", "bucket",
-    "score", "top_flaw", "all_flaws", "rating", "review_count", "outreach_channel",
+    "rank", "score", "business_name", "category", "city", "phone", "email", "website", "bucket",
+    "top_flaw", "all_flaws", "rating", "review_count", "outreach_channel",
     "google_maps_url", "place_id", "scanned_at", "data_source", "website_evidence",
     "score_scale", "recommended_tier", "quick_win_price", "quick_win_target",
     "solid_rebuild_price", "solid_rebuild_target", "full_modernization_price",
@@ -213,6 +213,7 @@ def export(leads: list[Business], output: Path, max_score: int, with_pitch: bool
     if not frame.empty:
         frame["_review_sort"] = pd.to_numeric(frame["review_count"], errors="coerce").fillna(0)
         frame = frame.sort_values(["score", "_review_sort"], ascending=[True, False]).drop(columns=["_review_sort"])
+        frame["rank"] = range(1, len(frame) + 1)
     output.parent.mkdir(parents=True, exist_ok=True)
     frame.to_csv(output, index=False)
     return frame

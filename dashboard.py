@@ -140,6 +140,14 @@ def read_csv(path: Path, limit: int = 200) -> tuple[list[str], list[dict[str, st
                     if row.get("bucket") == "NO_WEBSITE"
                     else f"Website URL listed in {source}"
                 )
+        # Rank reflects the displayed worst-first result order and is always kept
+        # at the far left, including for CSVs created before rank was exported.
+        for position, row in enumerate(rows, start=1):
+            row["rank"] = str(position)
+        preferred = ["rank", "score", "business_name", "rating", "review_count"]
+        columns = [name for name in preferred if name in columns or name == "rank"] + [
+            name for name in columns if name not in preferred
+        ]
         return columns, rows
 
 

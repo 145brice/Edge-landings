@@ -40,6 +40,8 @@ def test_export_ranking_and_pitch(tmp_path: Path):
     d = Business("d", "Healthy", score=80, review_count=500, flaws=["no tracking at all"])
     frame = export([a, b, c, d], tmp_path / "leads.csv", 65, True)
     assert list(frame.business_name) == ["Charlie", "Alpha", "Beta"]
+    assert list(frame["rank"]) == [1, 2, 3]
+    assert list(frame.columns[:3]) == ["rank", "score", "business_name"]
     assert "very slow to load" in pitch_for(a)
 
 
@@ -86,3 +88,4 @@ def test_legacy_problem_scores_are_normalized_when_viewed(tmp_path: Path):
     )
     _, oldest_rows = read_csv(oldest)
     assert oldest_rows[0]["score"] == "0"
+    assert columns[0] == "rank"
