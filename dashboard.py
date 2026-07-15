@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 import json
+import logging
 import os
 import subprocess
 import sys
@@ -21,8 +22,9 @@ from lead_scraper.config import Settings
 ROOT = Path(__file__).resolve().parent
 RUNS_DIR = ROOT / "runs"
 RUNS_DIR.mkdir(exist_ok=True)
-JOBS_DIR = RUNS_DIR / "jobs"
-JOBS_DIR.mkdir(exist_ok=True)
+STATE_DIR = Path(os.getenv("LOCALAPPDATA", str(RUNS_DIR))) / "EdgeLandingsDashboard"
+JOBS_DIR = STATE_DIR / "jobs"
+JOBS_DIR.mkdir(parents=True, exist_ok=True)
 
 app = Flask(__name__)
 jobs: dict[str, dict] = {}
@@ -36,9 +38,12 @@ def persist_job(job_id: str) -> None:
     if not job_data:
         return
     path = JOBS_DIR / f"{job_id}.json"
-    temporary = path.with_suffix(".tmp")
-    temporary.write_text(json.dumps(job_data, ensure_ascii=False, indent=2), encoding="utf-8")
-    temporary.replace(path)
+    try:
+        # State lives outside the OneDrive workspace to avoid sync-client locks.
+        # Persistence is helpful, but must never be allowed to stop a scraper.
+        path.write_text(json.dumps(job_data, ensure_ascii=False, indent=2), encoding="utf-8")
+    except OSError as exc:
+        logging.getLogger(__name__).warning("job_history_write_failed: %s", exc)
 
 
 def load_jobs() -> None:

@@ -1,4 +1,5 @@
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 
@@ -7,6 +8,7 @@ from lead_scraper.cli import export, pitch_for
 from lead_scraper.models import Business
 from lead_scraper.places import estimated_cost
 from lead_scraper.raw_discovery import normalize_us_location
+from dashboard import jobs, persist_job
 
 
 def test_buckets():
@@ -45,3 +47,12 @@ def test_osm_export_does_not_invent_ratings(tmp_path: Path):
     frame = export([lead], tmp_path / "osm.csv", 35, False)
     assert frame.iloc[0]["review_count"] == ""
     assert frame.iloc[0]["data_source"] == "OpenStreetMap"
+
+
+def test_job_history_failure_never_crashes_a_scan():
+    jobs["write-test"] = {"id": "write-test", "status": "running", "log": ""}
+    try:
+        with patch("pathlib.Path.write_text", side_effect=PermissionError("locked")):
+            persist_job("write-test")
+    finally:
+        jobs.pop("write-test", None)
