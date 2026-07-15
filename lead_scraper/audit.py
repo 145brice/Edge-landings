@@ -75,7 +75,8 @@ class SiteAuditor:
                 await self.limiter.wait(parser.url)
                 response = await self.client.get(parser.url)
                 parser.parse(response.text.splitlines() if response.status_code < 400 else [])
-            except httpx.HTTPError as exc:
+            # httpx 0.13 can leak low-level httpcore DNS/timeout exceptions.
+            except Exception as exc:
                 LOG.warning("robots_fetch_failed", extra={"url": parser.url, "error": str(exc)})
                 parser.parse([])
             self.robots[root] = parser
@@ -93,7 +94,7 @@ class SiteAuditor:
             started = time.monotonic()
             response = await self.client.get(url)
             return response, time.monotonic() - started
-        except (httpx.HTTPError, ssl.SSLError) as exc:
+        except Exception as exc:
             LOG.warning("site_fetch_failed", extra={"url": url, "error": str(exc)})
             return None
 
@@ -203,7 +204,7 @@ class SiteAuditor:
                     await self.limiter.wait(url)
                     response = await self.client.get(url)
                 broken += response.status_code >= 400
-            except httpx.HTTPError:
+            except Exception:
                 broken += 1
             if broken >= 3:
                 break

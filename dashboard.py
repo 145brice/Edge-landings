@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import os
 import subprocess
 import sys
@@ -19,6 +20,8 @@ from lead_scraper.pricing import build_tiers, recommended_tier
 ROOT = Path(__file__).resolve().parent
 RUNS_DIR = ROOT / "runs"
 RUNS_DIR.mkdir(exist_ok=True)
+JOBS_DIR = RUNS_DIR / "jobs"
+JOBS_DIR.mkdir(exist_ok=True)
 
 app = Flask(__name__)
 jobs: dict[str, dict] = {}
@@ -26,9 +29,37 @@ processes: dict[str, subprocess.Popen] = {}
 jobs_lock = threading.Lock()
 
 
+def persist_job(job_id: str) -> None:
+    """Persist status/log history so dashboard restarts do not erase runs."""
+    job_data = jobs.get(job_id)
+    if not job_data:
+        return
+    path = JOBS_DIR / f"{job_id}.json"
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(json.dumps(job_data, ensure_ascii=False, indent=2), encoding="utf-8")
+    temporary.replace(path)
+
+
+def load_jobs() -> None:
+    for path in sorted(JOBS_DIR.glob("*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            if data.get("status") in {"queued", "running"}:
+                data["status"] = "interrupted"
+                data["log"] = data.get("log", "") + "\nDashboard restarted before this run reported completion.\n"
+            if data.get("id"):
+                jobs[data["id"]] = data
+        except (OSError, ValueError):
+            continue
+
+
+load_jobs()
+
+
 def execute_job(job_id: str, command: list[str]) -> None:
     with jobs_lock:
         jobs[job_id]["status"] = "running"
+        persist_job(job_id)
     try:
         child_env = os.environ.copy()
         child_env["PYTHONIOENCODING"] = "utf-8"
@@ -45,18 +76,24 @@ def execute_job(job_id: str, command: list[str]) -> None:
         )
         with jobs_lock:
             processes[job_id] = process
+            jobs[job_id]["pid"] = process.pid
+            persist_job(job_id)
         assert process.stdout is not None
         for line in process.stdout:
             with jobs_lock:
                 jobs[job_id]["log"] += line
+                persist_job(job_id)
         code = process.wait()
         with jobs_lock:
-            jobs[job_id]["status"] = "completed" if code == 0 else "failed"
+            if jobs[job_id].get("status") != "stopped":
+                jobs[job_id]["status"] = "completed" if code == 0 else "failed"
             jobs[job_id]["return_code"] = code
+            persist_job(job_id)
     except Exception as exc:  # Dashboard must remain available if a job cannot launch.
         with jobs_lock:
             jobs[job_id]["status"] = "failed"
             jobs[job_id]["log"] += f"\nCould not launch scraper: {exc}\n"
+            persist_job(job_id)
     finally:
         with jobs_lock:
             processes.pop(job_id, None)
@@ -78,20 +115,40 @@ def safe_result_file(filename: str) -> Path | None:
     return path if path.exists() else None
 
 
+def csv_row_count(path: Path) -> int:
+    try:
+        with path.open(encoding="utf-8-sig", newline="") as handle:
+            return sum(1 for _ in csv.DictReader(handle))
+    except OSError:
+        return 0
+
+
 @app.get("/")
 def index():
     csv_files = sorted(RUNS_DIR.glob("*.csv"), key=lambda p: p.stat().st_mtime, reverse=True)
+    file_options = [{"name": path.name, "rows": csv_row_count(path)} for path in csv_files]
     requested = request.args.get("file", "")
     requested_path = Path(requested) if requested else None
     if requested_path and requested_path.name == requested and requested_path.suffix.lower() == ".csv":
         selected = requested
     else:
-        selected = csv_files[0].name if csv_files else ""
+        with jobs_lock:
+            completed_outputs = [
+                item.get("output", "") for item in
+                sorted(jobs.values(), key=lambda item: item.get("started", ""), reverse=True)
+                if item.get("status") == "completed"
+            ]
+        selected = next(
+            (name for name in completed_outputs if any(
+                option["name"] == name and option["rows"] > 0 for option in file_options
+            )),
+            csv_files[0].name if csv_files else "",
+        )
     columns, rows = read_csv(RUNS_DIR / selected) if selected else ([], [])
     with jobs_lock:
-        recent_jobs = list(reversed(list(jobs.values())))[:10]
+        recent_jobs = sorted(jobs.values(), key=lambda item: item.get("started", ""), reverse=True)[:10]
     return render_template(
-        "dashboard.html", columns=columns, rows=rows, files=csv_files,
+        "dashboard.html", columns=columns, rows=rows, files=file_options,
         selected=selected, jobs=recent_jobs,
     )
 
@@ -127,6 +184,7 @@ def run_scraper():
     }
     with jobs_lock:
         jobs[job_id] = job
+        persist_job(job_id)
     threading.Thread(target=execute_job, args=(job_id, command), daemon=True).start()
     return redirect(url_for("job", job_id=job_id))
 
@@ -145,6 +203,29 @@ def job_api(job_id: str):
     with jobs_lock:
         data = dict(jobs.get(job_id, {}))
     return (jsonify(data), 200) if data else (jsonify({"error": "not found"}), 404)
+
+
+@app.get("/latest-run")
+def latest_run():
+    with jobs_lock:
+        latest = max(jobs.values(), key=lambda item: item.get("started", ""), default=None)
+    if latest:
+        return redirect(url_for("job", job_id=latest["id"]))
+    logs = sorted((ROOT / "logs").glob("*.jsonl"), key=lambda p: p.stat().st_mtime, reverse=True)
+    if logs:
+        return redirect(url_for("recovered_log", filename=logs[0].name))
+    return redirect(url_for("index", _anchor="scan-runs"))
+
+
+@app.get("/logs/<filename>")
+def recovered_log(filename: str):
+    candidate = Path(filename)
+    path = ROOT / "logs" / filename
+    if candidate.name != filename or candidate.suffix != ".jsonl" or not path.exists():
+        return "Log not found", 404
+    content = path.read_text(encoding="utf-8", errors="replace")
+    status = "failed" if '"level": "ERROR"' in content else "completed"
+    return render_template("log.html", filename=filename, content=content, status=status)
 
 
 @app.get("/proposal")
@@ -193,6 +274,7 @@ def stop_job(job_id: str):
             if job_data:
                 job_data["status"] = "stopped"
                 job_data["log"] += "\nStopped by user.\n"
+                persist_job(job_id)
     return redirect(url_for("job", job_id=job_id))
 
 

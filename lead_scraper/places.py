@@ -50,7 +50,7 @@ class PlacesClient:
                 )
                 response.raise_for_status()
                 data = response.json()
-            except (httpx.HTTPError, ValueError) as exc:
+            except Exception as exc:
                 LOG.error("places_search_failed", extra={"error": str(exc), "niche": niche})
                 break
             place_ids.extend(p["id"] for p in data.get("places", []) if p.get("id"))
@@ -68,7 +68,7 @@ class PlacesClient:
             )
             response.raise_for_status()
             p = response.json()
-        except (httpx.HTTPError, ValueError) as exc:
+        except Exception as exc:
             LOG.error("place_details_failed", extra={"error": str(exc), "place_id": place_id})
             return None
         location = p.get("location", {})
