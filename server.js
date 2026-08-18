@@ -2,7 +2,10 @@ const express = require('express');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
-const ONE_PLAN_NAME = 'Edge Landings - Website Care';
+const PLANS = {
+  basic: { slug: 'basic', name: 'Edge Landings Basic' },
+  growth: { slug: 'growth', name: 'Edge Landings Growth' },
+};
 const MAX_FIELD_LENGTH = 5000;
 
 function configuredStripe() {
@@ -14,13 +17,13 @@ function publicBaseUrl() {
   return process.env.APP_URL.replace(/\/$/, '');
 }
 
-function checkoutSessionParams(priceId) {
+function checkoutSessionParams(plan, priceId) {
   const baseUrl = publicBaseUrl();
   return {
     mode: 'subscription', payment_method_types: ['card'],
     line_items: [{ price: priceId, quantity: 1 }],
     success_url: `${baseUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${baseUrl}/pricing.html`, metadata: { service: ONE_PLAN_NAME },
+    cancel_url: `${baseUrl}/pricing.html`, metadata: { service: plan.name, plan_slug: plan.slug },
   };
 }
 
@@ -31,7 +34,8 @@ function verifiedCheckout(session, submittedEmail) {
     && ['paid', 'no_payment_required'].includes(session.payment_status)
     && Boolean(session.subscription)
     && Boolean(session.customer)
-    && session.metadata?.service === ONE_PLAN_NAME
+    && Boolean(PLANS[session.metadata?.plan_slug])
+    && session.metadata?.service === PLANS[session.metadata.plan_slug].name
     && checkoutEmail?.toLowerCase() === submittedEmail.toLowerCase();
 }
 
@@ -92,9 +96,11 @@ function createApp() {
     try {
       const requestId = String(req.body?.requestId || '');
       if (!/^[a-f0-9-]{36}$/i.test(requestId)) return res.status(400).json({ error: 'Please refresh the page and try checkout again.' });
-      const service = await require('./lib/catalog-store').getService('website-care');
+      const plan = PLANS[String(req.body?.planSlug || '')];
+      if (!plan) return res.status(400).json({ error: 'Please choose a valid website plan.' });
+      const service = await require('./lib/catalog-store').getService(plan.slug);
       if (!service?.price_id) return res.status(503).json({ error: 'Checkout is not configured yet. Please contact us directly.' });
-      const session = await stripe.checkout.sessions.create(checkoutSessionParams(service.price_id), { idempotencyKey: `checkout_${requestId}` });
+      const session = await stripe.checkout.sessions.create(checkoutSessionParams(plan, service.price_id), { idempotencyKey: `checkout_${plan.slug}_${requestId}` });
       return res.json({ url: session.url });
     } catch (error) {
       console.error('Checkout session error:', error.message);
@@ -120,6 +126,7 @@ function createApp() {
       return res.status(403).json({ error: 'We could not verify your completed checkout.' });
     }
     if (!verifiedCheckout(session, data.email)) return res.status(403).json({ error: 'Your onboarding details must match a completed Edge Landings checkout.' });
+    const selectedPlan = PLANS[session.metadata.plan_slug];
     if (session.metadata?.onboarding_status === 'complete') return res.json({ success: true, alreadyReceived: true });
     if (session.metadata?.onboarding_status === 'processing') return res.status(409).json({ error: 'Your onboarding details are already being processed. Please wait a moment before trying again.' });
 
@@ -135,7 +142,7 @@ function createApp() {
       await sendEmail({ from: process.env.EMAIL_FROM || 'Edge Landings <onboarding@edgelandings.com>', to: process.env.OWNER_EMAIL, reply_to: data.email, subject: `New Edge Landings onboarding: ${data.businessName}`, html: `<h1>New paid-customer onboarding</h1>${details}<p><strong>Submitted:</strong> ${submittedAt}</p>` }, `onboarding-owner-${data.sessionId}`);
       await sendEmail({ from: process.env.EMAIL_FROM || 'Edge Landings <onboarding@edgelandings.com>', to: data.email, subject: 'We received your Edge Landings onboarding details', html: `<p>Thanks, ${safe.ownerName}. We received the onboarding details for ${safe.businessName}.</p><p>Your first site draft is due within 3 business days after we receive the content needed for your site.</p>` }, `onboarding-customer-${data.sessionId}`);
       if (process.env.GOOGLE_SCRIPT_URL) {
-        const sheetResponse = await fetch(process.env.GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'addOnboarding', eventId: `onboarding-${data.sessionId}`, plan: ONE_PLAN_NAME, submittedAt, ...data }), signal: AbortSignal.timeout(10000) });
+        const sheetResponse = await fetch(process.env.GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'addOnboarding', eventId: `onboarding-${data.sessionId}`, plan: selectedPlan.name, planSlug: selectedPlan.slug, submittedAt, ...data }), signal: AbortSignal.timeout(10000) });
         if (!sheetResponse.ok) throw new Error(`Onboarding record delivery failed (${sheetResponse.status}).`);
       }
       await stripe.checkout.sessions.update(data.sessionId, { metadata: { ...session.metadata, onboarding_status: 'complete', onboarding_completed_at: submittedAt } });
@@ -163,6 +170,6 @@ if (require.main === module) app.listen(PORT, () => console.log(`Server running 
 // second production app instance.
 module.exports = app;
 module.exports.createApp = createApp;
-module.exports.ONE_PLAN_NAME = ONE_PLAN_NAME;
+module.exports.PLANS = PLANS;
 module.exports.checkoutSessionParams = checkoutSessionParams;
 module.exports.verifiedCheckout = verifiedCheckout;

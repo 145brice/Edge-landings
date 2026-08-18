@@ -34,5 +34,8 @@ alter table estimate_events enable row level security;
 alter table completed_jobs enable row level security;
 
 insert into service_catalog (slug,name,description,complexity,suggested_min_cents,suggested_max_cents,actual_price_cents,estimated_delivery_days,keywords)
-values ('website-care','Website Care','Template-based small-business website with ongoing care.','simple',50000,500000,19900,3,array['landing page','brochure','maintenance','small business'])
-on conflict (slug) do nothing;
+values
+  ('basic','Basic','Professionally designed website with secure hosting, mobile-friendly pages, contact forms, basic SEO, and three monthly content updates.','simple',9900,9900,9900,3,array['landing page','brochure','maintenance','small business','basic']),
+  ('growth','Growth','Everything in Basic with ten monthly content updates and priority support.','standard',19900,19900,19900,3,array['landing page','brochure','maintenance','small business','growth','priority support'])
+on conflict (slug) do update set name=excluded.name, description=excluded.description, complexity=excluded.complexity, suggested_min_cents=excluded.suggested_min_cents, suggested_max_cents=excluded.suggested_max_cents, actual_price_cents=excluded.actual_price_cents, estimated_delivery_days=excluded.estimated_delivery_days, keywords=excluded.keywords, updated_at=now();
+update service_catalog set active=false, updated_at=now() where slug='website-care';

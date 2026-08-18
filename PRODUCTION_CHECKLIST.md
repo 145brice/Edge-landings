@@ -11,15 +11,15 @@ Complete these dashboard tasks after the code is deployed. Never paste secret va
 5. Paste it into the query editor.
 6. Click **Run**.
 7. In the left sidebar, click **Table Editor** and confirm these tables exist: `service_catalog`, `market_baselines`, `estimate_events`, and `completed_jobs`.
-8. Open `service_catalog` and confirm the `Website Care` row exists.
+8. Open `service_catalog` and confirm the active `Basic` and `Growth` rows exist.
 
 ## 2. Configure Stripe
 
 1. Sign in to Stripe and turn on **Test mode**.
 2. Click **Product catalog**, then **Add product**.
-3. Name it `Edge Landings Website Care`.
-4. Set pricing to **Recurring**, **Monthly**, and **$199 USD**, then save.
-5. Open the new price and copy its `price_...` ID.
+3. Name the first product `Edge Landings Basic`.
+4. Set pricing to **Recurring**, **Monthly**, and **$99 USD**, then save and copy its `price_...` ID.
+5. Create `Edge Landings Growth` with **Recurring**, **Monthly**, and **$199 USD** pricing, then copy its `price_...` ID.
 6. Click **Developers**, then **Webhooks**, then **Add endpoint**.
 7. Enter `https://edge-landings.vercel.app/api/webhook`.
 8. Select `checkout.session.completed`, `customer.subscription.updated`, and `customer.subscription.deleted`, then create the endpoint.
@@ -49,14 +49,14 @@ Complete these dashboard tasks after the code is deployed. Never paste secret va
    - `SUPABASE_SERVICE_ROLE_KEY` = Supabase service-role secret
    - `ESTIMATOR_WEBHOOK_SECRET` = a unique random value of at least 32 characters
    - `CRON_SECRET` = a different unique random value of at least 32 characters
-   - `STRIPE_PRICE_MAP` = `{"website-care":"price_your_actual_id"}`
+   - `STRIPE_PRICE_MAP` = `{"basic":"price_basic_actual_id","growth":"price_growth_actual_id"}`
 4. Click **Save** after each entry.
 5. Open **Deployments**, select the newest deployment, click the three-dot menu, and click **Redeploy**.
 
 ## 5. Run the launch test
 
 1. Open `https://edge-landings.vercel.app/api/health` and confirm `status` is `ok`, `catalog` is `true`, and `scheduledBaselines` is `true`.
-2. Open the pricing page and click **Start for $199/month**.
+2. Open the pricing page and test **Get Started with Basic**, then repeat with **Get Started with Growth**.
 3. In Stripe test mode, use card `4242 4242 4242 4242`, any future expiration, and any CVC.
 4. Complete the onboarding form.
 5. Confirm the owner and customer emails arrive once.

@@ -1,6 +1,6 @@
 # Edge Landings lean-launch configuration
 
-This launch sells one offer only: **$199/month**, month-to-month, no setup fee. It creates a Stripe Checkout subscription, then collects onboarding on `success.html`.
+This launch sells two month-to-month offers: **Basic at $99/month** and **Growth at $199/month**. Each creates the matching Stripe Checkout subscription, then collects onboarding on `success.html`.
 
 Legacy account, dashboard, and AI-assistant endpoints are postponed and disabled from the public lean-launch funnel. Do not direct customers to those legacy pages.
 
@@ -21,7 +21,7 @@ Optional:
 
 ## Stripe setup
 
-1. Create one Stripe Product and one recurring monthly Price for **$199 USD**. Map that Price ID with `STRIPE_PRICE_MAP`; checkout reads the synchronized catalog record.
+1. Create recurring monthly Stripe Prices for **Basic at $99 USD** and **Growth at $199 USD**. Map both Price IDs with `STRIPE_PRICE_MAP`; checkout reads the synchronized catalog records.
 2. Create a webhook endpoint at `https://YOUR_DOMAIN/api/webhook`.
 3. Subscribe it to at least `checkout.session.completed`. `customer.subscription.updated` and `customer.subscription.deleted` are useful if subscription status will later be tracked.
 4. Copy the endpoint signing secret into `STRIPE_WEBHOOK_SECRET`.
