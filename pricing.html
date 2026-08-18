@@ -31,7 +31,9 @@
     button.addEventListener('click', async () => {
       button.disabled = true; notice.className = 'notice'; notice.textContent = 'Opening secure checkout…';
       try {
-        const response = await fetch('/api/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+        let requestId = sessionStorage.getItem('checkoutRequestId');
+        if (!requestId) { requestId = crypto.randomUUID(); sessionStorage.setItem('checkoutRequestId', requestId); }
+        const response = await fetch('/api/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ requestId }) });
         const payload = await response.json();
         if (!response.ok || !payload.url) throw new Error(payload.error || 'Checkout could not be started.');
         window.location.assign(payload.url);

@@ -1,7 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 
-process.env.STRIPE_PRICE_ID = 'price_server_only';
 process.env.APP_URL = 'https://example.test';
 const { ONE_PLAN_NAME, checkoutSessionParams, verifiedCheckout } = require('../server');
 
@@ -11,7 +10,7 @@ const paidSession = {
 };
 
 test('checkout parameters use only server configuration', () => {
-  const params = checkoutSessionParams({ priceId: 'price_attacker', successUrl: 'https://attacker.test' });
+  const params = checkoutSessionParams('price_server_only');
   assert.equal(params.line_items[0].price, 'price_server_only');
   assert.equal(params.success_url, 'https://example.test/success.html?session_id={CHECKOUT_SESSION_ID}');
   assert.equal(params.cancel_url, 'https://example.test/pricing.html');

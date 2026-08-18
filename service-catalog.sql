@@ -7,9 +7,10 @@ create table if not exists service_catalog (
   suggested_max_cents integer not null check (suggested_max_cents >= suggested_min_cents),
   actual_price_cents integer not null check (actual_price_cents >= 0), price_id text,
   estimated_delivery_days integer not null check (estimated_delivery_days > 0),
-  keywords text[] not null default '{}', active boolean not null default true,
+  baseline_metric text not null default 'small_business_site_usd', keywords text[] not null default '{}', active boolean not null default true,
   created_at timestamptz not null default now(), updated_at timestamptz not null default now()
 );
+alter table service_catalog add column if not exists baseline_metric text not null default 'small_business_site_usd';
 create table if not exists market_baselines (
   id uuid primary key default gen_random_uuid(), source_name text not null, source_url text not null,
   metric text not null, low_cents integer not null, high_cents integer not null,
@@ -21,10 +22,12 @@ create table if not exists estimate_events (
   quoted_price_cents integer, confidence numeric(4,3) not null, manual_review boolean not null, created_at timestamptz not null default now()
 );
 create table if not exists completed_jobs (
-  id uuid primary key default gen_random_uuid(), service_id uuid references service_catalog(id), request_text text not null,
+  id uuid primary key default gen_random_uuid(), external_event_id text unique not null, service_id uuid references service_catalog(id), request_text text not null,
   classification text not null, quoted_price_cents integer, final_price_cents integer not null,
   estimated_delivery_days integer, actual_delivery_days integer, outcome text not null, completed_at timestamptz not null
 );
+alter table completed_jobs add column if not exists external_event_id text;
+create unique index if not exists completed_jobs_external_event_id_idx on completed_jobs(external_event_id) where external_event_id is not null;
 alter table service_catalog enable row level security;
 alter table market_baselines enable row level security;
 alter table estimate_events enable row level security;

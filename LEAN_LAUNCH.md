@@ -10,7 +10,6 @@ Set these in the deployment environment (and in a local `.env` file if you use o
 
 - `APP_URL` — the canonical HTTPS site URL, without a trailing slash (for example, `https://example.com`).
 - `STRIPE_SECRET_KEY` — Stripe secret API key.
-- `STRIPE_PRICE_ID` — the single recurring monthly Stripe Price ID for $199 (`price_...`).
 - `STRIPE_WEBHOOK_SECRET` — Stripe webhook signing secret (`whsec_...`).
 - `EMAIL_API_KEY` — Resend API key.
 - `EMAIL_FROM` — a Resend-verified sender, such as `Edge Landings <onboarding@example.com>`.
@@ -22,7 +21,7 @@ Optional:
 
 ## Stripe setup
 
-1. Create one Stripe Product and one recurring monthly Price for **$199 USD**. Place that Price ID in `STRIPE_PRICE_ID`.
+1. Create one Stripe Product and one recurring monthly Price for **$199 USD**. Map that Price ID with `STRIPE_PRICE_MAP`; checkout reads the synchronized catalog record.
 2. Create a webhook endpoint at `https://YOUR_DOMAIN/api/webhook`.
 3. Subscribe it to at least `checkout.session.completed`. `customer.subscription.updated` and `customer.subscription.deleted` are useful if subscription status will later be tracked.
 4. Copy the endpoint signing secret into `STRIPE_WEBHOOK_SECRET`.
