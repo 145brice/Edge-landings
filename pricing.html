@@ -64,6 +64,14 @@
   <script>
     const buttons = [...document.querySelectorAll('.checkout')];
     const notice = document.getElementById('notice');
+    const resetCheckoutState = () => {
+      buttons.forEach((item) => { item.disabled = false; });
+      notice.className = 'notice';
+      notice.textContent = '';
+    };
+    // Browsers often restore this page from the back/forward cache after a
+    // customer visits Stripe, including the old disabled-button state.
+    window.addEventListener('pageshow', resetCheckoutState);
     buttons.forEach((button) => button.addEventListener('click', async () => {
       buttons.forEach((item) => { item.disabled = true; });
       notice.className = 'notice'; notice.textContent = 'Opening secure checkout...';
