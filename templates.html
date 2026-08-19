@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Website Templates | Edge Landings</title>
+  <meta name="description" content="Browse Basic and Pro website examples for bakeries, auto shops, barbers, coffee shops, doctors, gyms, realtors, tattoo studios, and law firms.">
+  <style>
+    :root{--bg:#040711;--card:#0b1220;--text:#eef3ff;--muted:#aab8d0;--accent:#00f18c;--line:#1b3150}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#0b263c,#040711 55%);color:var(--text);font:16px/1.55 Arial,sans-serif}.wrap{width:min(1180px,calc(100% - 32px));margin:auto}.nav{display:flex;justify-content:space-between;align-items:center;padding:24px 0}.nav a{color:var(--text);text-decoration:none}.brand{font-weight:900;letter-spacing:.08em}.navlinks{display:flex;gap:22px}.hero{text-align:center;padding:54px 0 42px}.eyebrow{color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem}.hero h1{font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.08;margin:.6rem 0 1rem}.hero p{color:var(--muted);max-width:720px;margin:auto}.legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:0 auto 34px}.legend article,.template{background:linear-gradient(180deg,#0d1829,#09111f);border:1px solid var(--line);border-radius:18px;padding:24px}.legend h2{margin:0 0 6px}.legend p{color:var(--muted);margin:0}.price{color:var(--accent)}.catalog{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;padding-bottom:60px}.template{display:flex;flex-direction:column;gap:17px}.template h2{margin:0;font-size:1.35rem}.template>p{margin:0;color:var(--muted);flex:1}.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{display:block;border:1px solid #345172;border-radius:12px;padding:13px;color:var(--text);text-decoration:none}.choice:hover,.choice:focus-visible{border-color:var(--accent);transform:translateY(-1px)}.choice strong,.choice span{display:block}.choice span{color:var(--muted);font-size:.78rem;margin-top:2px}.choice.pro{border-color:#00f18c88}.cta{text-align:center;padding:10px 0 70px}.button{display:inline-block;background:var(--accent);color:#031008;border-radius:999px;padding:14px 24px;font-weight:900;text-decoration:none}@media(max-width:900px){.catalog{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.legend,.catalog{grid-template-columns:1fr}.navlinks{gap:12px;font-size:.9rem}}
+  </style>
+</head>
+<body><div class="wrap">
+  <nav class="nav"><a class="brand" href="/">EDGE LANDINGS</a><div class="navlinks"><a href="/pricing.html">Pricing</a><a href="/">Home</a></div></nav>
+  <main>
+    <section class="hero"><div class="eyebrow">18 live previews · 9 industries</div><h1>Pick a style. Make it yours.</h1><p>Every design is customized with your brand, services, photos, contact details, and local market. Compare the streamlined Basic experience with the richer Pro showcase.</p></section>
+    <section class="legend" aria-label="Plan comparison">
+      <article><h2>Basic <span class="price">$99/month</span></h2><p>Professional mobile-friendly website, secure hosting, contact form, basic SEO, and 3 content updates each month.</p></article>
+      <article><h2>Pro showcase <span class="price">Growth · $199/month</span></h2><p>Everything in Basic, plus 10 monthly updates, ongoing SEO, Google Business Profile optimization, Analytics and Search Console setup, monthly reporting, and priority support.</p></article>
+    </section>
+    <section class="catalog" id="catalog" aria-label="Industry website templates"></section>
+    <section class="cta"><a class="button" href="/pricing.html">Compare plan details</a></section>
+  </main>
+</div>
+<script>
+const templates=[
+  ['Bakery','Warm product-first design for menus, custom orders, and local pickup.','/bakery-basic.html','/bakery-pro.html'],
+  ['Auto Repair','Trust-building service layout for estimates, maintenance, and repairs.','/auto-basic.html','/auto-demo.html'],
+  ['Barbershop','Sharp local booking design for cuts, grooming, and stylist profiles.','/barber-basic.html','/barber-demo.html'],
+  ['Coffee Shop','Inviting menu and location design for neighborhood coffee brands.','/coffee-basic.html','/coffee-demo.html'],
+  ['Medical Practice','Clear, reassuring layout for care services and appointment requests.','/doctor-basic.html','/doctor-demo.html'],
+  ['Fitness Studio','High-energy membership design for classes, training, and trials.','/fitness-basic.html','/fitness-demo.html'],
+  ['Real Estate','Lead-focused property design for buyers, sellers, and consultations.','/realtor-basic.html','/realtor-pro.html'],
+  ['Tattoo Studio','Portfolio-led studio design for artists, services, and consultations.','/tattoo-basic.html','/tattoo-demo.html'],
+  ['Law Firm','Credibility-first legal design for practice areas and consultations.','/lawyer-basic.html','/lawyer-template/index.html']
+];
+document.getElementById('catalog').innerHTML=templates.map(([name,description,basic,pro])=>`<article class="template"><h2>${name}</h2><p>${description}</p><div class="choices"><a class="choice" href="${basic}" target="_blank"><strong>Basic</strong><span>$99/month preview</span></a><a class="choice pro" href="${pro}" target="_blank"><strong>Pro</strong><span>Growth plan preview</span></a></div></article>`).join('');
+</script></body></html>
