@@ -10,10 +10,16 @@
     @media(max-width:760px){.hero{padding-top:35px}.plans{grid-template-columns:1fr;gap:32px}.plan{padding:28px}.plan-summary{min-height:0}.recommended{order:-1}}
     @media(max-width:420px){.wrap{width:min(100% - 22px,1080px)}.nav{padding:18px 0}.hero h1{font-size:2.25rem}.price{font-size:3rem}.plan{padding:25px 21px}}
   </style>
+  <style>
+    .navlinks{display:flex;gap:8px}
+    .navlinks a{padding:8px 12px;border-radius:999px}
+    .navlinks a:hover,.navlinks a:focus-visible,.navlinks a[aria-current="page"]{background:#13243a;color:var(--accent)}
+    @media(max-width:520px){.nav{align-items:flex-start}.navlinks{font-size:.86rem;gap:0}.navlinks a{padding:7px}}
+  </style>
 </head>
 <body>
   <div class="wrap">
-    <nav class="nav"><a class="brand" href="/">EDGE LANDINGS</a><a href="/">Home</a></nav>
+    <nav class="nav" aria-label="Primary navigation"><a class="brand" href="/">EDGE LANDINGS</a><div class="navlinks"><a href="/">Home</a><a href="/templates.html">Examples</a><a href="/pricing.html" aria-current="page">Pricing</a></div></nav>
     <main>
       <section class="hero">
         <div class="eyebrow">Simple monthly website plans</div>
