@@ -14,7 +14,10 @@ function configuredStripe() {
 
 function publicBaseUrl() {
   if (!process.env.APP_URL) throw new Error('APP_URL is not configured.');
-  return process.env.APP_URL.replace(/\/$/, '');
+  const value = process.env.APP_URL.trim().replace(/\/$/, '');
+  const parsed = new URL(value);
+  if (parsed.protocol !== 'https:' && parsed.hostname !== 'localhost') throw new Error('APP_URL must use HTTPS.');
+  return value;
 }
 
 function checkoutSessionParams(plan, priceId) {
