@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { estimateRequest } = require('../lib/service-estimator');
-const { blendedRange } = require('../lib/catalog-store');
+const { blendedRange, configuredPriceMap } = require('../lib/catalog-store');
 
 const service = { id: 'one', slug: 'website-care', name: 'Website Care', keywords: ['landing page', 'small business'], suggested_min_cents: 50000, suggested_max_cents: 500000, actual_price_cents: 19900, price_id: 'price_123', estimated_delivery_days: 3 };
 
@@ -23,4 +23,11 @@ test('flags custom and low-confidence work for manual review', () => {
 
 test('actual job prices outweigh market baselines', () => {
   assert.deepEqual(blendedRange([100000, 120000, 140000], 500000, 900000), { min: 180000, max: 276000 });
+});
+
+test('server-side Stripe mapping rejects malformed price IDs', () => {
+  process.env.STRIPE_PRICE_MAP = '{"basic":"not-a-price"}';
+  assert.throws(() => configuredPriceMap(), /invalid/);
+  process.env.STRIPE_PRICE_MAP = '{"basic":"price_basic123","growth":"price_growth123"}';
+  assert.equal(configuredPriceMap().growth, 'price_growth123');
 });

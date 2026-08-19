@@ -98,9 +98,16 @@ function createApp() {
       if (!/^[a-f0-9-]{36}$/i.test(requestId)) return res.status(400).json({ error: 'Please refresh the page and try checkout again.' });
       const plan = PLANS[String(req.body?.planSlug || '')];
       if (!plan) return res.status(400).json({ error: 'Please choose a valid website plan.' });
-      const service = await require('./lib/catalog-store').getService(plan.slug);
-      if (!service?.price_id) return res.status(503).json({ error: 'Checkout is not configured yet. Please contact us directly.' });
-      const session = await stripe.checkout.sessions.create(checkoutSessionParams(plan, service.price_id), { idempotencyKey: `checkout_${plan.slug}_${requestId}` });
+      const catalog = require('./lib/catalog-store');
+      let priceId;
+      try {
+        priceId = (await catalog.getService(plan.slug))?.price_id;
+      } catch (catalogError) {
+        console.error(`Catalog lookup failed for ${plan.slug}; using validated server mapping:`, catalogError.message);
+      }
+      priceId ||= catalog.configuredPriceMap()[plan.slug];
+      if (!priceId) return res.status(503).json({ error: 'Checkout is not configured yet. Please contact us directly.' });
+      const session = await stripe.checkout.sessions.create(checkoutSessionParams(plan, priceId), { idempotencyKey: `checkout_${plan.slug}_${requestId}` });
       return res.json({ url: session.url });
     } catch (error) {
       console.error('Checkout session error:', error.message);
