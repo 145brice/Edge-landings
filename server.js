@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { normalizeEmail, normalizeSender, ownerOnboardingEmail, customerOnboardingEmail } = require('./lib/email-templates');
 
 const PORT = process.env.PORT || 3000;
 const PLANS = {
@@ -50,10 +51,16 @@ function escapeHtml(value) {
 
 async function sendEmail(message, idempotencyKey) {
   if (!process.env.EMAIL_API_KEY) throw new Error('EMAIL_API_KEY is not configured.');
+  const payload = {
+    ...message,
+    from: normalizeSender(message.from || process.env.EMAIL_FROM),
+    to: normalizeEmail(message.to, 'Recipient'),
+    ...(message.reply_to ? { reply_to: normalizeEmail(message.reply_to, 'Reply-to') } : {}),
+  };
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${process.env.EMAIL_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey },
-    body: JSON.stringify(message), signal: AbortSignal.timeout(10000),
+    body: JSON.stringify(payload), signal: AbortSignal.timeout(10000),
   });
   if (!response.ok) throw new Error(`Email delivery failed (${response.status}): ${await response.text()}`);
 }
@@ -124,6 +131,7 @@ function createApp() {
     const missing = fields.filter((field) => !data[field]);
     if (missing.length) return res.status(400).json({ error: 'Please complete all required onboarding fields.' });
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return res.status(400).json({ error: 'Please enter a valid email address.' });
+    data.email = data.email.toLowerCase();
     if (!/^cs_(test_|live_)?[a-zA-Z0-9]+$/.test(data.sessionId)) return res.status(400).json({ error: 'The checkout session is invalid.' });
     if (Object.values(data).some((value) => value.length > MAX_FIELD_LENGTH)) return res.status(400).json({ error: 'Please shorten your response to 5,000 characters per field.' });
     const stripe = configuredStripe();
@@ -142,15 +150,12 @@ function createApp() {
 
     const safe = Object.fromEntries(Object.entries(data).map(([key, value]) => [key, escapeHtml(value)]));
     const submittedAt = new Date().toISOString();
-    const details = [
-      ['Business name', safe.businessName], ['Owner name', safe.ownerName], ['Email', safe.email], ['Phone', safe.phone],
-      ['Existing URL', safe.existingUrl || 'Not provided'], ['Business type', safe.businessType], ['Goals', safe.goals],
-      ['Required pages', safe.requiredPages], ['Notes', safe.notes || 'None'],
-    ].map(([label, value]) => `<p><strong>${label}:</strong> ${value}</p>`).join('');
+    const ownerEmail = ownerOnboardingEmail({ safe, selectedPlan, submittedAt });
+    const customerEmail = customerOnboardingEmail({ safe, selectedPlan });
     try {
       await stripe.checkout.sessions.update(data.sessionId, { metadata: { ...session.metadata, onboarding_status: 'processing' } });
-      await sendEmail({ from: process.env.EMAIL_FROM || 'Edge Landings <onboarding@edgelandings.com>', to: process.env.OWNER_EMAIL, reply_to: data.email, subject: `New Edge Landings onboarding: ${data.businessName}`, html: `<h1>New paid-customer onboarding</h1>${details}<p><strong>Submitted:</strong> ${submittedAt}</p>` }, `onboarding-owner-${data.sessionId}`);
-      await sendEmail({ from: process.env.EMAIL_FROM || 'Edge Landings <onboarding@edgelandings.com>', to: data.email, subject: 'We received your Edge Landings onboarding details', html: `<p>Thanks, ${safe.ownerName}. We received the onboarding details for ${safe.businessName}.</p><p>Your first site draft is due within 3 business days after we receive the content needed for your site.</p>` }, `onboarding-customer-${data.sessionId}`);
+      await sendEmail({ ...ownerEmail, to: process.env.OWNER_EMAIL, reply_to: data.email }, `onboarding-owner-${data.sessionId}`);
+      await sendEmail({ ...customerEmail, to: data.email }, `onboarding-customer-${data.sessionId}`);
       if (process.env.GOOGLE_SCRIPT_URL) {
         const sheetResponse = await fetch(process.env.GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'addOnboarding', eventId: `onboarding-${data.sessionId}`, plan: selectedPlan.name, planSlug: selectedPlan.slug, submittedAt, ...data }), signal: AbortSignal.timeout(10000) });
         if (!sheetResponse.ok) throw new Error(`Onboarding record delivery failed (${sheetResponse.status}).`);
