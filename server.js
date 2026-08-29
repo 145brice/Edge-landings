@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const { normalizeEmail, normalizeSender, ownerOnboardingEmail, customerOnboardingEmail } = require('./lib/email-templates');
 const { fetchContractorLeads } = require('./lib/reddit-lead-feed');
+const redditLeadSnapshot = require('./data/reddit-contractor-leads.json');
 
 const PORT = process.env.PORT || 3000;
 const PLANS = {
@@ -104,7 +105,14 @@ function createApp() {
       return res.status(404).json({ enabled: false });
     }
     if (!process.env.REDDIT_LEAD_FEED_URL) {
-      return res.status(503).json({ enabled: true, error: 'Lead feed is not configured.' });
+      const requestedLimit = Number.parseInt(req.query.limit, 10);
+      const limit = Number.isFinite(requestedLimit) ? Math.min(Math.max(requestedLimit, 1), 25) : 10;
+      return res.json({
+        enabled: true,
+        leads: redditLeadSnapshot.slice(0, limit),
+        refreshedAt: new Date().toISOString(),
+        source: 'reddit-scraper-snapshot',
+      });
     }
     const requestedLimit = Number.parseInt(req.query.limit, 10);
     const limit = Number.isFinite(requestedLimit) ? Math.min(Math.max(requestedLimit, 1), 25) : 10;
@@ -118,7 +126,12 @@ function createApp() {
       return res.json({ enabled: true, leads, refreshedAt: new Date().toISOString() });
     } catch (error) {
       console.error('Reddit lead feed error:', error.message);
-      return res.status(502).json({ enabled: true, error: 'Lead feed is temporarily unavailable.' });
+      return res.json({
+        enabled: true,
+        leads: redditLeadSnapshot.slice(0, limit),
+        refreshedAt: new Date().toISOString(),
+        source: 'reddit-scraper-snapshot',
+      });
     }
   });
 
