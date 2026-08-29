@@ -5,6 +5,8 @@
   const ticker = root.querySelector('[data-lead-ticker]');
   const list = root.querySelector('[data-lead-list]');
   const status = root.querySelector('[data-lead-status]');
+  const industry = root.dataset.leadIndustry || '';
+  const industryLabel = root.dataset.leadIndustryLabel || '';
   let leads = [];
   let tickerIndex = 0;
   let tickerTimer;
@@ -26,6 +28,18 @@
     element.className = className;
     element.textContent = value;
     parent.appendChild(element);
+  };
+
+  const routedWebsite = (category) => {
+    const routes = {
+      Roofing: ['roofing', 'Roofing'],
+      Flooring: ['flooring', 'Flooring'],
+      Foundation: ['general-contractor', 'General Contractor'],
+      Remodeling: ['general-contractor', 'General Contractor'],
+      'General Contracting': ['general-contractor', 'General Contractor'],
+      Concrete: ['general-contractor', 'General Contractor'],
+    };
+    return routes[category];
   };
 
   const renderTicker = () => {
@@ -68,6 +82,18 @@
       time.textContent = relativeTime(lead.discoveredAt);
       content.appendChild(time);
       item.appendChild(content);
+      const actions = document.createElement('div');
+      actions.className = 'lead-actions';
+      if (root.hasAttribute('data-show-routing-links')) {
+        const route = routedWebsite(lead.category);
+        if (route) {
+          const routedLink = document.createElement('a');
+          routedLink.className = 'lead-view lead-route';
+          routedLink.href = `/contractor-demo.html?industry=${encodeURIComponent(route[0])}`;
+          routedLink.textContent = `See ${route[1]} site`;
+          actions.appendChild(routedLink);
+        }
+      }
       if (lead.redditUrl) {
         const link = document.createElement('a');
         link.className = 'lead-view';
@@ -75,8 +101,9 @@
         link.target = '_blank';
         link.rel = 'noopener noreferrer';
         link.textContent = 'View';
-        item.appendChild(link);
+        actions.appendChild(link);
       }
+      if (actions.childElementCount) item.appendChild(actions);
       list.appendChild(item);
     }
   };
@@ -88,12 +115,14 @@
 
   const load = async () => {
     try {
-      const response = await fetch('/api/reddit-leads?limit=10', { headers: { Accept: 'application/json' } });
+      const params = new URLSearchParams({ limit: '10' });
+      if (industry) params.set('industry', industry);
+      const response = await fetch(`/api/reddit-leads?${params}`, { headers: { Accept: 'application/json' } });
       if (response.status === 404) return;
       const payload = await response.json();
       root.hidden = false;
       if (!response.ok) throw new Error(payload.error || 'Feed unavailable');
-      status.textContent = 'Monitoring contractor opportunities';
+      status.textContent = industryLabel ? `Routed to ${industryLabel}` : 'Monitoring contractor opportunities';
       status.classList.remove('feed-error');
       const nextSignature = payload.leads.map((lead) => lead.id).join('|');
       if (nextSignature !== signature) {

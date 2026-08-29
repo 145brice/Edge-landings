@@ -12,6 +12,9 @@
     .navlinks{gap:8px}
     .navlinks a{padding:8px 12px;border-radius:999px}
     .navlinks a:hover,.navlinks a:focus-visible,.navlinks a[aria-current="page"]{background:#13243a;color:var(--accent)}
+    .routing-showcase{margin:10px 0 60px;padding:34px;background:#081523;border:1px solid var(--line);border-radius:20px;text-align:center}
+    .routing-showcase>h2{font-size:2rem;margin:.4rem 0}.routing-showcase>p{max-width:730px;margin:0 auto 25px;color:var(--muted)}
+    .routing-catalog{padding-bottom:0;text-align:left}.routing-catalog .button{text-align:center}
   </style>
 </head>
 <body><div class="wrap">
@@ -23,6 +26,7 @@
       <article><h2>Pro showcase <span class="price">Growth · $199/month</span></h2><p>Everything in Basic, plus 10 monthly updates, ongoing SEO, Google Business Profile optimization, Analytics and Search Console setup, monthly reporting, and priority support.</p></article>
     </section>
     <section class="catalog" id="catalog" aria-label="Industry website templates"></section>
+    <section class="routing-showcase"><div class="eyebrow">Website + lead routing demos</div><h2>See each opportunity reach the right contractor.</h2><p>These examples use the live product feed and show how Edge sorts Reddit opportunities by trade before displaying them on a contractor’s website.</p><div class="catalog routing-catalog" id="routing-catalog"></div></section>
     <section class="cta"><a class="button" href="/pricing.html">Compare plan details</a></section>
   </main>
 </div>
@@ -39,4 +43,6 @@ const templates=[
   ['Law Firm','Credibility-first legal design for practice areas and consultations.','/lawyer-basic.html','/lawyer-template/index.html']
 ];
 document.getElementById('catalog').innerHTML=templates.map(([name,description,basic,pro])=>`<article class="template"><h2>${name}</h2><p>${description}</p><div class="choices"><a class="choice" href="${basic}" target="_blank"><strong>Basic</strong><span>$99/month preview</span></a><a class="choice pro" href="${pro}" target="_blank"><strong>Pro</strong><span>Growth plan preview</span></a></div></article>`).join('');
+const routedTemplates=[['Roofing','Roofing opportunities routed into a roofing company website.','roofing'],['Flooring','Flooring installation opportunities sent only to the flooring site.','flooring'],['General Contractor','Foundation, remodeling, and major project leads routed together.','general-contractor']];
+document.getElementById('routing-catalog').innerHTML=routedTemplates.map(([name,description,industry])=>`<article class="template"><h2>${name}</h2><p>${description}</p><a class="button" href="/contractor-demo.html?industry=${industry}">View routed lead website</a></article>`).join('');
 </script></body></html>

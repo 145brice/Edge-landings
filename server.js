@@ -4,6 +4,19 @@ const { normalizeEmail, normalizeSender, ownerOnboardingEmail, customerOnboardin
 const { fetchContractorLeads } = require('./lib/reddit-lead-feed');
 const redditLeadSnapshot = require('./data/reddit-contractor-leads.json');
 
+const INDUSTRY_LEAD_CATEGORIES = {
+  roofing: ['Roofing'],
+  flooring: ['Flooring'],
+  'general-contractor': ['Foundation', 'Remodeling', 'General Contracting', 'Concrete'],
+};
+
+function routeLeadsToIndustry(leads, industry) {
+  if (!industry) return leads;
+  const categories = INDUSTRY_LEAD_CATEGORIES[String(industry).trim().toLowerCase()];
+  if (!categories) return [];
+  return leads.filter((lead) => categories.includes(lead.category));
+}
+
 const PORT = process.env.PORT || 3000;
 const PLANS = {
   basic: { slug: 'basic', name: 'Edge Landings Basic' },
@@ -104,18 +117,18 @@ function createApp() {
     if (String(process.env.REDDIT_LEAD_FEED_ENABLED || '').trim().toLowerCase() !== 'true') {
       return res.status(404).json({ enabled: false });
     }
-    if (!process.env.REDDIT_LEAD_FEED_URL) {
-      const requestedLimit = Number.parseInt(req.query.limit, 10);
-      const limit = Number.isFinite(requestedLimit) ? Math.min(Math.max(requestedLimit, 1), 25) : 10;
-      return res.json({
-        enabled: true,
-        leads: redditLeadSnapshot.slice(0, limit),
-        refreshedAt: new Date().toISOString(),
-        source: 'reddit-scraper-snapshot',
-      });
-    }
     const requestedLimit = Number.parseInt(req.query.limit, 10);
     const limit = Number.isFinite(requestedLimit) ? Math.min(Math.max(requestedLimit, 1), 25) : 10;
+    const industry = String(req.query.industry || '').trim().toLowerCase();
+    if (!process.env.REDDIT_LEAD_FEED_URL) {
+      return res.json({
+        enabled: true,
+        leads: routeLeadsToIndustry(redditLeadSnapshot, industry).slice(0, limit),
+        refreshedAt: new Date().toISOString(),
+        source: 'reddit-scraper-snapshot',
+        industry: industry || null,
+      });
+    }
     try {
       const leads = await fetchContractorLeads({
         endpoint: process.env.REDDIT_LEAD_FEED_URL,
@@ -123,12 +136,12 @@ function createApp() {
         limit,
       });
       res.set('Cache-Control', 'private, no-store');
-      return res.json({ enabled: true, leads, refreshedAt: new Date().toISOString() });
+      return res.json({ enabled: true, leads: routeLeadsToIndustry(leads, industry), refreshedAt: new Date().toISOString(), industry: industry || null });
     } catch (error) {
       console.error('Reddit lead feed error:', error.message);
       return res.json({
         enabled: true,
-        leads: redditLeadSnapshot.slice(0, limit),
+        leads: routeLeadsToIndustry(redditLeadSnapshot, industry).slice(0, limit),
         refreshedAt: new Date().toISOString(),
         source: 'reddit-scraper-snapshot',
       });
@@ -225,3 +238,4 @@ module.exports.createApp = createApp;
 module.exports.PLANS = PLANS;
 module.exports.checkoutSessionParams = checkoutSessionParams;
 module.exports.verifiedCheckout = verifiedCheckout;
+module.exports.routeLeadsToIndustry = routeLeadsToIndustry;

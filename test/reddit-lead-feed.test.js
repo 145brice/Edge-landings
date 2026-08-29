@@ -6,7 +6,7 @@ const {
   normalizeContractorLeads,
   normalizeLead,
 } = require('../lib/reddit-lead-feed');
-const { createApp } = require('../server');
+const { createApp, routeLeadsToIndustry } = require('../server');
 
 function requestJson(server, path) {
   return new Promise((resolve, reject) => {
@@ -45,6 +45,38 @@ test('filters unrelated industries, deduplicates, sorts, and limits contractor l
 test('accepts nested data.leads payloads and rejects unsafe URLs', () => {
   assert.equal(extractLeadArray({ data: { leads: [{ id: 1 }] } }).length, 1);
   assert.equal(normalizeLead({ id: 'x', category: 'Painting', url: 'javascript:alert(1)' }).redditUrl, '');
+});
+
+test('routes each contractor category only to its matching website industry', () => {
+  const leads = [
+    { id: 'r', category: 'Roofing' },
+    { id: 'f', category: 'Flooring' },
+    { id: 'b', category: 'Foundation' },
+  ];
+  assert.deepEqual(routeLeadsToIndustry(leads, 'roofing').map((lead) => lead.id), ['r']);
+  assert.deepEqual(routeLeadsToIndustry(leads, 'flooring').map((lead) => lead.id), ['f']);
+  assert.deepEqual(routeLeadsToIndustry(leads, 'general-contractor').map((lead) => lead.id), ['b']);
+  assert.deepEqual(routeLeadsToIndustry(leads, 'mortgage'), []);
+});
+
+test('API applies the requested website-industry route to the snapshot', async (context) => {
+  const previousEnabled = process.env.REDDIT_LEAD_FEED_ENABLED;
+  const previousUrl = process.env.REDDIT_LEAD_FEED_URL;
+  const server = createApp().listen(0);
+  context.after(() => {
+    server.close();
+    if (previousEnabled === undefined) delete process.env.REDDIT_LEAD_FEED_ENABLED;
+    else process.env.REDDIT_LEAD_FEED_ENABLED = previousEnabled;
+    if (previousUrl === undefined) delete process.env.REDDIT_LEAD_FEED_URL;
+    else process.env.REDDIT_LEAD_FEED_URL = previousUrl;
+  });
+  process.env.REDDIT_LEAD_FEED_ENABLED = 'true';
+  delete process.env.REDDIT_LEAD_FEED_URL;
+  const response = await requestJson(server, '/api/reddit-leads?industry=roofing');
+  assert.equal(response.status, 200);
+  assert.equal(response.body.industry, 'roofing');
+  assert.ok(response.body.leads.length > 0);
+  assert.ok(response.body.leads.every((lead) => lead.category === 'Roofing'));
 });
 
 test('API stays disabled behind the flag and returns only normalized contractor leads when enabled', async (context) => {
