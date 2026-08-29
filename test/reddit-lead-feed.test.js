@@ -100,5 +100,5 @@ test('API falls back to real scraper output while the live scraper endpoint is u
   assert.equal(response.status, 200);
   assert.equal(response.body.source, 'reddit-scraper-snapshot');
   assert.equal(response.body.leads.length, 2);
-  assert.ok(response.body.leads.every((lead) => lead.reddit_url.includes('reddit.com')));
+  assert.ok(response.body.leads.every((lead) => lead.redditUrl.includes('reddit.com')));
 });

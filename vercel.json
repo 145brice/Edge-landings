@@ -8,12 +8,20 @@
     {
       "src": "*.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "public/*.js",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
       "dest": "/server.js"
+    },
+    {
+      "src": "/reddit-lead-feed.js",
+      "dest": "/public/reddit-lead-feed.js"
     },
     {
       "src": "/(.*\\.html)",
