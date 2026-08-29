@@ -4,9 +4,11 @@ const http = require('node:http');
 const {
   extractLeadArray,
   normalizeContractorLeads,
+  normalizeConfidence,
   normalizeLead,
+  normalizeLocation,
 } = require('../lib/reddit-lead-feed');
-const { createApp, routeLeadsToIndustry } = require('../server');
+const { createApp, leadStats, routeLeadsToIndustry } = require('../server');
 
 function requestJson(server, path) {
   return new Promise((resolve, reject) => {
@@ -23,13 +25,39 @@ test('normalizes common Reddit scraper field names', () => {
   const lead = normalizeLead({
     post_id: 'abc123', subreddit_name: 'HomeImprovement', service: 'Roofing',
     city_state: 'Nashville, TN', selftext: 'Need a roof replacement',
-    created_utc: 1_700_000_000, permalink: 'https://reddit.com/r/HomeImprovement/comments/abc123',
+    created_utc: 1_700_000_000, discovered_at: '2023-11-15T00:00:00Z',
+    permalink: 'https://reddit.com/r/HomeImprovement/comments/abc123',
   });
   assert.equal(lead.id, 'abc123');
   assert.equal(lead.subreddit, 'HomeImprovement');
   assert.equal(lead.category, 'Roofing');
-  assert.equal(lead.location, 'Nashville, TN');
-  assert.equal(lead.discoveredAt, '2023-11-14T22:13:20.000Z');
+  assert.equal(lead.location.display, 'Nashville, TN');
+  assert.equal(lead.postedAt, '2023-11-14T22:13:20.000Z');
+  assert.equal(lead.discoveredAt, '2023-11-15T00:00:00.000Z');
+});
+
+test('uses reliable location evidence and never guesses an ambiguous location', () => {
+  assert.equal(normalizeLocation({ city: 'Austin', state: 'tx' }).display, 'Austin, TX');
+  assert.equal(normalizeLocation({}, 'Nashville').display, 'Nashville, TN');
+  assert.equal(normalizeLocation({ title: 'Need a roofer near me' }, 'Roofing').display, 'Unknown');
+});
+
+test('shows classification confidence only when a valid score exists', () => {
+  assert.equal(normalizeConfidence(0.91), 0.91);
+  assert.equal(normalizeConfidence(87), 0.87);
+  assert.equal(normalizeConfidence('unknown'), null);
+});
+
+test('calculates today and month opportunity totals with honest location coverage', () => {
+  const stats = leadStats([
+    { discoveredAt: '2026-08-28T15:00:00Z', category: 'Roofing', location: { display: 'Nashville, TN' } },
+    { discoveredAt: '2026-08-02T15:00:00Z', category: 'Flooring', location: { display: 'Unknown' } },
+  ], new Date('2026-08-28T18:00:00Z'), 'America/Chicago');
+  assert.equal(stats.today, 1);
+  assert.equal(stats.thisMonth, 2);
+  assert.equal(stats.industries, 2);
+  assert.equal(stats.locations, 1);
+  assert.equal(stats.unknownLocations, 1);
 });
 
 test('filters unrelated industries, deduplicates, sorts, and limits contractor leads', () => {

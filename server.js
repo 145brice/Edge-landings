@@ -17,6 +17,32 @@ function routeLeadsToIndustry(leads, industry) {
   return leads.filter((lead) => categories.includes(lead.category));
 }
 
+function dateKey(value, timeZone, includeDay = true) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-US', {
+    timeZone, year: 'numeric', month: '2-digit', ...(includeDay ? { day: '2-digit' } : {}),
+  }).formatToParts(date).filter((part) => part.type !== 'literal').map((part) => [part.type, part.value]));
+  return includeDay ? `${parts.year}-${parts.month}-${parts.day}` : `${parts.year}-${parts.month}`;
+}
+
+function leadStats(leads, now = new Date(), timeZone = 'America/Chicago') {
+  const todayKey = dateKey(now, timeZone);
+  const monthKey = dateKey(now, timeZone, false);
+  const valid = leads.filter((lead) => dateKey(lead.discoveredAt, timeZone));
+  const locations = leads.map((lead) => typeof lead.location === 'object' ? lead.location?.display : lead.location)
+    .filter((value) => value && value !== 'Unknown');
+  return {
+    today: valid.filter((lead) => dateKey(lead.discoveredAt, timeZone) === todayKey).length,
+    thisMonth: valid.filter((lead) => dateKey(lead.discoveredAt, timeZone, false) === monthKey).length,
+    industries: new Set(leads.map((lead) => lead.category).filter(Boolean)).size,
+    locations: new Set(locations).size,
+    unknownLocations: leads.length - locations.length,
+    timezone: timeZone,
+    complete: true,
+  };
+}
+
 const PORT = process.env.PORT || 3000;
 const PLANS = {
   basic: { slug: 'basic', name: 'Edge Landings Basic' },
@@ -121,9 +147,11 @@ function createApp() {
     const limit = Number.isFinite(requestedLimit) ? Math.min(Math.max(requestedLimit, 1), 25) : 10;
     const industry = String(req.query.industry || '').trim().toLowerCase();
     if (!process.env.REDDIT_LEAD_FEED_URL) {
+      const routedLeads = routeLeadsToIndustry(redditLeadSnapshot, industry);
       return res.json({
         enabled: true,
-        leads: routeLeadsToIndustry(redditLeadSnapshot, industry).slice(0, limit),
+        leads: routedLeads.slice(0, limit),
+        stats: leadStats(routedLeads),
         refreshedAt: new Date().toISOString(),
         source: 'reddit-scraper-snapshot',
         industry: industry || null,
@@ -135,13 +163,16 @@ function createApp() {
         token: process.env.REDDIT_LEAD_FEED_TOKEN,
         limit,
       });
+      const routedLeads = routeLeadsToIndustry(leads, industry);
       res.set('Cache-Control', 'private, no-store');
-      return res.json({ enabled: true, leads: routeLeadsToIndustry(leads, industry), refreshedAt: new Date().toISOString(), industry: industry || null });
+      return res.json({ enabled: true, leads: routedLeads, stats: { available: false }, refreshedAt: new Date().toISOString(), industry: industry || null });
     } catch (error) {
       console.error('Reddit lead feed error:', error.message);
+      const routedLeads = routeLeadsToIndustry(redditLeadSnapshot, industry);
       return res.json({
         enabled: true,
-        leads: routeLeadsToIndustry(redditLeadSnapshot, industry).slice(0, limit),
+        leads: routedLeads.slice(0, limit),
+        stats: leadStats(routedLeads),
         refreshedAt: new Date().toISOString(),
         source: 'reddit-scraper-snapshot',
       });
@@ -239,3 +270,4 @@ module.exports.PLANS = PLANS;
 module.exports.checkoutSessionParams = checkoutSessionParams;
 module.exports.verifiedCheckout = verifiedCheckout;
 module.exports.routeLeadsToIndustry = routeLeadsToIndustry;
+module.exports.leadStats = leadStats;
