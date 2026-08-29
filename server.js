@@ -100,7 +100,7 @@ function createApp() {
   });
 
   app.get('/api/reddit-leads', async (req, res) => {
-    if (process.env.REDDIT_LEAD_FEED_ENABLED !== 'true') {
+    if (String(process.env.REDDIT_LEAD_FEED_ENABLED || '').trim().toLowerCase() !== 'true') {
       return res.status(404).json({ enabled: false });
     }
     if (!process.env.REDDIT_LEAD_FEED_URL) {
