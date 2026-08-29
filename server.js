@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { normalizeEmail, normalizeSender, ownerOnboardingEmail, customerOnboardingEmail } = require('./lib/email-templates');
+const { fetchContractorLeads } = require('./lib/reddit-lead-feed');
 
 const PORT = process.env.PORT || 3000;
 const PLANS = {
@@ -96,6 +97,29 @@ function createApp() {
         scheduledBaselines: Boolean(process.env.CRON_SECRET),
       },
     });
+  });
+
+  app.get('/api/reddit-leads', async (req, res) => {
+    if (process.env.REDDIT_LEAD_FEED_ENABLED !== 'true') {
+      return res.status(404).json({ enabled: false });
+    }
+    if (!process.env.REDDIT_LEAD_FEED_URL) {
+      return res.status(503).json({ enabled: true, error: 'Lead feed is not configured.' });
+    }
+    const requestedLimit = Number.parseInt(req.query.limit, 10);
+    const limit = Number.isFinite(requestedLimit) ? Math.min(Math.max(requestedLimit, 1), 25) : 10;
+    try {
+      const leads = await fetchContractorLeads({
+        endpoint: process.env.REDDIT_LEAD_FEED_URL,
+        token: process.env.REDDIT_LEAD_FEED_TOKEN,
+        limit,
+      });
+      res.set('Cache-Control', 'private, no-store');
+      return res.json({ enabled: true, leads, refreshedAt: new Date().toISOString() });
+    } catch (error) {
+      console.error('Reddit lead feed error:', error.message);
+      return res.status(502).json({ enabled: true, error: 'Lead feed is temporarily unavailable.' });
+    }
   });
 
   app.post('/api/create-checkout-session', async (req, res) => {
