@@ -12,7 +12,7 @@
 </head>
 <body>
   <div class="demo-bar"><div class="site-wrap"><span>Edge Landings industry-routing demonstration</span><a href="/templates.html">Back to all examples</a></div></div>
-  <header class="site-wrap"><nav class="nav"><a class="brand" href="#" data-business-name>SUMMIT CONTRACTING</a><div class="navlinks"><a href="#services">Services</a><a href="#opportunities">Opportunities</a><a class="quote" href="#contact">Request an estimate</a></div></nav></header>
+  <header class="site-wrap"><nav class="nav"><a class="brand" href="#" data-business-name>SUMMIT CONTRACTING</a><div class="navlinks"><a href="#services">Services</a><a href="#opportunities">Opportunities</a><a data-dashboard-link href="/lead-dashboard.html?industry=roofing">Lead Dashboard</a><a class="quote" href="#contact">Request an estimate</a></div></nav></header>
   <main>
     <div class="site-wrap lead-stats" data-lead-stats aria-label="Opportunity statistics"></div>
     <section class="site-wrap hero"><div><div class="eyebrow" data-trade-label>Local contractor</div><h1 data-headline>Built right. Built to last.</h1><p data-description>Reliable work, clear communication, and craftsmanship homeowners can count on.</p><div class="hero-actions"><a class="button" href="#contact">Get a free estimate</a><a class="button secondary" href="#services">Explore services</a></div></div><aside class="hero-card"><strong>15+</strong><p>Years of hands-on experience serving homeowners with dependable work and straightforward service.</p></aside></section>
@@ -50,6 +50,7 @@
     const feed = document.querySelector('[data-reddit-lead-feed]');
     feed.dataset.leadIndustry = industry;
     feed.dataset.leadIndustryLabel = config.name;
+    document.querySelector('[data-dashboard-link]').href = `/lead-dashboard.html?industry=${encodeURIComponent(industry)}`;
   </script>
   <script src="/reddit-lead-feed.js" defer></script>
 </body>
