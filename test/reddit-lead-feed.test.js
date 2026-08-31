@@ -7,6 +7,7 @@ const {
   normalizeConfidence,
   normalizeLead,
   normalizeLocation,
+  normalizeRedditLeads,
 } = require('../lib/reddit-lead-feed');
 const { createApp, leadStats, routeLeadsToIndustry } = require('../server');
 
@@ -87,6 +88,25 @@ test('routes each contractor category only to its matching website industry', ()
   assert.deepEqual(routeLeadsToIndustry(leads, 'mortgage'), []);
 });
 
+test('routes professional Reddit leads only to their matching Pro template', () => {
+  const leads = [
+    { id: 'home', category: 'Real Estate' },
+    { id: 'injury', category: 'Personal Injury' },
+    { id: 'roof', category: 'Roofing' },
+  ];
+  assert.deepEqual(routeLeadsToIndustry(leads, 'real-estate').map((lead) => lead.id), ['home']);
+  assert.deepEqual(routeLeadsToIndustry(leads, 'law-firm').map((lead) => lead.id), ['injury']);
+});
+
+test('generic feed accepts supported real-estate and legal leads', () => {
+  const leads = normalizeRedditLeads({ leads: [
+    { id: 're', category: 'Real Estate', title: 'Need a realtor' },
+    { id: 'law', category: 'Personal Injury', title: 'Looking for a lawyer' },
+    { id: 'dev', category: 'Software', title: 'Need a software developer' },
+  ] }, 10);
+  assert.deepEqual(leads.map((lead) => lead.id), ['re', 'law']);
+});
+
 test('API applies the requested website-industry route to the snapshot', async (context) => {
   const previousEnabled = process.env.REDDIT_LEAD_FEED_ENABLED;
   const previousUrl = process.env.REDDIT_LEAD_FEED_URL;
@@ -107,7 +127,7 @@ test('API applies the requested website-industry route to the snapshot', async (
   assert.ok(response.body.leads.every((lead) => lead.category === 'Roofing'));
 });
 
-test('API stays disabled behind the flag and returns only normalized contractor leads when enabled', async (context) => {
+test('API stays disabled behind the flag and returns normalized supported leads when enabled', async (context) => {
   const previousFetch = global.fetch;
   const previousEnabled = process.env.REDDIT_LEAD_FEED_ENABLED;
   const previousUrl = process.env.REDDIT_LEAD_FEED_URL;
@@ -137,7 +157,7 @@ test('API stays disabled behind the flag and returns only normalized contractor 
   });
   const enabled = await requestJson(server, '/api/reddit-leads?limit=10');
   assert.equal(enabled.status, 200);
-  assert.deepEqual(enabled.body.leads.map((lead) => lead.id), ['roof-1']);
+  assert.deepEqual(enabled.body.leads.map((lead) => lead.id), ['roof-1', 'mortgage-1']);
 });
 
 test('API falls back to real scraper output while the live scraper endpoint is unavailable', async (context) => {

@@ -8,6 +8,14 @@ const INDUSTRY_LEAD_CATEGORIES = {
   roofing: ['Roofing'],
   flooring: ['Flooring'],
   'general-contractor': ['Foundation', 'Remodeling', 'General Contracting', 'Concrete'],
+  hvac: ['HVAC'],
+  plumbing: ['Plumbing'],
+  electrical: ['Electrical'],
+  painting: ['Painting'],
+  landscaping: ['Landscaping'],
+  restoration: ['Restoration'],
+  'real-estate': ['Real Estate', 'Mortgage', 'Home Buyer', 'Home Seller'],
+  'law-firm': ['Legal', 'Personal Injury', 'Family Law', 'Criminal Defense', 'Estate Planning'],
 };
 
 function routeLeadsToIndustry(leads, industry) {

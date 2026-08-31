@@ -7,7 +7,7 @@
   const statsRoot = document.querySelector('[data-lead-stats]');
   const industry = root.dataset.leadIndustry || '';
   const industryLabel = root.dataset.leadIndustryLabel || '';
-  let leads = [], tickerIndex = 0, tickerTimer, pollTimer, clockTimer, signature = '', initialLeadIds;
+  let leads = [], tickerIndex = 0, tickerTimer, pollTimer, clockTimer, signature = null, initialLeadIds;
 
   const locationDisplay = (lead) => {
     const value = typeof lead.location === 'object' ? lead.location?.display : lead.location;
@@ -36,8 +36,8 @@
   };
   const categorySlug = (category) => String(category || 'other-contractor').toLowerCase().replace(/[^a-z0-9]+/g, '-');
   const addIndustryBadge = (parent, category) => {
-    const badge = addText(parent, `industry-badge industry-${categorySlug(category)}`, category || 'Other Contractor');
-    badge.setAttribute('aria-label', `Industry: ${category || 'Other Contractor'}`);
+    const badge = addText(parent, `industry-badge industry-${categorySlug(category)}`, category || 'Other Opportunity');
+    badge.setAttribute('aria-label', `Industry: ${category || 'Other Opportunity'}`);
   };
   const addConfidenceBadge = (parent, confidence) => {
     if (typeof confidence !== 'number' || confidence < 0 || confidence > 1) return;
@@ -49,7 +49,11 @@
     Roofing: ['roofing', 'Roofing Contractor'], Flooring: ['flooring', 'Flooring Contractor'],
     Foundation: ['general-contractor', 'General Contractor'], Remodeling: ['general-contractor', 'General Contractor'],
     'General Contracting': ['general-contractor', 'General Contractor'], Concrete: ['general-contractor', 'General Contractor'],
-  }[category] || ['', `${category || 'Other'} Contractor`]);
+    HVAC: ['hvac', 'HVAC Company'], Plumbing: ['plumbing', 'Plumbing Company'], Electrical: ['electrical', 'Electrical Contractor'],
+    Painting: ['painting', 'Painting Contractor'], Landscaping: ['landscaping', 'Landscaping Company'], Restoration: ['restoration', 'Restoration Company'],
+    'Real Estate': ['real-estate', 'Real Estate Pro'], Mortgage: ['real-estate', 'Real Estate Pro'], 'Home Buyer': ['real-estate', 'Real Estate Pro'], 'Home Seller': ['real-estate', 'Real Estate Pro'],
+    Legal: ['law-firm', 'Law Firm Pro'], 'Personal Injury': ['law-firm', 'Law Firm Pro'], 'Family Law': ['law-firm', 'Law Firm Pro'], 'Criminal Defense': ['law-firm', 'Law Firm Pro'], 'Estate Planning': ['law-firm', 'Law Firm Pro'],
+  }[category] || ['', `${category || 'Other'} Pro`]);
   const addTimestamps = (parent, lead) => {
     const times = document.createElement('div');
     times.className = 'lead-times';
@@ -67,7 +71,7 @@
     const destination = industryLabel || routedWebsite(lead.category)[1];
     const routing = document.createElement('div');
     routing.className = 'routing-cue';
-    addText(routing, 'routing-detected', `Detected ${lead.category || 'Other Contractor'}`);
+    addText(routing, 'routing-detected', `Detected ${lead.category || 'Other Opportunity'}`);
     addText(routing, 'routing-arrow', '→');
     addText(routing, 'routing-destination', `Routed to ${destination}${industryLabel ? '' : ' Example Website'}`);
     addText(routing, 'routing-location', `Location: ${locationDisplay(lead)}`);
@@ -108,7 +112,7 @@
       content.appendChild(meta);
       const title = document.createElement('h3');
       title.className = 'lead-title';
-      title.textContent = lead.title || `${lead.category} opportunity`;
+      title.textContent = lead.title || `${lead.category || 'Reddit'} opportunity`;
       content.appendChild(title);
       const excerpt = document.createElement('p');
       excerpt.textContent = lead.excerpt || lead.title;

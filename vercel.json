@@ -12,6 +12,10 @@
     {
       "src": "public/*.js",
       "use": "@vercel/static"
+    },
+    {
+      "src": "public/*.css",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -22,6 +26,10 @@
     {
       "src": "/reddit-lead-feed.js",
       "dest": "/public/reddit-lead-feed.js"
+    },
+    {
+      "src": "/pro-lead-feed.css",
+      "dest": "/public/pro-lead-feed.css"
     },
     {
       "src": "/(.*\\.html)",

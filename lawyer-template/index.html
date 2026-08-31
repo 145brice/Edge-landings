@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="/pro-lead-feed.css" />
   <link rel="canonical" href="https://edgelandings.com/lawyer" />
 </head>
 <body>
@@ -71,11 +72,21 @@
         </div>
       </div>
     </section>
+    <section class="pro-lead-section" id="reddit-opportunities">
+      <div class="pro-lead-wrap">
+        <div class="pro-lead-intro"><div><div class="pro-lead-kicker">Edge opportunity routing</div><h2>Legal-intent conversations, routed here.</h2></div><p>Only Reddit opportunities classified for a law firm appear in this Pro example; unrelated industries stay out.</p></div>
+        <section class="pro-lead-feed" data-reddit-lead-feed data-lead-industry="law-firm" data-lead-industry-label="Carter &amp; Cole Law" aria-live="polite">
+          <div class="lead-feed-head"><h3>Latest matched legal leads</h3><span class="feed-status" data-lead-status>Connecting to lead monitor</span></div>
+          <div class="lead-ticker" data-lead-ticker>Loading matched opportunities…</div><div class="lead-list" data-lead-list></div>
+        </section>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
     <strong>Carter &amp; Cole Law Group</strong> • 3131 McKinney Ave, Suite 400, Dallas, TX 75204 • (214) 555-1234
   </footer>
   <script src="assets/js/main.js" defer></script>
+  <script src="/reddit-lead-feed.js" defer></script>
 </body>
 </html>
