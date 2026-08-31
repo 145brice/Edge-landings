@@ -173,7 +173,14 @@ function createApp() {
       });
       const routedLeads = routeLeadsToIndustry(leads, industry);
       res.set('Cache-Control', 'private, no-store');
-      return res.json({ enabled: true, leads: routedLeads, stats: { available: false }, refreshedAt: new Date().toISOString(), industry: industry || null });
+      return res.json({
+        enabled: true,
+        leads: routedLeads,
+        stats: { ...leadStats(routedLeads), complete: false },
+        refreshedAt: new Date().toISOString(),
+        source: 'google-sheets-live',
+        industry: industry || null,
+      });
     } catch (error) {
       console.error('Reddit lead feed error:', error.message);
       const routedLeads = routeLeadsToIndustry(redditLeadSnapshot, industry);

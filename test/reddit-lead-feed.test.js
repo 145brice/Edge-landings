@@ -182,3 +182,28 @@ test('API falls back to real scraper output while the live scraper endpoint is u
   assert.equal(response.body.leads.length, 2);
   assert.ok(response.body.leads.every((lead) => lead.redditUrl.includes('reddit.com')));
 });
+
+test('API rejects an unrelated successful JSON response and keeps the snapshot visible', async (context) => {
+  const previousFetch = global.fetch;
+  const previousEnabled = process.env.REDDIT_LEAD_FEED_ENABLED;
+  const previousUrl = process.env.REDDIT_LEAD_FEED_URL;
+  const server = createApp().listen(0);
+  context.after(() => {
+    server.close();
+    global.fetch = previousFetch;
+    if (previousEnabled === undefined) delete process.env.REDDIT_LEAD_FEED_ENABLED;
+    else process.env.REDDIT_LEAD_FEED_ENABLED = previousEnabled;
+    if (previousUrl === undefined) delete process.env.REDDIT_LEAD_FEED_URL;
+    else process.env.REDDIT_LEAD_FEED_URL = previousUrl;
+  });
+  process.env.REDDIT_LEAD_FEED_ENABLED = 'true';
+  process.env.REDDIT_LEAD_FEED_URL = 'https://sheets.example/exec?action=reddit_leads';
+  global.fetch = async () => ({
+    ok: true,
+    json: async () => ({ ok: true, service: 'warmleads-registrations' }),
+  });
+  const response = await requestJson(server, '/api/reddit-leads?industry=roofing');
+  assert.equal(response.status, 200);
+  assert.equal(response.body.source, 'reddit-scraper-snapshot');
+  assert.ok(response.body.leads.length > 0);
+});
