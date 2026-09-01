@@ -10,6 +10,14 @@
       "use": "@vercel/static"
     },
     {
+      "src": "basic-template.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "basic-template.css",
+      "use": "@vercel/static"
+    },
+    {
       "src": "lawyer-template/**",
       "use": "@vercel/static"
     },
@@ -42,6 +50,14 @@
     {
       "src": "/pro-lead-feed.css",
       "dest": "/public/pro-lead-feed.css"
+    },
+    {
+      "src": "/basic-template.js",
+      "dest": "/basic-template.js"
+    },
+    {
+      "src": "/basic-template.css",
+      "dest": "/basic-template.css"
     },
     {
       "src": "/lawyer-template/assets/css/(.*)",
