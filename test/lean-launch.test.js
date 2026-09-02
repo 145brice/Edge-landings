@@ -20,9 +20,19 @@ test('checkout parameters use only server configuration', () => {
 test('each plan carries its own server-controlled checkout metadata', () => {
   const basic = checkoutSessionParams(PLANS.basic, 'price_basic');
   const growth = checkoutSessionParams(PLANS.growth, 'price_growth');
+  const leads = checkoutSessionParams(PLANS.leads, 'price_leads');
   assert.deepEqual(basic.line_items, [{ price: 'price_basic', quantity: 1 }]);
   assert.equal(basic.metadata.service, 'Edge Landings Basic');
   assert.equal(growth.metadata.service, 'Edge Landings Growth');
+  assert.equal(leads.metadata.service, 'Edge Leads Dashboard');
+  assert.deepEqual(
+    [PLANS.basic.betaPriceCents, PLANS.growth.betaPriceCents, PLANS.leads.betaPriceCents],
+    [4900, 9900, 9900],
+  );
+  assert.deepEqual(
+    [PLANS.basic.regularPriceCents, PLANS.growth.regularPriceCents, PLANS.leads.regularPriceCents],
+    [7900, 17900, 19900],
+  );
 });
 
 test('payment verification rejects missing, unpaid, and mismatched checkout sessions', () => {

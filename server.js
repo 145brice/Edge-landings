@@ -53,8 +53,9 @@ function leadStats(leads, now = new Date(), timeZone = 'America/Chicago') {
 
 const PORT = process.env.PORT || 3000;
 const PLANS = {
-  basic: { slug: 'basic', name: 'Edge Landings Basic' },
-  growth: { slug: 'growth', name: 'Edge Landings Growth' },
+  basic: { slug: 'basic', name: 'Edge Landings Basic', betaPriceCents: 4900, regularPriceCents: 7900 },
+  growth: { slug: 'growth', name: 'Edge Landings Growth', betaPriceCents: 9900, regularPriceCents: 17900 },
+  leads: { slug: 'leads', name: 'Edge Leads Dashboard', betaPriceCents: 9900, regularPriceCents: 19900 },
 };
 const MAX_FIELD_LENGTH = 5000;
 
@@ -203,7 +204,7 @@ function createApp() {
       const requestId = String(req.body?.requestId || '');
       if (!/^[a-f0-9-]{36}$/i.test(requestId)) return res.status(400).json({ error: 'Please refresh the page and try checkout again.' });
       const plan = PLANS[String(req.body?.planSlug || '')];
-      if (!plan) return res.status(400).json({ error: 'Please choose a valid website plan.' });
+      if (!plan) return res.status(400).json({ error: 'Please choose a valid Edge plan.' });
       const catalog = require('./lib/catalog-store');
       let priceId;
       try {
@@ -213,6 +214,10 @@ function createApp() {
       }
       priceId ||= catalog.configuredPriceMap()[plan.slug];
       if (!priceId) return res.status(503).json({ error: 'Checkout is not configured yet. Please contact us directly.' });
+      const stripePrice = await stripe.prices.retrieve(priceId);
+      if (!stripePrice.active || stripePrice.currency !== 'usd' || stripePrice.unit_amount !== plan.betaPriceCents || stripePrice.recurring?.interval !== 'month') {
+        return res.status(503).json({ error: 'Checkout pricing is being updated. Please contact us to reserve beta pricing.' });
+      }
       const session = await stripe.checkout.sessions.create(checkoutSessionParams(plan, priceId), { idempotencyKey: `checkout_${plan.slug}_${requestId}` });
       return res.json({ url: session.url });
     } catch (error) {
