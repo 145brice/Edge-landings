@@ -53,20 +53,11 @@ function leadStats(leads, now = new Date(), timeZone = 'America/Chicago') {
 
 const PORT = process.env.PORT || 3000;
 const PLANS = {
-  basic: { slug: 'basic', name: 'Edge Landings Basic' },
-  growth: { slug: 'growth', name: 'Edge Landings Growth' },
+  basic: { slug: 'basic', name: 'Edge Landings Basic', betaPriceCents: 4900, regularPriceCents: 7900 },
+  growth: { slug: 'growth', name: 'Edge Landings Growth', betaPriceCents: 9900, regularPriceCents: 17900 },
+  leads: { slug: 'leads', name: 'Edge Leads Dashboard', betaPriceCents: 9900, regularPriceCents: 19900 },
 };
 const MAX_FIELD_LENGTH = 5000;
-const auditRequests = new Map();
-
-function auditRateAllowed(key, now = Date.now()) {
-  const windowMs = 10 * 60 * 1000;
-  const recent = (auditRequests.get(key) || []).filter((timestamp) => now - timestamp < windowMs);
-  if (recent.length >= 5) return false;
-  recent.push(now);
-  auditRequests.set(key, recent);
-  return true;
-}
 
 function configuredStripe() {
   return process.env.STRIPE_SECRET_KEY ? require('stripe')(process.env.STRIPE_SECRET_KEY) : null;
@@ -132,7 +123,7 @@ function createApp() {
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
       'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
-      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'",
+      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
     });
     res.locals.requestId = req.headers['x-request-id'] || require('crypto').randomUUID();
     res.set('X-Request-ID', res.locals.requestId);
@@ -143,8 +134,8 @@ function createApp() {
   app.post('/api/webhook', express.raw({ type: 'application/json' }), require('./api/webhook'));
   app.use(express.json({ limit: '100kb' }));
   app.all('/api/catalog-webhook', require('./api/catalog-webhook'));
-  // Only deliberate browser assets belong here. Never serve the repository.
-  app.use(express.static(path.join(__dirname, 'site'), { extensions: ['html'], dotfiles: 'deny' }));
+  app.use(express.static(path.join(__dirname), { extensions: ['html'] }));
+  app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
   app.get('/api/health', (req, res) => {
     const required = ['APP_URL', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'EMAIL_API_KEY', 'EMAIL_FROM', 'OWNER_EMAIL', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'STRIPE_PRICE_MAP'];
     const missing = required.filter((name) => !process.env[name]);
@@ -155,49 +146,6 @@ function createApp() {
         scheduledBaselines: Boolean(process.env.CRON_SECRET),
       },
     });
-  });
-
-  app.post('/api/site-audit', async (req, res) => {
-    if (!auditRateAllowed(req.ip || 'unknown')) {
-      return res.status(429).json({ error: 'You have reached the audit limit. Please try again in a few minutes.' });
-    }
-    const website = typeof req.body?.website === 'string' ? req.body.website.trim() : '';
-    if (!website) return res.status(400).json({ error: 'Enter a website URL to audit.' });
-    try {
-      const report = await require('./lib/site-audit').auditWebsite(website);
-      return res.json(report);
-    } catch (error) {
-      console.error('Public site audit failed:', error.message);
-      const safeMessages = [
-        'Enter a valid website URL.', 'Enter a valid website URL, such as example.com.',
-        'Only public HTTP and HTTPS website URLs can be audited.', 'Enter a public website URL.',
-        'That address is not available for public website audits.', 'The website redirected too many times.',
-        'The website returned an invalid redirect.', 'The website redirected to an unsupported address.',
-        'That URL did not return a webpage.',
-      ];
-      const message = safeMessages.includes(error.message) || /^The website returned HTTP \d{3}\.$/.test(error.message)
-        ? error.message : 'We could not audit that website. Check the address and try again.';
-      return res.status(422).json({ error: message });
-    }
-  });
-
-  app.post('/api/contact', async (req, res) => {
-    if (!auditRateAllowed(`contact:${req.ip || 'unknown'}`)) return res.status(429).json({ error: 'Please wait a few minutes before sending another message.' });
-    const { name, email, message, companyWebsite } = req.body || {};
-    if (companyWebsite) return res.json({ success: true });
-    if (![name, email, message].every((value) => typeof value === 'string' && value.trim() && value.length <= MAX_FIELD_LENGTH)) {
-      return res.status(400).json({ error: 'Please include your name, email, and a message of up to 5,000 characters.' });
-    }
-    let replyTo;
-    try { replyTo = normalizeEmail(email); } catch { return res.status(400).json({ error: 'Please enter a valid email address.' }); }
-    if (!process.env.OWNER_EMAIL || !process.env.EMAIL_API_KEY || !process.env.EMAIL_FROM) return res.status(503).json({ error: 'Messaging is temporarily unavailable. Please try again later.' });
-    try {
-      await sendEmail({ to: process.env.OWNER_EMAIL, reply_to: replyTo, subject: 'Edge Landings website inquiry', text: `Name: ${name.trim()}\nEmail: ${replyTo}\n\n${message.trim()}` }, `contact-${require('crypto').randomUUID()}`);
-      return res.json({ success: true });
-    } catch (error) {
-      console.error('Contact delivery failed:', error.message);
-      return res.status(502).json({ error: 'Your message could not be sent. Please try again.' });
-    }
   });
 
   app.get('/api/reddit-leads', async (req, res) => {
@@ -308,7 +256,11 @@ function createApp() {
     try {
       await stripe.checkout.sessions.update(data.sessionId, { metadata: { ...session.metadata, onboarding_status: 'processing' } });
       await sendEmail({ ...ownerEmail, to: process.env.OWNER_EMAIL, reply_to: data.email }, `onboarding-owner-${data.sessionId}`);
-      await sendEmail({ ...customerEmail, to: data.email, reply_to: process.env.OWNER_EMAIL }, `onboarding-customer-${data.sessionId}`);
+      await sendEmail({ ...customerEmail, to: data.email }, `onboarding-customer-${data.sessionId}`);
+      if (process.env.GOOGLE_SCRIPT_URL) {
+        const sheetResponse = await fetch(process.env.GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'addOnboarding', eventId: `onboarding-${data.sessionId}`, plan: selectedPlan.name, planSlug: selectedPlan.slug, submittedAt, ...data }), signal: AbortSignal.timeout(10000) });
+        if (!sheetResponse.ok) throw new Error(`Onboarding record delivery failed (${sheetResponse.status}).`);
+      }
       await stripe.checkout.sessions.update(data.sessionId, { metadata: { ...session.metadata, onboarding_status: 'complete', onboarding_completed_at: submittedAt } });
       return res.json({ success: true });
     } catch (error) {
@@ -337,6 +289,5 @@ module.exports.createApp = createApp;
 module.exports.PLANS = PLANS;
 module.exports.checkoutSessionParams = checkoutSessionParams;
 module.exports.verifiedCheckout = verifiedCheckout;
-module.exports.auditRateAllowed = auditRateAllowed;
 module.exports.routeLeadsToIndustry = routeLeadsToIndustry;
 module.exports.leadStats = leadStats;

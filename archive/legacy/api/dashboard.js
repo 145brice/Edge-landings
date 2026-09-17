@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
 
     const planName = user.plan || null;
     const planTier = planName ? (planName.toLowerCase().includes('pro') ? 'Pro' : 'Basic') : null;
-    const planAmount = user.amount ? Number(user.amount) : (planTier === 'Pro' ? 99 : 59);
+    const planAmount = user.amount ? Number(user.amount) : (planTier === 'Pro' ? 99 : 49);
 
     const onboardingTasks = DEFAULT_TASKS.map(task => ({ ...task, completed: false }));
 
