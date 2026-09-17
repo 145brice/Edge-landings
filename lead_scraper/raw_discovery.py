@@ -17,6 +17,8 @@ OVERPASS_ENDPOINTS = (
     "https://overpass.private.coffee/api/interpreter",
     "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
 )
+MAX_GRID_SIZE = 14
+RESULTS_PER_TILE = 40
 
 
 class DiscoveryError(RuntimeError):
@@ -26,6 +28,13 @@ class DiscoveryError(RuntimeError):
 def normalize_us_location(location: str) -> str:
     value = location.strip()
     return f"{value}, USA" if re.fullmatch(r"\d{5}", value) else value
+
+
+def grid_size_for(radius_miles: float, max_results: int) -> int:
+    """Choose enough small Overpass areas to support broad one-time discovery."""
+    geographic_minimum = 1 if radius_miles <= 5 else 3
+    capacity_minimum = math.ceil(math.sqrt(max_results / RESULTS_PER_TILE))
+    return min(MAX_GRID_SIZE, max(geographic_minimum, capacity_minimum))
 
 
 class RawDiscoveryClient:
@@ -57,7 +66,6 @@ class RawDiscoveryClient:
                 raise DiscoveryError(f"Location not found: {location}")
             lat, lon = float(hits[0]["lat"]), float(hits[0]["lon"])
             await asyncio.sleep(random.uniform(1.1, 1.8))
-            radius_miles = min(radius_miles, 31.0)
             lat_delta = radius_miles / 69.0
             lon_scale = max(math.cos(math.radians(lat)), 0.2)
             lon_delta = radius_miles / (69.0 * lon_scale)
@@ -69,19 +77,27 @@ class RawDiscoveryClient:
         # Split a large radius into small boxes. Public Overpass servers can reject
         # one broad query even when its output is capped, while the equivalent small
         # spatial queries complete quickly and use less peak memory.
-        grid_size = 1 if radius_miles <= 5 else 3
+        grid_size = grid_size_for(radius_miles, max_results)
         lat_step, lon_step = (north - south) / grid_size, (east - west) / grid_size
         tiles = [
             (south + row * lat_step, west + col * lon_step,
              south + (row + 1) * lat_step, west + (col + 1) * lon_step)
             for row in range(grid_size) for col in range(grid_size)
         ]
-        random.SystemRandom().shuffle(tiles)
+        # Work from the center outward so a broad run genuinely expands its
+        # search area and can stop as soon as the requested total is reached.
+        center = (grid_size - 1) / 2
+        tiles.sort(key=lambda item: (
+            ((item[0] + item[2]) / 2 - lat) ** 2
+            + (((item[1] + item[3]) / 2 - lon) * lon_scale) ** 2
+        ))
         elements_by_id: dict[tuple[str, int], dict[str, Any]] = {}
         errors: list[str] = []
         successful_tiles = 0
         preferred_endpoint = OVERPASS_ENDPOINTS[0]
-        per_tile_limit = max(25, min(max_results, 40))
+        # Request modest batches from each small tile. Bulk mode gets broader
+        # coverage from more tiles instead of one expensive oversized query.
+        per_tile_limit = max(25, min(60, math.ceil(max_results / len(tiles) * 1.5)))
         for tile_number, (tile_s, tile_w, tile_n, tile_e) in enumerate(tiles, start=1):
             query = f"""[out:json][timeout:15][bbox:{tile_s},{tile_w},{tile_n},{tile_e}];(
               node[name][shop];node[name][craft];node[name][office];
@@ -138,6 +154,7 @@ class RawDiscoveryClient:
                 continue
             website = tags.get("website") or tags.get("contact:website") or ""
             phone = tags.get("phone") or tags.get("contact:phone") or ""
+            email = tags.get("email") or tags.get("contact:email") or ""
             category = tags.get("shop") or tags.get("craft") or tags.get("office") or tags.get("amenity") or "local_business"
             address = " ".join(filter(None, [tags.get("addr:housenumber"), tags.get("addr:street")]))
             center = item.get("center", item)
@@ -157,6 +174,13 @@ class RawDiscoveryClient:
                 data_source="OpenStreetMap",
                 website_evidence=("Website URL listed in OpenStreetMap" if website
                                   else "No website URL listed in OpenStreetMap; not independently verified"),
+                emails=[email.strip().lower()] if email.strip() else [],
+                facebook_url=tags.get("contact:facebook") or tags.get("facebook") or "",
+                instagram_url=tags.get("contact:instagram") or tags.get("instagram") or "",
+                linkedin_url=tags.get("contact:linkedin") or tags.get("linkedin") or "",
+                contact_evidence=[key for key, value in {
+                    "OpenStreetMap email tag": email, "OpenStreetMap phone tag": phone,
+                }.items() if value],
             ))
             if len(businesses) >= max_results:
                 break

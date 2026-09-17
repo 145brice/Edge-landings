@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "opportunity": {
+    "no_website": 35,
+    "social_only": 25,
+    "website_health_below_40": 22,
+    "website_health_below_65": 12,
+    "no_email": 8,
+    "no_phone": 7,
+    "no_state_registration": 4,
+    "no_professional_license": 4,
+    "no_chamber": 2,
+    "no_recent_permit": 3
+  },
+  "confidence": {
+    "per_source": 15,
+    "source_cap": 45,
+    "website": 10,
+    "phone": 10,
+    "email": 10,
+    "address": 8,
+    "coordinates": 5,
+    "license": 7,
+    "registration": 5
+  }
+}

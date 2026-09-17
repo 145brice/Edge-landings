@@ -27,8 +27,17 @@ class Business:
     checks: dict[str, Any] = field(default_factory=dict)
     emails: list[str] = field(default_factory=list)
     contact_form_url: str = ""
+    facebook_url: str = ""
+    instagram_url: str = ""
+    linkedin_url: str = ""
+    contact_evidence: list[str] = field(default_factory=list)
     outreach_channel: str = "call"
     scanned_at: str = ""
+    source_ids: dict[str, str] = field(default_factory=dict)
+    signals: dict[str, bool | None] = field(default_factory=dict)
+    opportunity_score: int = 0
+    confidence_score: int = 0
+    gap_flags: list[str] = field(default_factory=list)
 
     def as_dict(self) -> dict[str, Any]:
         return asdict(self)

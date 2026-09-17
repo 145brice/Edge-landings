@@ -1,403 +1,72 @@
-# Edge Landings 🌐
+﻿# Edge Landings
 
-> **Professional websites for local businesses. Built in 24 hours. $0 upfront. Pay only after you approve it.**
+A subscription website service for local businesses. The public offer is Basic
+at $99/month and Growth at $199/month. Customers pay at checkout, complete
+onboarding, review a draft, and approve launch.
 
-Edge Landings is a subscription-based website-building service for local businesses. We create conversion-ready websites with transparent pricing, hosting, SSL, security updates, and ongoing support — all included in one monthly subscription.
+## Current scope
 
-**Created by Brice Leasure**
+- Basic: one page, up to six sections, three small updates per billing month.
+- Growth: up to five pages, ten small updates, ongoing SEO and priority support.
+- Both: hosting, mobile-friendly design, an inquiry form, two pre-launch revision
+  rounds, and a first draft within three business days of receiving the content.
+- The full scope, exclusions, billing, and cancellation process are published in
+  `site/pricing.html`. Concept demos are labeled and do not send inquiries.
 
----
+## Run locally
 
-## 📋 Table of Contents
+Use Node.js 20.6 or later. Install with `npm install`, copy `.env.example` to
+`.env`, fill in your configuration, then run:
 
-| | |
-|---|---|
-| [✨ Features](#-features) | [🔌 API Endpoints](#-api-endpoints) |
-| [💎 Pricing Tiers](#-pricing-tiers) | [🔐 Environment Variables](#-environment-variables) |
-| [🛠 Tech Stack](#-tech-stack) | [🗄️ Database Setup](#-database-setup) |
-| [📁 Project Structure](#-project-structure) | [💳 Stripe Integration](#-stripe-integration) |
-| [🚀 Getting Started](#-getting-started) | [🎨 Demo Sites](#-demo-sites) |
-| [🌐 Deployment](#-deployment) | [📚 Documentation](#-documentation) |
-
----
-
-## ✨ Features
-
-| Feature | Description |
-|---|---|
-| ⚡ **24-Hour Delivery** | Professional websites built and delivered in 24 hours |
-| 💰 **$0 Upfront** | Clients only pay after they approve their site |
-| 🎨 **Industry Templates** | Roofing, HVAC, Plumbing, Bakery, Barber, Realtor, and more |
-| 📱 **Mobile-Responsive** | All sites optimized for every device |
-| 🔒 **Hosting & SSL** | Included with every subscription |
-| 🛡️ **Security Updates** | Ongoing maintenance handled automatically |
-| 📈 **SEO-Optimized** | Pro and Elite tiers include search engine optimization |
-| 🔄 **Cancel Anytime** | No long-term contracts required |
-
----
-
-## 💎 Pricing Tiers
-
-### Main Plans (Featured at Top)
-
-| Plan | Price | Best For |
-|---|---|---|
-| **Basic** | $59/mo | 1-page professional website |
-| **Pro** | $99/mo | Full multi-page website with SEO |
-| **Pro + Leads** | $159/mo | Website + 15–20 leads/mo — Best Value |
-
-### Also Available (Secondary)
-
-| Plan | Price | Best For |
-|---|---|---|
-| **Leads Only** | $79/mo | 15–20 leads/mo with skip-traced info |
-| **Basic + Leads** | $119/mo | 1-page website + 15–20 leads/mo |
-
-### Basic — $59/month
-*One-page professional website*
-
-- Professional 1-page website
-- Mobile friendly
-- Contact form
-- Your branding & colors
-- Fast loading speed
-
-### Pro — $99/month
-*Full multi-page website*
-
-- Up to 5 pages
-- Modern design + SEO
-- Google reviews widget
-- Monthly content updates
-
-### Pro + Leads — $159/month
-*Complete package — Website + Leads*
-
-- Full Pro website
-- 15–20 fresh leads/month
-- Skip-traced owner info
-- Private leads dashboard
-
----
-
-## 🛠 Tech Stack
-
-| Layer | Technology |
-|---|---|
-| **Frontend** | Static HTML/CSS/JS with Tailwind CSS + React components |
-| **Backend** | Node.js with Express (`server.js`) |
-| **Hosting** | Vercel (serverless functions + static hosting) |
-| **Payments** | Stripe (subscriptions, checkout, billing portal, webhooks) |
-| **Database** | Supabase (PostgreSQL) with Vercel KV fallback + in-memory fallback |
-| **AI** | Anthropic Claude API (`@anthropic-ai/sdk`) |
-| **Email** | Resend API (welcome emails, password resets) |
-| **Scheduling** | Calendly integration (embedded widget) |
-
----
-
-## 📁 Project Structure
-
-```
-Edge-landings/
-├── server.js                 # Express server: routes, Stripe, dashboard, AI, webhooks
-├── package.json              # Project config and dependencies
-├── vercel.json               # Vercel deployment configuration
-├── README.md                 # This file
-│
-├── api/                      # Vercel serverless functions
-│   ├── signup.js             # User registration + email notifications
-│   ├── login.js              # Email-based authentication
-│   ├── dashboard.js          # User dashboard data
-│   ├── forgot-password.js    # Password reset request
-│   ├── reset-password.js     # Password reset execution
-│   └── users.js              # User storage module (Supabase + fallback)
-│
-├── index.html                # Main marketing landing page
-├── pricing.html              # Pricing tiers page
-├── signup.html               # Account creation
-├── login.html                # Login page
-├── dashboard.html            # User dashboard
-├── success.html              # Post-payment success
-├── cancel.html               # Payment cancellation
-├── forgot-password.html      # Password recovery
-├── reset-password.html       # Password reset form
-│
-├── public/                   # Additional static pages
-│   ├── index.html
-│   ├── pricing.html
-│   ├── signup.html
-│   ├── bakery-pro.html
-│   ├── realtor-pro.html
-│   └── lawyer-template/      # Multi-page lawyer template
-│
-├── Demo Sites                # Industry-specific landing page demos
-│   ├── bakery-basic.html     # Basic tier demo
-│   ├── bakery-pro.html       # Pro tier demo
-│   ├── barber-demo.html
-│   ├── coffee-demo.html
-│   ├── doctor-demo.html
-│   ├── fitness-demo.html
-│   ├── auto-demo.html
-│   ├── tattoo-demo.html
-│   └── realtor-pro.html
-│
-├── src/                      # React source files
-│   ├── App.js                # React application component
-│   └── index.js              # React entry point
-│
-├── build/                    # React build output
-├── static/                   # Static JS bundles
-│
-├── create-tables.sql         # Database schema (Supabase)
-└── docs/
-    └── seo-conversion-plan.md # SEO checklist and optimization tasks
+```sh
+node --env-file=.env server.js
 ```
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18+ installed
-- Stripe account configured
-- Supabase project created (or use Vercel KV/in-memory)
-- Anthropic API key (for AI features)
-- Resend API key (for email features)
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone <your-repo-url>
-   cd Edge-landings
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Set up environment variables:**
-   Create a `.env` file in the root directory with the required variables (see [Environment Variables](#environment-variables))
-
-4. **Run database migrations:**
-   Execute `create-tables.sql` in your Supabase project to create required tables.
-
-5. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
-   
-   The server will start at `http://localhost:3000` (or your configured port).
-
----
-
-## 🌐 Deployment
-
-### Deploy to Vercel
-
-1. **Push your code to GitHub**
-
-2. **Import your repository in Vercel**
-
-3. **Configure environment variables** in Vercel dashboard
-
-4. **Deploy:**
-   ```bash
-   vercel
-   ```
-
-See detailed setup guides:
-- [COMPLETE_SETUP.md](./COMPLETE_SETUP.md)
-- [DATABASE_SETUP.md](./DATABASE_SETUP.md)
-- [STRIPE_SETUP.md](./STRIPE_SETUP.md)
-- [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)
-- [EMAIL_SETUP.md](./EMAIL_SETUP.md)
-- [VERCEL_CONFIG.md](./VERCEL_CONFIG.md)
-
----
-
-## 🔌 API Endpoints
-
-### Server Routes (`server.js`)
-
-| Route | Method | Description |
-|---|---|---|
-| `/` | GET | Main landing page |
-| `/pricing.html` | GET | Pricing tiers page |
-| `/create-checkout-session` | POST | Create Stripe checkout session |
-| `/create-portal-session` | POST | Create Stripe billing portal session |
-| `/api/login` | POST | User authentication |
-| `/api/dashboard` | POST | User dashboard data |
-| `/api/claude` | POST | Claude AI proxy endpoint |
-| `/api/test` | GET | Health check |
-| `/webhook` | POST | Stripe webhook handler |
-
-### Serverless Functions (`api/`)
-
-| Endpoint | Description |
-|---|---|
-| `/api/signup` | Create user account + send welcome emails |
-| `/api/login` | Authenticate user credentials |
-| `/api/dashboard` | Fetch user subscription data |
-| `/api/forgot-password` | Request password reset |
-| `/api/reset-password` | Execute password reset |
-
----
-
-## 🔐 Environment Variables
-
-Create a `.env` file with these variables:
-
-```env
-# Stripe Configuration
-STRIPE_SECRET_KEY=sk_live_your_key_here
-STRIPE_WEBHOOK_SECRET=whsec_your_key_here
-STRIPE_PRICE_BASIC=price_id_basic
-STRIPE_PRICE_PRO=price_id_pro
-STRIPE_PRICE_PRO_LEADS=price_id_pro_leads
-STRIPE_PRICE_LEADS_ONLY=price_id_leads_only
-STRIPE_PRICE_BASIC_LEADS=price_id_basic_leads
-
-# Supabase Database
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your_service_role_key
-
-# OR Vercel KV (alternative to Supabase)
-KV_REST_API_URL=your_kv_url
-KV_REST_API_TOKEN=your_kv_token
-
-# Anthropic AI
-ANTHROPIC_API_KEY=sk-ant-your_key
-
-# Email (Resend)
-RESEND_API_KEY=re_your_key
-
-# Frontend URL
-VERCEL_URL=https://your-project.vercel.app
-```
-
----
-
-## 🗄️ Database Setup
-
-### Supabase Tables
-
-Run the SQL in `create-tables.sql` in your Supabase SQL editor to create:
-
-- `users` table — Stores user accounts
-- `reset_tokens` table — Password reset tokens
-
-See [DATABASE_SETUP.md](./DATABASE_SETUP.md) for detailed instructions.
-
----
-
-## 💳 Stripe Integration
-
-### Setup Steps
-
-1. **Create Products & Prices:**
-   - Basic: $59/month
-   - Pro: $99/month
-   - Pro + Leads: $159/month
-   - Leads Only: $79/month
-   - Basic + Leads: $119/month
-
-2. **Configure Webhooks:**
-   - Endpoint: `https://your-domain.com/webhook`
-   - Events: `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`
-
-3. **Add Price IDs to Environment Variables:**
-   - `STRIPE_PRICE_BASIC`
-   - `STRIPE_PRICE_PRO`
-   - `STRIPE_PRICE_PRO_LEADS`
-   - `STRIPE_PRICE_LEADS_ONLY`
-   - `STRIPE_PRICE_BASIC_LEADS`
-
-See [STRIPE_SETUP.md](./STRIPE_SETUP.md) for complete setup instructions.
-
----
-
-## 🎨 Demo Sites
-
-Live demos to show prospective clients what their site could look like:
-
-| Tier | URL | Features |
-|---|---|---|
-| **Basic** | `/bakery-basic.html` | 1-page site, contact form, mobile-responsive |
-| **Pro** | `/bakery-pro.html` | 5 pages, SEO, booking calendar, email capture, carousel |
-| **Realtor Pro** | `/realtor-pro.html` | Real estate focused Pro-tier template |
-| **Barber** | `/barber-demo.html` | Barber shop demo |
-| **Coffee** | `/coffee-demo.html` | Coffee shop demo |
-| **Auto** | `/auto-demo.html` | Auto shop demo |
-| **Doctor** | `/doctor-demo.html` | Medical practice demo |
-| **Fitness** | `/fitness-demo.html` | Gym/fitness demo |
-| **Tattoo** | `/tattoo-demo.html` | Tattoo studio demo |
-
-See [DEMO_LINKS.md](./DEMO_LINKS.md) for more details.
-
----
-
-## 🤖 Website Generation Prompt
-
-Use this prompt with Claude or Grok to generate new industry-specific websites:
-
-```
-"Create a modern, high-converting one-page website using Tailwind CSS for a [INDUSTRY] company in Nashville. Use the package features. Make it look professional and trustworthy with strong headlines and a clear call-to-action. Include a contact form."
-```
-
-**Usage:**
-- Replace `[INDUSTRY]` with: Roofing, HVAC, Plumbing, Bakery, etc.
-- Replace `[TIER]` with: Basic, Pro, or Elite
-
-**Examples:**
-- "Create a modern, high-converting one-page website using Tailwind CSS for a **Roofing** company in Nashville..."
-- "Create a modern, high-converting one-page website using Tailwind CSS for an **HVAC** company in Nashville..."
-
----
-
-## 📚 Documentation
-
-Additional documentation files in the root directory:
-
-| File | Purpose |
-|---|---|
-| [COMPLETE_SETUP.md](./COMPLETE_SETUP.md) | All-in-one setup guide with copy-paste code |
-| [DATABASE_SETUP.md](./DATABASE_SETUP.md) | Vercel KV (Redis) database setup |
-| [STRIPE_SETUP.md](./STRIPE_SETUP.md) | Stripe account and webhook configuration |
-| [STRIPE_PROMO_SETUP.md](./STRIPE_PROMO_SETUP.md) | Promotional/discount configuration |
-| [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) | Supabase PostgreSQL configuration |
-| [EMAIL_SETUP.md](./EMAIL_SETUP.md) | Email service (Resend) configuration |
-| [VERCEL_CONFIG.md](./VERCEL_CONFIG.md) | Vercel project configuration |
-| [VERCEL_404_FIX.md](./VERCEL_404_FIX.md) | Troubleshooting 404 errors |
-| [VERCEL_PROJECT_CHECKLIST.md](./VERCEL_PROJECT_CHECKLIST.md) | Deployment checklist |
-| [FIX_API_KEY.md](./FIX_API_KEY.md) | API key troubleshooting |
-| [FIX_PRODUCTION_OVERRIDES.md](./FIX_PRODUCTION_OVERRIDES.md) | Production environment fixes |
-| [FIND_SETTINGS.md](./FIND_SETTINGS.md) | Settings location guide |
-| [CLEAN_START.md](./CLEAN_START.md) | Clean start instructions |
-| [FRESH_START.md](./FRESH_START.md) | Fresh start guide |
-| [API_TEST_GUIDE.md](./API_TEST_GUIDE.md) | API endpoint testing guide |
-| [DEMO_LINKS.md](./DEMO_LINKS.md) | Live demo site links |
-| [deploy.md](./deploy.md) | Quick deployment options |
-| [webhook-setup.md](./webhook-setup.md) | Stripe webhook setup |
-
----
-
-## 📝 License
-
-MIT License © Brice Leasure
-
----
-
-## 🤝 Support
-
-For issues, questions, or contributions, open an issue on GitHub or contact the development team.
-
----
-
-<div align="center">
-
-**Built with ❤️ for local businesses**
-
-</div>
+`npm start` uses environment variables already provided by your shell or host.
+`npm test` runs the JavaScript suite. The static pages work without external
+credentials; checkout, onboarding, and contact delivery require configuration.
+
+## Structure
+
+- `site/`: the only browser-served directory; pages, demos, CSS, and browser JS.
+- `server.js`: Express app, checkout, onboarding, contact, and website audit.
+- `api/`: Stripe signature handler and authenticated internal catalog endpoint.
+- `lib/`: email formatting, website audits, catalog, and estimation logic.
+- `test/`: JavaScript tests, including the public-file security boundary.
+- `service-catalog.sql`: current Supabase catalog schema and plan seed data.
+- `lead_scraper/`, `dashboard.py`, `templates/`, `scripts/`, `tests/`: separate
+  internal Python lead-research tools. See `lead_scraper/README.md`.
+- `archive/`: recoverable legacy pages, account code, builds, and documentation.
+  Excluded from deployment and never publicly served.
+
+## Configuration
+
+Use `.env.example` for the complete variable list. Checkout needs `APP_URL`,
+`STRIPE_SECRET_KEY`, and `STRIPE_PRICE_MAP`. Onboarding and contact use
+`EMAIL_API_KEY`, `EMAIL_FROM`, and `OWNER_EMAIL`. Configure the Stripe webhook
+with `STRIPE_WEBHOOK_SECRET`. Catalog storage uses `SUPABASE_URL` and
+`SUPABASE_SERVICE_ROLE_KEY`. Internal catalog jobs require
+`ESTIMATOR_WEBHOOK_SECRET` and `CRON_SECRET`.
+
+The obsolete Google Sheets account integration has been retired. Onboarding
+is delivered by email and its completion status is recorded in Stripe metadata.
+Customer replies go to `OWNER_EMAIL`. There is no customer login or dashboard.
+
+## Public routes
+
+- `POST /api/create-checkout-session`: server-selected Basic or Growth price.
+- `POST /api/onboarding`: requires a verified completed checkout and matching email.
+- `POST /api/contact`: sends a validated inquiry to the owner.
+- `POST /api/site-audit`: audits a public website URL.
+- `POST /api/webhook`: verifies Stripe signatures over the original request body.
+- `GET /api/health`: configuration readiness, not an external-service health test.
+- `/api/catalog-webhook`: authenticated internal estimates and scheduled refresh.
+
+Vercel routes all requests through Express so HTML receives the same security
+headers and static-file boundary. The build explicitly includes `site/**`.
+See `PRODUCTION_CHECKLIST.md` for configuration and a live checkout/email test.
+
+Contact and audit rate limits are per-process safeguards. A distributed rate
+limiter is needed if sustained abuse or multi-instance traffic warrants it.
+Live payment, email delivery, and third-party account access must be verified
+in the configured environment; passing local tests does not establish these.

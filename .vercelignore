@@ -8,4 +8,14 @@ node_modules/
 .env.local
 *.log
 .DS_Store
-
+archive/
+lead_scraper/
+templates/
+tests/
+test/
+scripts/
+runs/
+logs/
+.venv/
+__pycache__/
+.pytest_cache/

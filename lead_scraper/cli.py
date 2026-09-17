@@ -8,25 +8,37 @@ import sys
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 
 from .audit import SiteAuditor, bucket_for
 from .config import Settings
+from .connectors import connector_for
 from .database import LeadDatabase
+from .intelligence import build_master_records
 from .models import Business
-from .places import PlacesClient, estimated_cost
+from .outreach import TemplatePerformance, build_draft, preferred_channel
+from .places import estimated_cost
 from .pricing import build_tiers, recommended_tier
-from .raw_discovery import DiscoveryError, RawDiscoveryClient
+from .raw_discovery import DiscoveryError
 
 LOG = logging.getLogger(__name__)
+SIGNAL_COLUMNS = [
+    "signal_google_profile", "signal_website", "signal_phone", "signal_email", "signal_social",
+    "signal_state_registration", "signal_professional_license", "signal_chamber", "signal_bbb",
+    "signal_yelp", "signal_angi", "signal_houzz", "signal_thumbtack", "signal_recent_permit",
+]
 CSV_COLUMNS = [
     "rank", "score", "business_name", "category", "city", "phone", "email", "website", "bucket",
-    "top_flaw", "all_flaws", "rating", "review_count", "outreach_channel",
-    "google_maps_url", "place_id", "scanned_at", "data_source", "website_evidence",
+    "top_flaw", "all_flaws", "rating", "review_count", "outreach_channel", "contact_form_url",
+    "facebook_url", "instagram_url", "linkedin_url", "contact_evidence",
+    "google_maps_url", "place_id", "scanned_at", "scanned_date", "scanned_time",
+    "scanned_timezone", "data_source", "website_evidence",
     "score_scale", "recommended_tier", "quick_win_price", "quick_win_target",
     "solid_rebuild_price", "solid_rebuild_target", "full_modernization_price",
-    "full_modernization_target",
+    "full_modernization_target", "opportunity_score", "confidence_score", "gap_flags",
+    "source_count", "source_ids", *SIGNAL_COLUMNS,
 ]
 
 
@@ -103,7 +115,7 @@ def confirm_cost(cost: float, threshold: float, assume_yes: bool) -> None:
 
 async def run(args: argparse.Namespace, settings: Settings) -> list[Business]:
     niches = load_niches(args)
-    use_google = args.source == "google" or (args.source == "auto" and bool(settings.api_key))
+    use_google = args.source == "google"
     if use_google:
         cost = estimated_cost(args.max_results, len(niches), settings.text_search_cost_per_1000,
                               settings.details_cost_per_1000)
@@ -111,26 +123,15 @@ async def run(args: argparse.Namespace, settings: Settings) -> list[Business]:
     else:
         print("Discovery source: OpenStreetMap (no API key or Places charge).")
     db = LeadDatabase(settings.database_path)
-    places = PlacesClient(settings.api_key, settings.timeout_seconds) if use_google else None
-    raw = RawDiscoveryClient(settings.timeout_seconds, settings.user_agent) if not use_google else None
+    connector = connector_for(args.source, settings)
     auditor = SiteAuditor(args.concurrency, settings.timeout_seconds, settings.user_agent)
     leads: list[Business] = []
     try:
         for niche in niches:
-            # Including the requested radius in the query lets Places resolve the named
-            # location without a second geocoding API/SKU.
-            query = f"{niche} within {args.radius:g} miles"
-            if places:
-                ids = await places.search(query, args.location, args.radius, args.max_results)
-                new_ids = [place_id for place_id in ids if not db.seen(place_id)]
-                details = await asyncio.gather(*(places.details(place_id) for place_id in new_ids))
-            else:
-                discovered = await raw.discover(args.location, args.radius, args.max_results)
-                ids = [b.place_id for b in discovered]
-                details = [b for b in discovered if not db.seen(b.place_id)]
-                new_ids = [b.place_id for b in details]
-            LOG.info("discovery_complete: niche=%s found=%d new=%d", niche, len(ids), len(new_ids))
-            resolved = [b for b in details if b]
+            resolved = await connector.discover(
+                niche, args.location, args.radius, args.max_results, seen=db.seen
+            )
+            LOG.info("discovery_complete: connector=%s niche=%s new=%d", connector.policy.slug, niche, len(resolved))
             businesses = [b for b in resolved if b.business_status == "OPERATIONAL"]
             for dropped in (b for b in resolved if b.business_status != "OPERATIONAL"):
                 dropped.bucket = "DROPPED_NON_OPERATIONAL"
@@ -161,27 +162,37 @@ async def run(args: argparse.Namespace, settings: Settings) -> list[Business]:
                 db.save(business)
             leads.extend(businesses)
     finally:
-        if places:
-            await places.close()
-        if raw:
-            await raw.close()
+        await connector.close()
         await auditor.close()
         db.close()
-    return leads
+    return build_master_records(leads)
 
 
 def pitch_for(business: Business) -> str:
-    flaw = business.flaws[0] if business.flaws else "website issue"
-    return (
-        f"I noticed that {business.name}'s website is {flaw}. "
-        "That can make it harder for local customers to choose and contact your business. "
-        "I design straightforward local-business sites and would be happy to show you what I would improve."
-    )
+    draft = build_draft(business)
+    return draft.body if draft else ""
+
+
+def export_timestamp(value: str) -> dict[str, str]:
+    try:
+        parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        central = parsed.astimezone(ZoneInfo("America/Chicago"))
+    except (TypeError, ValueError):
+        return {"scanned_at": value or "", "scanned_date": "", "scanned_time": "", "scanned_timezone": "CT"}
+    clock = central.strftime("%I:%M %p").lstrip("0")
+    return {"scanned_at": f"{central:%m/%d/%Y} {clock} CT",
+            "scanned_date": central.strftime("%m/%d/%Y"), "scanned_time": clock,
+            "scanned_timezone": "CT"}
 
 
 def export(leads: list[Business], output: Path, max_score: int, with_pitch: bool) -> pd.DataFrame:
+    if any(not business.source_ids for business in leads):
+        leads = build_master_records(leads)
     qualified = [b for b in leads if b.score <= max_score]
     rows = []
+    performance = TemplatePerformance(output.parent / "outreach-performance.db") if with_pitch else None
     for b in qualified:
         row = {
             "business_name": b.name, "category": b.category, "city": b.city,
@@ -189,12 +200,24 @@ def export(leads: list[Business], output: Path, max_score: int, with_pitch: bool
             "website": b.website, "bucket": b.bucket, "score": b.score,
             "top_flaw": b.flaws[0] if b.flaws else "", "all_flaws": "|".join(b.flaws),
             "rating": b.rating,
-            "review_count": ("" if b.data_source == "OpenStreetMap" else b.review_count),
-            "outreach_channel": b.outreach_channel, "google_maps_url": b.google_maps_url,
-            "place_id": b.place_id, "scanned_at": b.scanned_at,
+            "review_count": ("" if set(b.source_ids) == {"osm"} else b.review_count),
+            "outreach_channel": preferred_channel(b), "contact_form_url": b.contact_form_url,
+            "facebook_url": b.facebook_url, "instagram_url": b.instagram_url,
+            "linkedin_url": b.linkedin_url, "contact_evidence": "|".join(b.contact_evidence),
+            "google_maps_url": b.google_maps_url,
+            "place_id": b.place_id,
             "data_source": b.data_source, "website_evidence": b.website_evidence,
             "score_scale": "0=worst, 100=excellent",
+            "opportunity_score": b.opportunity_score,
+            "confidence_score": b.confidence_score,
+            "gap_flags": "|".join(b.gap_flags),
+            "source_count": len(b.source_ids),
+            "source_ids": json.dumps(b.source_ids, sort_keys=True),
         }
+        row.update(export_timestamp(b.scanned_at))
+        for column in SIGNAL_COLUMNS:
+            value = b.signals.get(column.removeprefix("signal_"))
+            row[column] = "yes" if value is True else "no" if value is False else "unknown"
         _, tiers = build_tiers(b.score, b.flaws, b.category)
         row.update({
             "recommended_tier": recommended_tier(b.score),
@@ -203,16 +226,27 @@ def export(leads: list[Business], output: Path, max_score: int, with_pitch: bool
             "full_modernization_price": tiers[2].price,
             "full_modernization_target": tiers[2].projected_health,
         })
-        if with_pitch and b.emails:
-            row["pitch_line"] = pitch_for(b)
-        elif with_pitch:
-            row["pitch_line"] = ""
+        if with_pitch:
+            draft = build_draft(b, performance)
+            row.update({
+                "outreach_template_id": draft.template_id if draft else "",
+                "outreach_subject": draft.subject if draft else "",
+                "outreach_script": draft.body if draft else "",
+                "outreach_pain_points": "|".join(draft.pain_points) if draft else "",
+                "pitch_line": draft.body if draft else "",
+            })
         rows.append(row)
-    columns = CSV_COLUMNS + (["pitch_line"] if with_pitch else [])
+    if performance:
+        performance.close()
+    columns = CSV_COLUMNS + (["outreach_template_id", "outreach_subject", "outreach_script",
+                              "outreach_pain_points", "pitch_line"] if with_pitch else [])
     frame = pd.DataFrame(rows, columns=columns)
     if not frame.empty:
         frame["_review_sort"] = pd.to_numeric(frame["review_count"], errors="coerce").fillna(0)
-        frame = frame.sort_values(["score", "_review_sort"], ascending=[True, False]).drop(columns=["_review_sort"])
+        frame = frame.sort_values(
+            ["opportunity_score", "confidence_score", "score", "_review_sort"],
+            ascending=[False, False, True, False],
+        ).drop(columns=["_review_sort"])
         frame["rank"] = range(1, len(frame) + 1)
     output.parent.mkdir(parents=True, exist_ok=True)
     frame.to_csv(output, index=False)
@@ -237,8 +271,10 @@ def main() -> None:
     if not 0 <= args.max_score <= 100 or args.radius <= 0 or args.max_results <= 0 or args.concurrency <= 0:
         raise SystemExit("Scores must be 0-100; radius, max-results, and concurrency must be positive.")
     settings = Settings.load()
-    if args.source == "google" and not settings.api_key:
-        raise SystemExit("Google source requires GOOGLE_PLACES_API_KEY; use --source osm for no-key discovery.")
+    if args.source == "google":
+        raise SystemExit(
+            "Google Places cannot feed durable master-record exports in this build; use --source osm."
+        )
     log_path = configure_logging(settings.log_directory, args.verbose)
     try:
         leads = asyncio.run(run(args, settings))

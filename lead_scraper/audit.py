@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 import random
 import re
@@ -227,14 +228,63 @@ class SiteAuditor:
                 soups.append((BeautifulSoup(result[0].text, "html.parser"), str(result[0].url)))
         emails: set[str] = set()
         forms: list[str] = []
+        phones: list[str] = []
+        social: dict[str, str] = {}
         for soup, page_url in soups:
             for link in soup.select('a[href^="mailto:"]'):
                 emails.add(link.get("href", "")[7:].split("?", 1)[0].strip().lower())
             emails.update(e.lower().rstrip(".") for e in EMAIL_RE.findall(soup.get_text(" ")))
+            for link in soup.select('a[href^="tel:"]'):
+                phones.append(link.get("href", "")[4:].strip())
+            for link in soup.select("a[href]"):
+                href = urljoin(page_url, link.get("href", ""))
+                host = (urlparse(href).hostname or "").lower().removeprefix("www.")
+                for network in ("facebook", "instagram", "linkedin"):
+                    if host == f"{network}.com" or host.endswith(f".{network}.com"):
+                        social.setdefault(network, href)
+            for script in soup.select('script[type="application/ld+json"]'):
+                try:
+                    payload = json.loads(script.string or "null")
+                except (TypeError, ValueError):
+                    continue
+                stack = payload if isinstance(payload, list) else [payload]
+                while stack:
+                    item = stack.pop()
+                    if isinstance(item, list):
+                        stack.extend(item)
+                    elif isinstance(item, dict):
+                        stack.extend(value for value in item.values() if isinstance(value, (dict, list)))
+                        email = str(item.get("email", "")).removeprefix("mailto:").strip().lower()
+                        if email and EMAIL_RE.fullmatch(email):
+                            emails.add(email)
+                        telephone = str(item.get("telephone", "")).strip()
+                        if telephone:
+                            phones.append(telephone)
+                        same_as = item.get("sameAs", [])
+                        for href in ([same_as] if isinstance(same_as, str) else same_as if isinstance(same_as, list) else []):
+                            host = (urlparse(str(href)).hostname or "").lower().removeprefix("www.")
+                            for network in ("facebook", "instagram", "linkedin"):
+                                if host == f"{network}.com" or host.endswith(f".{network}.com"):
+                                    social.setdefault(network, str(href))
             for form in soup.find_all("form"):
                 forms.append(urljoin(page_url, form.get("action") or page_url))
-        business.emails = sorted((e for e in emails if e), key=email_priority)
-        business.contact_form_url = forms[0] if forms else ""
+        # Refreshes may encounter a temporary timeout or a changed page. Never
+        # erase contact details that were confirmed by an earlier successful
+        # scan merely because the current request yielded less information.
+        business.emails = sorted({*business.emails, *(e for e in emails if e)}, key=email_priority)
+        business.contact_form_url = forms[0] if forms else business.contact_form_url
+        if not business.phone and phones:
+            business.phone = phones[0]
+        business.facebook_url = social.get("facebook", business.facebook_url)
+        business.instagram_url = social.get("instagram", business.instagram_url)
+        business.linkedin_url = social.get("linkedin", business.linkedin_url)
+        business.contact_evidence = list(dict.fromkeys([
+            *business.contact_evidence,
+            *(["business website email"] if business.emails else []),
+            *(["business website contact form"] if business.contact_form_url else []),
+            *(["business website phone"] if phones else []),
+            *(["business website social link"] if social else []),
+        ]))
         business.outreach_channel = "email" if business.emails else ("form" if forms else "call")
 
 

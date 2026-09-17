@@ -63,3 +63,13 @@ Complete these dashboard tasks after the code is deployed. Never paste secret va
 6. In Stripe, confirm the Checkout Session contains `onboarding_status=complete` metadata.
 7. In Vercel, click **Logs** and confirm there are no errors for the checkout, onboarding, or webhook requests.
 8. Repeat steps 2-7 with Stripe live keys and a real low-risk payment before announcing the service.
+
+## Public site and inquiry check
+
+- Confirm /server.js, /README.md, /api/login.js, and /archive/legacy/index.html return 404.
+- Open Home, Examples, Pricing, Contact, and all demo links on desktop and mobile.
+- Send an inquiry through Contact and confirm delivery to OWNER_EMAIL and a working reply-to address.
+- Test a failed contact delivery; the form must display an error, not success.
+- Reply to the onboarding confirmation and verify the reply reaches OWNER_EMAIL.
+- Review the published plan scope and cancellation process before accepting orders.
+- Public assets are in site/; archived files must remain excluded from deployment.
