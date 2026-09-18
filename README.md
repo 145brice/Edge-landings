@@ -1,6 +1,11 @@
 ﻿# Edge Landings
 
-A subscription website service for local businesses. The public offer is Basic
+The umbrella brand for websites and business tools. The root homepage is a
+project hub; `site/websites.html` holds the website-service homepage and is
+served at the root of `websites.edgelandings.com` once connected to Vercel.
+See `docs/domain-setup.md` for the remaining DNS and application setup.
+
+The website offer is Basic
 at $99/month and Growth at $199/month. Customers pay at checkout, complete
 onboarding, review a draft, and approve launch.
 

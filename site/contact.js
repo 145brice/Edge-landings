@@ -1,3 +1,6 @@
+const project = new URLSearchParams(location.search).get('project');
+const projectNames = {tax:'Edge Tax Research',leads:'Edge Leads',websites:'Edge Websites'};
+if (projectNames[project]) document.querySelector('[name="message"]').value = 'I am interested in '+projectNames[project]+'.\n\n';
 const form = document.getElementById('contact-form');
 const status = document.getElementById('contact-status');
 form.addEventListener('submit', async (event) => {
