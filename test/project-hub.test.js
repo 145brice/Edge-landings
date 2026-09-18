@@ -12,7 +12,8 @@ test('main hosts show the hub while the website subdomain keeps its own homepage
    const result=await read(host);assert.equal(result.status,200);assert.match(result.body,/Independent projects/);assert.doesNotMatch(result.body,/audit-form/);
   }
   for(const path of ['/','/index.html','/websites.html']){
-   const result=await read('websites.edgelandings.com',path);assert.equal(result.status,200);assert.match(result.body,/A professional website, kept current/);assert.match(result.body,/audit-form/);assert.match(result.body,/Explore all projects/);
+   const result=await read('websites.edgelandings.com',path);assert.equal(result.status,200);assert.match(result.body,/A professional website, kept current/);assert.match(result.body,/audit-form/);assert.match(result.body,/aria-label="Edge Landings projects"/);
+   assert.ok(result.body.includes('href="https://www.edgelandings.com/"'));
   }
   assert.match((await read('www.edgelandings.com','/websites.html')).body,/audit-form/);
   for(const path of ['/pricing.html','/templates.html','/contact.html','/tax.html','/leads.html','/hub.css']) assert.equal((await read('www.edgelandings.com',path)).status,200);
