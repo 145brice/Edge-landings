@@ -26,6 +26,7 @@ records in IONOS > edgelandings.com > DNS > Add record > CNAME:
 | --- | --- |
 | tax | mjviqtdx.up.railway.app |
 | leads | uo1dpagk.up.railway.app |
+| processor | dt2tn3x1.up.railway.app |
 
 Leave TTL at the default. Railway returned no additional verification record
 for these domain creations. Follow Railway's domain status if additional
@@ -58,3 +59,8 @@ This repository cannot add cross-project branding or back links to other
 apps; those edits belong in each app's own repository. Other Railway services
 are not listed publicly until their purpose and customer-facing readiness are
 confirmed.
+
+Processor Assistant is linked to 145brice/Processor-Assistant on main and
+uses port 8080. Its custom domain has been attached. Confirm its public URL
+settings and test sign-in/billing after DNS verification. The hub links to
+/processor.html until processor.edgelandings.com is ready.
