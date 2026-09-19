@@ -1,4 +1,4 @@
-﻿# Edge Landings
+# Edge Landings
 
 The umbrella brand for websites and business tools. The root homepage is a
 project hub; `site/websites.html` holds the website-service homepage and is
@@ -6,7 +6,7 @@ served at the root of `websites.edgelandings.com` once connected to Vercel.
 See `docs/domain-setup.md` for the remaining DNS and application setup.
 
 The beta website offer is Basic
-at $49.50/month (regularly $99) and Growth at $99.50/month (regularly $199). Customers pay at checkout, complete
+at $49/month (regularly $99) and Growth at $99/month (regularly $199). Customers pay at checkout, complete
 onboarding, review a draft, and approve launch.
 
 ## Current scope

@@ -11,7 +11,7 @@ const paidSession = {
 
 test('checkout parameters use only server configuration', () => {
   const params = checkoutSessionParams(PLANS.growth);
-  assert.equal(params.line_items[0].price_data.unit_amount, 9950);
+  assert.equal(params.line_items[0].price_data.unit_amount, 9900);
   assert.equal(params.line_items[0].price_data.recurring.interval, 'month');
   assert.equal(params.metadata.plan_slug, 'growth');
   assert.equal(params.success_url, 'https://example.test/success.html?session_id={CHECKOUT_SESSION_ID}');
@@ -21,8 +21,8 @@ test('checkout parameters use only server configuration', () => {
 test('each plan carries its own server-controlled checkout metadata', () => {
   const basic = checkoutSessionParams(PLANS.basic);
   const growth = checkoutSessionParams(PLANS.growth);
-  assert.equal(basic.line_items[0].price_data.unit_amount, 4950);
-  assert.equal(growth.line_items[0].price_data.unit_amount, 9950);
+  assert.equal(basic.line_items[0].price_data.unit_amount, 4900);
+  assert.equal(growth.line_items[0].price_data.unit_amount, 9900);
   assert.equal(basic.metadata.service, 'Edge Landings Basic');
   assert.equal(growth.metadata.service, 'Edge Landings Growth');
 });

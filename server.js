@@ -53,8 +53,8 @@ function leadStats(leads, now = new Date(), timeZone = 'America/Chicago') {
 
 const PORT = process.env.PORT || 3000;
 const PLANS = {
-  basic: { slug: 'basic', name: 'Edge Landings Basic', betaPriceCents: 4950 },
-  growth: { slug: 'growth', name: 'Edge Landings Growth', betaPriceCents: 9950 },
+  basic: { slug: 'basic', name: 'Edge Landings Basic', betaPriceCents: 4900 },
+  growth: { slug: 'growth', name: 'Edge Landings Growth', betaPriceCents: 9900 },
 };
 const MAX_FIELD_LENGTH = 5000;
 const auditRequests = new Map();
