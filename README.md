@@ -5,8 +5,8 @@ project hub; `site/websites.html` holds the website-service homepage and is
 served at the root of `websites.edgelandings.com` once connected to Vercel.
 See `docs/domain-setup.md` for the remaining DNS and application setup.
 
-The website offer is Basic
-at $99/month and Growth at $199/month. Customers pay at checkout, complete
+The beta website offer is Basic
+at $49.50/month (regularly $99) and Growth at $99.50/month (regularly $199). Customers pay at checkout, complete
 onboarding, review a draft, and approve launch.
 
 ## Current scope

@@ -18,8 +18,8 @@ Complete these dashboard tasks after the code is deployed. Never paste secret va
 1. Sign in to Stripe and turn on **Test mode**.
 2. Click **Product catalog**, then **Add product**.
 3. Name the first product `Edge Landings Basic`.
-4. Set pricing to **Recurring**, **Monthly**, and **$99 USD**, then save and copy its `price_...` ID.
-5. Create `Edge Landings Growth` with **Recurring**, **Monthly**, and **$199 USD** pricing, then copy its `price_...` ID.
+4. Set pricing to **Recurring**, **Monthly**, and the beta rate of **$49.50 USD**, then save and copy its `price_...` ID for the internal catalog.
+5. Create `Edge Landings Growth` with **Recurring**, **Monthly**, and the beta rate of **$99.50 USD**, then copy its `price_...` ID for the internal catalog.
 6. Click **Developers**, then **Webhooks**, then **Add endpoint**.
 7. Enter `https://edge-landings.vercel.app/api/webhook`.
 8. Select `checkout.session.completed`, `customer.subscription.updated`, and `customer.subscription.deleted`, then create the endpoint.

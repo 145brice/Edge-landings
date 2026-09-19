@@ -53,8 +53,8 @@ function leadStats(leads, now = new Date(), timeZone = 'America/Chicago') {
 
 const PORT = process.env.PORT || 3000;
 const PLANS = {
-  basic: { slug: 'basic', name: 'Edge Landings Basic' },
-  growth: { slug: 'growth', name: 'Edge Landings Growth' },
+  basic: { slug: 'basic', name: 'Edge Landings Basic', betaPriceCents: 4950 },
+  growth: { slug: 'growth', name: 'Edge Landings Growth', betaPriceCents: 9950 },
 };
 const MAX_FIELD_LENGTH = 5000;
 const auditRequests = new Map();
@@ -80,11 +80,19 @@ function publicBaseUrl() {
   return value;
 }
 
-function checkoutSessionParams(plan, priceId) {
+function checkoutSessionParams(plan) {
   const baseUrl = publicBaseUrl();
   return {
     mode: 'subscription', payment_method_types: ['card'],
-    line_items: [{ price: priceId, quantity: 1 }],
+    line_items: [{
+      price_data: {
+        currency: 'usd',
+        unit_amount: plan.betaPriceCents,
+        recurring: { interval: 'month' },
+        product_data: { name: `${plan.name} — Beta` },
+      },
+      quantity: 1,
+    }],
     success_url: `${baseUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${baseUrl}/pricing.html`, metadata: { service: plan.name, plan_slug: plan.slug },
   };
@@ -258,20 +266,7 @@ function createApp() {
       if (!/^[a-f0-9-]{36}$/i.test(requestId)) return res.status(400).json({ error: 'Please refresh the page and try checkout again.' });
       const plan = PLANS[String(req.body?.planSlug || '')];
       if (!plan) return res.status(400).json({ error: 'Please choose a valid Edge plan.' });
-      const catalog = require('./lib/catalog-store');
-      let priceId;
-      try {
-        priceId = (await catalog.getService(plan.slug))?.price_id;
-      } catch (catalogError) {
-        console.error(`Catalog lookup failed for ${plan.slug}; using validated server mapping:`, catalogError.message);
-      }
-      priceId ||= catalog.configuredPriceMap()[plan.slug];
-      if (!priceId) return res.status(503).json({ error: 'Checkout is not configured yet. Please contact us directly.' });
-      const stripePrice = await stripe.prices.retrieve(priceId);
-      if (!stripePrice.active || stripePrice.currency !== 'usd' || stripePrice.unit_amount !== plan.betaPriceCents || stripePrice.recurring?.interval !== 'month') {
-        return res.status(503).json({ error: 'Checkout pricing is being updated. Please contact us to reserve beta pricing.' });
-      }
-      const session = await stripe.checkout.sessions.create(checkoutSessionParams(plan, priceId), { idempotencyKey: `checkout_${plan.slug}_${requestId}` });
+      const session = await stripe.checkout.sessions.create(checkoutSessionParams(plan), { idempotencyKey: `checkout_${plan.slug}_${requestId}` });
       return res.json({ url: session.url });
     } catch (error) {
       console.error('Checkout session error:', error.message);
