@@ -18,8 +18,9 @@ test('main hosts show the hub while the website subdomain keeps its own homepage
   assert.match((await read('www.edgelandings.com','/websites.html')).body,/audit-form/);
   for(const path of ['/pricing.html','/templates.html','/contact.html','/tax.html','/leads.html','/hub.css']) assert.equal((await read('www.edgelandings.com',path)).status,200);
   const taxPage=(await read('www.edgelandings.com','/tax.html')).body;
-  assert.ok(taxPage.includes('href="https://tax-delinquencies-production.up.railway.app/"'));
-  assert.ok(taxPage.includes('href="https://city-leads-dashboard-production.up.railway.app/"'));
-  assert.ok(taxPage.includes('href="https://processor-assistant-production.up.railway.app/"'));
+  assert.ok(taxPage.includes('href="https://websites.edgelandings.com/"'));
+  assert.ok(taxPage.includes('href="https://tax.edgelandings.com/"'));
+  assert.ok(taxPage.includes('href="https://leads.edgelandings.com/"'));
+  assert.ok(taxPage.includes('href="https://processor.edgelandings.com/"'));
  }finally{await new Promise(resolve=>server.close(resolve));}
 });
