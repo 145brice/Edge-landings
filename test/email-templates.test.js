@@ -1,6 +1,14 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { normalizeEmail, normalizeSender, cleanSubject, ownerOnboardingEmail, customerOnboardingEmail } = require('../lib/email-templates');
+const {
+  normalizeEmail,
+  normalizeSender,
+  cleanSubject,
+  ownerOnboardingEmail,
+  customerOnboardingEmail,
+  ownerProjectIntakeEmail,
+  ownerUpdateEmail,
+} = require('../lib/email-templates');
 
 const safe = { businessName: 'Acme &amp; Co.', ownerName: 'Jamie', email: 'jamie@example.com', phone: '555-0100', existingUrl: '', businessType: 'Contractor', goals: 'More leads', requiredPages: 'Home, Services, Contact', notes: '' };
 const selectedPlan = { name: 'Edge Landings Growth' };
@@ -25,4 +33,25 @@ test('builds formatted owner and customer emails with text fallbacks', () => {
   }
   assert.match(owner.text, /Plan: Edge Landings Growth/);
   assert.match(customer.text, /3 business days/);
+});
+
+test('labels owner notifications by queue and escapes client content', () => {
+  const project = {
+    business_name: '<script>Acme</script>',
+    client_name: 'Jamie',
+    email: 'jamie@example.com',
+    phone: '555-0100',
+    plan_slug: 'basic',
+    site_structure: [{ page: 'Home', sections: ['Hero', 'Contact'] }],
+  };
+  const build = ownerProjectIntakeEmail({ project, portalUrl: 'https://example.com/admin.html' });
+  const update = ownerUpdateEmail({
+    project,
+    request: { section_label: 'Hero', request_type: 'copy', details: '<img src=x onerror=alert(1)>' },
+    ownerPortalUrl: 'https://example.com/admin.html',
+  });
+  assert.match(build.subject, /^\[New Build\]/);
+  assert.match(update.subject, /^\[Update\]/);
+  assert.doesNotMatch(build.html, /<script>Acme<\/script>/);
+  assert.doesNotMatch(update.html, /<img src=x/);
 });

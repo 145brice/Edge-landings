@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Start Your Free Website Draft | Edge Landings</title>
+  <meta name="description" content="Tell Edge Landings what your business website needs. Review a free first draft in your private client portal before you decide whether to purchase.">
+  <link rel="stylesheet" href="/client-workflow.css"><script src="/project-intake.js" defer></script>
+</head>
+<body class="workflow"><div class="shell">
+  <nav class="topbar" aria-label="Primary navigation"><a class="brand" href="https://websites.edgelandings.com/">EDGE LANDINGS</a><div class="toplinks"><a href="https://websites.edgelandings.com/">Websites</a><a href="/templates.html">Examples</a><a href="/pricing.html">Plans</a><a href="/portal-example.html">Portal example</a></div></nav>
+  <header class="hero"><p class="eyebrow">No payment required</p><h1>Tell us what to build. Review it before you buy.</h1><p class="lede">This brief covers the decisions needed to build your first draft. We create the agreed pages and sections, place them in your private portal, and let you request changes against the actual work.</p></header>
+  <form id="project-intake">
+    <input class="trap" name="companyWebsite" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Plan and contact</p><h2>Who are we building for?</h2></div><span class="number">1</span></div><div class="fields">
+      <label>Plan<select name="planSlug" id="plan" required><option value="basic">Basic — one page, up to 6 sections</option><option value="growth">Growth — up to 5 pages</option></select></label>
+      <label>Your name<input name="clientName" autocomplete="name" required></label>
+      <label>Business name<input name="businessName" autocomplete="organization" required></label>
+      <label>Email<input name="email" type="email" autocomplete="email" required><span>Your private portal link is sent here.</span></label>
+      <label>Phone<input name="phone" type="tel" autocomplete="tel" required></label>
+      <label>Business type<input name="businessType" required placeholder="Roofing, law firm, bakery..."></label>
+      <label>Existing website, if any<input name="existingUrl" type="url" placeholder="https://"></label>
+      <label>Domain situation<textarea name="domainNotes" placeholder="I own example.com at IONOS / I need a domain / I am replacing an old site"></textarea></label>
+    </div></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Business and conversion</p><h2>What must the website accomplish?</h2></div><span class="number">2</span></div><div class="fields">
+      <label>Primary goal<textarea name="primaryGoal" required placeholder="Generate estimate requests, book consultations, explain services..."></textarea></label>
+      <label>Ideal customer<textarea name="audience" required placeholder="Who they are, where they are, and what they need"></textarea></label>
+      <label>Services or products<textarea name="services" required placeholder="List the services that need to appear"></textarea></label>
+      <label>Primary action<textarea name="primaryAction" required placeholder="Call, submit a form, book, visit, request a quote..."></textarea></label>
+      <label>Why customers choose you<textarea name="differentiators" required placeholder="Experience, guarantees, process, specialties, location..."></textarea></label>
+      <label>Trust and proof<textarea name="proof" placeholder="Reviews, licenses, awards, years in business, affiliations"></textarea></label>
+      <label>Service area<input name="serviceArea" placeholder="Cities, counties, or online coverage"></label>
+      <label>Hours<input name="hours" placeholder="Business and response hours"></label>
+      <label>Contact details to publish<textarea name="contactDetails" required placeholder="Phone, email, address, booking link"></textarea></label>
+      <label>Competitors or reference sites<textarea name="competitors" placeholder="Links and what you like or dislike"></textarea></label>
+    </div></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Brand and content</p><h2>What should it look and sound like?</h2></div><span class="number">3</span></div><div class="fields">
+      <label>Brand direction<textarea name="brandDirection" required placeholder="Modern and direct, warm and local, premium and minimal..."></textarea></label>
+      <label>Colors<input name="colors" placeholder="Brand colors or colors to explore"></label>
+      <label>What should we avoid?<textarea name="mustAvoid" placeholder="Colors, phrases, imagery, layouts, competitors..."></textarea></label>
+      <label>Logo, photos, and copy link<textarea name="assetLink" required placeholder="Share a Google Drive, Dropbox, or OneDrive folder link. If none, say what needs placeholders."></textarea></label>
+      <label>Social links<textarea name="socialLinks" placeholder="Facebook, Instagram, LinkedIn, YouTube..."></textarea></label>
+      <label>Legal text or required notices<textarea name="legalCopy" placeholder="Privacy language, disclaimers, license numbers"></textarea></label>
+    </div></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Pages and sections</p><h2>Draw the site before we build it.</h2><p class="muted">Each item becomes a real node in your portal. Future changes attach to these exact sections.</p></div><span class="number">4</span></div><div id="page-builder" class="page-builder"></div><div class="actions"><button class="button secondary" type="button" id="add-page">Add another page</button></div></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Visibility and access</p><h2>What do we need for launch and ongoing care?</h2></div><span class="number">5</span></div><div class="fields">
+      <label>Search topics and locations<textarea name="seoTopics" placeholder="What should people search to find you?"></textarea></label>
+      <label>Google tools and profiles<textarea name="analytics" placeholder="Google Business Profile, Analytics, Search Console access or setup needs"></textarea></label>
+      <label>Anything else<textarea name="additionalNotes" placeholder="Deadlines, seasonal offers, special functionality, concerns"></textarea></label>
+    </div><label class="checkline"><input name="contentPermission" type="checkbox" required><span>I confirm that I can provide, own, or authorize the text, logo, photos, and other content submitted for this draft.</span></label></section>
+    <section class="panel"><h2>Submit the brief. Pay nothing today.</h2><p class="muted">You will receive a private portal link. We build the first draft from this scope, you review it and request changes, and payment becomes available only after you approve the draft.</p><button class="button yellow" type="submit">Create my free-draft project</button><p class="status" id="intake-status" role="status" aria-live="polite"></p><div id="portal-result" hidden></div></section>
+  </form>
+  <footer><a href="/portal-example.html">See an example client portal</a> &middot; <a href="/pricing.html">Compare plans</a></footer>
+</div></body></html>

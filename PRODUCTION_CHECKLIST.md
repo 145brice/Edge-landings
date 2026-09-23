@@ -45,6 +45,7 @@ Complete these dashboard tasks after the code is deployed. Never paste secret va
    - `EMAIL_API_KEY` = the Resend production key
    - `EMAIL_FROM` = a sender on the verified domain
    - `OWNER_EMAIL` = the inbox that should receive onboarding details
+   - `OWNER_PORTAL_SECRET` = a unique random value of at least 32 characters for owner sign-in sessions
    - `SUPABASE_URL` = Supabase **Project URL**
    - `SUPABASE_SERVICE_ROLE_KEY` = Supabase service-role secret
    - `ESTIMATOR_WEBHOOK_SECRET` = a unique random value of at least 32 characters
@@ -56,13 +57,23 @@ Complete these dashboard tasks after the code is deployed. Never paste secret va
 ## 5. Run the launch test
 
 1. Open `https://edge-landings.vercel.app/api/health` and confirm `status` is `ok`, `catalog` is `true`, and `scheduledBaselines` is `true`.
-2. Open the pricing page and test **Get Started with Basic**, then repeat with **Get Started with Growth**.
-3. In Stripe test mode, use card `4242 4242 4242 4242`, any future expiration, and any CVC.
-4. Complete the onboarding form.
-5. Confirm the owner and customer emails arrive once.
-6. In Stripe, confirm the Checkout Session contains `onboarding_status=complete` metadata.
-7. In Vercel, click **Logs** and confirm there are no errors for the checkout, onboarding, or webhook requests.
+2. Submit a project brief, add a draft URL in the owner portal, and set the project to `draft_ready`.
+3. Approve the draft from the client portal and start checkout there.
+4. In Stripe test mode, use card `4242 4242 4242 4242`, any future expiration, and any CVC.
+5. Confirm the portal reports payment and the project status becomes `active`.
+6. In Stripe, confirm the Checkout Session contains the matching `project_id` metadata.
+7. In Vercel, click **Logs** and confirm there are no errors for intake, portal, checkout, email, or payment verification.
 8. Repeat steps 2-7 with Stripe live keys and a real low-risk payment before announcing the service.
+
+## Client portal and owner inbox check
+
+1. Run the latest `service-catalog.sql` in Supabase so `client_projects`, `client_change_requests`, and `client_project_messages` exist.
+2. Open `/start-project.html`, submit a test brief, and confirm no payment is requested.
+3. Confirm the client receives a private portal link and `OWNER_EMAIL` receives a `[New Build]` notification.
+4. Open `/admin.html`, request a sign-in link using `OWNER_EMAIL`, and confirm the New Build appears.
+5. Add an HTTPS preview URL, mark its sections ready, and set the project to `draft_ready`.
+6. From the client portal, submit a section change and confirm it appears under Updates and arrives with an `[Update]` email subject.
+7. Approve the draft, complete test checkout, and confirm the portal changes to `active`.
 
 ## Public site and inquiry check
 

@@ -53,15 +53,21 @@ with `STRIPE_WEBHOOK_SECRET`. Catalog storage uses `SUPABASE_URL` and
 `SUPABASE_SERVICE_ROLE_KEY`. Internal catalog jobs require
 `ESTIMATOR_WEBHOOK_SECRET` and `CRON_SECRET`.
 
-The obsolete Google Sheets account integration has been retired. Onboarding
-is delivered by email and its completion status is recorded in Stripe metadata.
-Customer replies go to `OWNER_EMAIL`. There is no customer login or dashboard.
+The obsolete Google Sheets account integration has been retired. Website clients
+complete a pre-payment build brief and receive a private tokenized portal. The
+owner uses an email-link login at `/admin.html`; new builds and updates are kept
+in separate queues. Email sends notifications while the portal remains the
+project record. See `docs/client-portal.md` for setup and workflow details.
 
 ## Public routes
 
-- `POST /api/create-checkout-session`: server-selected Basic or Growth price.
-- `POST /api/onboarding`: requires a verified completed checkout and matching email.
+- `POST /api/create-project-checkout-session`: creates checkout only for an approved portal draft.
+- `POST /api/confirm-project-payment`: verifies an approved project's completed Stripe checkout.
 - `POST /api/contact`: sends a validated inquiry to the owner.
+- `POST /api/project-intake`: creates a no-payment project and private client portal.
+- `GET /api/client-project`: loads a token-authorized project, structure, requests, and messages.
+- `POST /api/change-request`: attaches a client request to an actual built section.
+- `/api/admin/*`: email-link owner login and authenticated build/update management.
 - `POST /api/site-audit`: audits a public website URL.
 - `POST /api/webhook`: verifies Stripe signatures over the original request body.
 - `GET /api/health`: configuration readiness, not an external-service health test.

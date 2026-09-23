@@ -11,7 +11,7 @@ async function withServer(run) {
 
 test('only intended website assets are public', async () => {
   await withServer(async base => {
-    for (const route of ['/', '/pricing.html', '/templates.html', '/contact.html', '/success.html', '/audit.js', '/site.css', '/contact.js', '/demo-preview.js', '/auto-basic.html', '/lawyer-template/index.html', '/lawyer-template/assets/css/style.css']) {
+    for (const route of ['/', '/pricing.html', '/templates.html', '/contact.html', '/success.html', '/start-project.html', '/portal.html', '/portal-example.html', '/admin.html', '/project-intake.js', '/portal.js', '/admin.js', '/client-workflow.css', '/audit.js', '/site.css', '/contact.js', '/demo-preview.js', '/auto-basic.html', '/lawyer-template/index.html', '/lawyer-template/assets/css/style.css']) {
       const response = await fetch(base + route);
       assert.equal(response.status, 200, route);
       assert.ok(response.headers.get('content-security-policy'), route);
@@ -37,4 +37,16 @@ test('contact rejects invalid messages, traps bots, and fails honestly without c
       assert.equal((await post({ name: 'Sam', email: 'sam@example.com', message: 'Can we discuss a website?' })).status, 503);
     });
   } finally { if (prior === undefined) delete process.env.EMAIL_API_KEY; else process.env.EMAIL_API_KEY = prior; }
+});
+
+test('direct checkout is disabled until a client approves a project draft', async () => {
+  await withServer(async base => {
+    const response = await fetch(base + '/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ planSlug: 'basic' }),
+    });
+    assert.equal(response.status, 410);
+    assert.match((await response.json()).error, /build brief/i);
+  });
 });

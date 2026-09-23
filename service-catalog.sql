@@ -26,12 +26,45 @@ create table if not exists completed_jobs (
   classification text not null, quoted_price_cents integer, final_price_cents integer not null,
   estimated_delivery_days integer, actual_delivery_days integer, outcome text not null, completed_at timestamptz not null
 );
+create table if not exists client_projects (
+  id uuid primary key default gen_random_uuid(),
+  portal_token_hash text unique not null,
+  plan_slug text not null check (plan_slug in ('basic','growth')),
+  status text not null default 'intake_received' check (status in ('intake_received','building','draft_ready','changes_requested','approved','active','paused')),
+  client_name text not null, business_name text not null, email text not null, phone text not null,
+  intake jsonb not null default '{}'::jsonb,
+  site_structure jsonb not null default '[]'::jsonb,
+  sections jsonb not null default '[]'::jsonb,
+  preview_url text,
+  approved_at timestamptz, paid_at timestamptz,
+  stripe_customer_id text, stripe_subscription_id text,
+  created_at timestamptz not null default now(), updated_at timestamptz not null default now()
+);
+create index if not exists client_projects_email_idx on client_projects(lower(email));
+create table if not exists client_change_requests (
+  id uuid primary key default gen_random_uuid(), project_id uuid not null references client_projects(id) on delete cascade,
+  section_key text not null, section_label text not null, request_type text not null,
+  details text not null, status text not null default 'requested' check (status in ('requested','reviewing','scheduled','complete','declined')),
+  created_at timestamptz not null default now(), updated_at timestamptz not null default now()
+);
+create index if not exists client_change_requests_project_idx on client_change_requests(project_id,created_at desc);
+create table if not exists client_project_messages (
+  id uuid primary key default gen_random_uuid(), project_id uuid not null references client_projects(id) on delete cascade,
+  sender text not null check (sender in ('client','owner','system')),
+  category text not null check (category in ('new_build','update')),
+  body text not null, section_key text,
+  created_at timestamptz not null default now()
+);
+create index if not exists client_project_messages_project_idx on client_project_messages(project_id,created_at);
 alter table completed_jobs add column if not exists external_event_id text;
 create unique index if not exists completed_jobs_external_event_id_idx on completed_jobs(external_event_id) where external_event_id is not null;
 alter table service_catalog enable row level security;
 alter table market_baselines enable row level security;
 alter table estimate_events enable row level security;
 alter table completed_jobs enable row level security;
+alter table client_projects enable row level security;
+alter table client_change_requests enable row level security;
+alter table client_project_messages enable row level security;
 
 insert into service_catalog (slug,name,description,complexity,suggested_min_cents,suggested_max_cents,actual_price_cents,estimated_delivery_days,keywords)
 values

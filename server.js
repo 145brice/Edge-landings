@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
-const { normalizeEmail, normalizeSender, ownerOnboardingEmail, customerOnboardingEmail } = require('./lib/email-templates');
+const crypto = require('crypto');
+const { normalizeEmail, normalizeSender, ownerOnboardingEmail, customerOnboardingEmail, ownerProjectIntakeEmail, customerProjectIntakeEmail, ownerUpdateEmail, ownerLoginEmail, clientOwnerReplyEmail } = require('./lib/email-templates');
+const projectStore = require('./lib/project-store');
+const { validateIntake, newPortalToken, hashPortalToken, validProjectStatus, validSectionStatus } = require('./lib/project-workflow');
 const { fetchContractorLeads } = require('./lib/reddit-lead-feed');
 const redditLeadSnapshot = require('./data/reddit-contractor-leads.json');
 
@@ -80,7 +83,7 @@ function publicBaseUrl() {
   return value;
 }
 
-function checkoutSessionParams(plan) {
+function checkoutSessionParams(plan, options = {}) {
   const baseUrl = publicBaseUrl();
   return {
     mode: 'subscription', payment_method_types: ['card'],
@@ -93,8 +96,60 @@ function checkoutSessionParams(plan) {
       },
       quantity: 1,
     }],
-    success_url: `${baseUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${baseUrl}/pricing.html`, metadata: { service: plan.name, plan_slug: plan.slug },
+    success_url: options.successUrl || `${baseUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: options.cancelUrl || `${baseUrl}/pricing.html`,
+    metadata: { service: plan.name, plan_slug: plan.slug, ...(options.projectId ? { project_id: options.projectId } : {}) },
+    ...(options.customerEmail ? { customer_email: options.customerEmail } : {}),
+  };
+}
+
+function safeEqual(left, right) {
+  const a = Buffer.from(String(left || ''));
+  const b = Buffer.from(String(right || ''));
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+}
+
+function ownerToken(ttlMs = 15 * 60 * 1000) {
+  if (!process.env.OWNER_PORTAL_SECRET) throw new Error('OWNER_PORTAL_SECRET is not configured.');
+  const payload = Buffer.from(JSON.stringify({ scope: 'owner', exp: Date.now() + ttlMs, nonce: crypto.randomUUID() })).toString('base64url');
+  const signature = crypto.createHmac('sha256', process.env.OWNER_PORTAL_SECRET).update(payload).digest('base64url');
+  return `${payload}.${signature}`;
+}
+
+function validOwnerToken(token) {
+  if (!process.env.OWNER_PORTAL_SECRET || typeof token !== 'string') return false;
+  const [payload, signature] = token.split('.');
+  if (!payload || !signature) return false;
+  const expected = crypto.createHmac('sha256', process.env.OWNER_PORTAL_SECRET).update(payload).digest('base64url');
+  if (!safeEqual(signature, expected)) return false;
+  try {
+    const parsed = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'));
+    return parsed.scope === 'owner' && Number(parsed.exp) > Date.now();
+  } catch { return false; }
+}
+
+function cookies(req) {
+  return Object.fromEntries(String(req.headers.cookie || '').split(';').map((part) => part.trim().split('=').map(decodeURIComponent)).filter(([key, value]) => key && value));
+}
+
+function requireOwner(req, res, next) {
+  if (!validOwnerToken(cookies(req).edge_owner)) return res.status(401).json({ error: 'Owner sign-in is required.' });
+  next();
+}
+
+async function projectFromRequest(req) {
+  const token = String(req.query.token || req.body?.token || '');
+  if (!/^[A-Za-z0-9_-]{40,60}$/.test(token)) return null;
+  return projectStore.getProjectByTokenHash(hashPortalToken(token));
+}
+
+function publicProject(project, requests, messages) {
+  return {
+    id: project.id, planSlug: project.plan_slug, status: project.status,
+    clientName: project.client_name, businessName: project.business_name, email: project.email,
+    intake: project.intake, siteStructure: project.site_structure, sections: project.sections,
+    previewUrl: project.preview_url, approvedAt: project.approved_at, paidAt: project.paid_at,
+    requests, messages, createdAt: project.created_at, updatedAt: project.updated_at,
   };
 }
 
@@ -156,7 +211,7 @@ function createApp() {
   app.get('/leads.html', (req, res) => res.redirect(302, 'https://leads.edgelandings.com/'));
   app.use(express.static(path.join(__dirname, 'site'), { extensions: ['html'], dotfiles: 'deny' }));
   app.get('/api/health', (req, res) => {
-    const required = ['APP_URL', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'EMAIL_API_KEY', 'EMAIL_FROM', 'OWNER_EMAIL', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'STRIPE_PRICE_MAP'];
+    const required = ['APP_URL', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'EMAIL_API_KEY', 'EMAIL_FROM', 'OWNER_EMAIL', 'OWNER_PORTAL_SECRET', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'STRIPE_PRICE_MAP'];
     const missing = required.filter((name) => !process.env[name]);
     return res.status(missing.length ? 503 : 200).json({
       status: missing.length ? 'configuration_required' : 'ok', missing,
@@ -210,6 +265,258 @@ function createApp() {
     }
   });
 
+  app.post('/api/project-intake', async (req, res) => {
+    if (!auditRateAllowed(`intake:${req.ip || 'unknown'}`)) return res.status(429).json({ error: 'Please wait a few minutes before submitting another project.' });
+    if (req.body?.companyWebsite) return res.json({ success: true });
+    if (!process.env.OWNER_EMAIL || !process.env.EMAIL_API_KEY || !process.env.EMAIL_FROM || !process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return res.status(503).json({ error: 'The project portal is being configured. Please contact us directly for now.' });
+    }
+    try {
+      const { plan, intake, siteStructure, sections } = validateIntake(req.body, PLANS);
+      const token = newPortalToken();
+      const project = await projectStore.createProject({
+        portal_token_hash: hashPortalToken(token), plan_slug: plan.slug, status: 'intake_received',
+        client_name: intake.clientName, business_name: intake.businessName, email: intake.email, phone: intake.phone,
+        intake, site_structure: siteStructure, sections,
+      });
+      await projectStore.addMessage({ project_id: project.id, sender: 'system', category: 'new_build', body: 'Complete project brief received. No payment is due while the first draft is prepared.' });
+      const portalUrl = `${publicBaseUrl()}/portal.html?token=${encodeURIComponent(token)}`;
+      const ownerPortalUrl = `${publicBaseUrl()}/admin.html`;
+      let emailDelivered = true;
+      try {
+        const ownerEmail = ownerProjectIntakeEmail({ project, portalUrl: ownerPortalUrl });
+        const clientEmail = customerProjectIntakeEmail({ project, portalUrl });
+        await Promise.all([
+          sendEmail({ ...ownerEmail, to: process.env.OWNER_EMAIL, reply_to: project.email }, `new-build-owner-${project.id}`),
+          sendEmail({ ...clientEmail, to: project.email, reply_to: process.env.OWNER_EMAIL }, `new-build-client-${project.id}`),
+        ]);
+      } catch (emailError) {
+        emailDelivered = false;
+        console.error('Project intake email failed:', emailError.message);
+      }
+      return res.status(201).json({ success: true, portalUrl, emailDelivered });
+    } catch (error) {
+      const clientErrors = ['Choose either the Basic or Growth plan.', 'Complete every required project question before submitting.', 'Enter a valid email address.', 'Confirm that you can provide or authorize the content and images used in the draft.', 'Add at least one page and section to the site structure.', 'Name every page in the site structure.', 'Basic allows up to six sections.'];
+      if (clientErrors.includes(error.message) || /allows up to|Choose at least one section/.test(error.message)) return res.status(400).json({ error: error.message });
+      console.error('Project intake failed:', error.message);
+      return res.status(500).json({ error: 'We could not create your project portal. Please try again.' });
+    }
+  });
+
+  app.get('/api/client-project', async (req, res) => {
+    try {
+      const project = await projectFromRequest(req);
+      if (!project) return res.status(404).json({ error: 'This private project link is invalid or has expired.' });
+      const [requests, messages] = await Promise.all([projectStore.listRequests(project.id), projectStore.listMessages(project.id)]);
+      res.set('Cache-Control', 'private, no-store');
+      return res.json(publicProject(project, requests, messages));
+    } catch (error) {
+      console.error('Client project lookup failed:', error.message);
+      return res.status(503).json({ error: 'The project portal is temporarily unavailable.' });
+    }
+  });
+
+  app.post('/api/change-request', async (req, res) => {
+    if (!auditRateAllowed(`change:${req.ip || 'unknown'}`)) return res.status(429).json({ error: 'Please wait a few minutes before sending another request.' });
+    try {
+      const project = await projectFromRequest(req);
+      if (!project) return res.status(404).json({ error: 'This private project link is invalid.' });
+      const sectionKey = String(req.body?.sectionKey || '');
+      const section = (project.sections || []).find((item) => item.key === sectionKey);
+      if (!section) return res.status(400).json({ error: 'Choose a section that is part of this project.' });
+      const requestType = String(req.body?.requestType || '').trim();
+      const details = String(req.body?.details || '').trim();
+      if (!['Content', 'Image', 'Layout', 'Business details', 'Other'].includes(requestType) || details.length < 5 || details.length > MAX_FIELD_LENGTH) {
+        return res.status(400).json({ error: 'Choose a change type and describe the requested change.' });
+      }
+      const request = await projectStore.addRequest({ project_id: project.id, section_key: section.key, section_label: `${section.page} — ${section.label}`, request_type: requestType, details, status: 'requested' });
+      await Promise.all([
+        projectStore.addMessage({ project_id: project.id, sender: 'client', category: 'update', body: details, section_key: section.key }),
+        projectStore.updateProject(project.id, { status: project.status === 'active' ? 'active' : 'changes_requested', sections: project.sections.map((item) => item.key === section.key ? { ...item, status: 'revision_requested' } : item) }),
+      ]);
+      try {
+        const email = ownerUpdateEmail({ project, request, ownerPortalUrl: `${publicBaseUrl()}/admin.html#updates` });
+        await sendEmail({ ...email, to: process.env.OWNER_EMAIL, reply_to: project.email }, `change-${request.id}`);
+      } catch (emailError) { console.error('Change-request notification failed:', emailError.message); }
+      return res.status(201).json({ success: true, request });
+    } catch (error) {
+      console.error('Change request failed:', error.message);
+      return res.status(500).json({ error: 'We could not save your change request. Please try again.' });
+    }
+  });
+
+  app.post('/api/project-message', async (req, res) => {
+    try {
+      const project = await projectFromRequest(req);
+      if (!project) return res.status(404).json({ error: 'This private project link is invalid.' });
+      const body = String(req.body?.message || '').trim();
+      if (body.length < 2 || body.length > MAX_FIELD_LENGTH) return res.status(400).json({ error: 'Enter a message of up to 5,000 characters.' });
+      const message = await projectStore.addMessage({ project_id: project.id, sender: 'client', category: project.paid_at ? 'update' : 'new_build', body });
+      try {
+        await sendEmail({ to: process.env.OWNER_EMAIL, reply_to: project.email, subject: `[${project.paid_at ? 'Update' : 'New Build'}] Message — ${project.business_name}`, text: `${project.client_name} wrote:\n\n${body}\n\nOpen ${publicBaseUrl()}/admin.html` }, `project-message-${message.id}`);
+      } catch (emailError) { console.error('Project-message notification failed:', emailError.message); }
+      return res.status(201).json({ success: true, message });
+    } catch (error) {
+      console.error('Project message failed:', error.message);
+      return res.status(500).json({ error: 'We could not save your message.' });
+    }
+  });
+
+  app.post('/api/project-approval', async (req, res) => {
+    try {
+      const project = await projectFromRequest(req);
+      if (!project) return res.status(404).json({ error: 'This private project link is invalid.' });
+      if (!project.preview_url || project.status !== 'draft_ready') return res.status(409).json({ error: 'The draft must be marked ready before it can be approved.' });
+      await projectStore.updateProject(project.id, { status: 'approved', approved_at: new Date().toISOString() });
+      await projectStore.addMessage({ project_id: project.id, sender: 'client', category: 'new_build', body: 'Draft approved. The project is ready for checkout.' });
+      return res.json({ success: true });
+    } catch (error) {
+      console.error('Project approval failed:', error.message);
+      return res.status(500).json({ error: 'We could not record your approval.' });
+    }
+  });
+
+  app.post('/api/create-project-checkout-session', async (req, res) => {
+    const stripe = configuredStripe();
+    if (!stripe) return res.status(503).json({ error: 'Checkout is not configured yet.' });
+    try {
+      const project = await projectFromRequest(req);
+      if (!project) return res.status(404).json({ error: 'This private project link is invalid.' });
+      if (project.status !== 'approved') return res.status(409).json({ error: 'Approve the completed draft before checkout.' });
+      const requestId = String(req.body?.requestId || '');
+      if (!/^[a-f0-9-]{36}$/i.test(requestId)) return res.status(400).json({ error: 'Refresh the page and try checkout again.' });
+      const token = String(req.body.token);
+      const baseUrl = publicBaseUrl();
+      const plan = PLANS[project.plan_slug];
+      const session = await stripe.checkout.sessions.create(checkoutSessionParams(plan, {
+        projectId: project.id, customerEmail: project.email,
+        successUrl: `${baseUrl}/portal.html?token=${encodeURIComponent(token)}&payment=success&session_id={CHECKOUT_SESSION_ID}`,
+        cancelUrl: `${baseUrl}/portal.html?token=${encodeURIComponent(token)}`,
+      }), { idempotencyKey: `project_checkout_${project.id}_${requestId}` });
+      return res.json({ url: session.url });
+    } catch (error) {
+      console.error('Project checkout failed:', error.message);
+      return res.status(500).json({ error: 'We could not start checkout. Please try again.' });
+    }
+  });
+
+  app.post('/api/confirm-project-payment', async (req, res) => {
+    const stripe = configuredStripe();
+    if (!stripe) return res.status(503).json({ error: 'Checkout verification is unavailable.' });
+    try {
+      const project = await projectFromRequest(req);
+      if (!project) return res.status(404).json({ error: 'This private project link is invalid.' });
+      const sessionId = String(req.body?.sessionId || '');
+      if (!/^cs_(test_|live_)?[a-zA-Z0-9]+$/.test(sessionId)) return res.status(400).json({ error: 'The checkout session is invalid.' });
+      const session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ['customer', 'subscription'] });
+      if (session.metadata?.project_id !== project.id || !verifiedCheckout(session, project.email)) return res.status(403).json({ error: 'We could not verify this project payment.' });
+      await projectStore.updateProject(project.id, { status: 'active', paid_at: new Date().toISOString(), stripe_customer_id: typeof session.customer === 'string' ? session.customer : session.customer?.id, stripe_subscription_id: typeof session.subscription === 'string' ? session.subscription : session.subscription?.id });
+      await projectStore.addMessage({ project_id: project.id, sender: 'system', category: 'update', body: 'Payment confirmed. Hosting and the monthly update allowance are now active.' });
+      return res.json({ success: true });
+    } catch (error) {
+      console.error('Project payment verification failed:', error.message);
+      return res.status(500).json({ error: 'We could not verify payment yet. Refresh in a moment.' });
+    }
+  });
+
+  app.post('/api/admin/login', async (req, res) => {
+    if (!auditRateAllowed(`owner-login:${req.ip || 'unknown'}`)) return res.status(429).json({ error: 'Please wait before requesting another sign-in link.' });
+    if (!process.env.OWNER_PORTAL_SECRET || !process.env.OWNER_EMAIL || !process.env.EMAIL_API_KEY || !process.env.EMAIL_FROM) return res.status(503).json({ error: 'Owner login is not configured.' });
+    let submitted;
+    try { submitted = normalizeEmail(req.body?.email); } catch { return res.json({ success: true }); }
+    let owner;
+    try { owner = normalizeEmail(process.env.OWNER_EMAIL); } catch { return res.status(503).json({ error: 'Owner login is not configured.' }); }
+    if (safeEqual(submitted, owner)) {
+      const loginUrl = `${publicBaseUrl()}/admin.html?login=${encodeURIComponent(ownerToken())}`;
+      const email = ownerLoginEmail(loginUrl);
+      try { await sendEmail({ ...email, to: owner }, `owner-login-${crypto.randomUUID()}`); }
+      catch (error) { console.error('Owner login email failed:', error.message); return res.status(502).json({ error: 'The sign-in email could not be sent.' }); }
+    }
+    return res.json({ success: true });
+  });
+
+  app.post('/api/admin/session', (req, res) => {
+    const token = String(req.body?.token || '');
+    if (!validOwnerToken(token)) return res.status(401).json({ error: 'This sign-in link is invalid or expired.' });
+    const sessionToken = ownerToken(8 * 60 * 60 * 1000);
+    res.cookie('edge_owner', sessionToken, { httpOnly: true, sameSite: 'strict', secure: publicBaseUrl().startsWith('https:'), maxAge: 8 * 60 * 60 * 1000, path: '/' });
+    return res.json({ success: true });
+  });
+
+  app.delete('/api/admin/session', (req, res) => {
+    res.clearCookie('edge_owner', { httpOnly: true, sameSite: 'strict', secure: publicBaseUrl().startsWith('https:'), path: '/' });
+    return res.json({ success: true });
+  });
+
+  app.get('/api/admin/projects', requireOwner, async (req, res) => {
+    try {
+      const [projects, requests] = await Promise.all([projectStore.listProjects(), projectStore.listAllRequests()]);
+      res.set('Cache-Control', 'private, no-store');
+      return res.json({ projects, requests });
+    } catch (error) { console.error('Owner project list failed:', error.message); return res.status(503).json({ error: 'The owner portal is temporarily unavailable.' }); }
+  });
+
+  app.get('/api/admin/projects/:id', requireOwner, async (req, res) => {
+    try {
+      const project = await projectStore.getProjectById(req.params.id);
+      if (!project) return res.status(404).json({ error: 'Project not found.' });
+      const [requests, messages] = await Promise.all([projectStore.listRequests(project.id), projectStore.listMessages(project.id)]);
+      return res.json({ project, requests, messages });
+    } catch (error) { return res.status(500).json({ error: 'The project could not be loaded.' }); }
+  });
+
+  app.patch('/api/admin/projects/:id', requireOwner, async (req, res) => {
+    if (req.headers['x-edge-admin'] !== '1') return res.status(403).json({ error: 'Invalid owner request.' });
+    try {
+      const project = await projectStore.getProjectById(req.params.id);
+      if (!project) return res.status(404).json({ error: 'Project not found.' });
+      const updates = {};
+      if (req.body?.status !== undefined) {
+        if (!validProjectStatus(req.body.status)) return res.status(400).json({ error: 'Invalid project status.' });
+        updates.status = req.body.status;
+      }
+      if (req.body?.previewUrl !== undefined) {
+        const previewUrl = String(req.body.previewUrl || '').trim();
+        if (previewUrl && !/^https:\/\//i.test(previewUrl)) return res.status(400).json({ error: 'Preview URL must use HTTPS.' });
+        updates.preview_url = previewUrl || null;
+      }
+      if (Array.isArray(req.body?.sections)) {
+        const statuses = new Map(req.body.sections.map((item) => [String(item.key), String(item.status)]));
+        if ([...statuses.values()].some((status) => !validSectionStatus(status))) return res.status(400).json({ error: 'Invalid section status.' });
+        updates.sections = (project.sections || []).map((section) => statuses.has(section.key) ? { ...section, status: statuses.get(section.key) } : section);
+      }
+      const saved = await projectStore.updateProject(project.id, updates);
+      return res.json({ success: true, project: saved });
+    } catch (error) { console.error('Owner project update failed:', error.message); return res.status(500).json({ error: 'The project could not be updated.' }); }
+  });
+
+  app.post('/api/admin/projects/:id/message', requireOwner, async (req, res) => {
+    if (req.headers['x-edge-admin'] !== '1') return res.status(403).json({ error: 'Invalid owner request.' });
+    try {
+      const project = await projectStore.getProjectById(req.params.id);
+      if (!project) return res.status(404).json({ error: 'Project not found.' });
+      const body = String(req.body?.message || '').trim();
+      if (body.length < 2 || body.length > MAX_FIELD_LENGTH) return res.status(400).json({ error: 'Enter a message of up to 5,000 characters.' });
+      const category = req.body?.category === 'update' ? 'update' : 'new_build';
+      const message = await projectStore.addMessage({ project_id: project.id, sender: 'owner', category, body });
+      try {
+        const email = clientOwnerReplyEmail({ project, body });
+        await sendEmail({ ...email, to: project.email, reply_to: process.env.OWNER_EMAIL }, `owner-reply-${message.id}`);
+      } catch (emailError) { console.error('Owner reply notification failed:', emailError.message); }
+      return res.status(201).json({ success: true, message });
+    } catch (error) { return res.status(500).json({ error: 'The reply could not be saved.' }); }
+  });
+
+  app.patch('/api/admin/projects/:projectId/requests/:requestId', requireOwner, async (req, res) => {
+    if (req.headers['x-edge-admin'] !== '1') return res.status(403).json({ error: 'Invalid owner request.' });
+    const status = String(req.body?.status || '');
+    if (!['requested', 'reviewing', 'scheduled', 'complete', 'declined'].includes(status)) return res.status(400).json({ error: 'Invalid request status.' });
+    try {
+      const request = await projectStore.updateRequest(req.params.requestId, req.params.projectId, { status });
+      return res.json({ success: true, request });
+    } catch (error) { return res.status(500).json({ error: 'The request could not be updated.' }); }
+  });
+
   app.get('/api/reddit-leads', async (req, res) => {
     if (String(process.env.REDDIT_LEAD_FEED_ENABLED || '').trim().toLowerCase() !== 'true') {
       return res.status(404).json({ enabled: false });
@@ -258,21 +565,7 @@ function createApp() {
   });
 
   app.post('/api/create-checkout-session', async (req, res) => {
-    const stripe = configuredStripe();
-    if (!stripe) {
-      return res.status(503).json({ error: 'Checkout is not configured yet. Please contact us directly.' });
-    }
-    try {
-      const requestId = String(req.body?.requestId || '');
-      if (!/^[a-f0-9-]{36}$/i.test(requestId)) return res.status(400).json({ error: 'Please refresh the page and try checkout again.' });
-      const plan = PLANS[String(req.body?.planSlug || '')];
-      if (!plan) return res.status(400).json({ error: 'Please choose a valid Edge plan.' });
-      const session = await stripe.checkout.sessions.create(checkoutSessionParams(plan), { idempotencyKey: `checkout_${plan.slug}_${requestId}` });
-      return res.json({ url: session.url });
-    } catch (error) {
-      console.error('Checkout session error:', error.message);
-      return res.status(500).json({ error: 'We could not start checkout. Please try again or contact us directly.' });
-    }
+    return res.status(410).json({ error: 'Complete the free build brief and approve your draft before checkout.' });
   });
 
   app.post('/api/onboarding', async (req, res) => {
