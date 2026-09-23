@@ -4,12 +4,11 @@ const builder = document.getElementById('page-builder');
 const addPage = document.getElementById('add-page');
 const status = document.getElementById('intake-status');
 const result = document.getElementById('portal-result');
-const standardSections = ['Hero','Services','About','Process','Testimonials','Gallery','FAQ','Contact','Call to action','Team','Service area'];
 
 function pageCard(name = '') {
   const card = document.createElement('article');
   card.className = 'page-card';
-  card.innerHTML = `<div class="page-card-head"><strong>Page <span class="page-number"></span></strong><button class="remove-page" type="button">Remove</button></div><div class="fields"><label>Page name<input class="page-name" value="${name}" required placeholder="Home, About, Services..."></label><label>Purpose of this page<textarea class="page-purpose" required placeholder="What must a visitor understand or do here?"></textarea></label></div><fieldset><legend>Sections to build</legend><p class="help">Basic allows up to six sections. Choose only what this page needs.</p><div class="choice-row">${standardSections.map((section) => `<label class="choice"><input type="checkbox" value="${section}"><span>${section}</span></label>`).join('')}</div></fieldset><label>Custom section names <input class="custom-sections" placeholder="Pricing table, menu, case studies"></label>`;
+  card.innerHTML = `<div class="page-card-head"><strong>Page <span class="page-number"></span></strong><button class="remove-page" type="button">Remove</button></div><div class="fields"><label>Page name<input class="page-name" value="${name}" required placeholder="Home, About, Services..."></label><label>What should people find on this page?<textarea class="page-purpose" required placeholder="Describe it normally. For example: introduce the business, explain our three services, show a few reviews, and make it easy to request an estimate."></textarea></label></div>`;
   card.querySelector('.remove-page').addEventListener('click', () => { card.remove(); renumber(); });
   builder.append(card); renumber();
 }
@@ -38,17 +37,10 @@ resetStructure();
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   const submit = form.querySelector('[type="submit"]');
-  const siteStructure = [...builder.children].map((card) => {
-    const sections = [...card.querySelectorAll('input[type="checkbox"]:checked')].map((item) => item.value);
-    const custom = card.querySelector('.custom-sections').value.split(',').map((item) => item.trim()).filter(Boolean);
-    return { page: card.querySelector('.page-name').value.trim(), purpose: card.querySelector('.page-purpose').value.trim(), sections: [...sections, ...custom] };
-  });
-  if (plan.value === 'basic' && siteStructure[0].sections.length > 6) {
-    status.className = 'status error'; status.textContent = 'Basic allows up to six sections. Remove a section or choose Growth.'; return;
-  }
-  if (siteStructure.some((page) => !page.sections.length)) {
-    status.className = 'status error'; status.textContent = 'Choose at least one section for every page.'; return;
-  }
+  const siteStructure = [...builder.children].map((card) => ({
+    page: card.querySelector('.page-name').value.trim(),
+    purpose: card.querySelector('.page-purpose').value.trim(),
+  }));
   const data = Object.fromEntries(new FormData(form));
   data.contentPermission = form.elements.contentPermission.checked;
   data.siteStructure = siteStructure;

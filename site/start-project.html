@@ -8,11 +8,11 @@
 </head>
 <body class="workflow"><div class="shell">
   <nav class="topbar" aria-label="Primary navigation"><a class="brand" href="https://websites.edgelandings.com/">EDGE LANDINGS</a><div class="toplinks"><a href="https://websites.edgelandings.com/">Websites</a><a href="/templates.html">Examples</a><a href="/pricing.html">Plans</a><a href="/portal-example.html">Portal example</a></div></nav>
-  <header class="hero"><p class="eyebrow">No payment required</p><h1>Tell us what to build. Review it before you buy.</h1><p class="lede">This brief covers the decisions needed to build your first draft. We create the agreed pages and sections, place them in your private portal, and let you request changes against the actual work.</p></header>
+  <header class="hero"><p class="eyebrow">No payment required</p><h1>Tell us what your website needs to do.</h1><p class="lede">Answer in your own words. We use your business details, goals, and page ideas to create a first draft for you to review before you buy.</p></header>
   <form id="project-intake">
     <input class="trap" name="companyWebsite" tabindex="-1" autocomplete="off" aria-hidden="true">
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">Plan and contact</p><h2>Who are we building for?</h2></div><span class="number">1</span></div><div class="fields">
-      <label>Plan<select name="planSlug" id="plan" required><option value="basic">Basic — one page, up to 6 sections</option><option value="growth">Growth — up to 5 pages</option></select></label>
+      <label>Plan<select name="planSlug" id="plan" required><option value="basic">Basic — one-page website</option><option value="growth">Growth — up to 5 pages</option></select></label>
       <label>Your name<input name="clientName" autocomplete="name" required></label>
       <label>Business name<input name="businessName" autocomplete="organization" required></label>
       <label>Email<input name="email" type="email" autocomplete="email" required><span>Your private portal link is sent here.</span></label>
@@ -41,13 +41,13 @@
       <label>Social links<textarea name="socialLinks" placeholder="Facebook, Instagram, LinkedIn, YouTube..."></textarea></label>
       <label>Legal text or required notices<textarea name="legalCopy" placeholder="Privacy language, disclaimers, license numbers"></textarea></label>
     </div></section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Pages and sections</p><h2>Draw the site before we build it.</h2><p class="muted">Each item becomes a real node in your portal. Future changes attach to these exact sections.</p></div><span class="number">4</span></div><div id="page-builder" class="page-builder"></div><div class="actions"><button class="button secondary" type="button" id="add-page">Add another page</button></div></section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Visibility and access</p><h2>What do we need for launch and ongoing care?</h2></div><span class="number">5</span></div><div class="fields">
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Pages</p><h2>What pages do you want?</h2><p class="muted">Name each page and explain what a visitor should learn or be able to do there. You do not need to know website terminology.</p></div><span class="number">4</span></div><div id="page-builder" class="page-builder"></div><div class="actions"><button class="button secondary" type="button" id="add-page">Add another page</button></div></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Search and launch</p><h2>What else should we know before building?</h2></div><span class="number">5</span></div><div class="fields">
       <label>Search topics and locations<textarea name="seoTopics" placeholder="What should people search to find you?"></textarea></label>
       <label>Google tools and profiles<textarea name="analytics" placeholder="Google Business Profile, Analytics, Search Console access or setup needs"></textarea></label>
       <label>Anything else<textarea name="additionalNotes" placeholder="Deadlines, seasonal offers, special functionality, concerns"></textarea></label>
     </div><label class="checkline"><input name="contentPermission" type="checkbox" required><span>I confirm that I can provide, own, or authorize the text, logo, photos, and other content submitted for this draft.</span></label></section>
-    <section class="panel"><h2>Submit the brief. Pay nothing today.</h2><p class="muted">You will receive a private portal link. We build the first draft from this scope, you review it and request changes, and payment becomes available only after you approve the draft.</p><button class="button yellow" type="submit">Create my free-draft project</button><p class="status" id="intake-status" role="status" aria-live="polite"></p><div id="portal-result" hidden></div></section>
+    <section class="panel"><h2>Submit the brief. Pay nothing today.</h2><p class="muted">You will receive a private portal link. We build the first draft from your answers, and payment becomes available only after you review and approve it.</p><button class="button yellow" type="submit">Create my free-draft project</button><p class="status" id="intake-status" role="status" aria-live="polite"></p><div id="portal-result" hidden></div></section>
   </form>
   <footer><a href="/portal-example.html">See an example client portal</a> &middot; <a href="/pricing.html">Compare plans</a></footer>
 </div></body></html>

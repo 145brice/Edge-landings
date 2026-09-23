@@ -3,9 +3,9 @@
 ## Workflow
 
 1. A prospect chooses Basic or Growth and completes `/start-project.html` before payment.
-2. The intake creates a Supabase `client_projects` record, a page-and-section diagram, and a private client portal link.
+2. The intake creates a Supabase `client_projects` record from the client's plain-language page descriptions and sends a private client portal link.
 3. The owner receives a `[New Build]` email and signs in at `/admin.html` through a 15-minute email link.
-4. The owner updates section progress, adds the HTTPS draft URL, and marks the project `draft_ready`.
+4. After building, the owner names the areas actually present on each page in clear client-facing language, updates their progress, adds the HTTPS draft URL, and marks the project `draft_ready`.
 5. The client reviews the draft and submits requests against an actual page and section. These appear in the owner's **Updates** queue and trigger an `[Update]` email.
 6. After the client approves the draft, Stripe checkout becomes available. A verified payment changes the project to `active`.
 7. Ongoing requests continue through the same section diagram and communication thread.

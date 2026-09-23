@@ -3,7 +3,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { normalizeEmail, normalizeSender, ownerOnboardingEmail, customerOnboardingEmail, ownerProjectIntakeEmail, customerProjectIntakeEmail, ownerUpdateEmail, ownerLoginEmail, clientOwnerReplyEmail } = require('./lib/email-templates');
 const projectStore = require('./lib/project-store');
-const { validateIntake, newPortalToken, hashPortalToken, validProjectStatus, validSectionStatus } = require('./lib/project-workflow');
+const { validateIntake, normalizeBuiltSections, newPortalToken, hashPortalToken, validProjectStatus, validSectionStatus } = require('./lib/project-workflow');
 const { fetchContractorLeads } = require('./lib/reddit-lead-feed');
 const redditLeadSnapshot = require('./data/reddit-contractor-leads.json');
 
@@ -296,8 +296,8 @@ function createApp() {
       }
       return res.status(201).json({ success: true, portalUrl, emailDelivered });
     } catch (error) {
-      const clientErrors = ['Choose either the Basic or Growth plan.', 'Complete every required project question before submitting.', 'Enter a valid email address.', 'Confirm that you can provide or authorize the content and images used in the draft.', 'Add at least one page and section to the site structure.', 'Name every page in the site structure.', 'Basic allows up to six sections.'];
-      if (clientErrors.includes(error.message) || /allows up to|Choose at least one section/.test(error.message)) return res.status(400).json({ error: error.message });
+      const clientErrors = ['Choose either the Basic or Growth plan.', 'Complete every required project question before submitting.', 'Enter a valid email address.', 'Confirm that you can provide or authorize the content and images used in the draft.', 'Add at least one page to the website.', 'Name every page in the site structure.'];
+      if (clientErrors.includes(error.message) || /allows up to|Explain what people should find/.test(error.message)) return res.status(400).json({ error: error.message });
       console.error('Project intake failed:', error.message);
       return res.status(500).json({ error: 'We could not create your project portal. Please try again.' });
     }
@@ -480,14 +480,25 @@ function createApp() {
         if (previewUrl && !/^https:\/\//i.test(previewUrl)) return res.status(400).json({ error: 'Preview URL must use HTTPS.' });
         updates.preview_url = previewUrl || null;
       }
+      let nextSections = project.sections || [];
+      if (Array.isArray(req.body?.builtSections)) {
+        const normalized = normalizeBuiltSections(project, req.body.builtSections);
+        nextSections = normalized.sections;
+        updates.site_structure = normalized.siteStructure;
+      }
       if (Array.isArray(req.body?.sections)) {
         const statuses = new Map(req.body.sections.map((item) => [String(item.key), String(item.status)]));
         if ([...statuses.values()].some((status) => !validSectionStatus(status))) return res.status(400).json({ error: 'Invalid section status.' });
-        updates.sections = (project.sections || []).map((section) => statuses.has(section.key) ? { ...section, status: statuses.get(section.key) } : section);
+        nextSections = nextSections.map((section) => statuses.has(section.key) ? { ...section, status: statuses.get(section.key) } : section);
       }
+      if (Array.isArray(req.body?.builtSections) || Array.isArray(req.body?.sections)) updates.sections = nextSections;
       const saved = await projectStore.updateProject(project.id, updates);
       return res.json({ success: true, project: saved });
-    } catch (error) { console.error('Owner project update failed:', error.message); return res.status(500).json({ error: 'The project could not be updated.' }); }
+    } catch (error) {
+      if (/^Include the built areas|^List between/.test(error.message)) return res.status(400).json({ error: error.message });
+      console.error('Owner project update failed:', error.message);
+      return res.status(500).json({ error: 'The project could not be updated.' });
+    }
   });
 
   app.post('/api/admin/projects/:id/message', requireOwner, async (req, res) => {

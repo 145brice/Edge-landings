@@ -71,7 +71,7 @@ Complete these dashboard tasks after the code is deployed. Never paste secret va
 2. Open `/start-project.html`, submit a test brief, and confirm no payment is requested.
 3. Confirm the client receives a private portal link and `OWNER_EMAIL` receives a `[New Build]` notification.
 4. Open `/admin.html`, request a sign-in link using `OWNER_EMAIL`, and confirm the New Build appears.
-5. Add an HTTPS preview URL, mark its sections ready, and set the project to `draft_ready`.
+5. Add an HTTPS preview URL, name the areas actually built on each page, mark them ready, and set the project to `draft_ready`.
 6. From the client portal, submit a section change and confirm it appears under Updates and arrives with an `[Update]` email subject.
 7. Approve the draft, complete test checkout, and confirm the portal changes to `active`.
 

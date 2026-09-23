@@ -42,7 +42,7 @@ test('labels owner notifications by queue and escapes client content', () => {
     email: 'jamie@example.com',
     phone: '555-0100',
     plan_slug: 'basic',
-    site_structure: [{ page: 'Home', sections: ['Hero', 'Contact'] }],
+    site_structure: [{ page: 'Home', purpose: 'Explain services and collect estimate requests.' }],
   };
   const build = ownerProjectIntakeEmail({ project, portalUrl: 'https://example.com/admin.html' });
   const update = ownerUpdateEmail({
