@@ -153,6 +153,7 @@ function createApp() {
   app.all('/api/catalog-webhook', require('./api/catalog-webhook'));
   // Only deliberate browser assets belong here. Never serve the repository.
   app.get(['/', '/index.html'], (req, res) => res.sendFile(path.join(__dirname, 'site', req.hostname.toLowerCase() === 'websites.edgelandings.com' ? 'websites.html' : 'index.html')));
+  app.get('/leads.html', (req, res) => res.redirect(302, 'https://leads.edgelandings.com/'));
   app.use(express.static(path.join(__dirname, 'site'), { extensions: ['html'], dotfiles: 'deny' }));
   app.get('/api/health', (req, res) => {
     const required = ['APP_URL', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'EMAIL_API_KEY', 'EMAIL_FROM', 'OWNER_EMAIL', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'STRIPE_PRICE_MAP'];
