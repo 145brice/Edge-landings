@@ -70,7 +70,7 @@ project record. See `docs/client-portal.md` for setup and workflow details.
 - `/api/admin/*`: email-link owner login and authenticated build/update management.
 - `POST /api/site-audit`: audits a public website URL.
 - `POST /api/webhook`: verifies Stripe signatures over the original request body.
-- `GET /api/health`: configuration readiness, not an external-service health test.
+- `GET /api/health`: configuration and client-portal storage readiness. It returns HTTP 503 until the required environment variables and portal database tables are available.
 - `/api/catalog-webhook`: authenticated internal estimates and scheduled refresh.
 
 Vercel routes all requests through Express so HTML receives the same security

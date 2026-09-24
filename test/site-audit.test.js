@@ -34,7 +34,9 @@ test('preset scoring returns a bounded score and ranked issues', () => {
   const report = buildReport(facts, { checked: 5, broken: 3, samples: [] }, null, new URL('http://example.com/'));
   assert.ok(report.score >= 0 && report.score <= 100);
   assert.equal(report.issues.length, 5);
-  assert.equal(report.performance.source, 'Local response estimate');
+  assert.equal(report.performance.source, 'Unavailable');
+  assert.equal(report.scoreLabel, 'Homepage setup score');
+  assert.equal(report.checks.find((check) => check.id === 'performance').max, 0);
   assert.match(report.grade, /priority|attention|foundation|Strong/i);
 });
 
@@ -46,6 +48,7 @@ test('a site that passes every preset check can score 100', () => {
     cms: 'Not detected', responseMs: 300,
   };
   const report = buildReport(facts, { checked: 5, broken: 0, samples: [] }, { score: 100 }, new URL('https://example.com/'));
+  assert.equal(report.scoreLabel, 'Homepage health score');
   assert.equal(report.score, 100);
   assert.equal(report.grade, 'Strong');
 });

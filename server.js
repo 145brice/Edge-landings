@@ -210,15 +210,29 @@ function createApp() {
   app.get(['/', '/index.html'], (req, res) => res.sendFile(path.join(__dirname, 'site', req.hostname.toLowerCase() === 'websites.edgelandings.com' ? 'websites.html' : 'index.html')));
   app.get('/leads.html', (req, res) => res.redirect(302, 'https://leads.edgelandings.com/'));
   app.use(express.static(path.join(__dirname, 'site'), { extensions: ['html'], dotfiles: 'deny' }));
-  app.get('/api/health', (req, res) => {
+  app.get('/api/health', async (req, res) => {
     const required = ['APP_URL', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'EMAIL_API_KEY', 'EMAIL_FROM', 'OWNER_EMAIL', 'OWNER_PORTAL_SECRET', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'STRIPE_PRICE_MAP'];
     const missing = required.filter((name) => !process.env[name]);
-    return res.status(missing.length ? 503 : 200).json({
-      status: missing.length ? 'configuration_required' : 'ok', missing,
+    let portalStorage = false;
+    let storageError = null;
+    if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      try {
+        portalStorage = await projectStore.checkHealth();
+      } catch (error) {
+        storageError = 'Client portal tables are unavailable. Run service-catalog.sql in Supabase.';
+        console.error('Health check failed:', error.message);
+      }
+    }
+    const ready = missing.length === 0 && portalStorage;
+    return res.status(ready ? 200 : 503).json({
+      status: ready ? 'ok' : missing.length ? 'configuration_required' : 'storage_required', missing,
       systems: {
-        catalog: Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY && process.env.ESTIMATOR_WEBHOOK_SECRET),
-        scheduledBaselines: Boolean(process.env.CRON_SECRET),
+        portalStorage,
+        catalogJobsConfigured: Boolean(process.env.ESTIMATOR_WEBHOOK_SECRET),
+        scheduledBaselinesConfigured: Boolean(process.env.CRON_SECRET),
+        pageSpeedConfigured: Boolean(process.env.PAGESPEED_API_KEY),
       },
+      ...(storageError ? { action: storageError } : {}),
     });
   });
 

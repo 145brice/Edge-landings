@@ -56,7 +56,7 @@ Complete these dashboard tasks after the code is deployed. Never paste secret va
 
 ## 5. Run the launch test
 
-1. Open `https://edge-landings.vercel.app/api/health` and confirm `status` is `ok`, `catalog` is `true`, and `scheduledBaselines` is `true`.
+1. Open `https://www.edgelandings.com/api/health` and confirm `status` is `ok`, `portalStorage` is `true`, `catalogJobsConfigured` is `true`, and `scheduledBaselinesConfigured` is `true`.
 2. Submit a project brief, add a draft URL in the owner portal, and set the project to `draft_ready`.
 3. Approve the draft from the client portal and start checkout there.
 4. In Stripe test mode, use card `4242 4242 4242 4242`, any future expiration, and any CVC.
