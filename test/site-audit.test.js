@@ -37,3 +37,15 @@ test('preset scoring returns a bounded score and ranked issues', () => {
   assert.equal(report.performance.source, 'Local response estimate');
   assert.match(report.grade, /priority|attention|foundation|Strong/i);
 });
+
+test('a site that passes every preset check can score 100', () => {
+  const facts = {
+    finalUrl: 'https://example.com/', https: true, viewport: 'width=device-width',
+    title: 'Example Local Business', description: 'A useful description of the local business, its primary service, service area, and the next step customers should take today.',
+    h1: 'Trusted local service', canonical: 'https://example.com/', lang: 'en', robots: '',
+    cms: 'Not detected', responseMs: 300,
+  };
+  const report = buildReport(facts, { checked: 5, broken: 0, samples: [] }, { score: 100 }, new URL('https://example.com/'));
+  assert.equal(report.score, 100);
+  assert.equal(report.grade, 'Strong');
+});

@@ -33,6 +33,8 @@ addPage.addEventListener('click', () => { if (builder.children.length < 5) pageC
 const requestedPlan = new URLSearchParams(location.search).get('plan');
 if (['basic','growth'].includes(requestedPlan)) plan.value = requestedPlan;
 resetStructure();
+const auditedWebsite = new URLSearchParams(location.search).get('website');
+if (auditedWebsite && /^https?:\/\//i.test(auditedWebsite)) form.elements.existingUrl.value = auditedWebsite;
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
