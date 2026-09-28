@@ -4,6 +4,7 @@ const builder = document.getElementById('page-builder');
 const addPage = document.getElementById('add-page');
 const status = document.getElementById('intake-status');
 const result = document.getElementById('portal-result');
+const proAutomationBrief = document.getElementById('pro-automation-brief');
 
 function pageCard(name = '') {
   const card = document.createElement('article');
@@ -26,6 +27,7 @@ function renumber() {
 function resetStructure() {
   builder.innerHTML = '';
   pageCard(plan.value === 'basic' ? 'One-page website' : 'Home');
+  proAutomationBrief.hidden = plan.value !== 'growth';
 }
 
 plan.addEventListener('change', resetStructure);

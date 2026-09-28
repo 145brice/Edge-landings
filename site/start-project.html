@@ -12,7 +12,7 @@
   <form id="project-intake">
     <input class="trap" name="companyWebsite" tabindex="-1" autocomplete="off" aria-hidden="true">
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">Plan and contact</p><h2>Who are we building for?</h2></div><span class="number">1</span></div><div class="fields">
-      <label>Plan<select name="planSlug" id="plan" required><option value="basic">Basic — one-page website</option><option value="growth">Growth — up to 5 pages</option></select></label>
+      <label>Plan<select name="planSlug" id="plan" required><option value="basic">Basic — one-page website</option><option value="growth">Growth / Pro — up to 5 pages plus follow-up dashboard</option></select></label>
       <label>Your name<input name="clientName" autocomplete="name" required></label>
       <label>Business name<input name="businessName" autocomplete="organization" required></label>
       <label>Email<input name="email" type="email" autocomplete="email" required><span>Your private portal link is sent here.</span></label>
@@ -33,6 +33,15 @@
       <label>Contact details to publish<textarea name="contactDetails" required placeholder="Phone, email, address, booking link"></textarea></label>
       <label>Competitors or reference sites<textarea name="competitors" placeholder="Links and what you like or dislike"></textarea></label>
     </div></section>
+    <section class="panel" id="pro-automation-brief" hidden><div class="panel-head"><div><p class="eyebrow">Growth / Pro only</p><h2>How should leads and reviews be handled?</h2><p class="muted">This creates the approval dashboard. OpenAI, Twilio, booking, and email provider charges are separate from the website plan.</p></div><span class="number">Pro</span></div><div class="fields">
+      <label>Include the Pro follow-up system?<select name="proAutomationInterest"><option value="yes">Yes, include all three triggers</option><option value="later">Set it up after launch</option></select></label>
+      <label>Main city or service area<input name="automationCity" placeholder="Nashville, TN or Middle Tennessee"></label>
+      <label>Public callback number<input name="publicCallbackPhone" type="tel" placeholder="Number customers should call"></label>
+      <label>Booking link or setup need<input name="bookingUrl" placeholder="https://... or I need help choosing one"></label>
+      <label>Twilio setup<select name="twilioPlan"><option value="need_setup">I need Edge Landings to help set it up</option><option value="existing">I already have a Twilio account and number</option></select></label>
+      <label>Lead follow-up preference<select name="followupChannel"><option value="sms_first">Text first when a mobile number is provided</option><option value="email_first">Email first when an email is provided</option></select></label>
+      <label>Owner voice and review-reply notes<textarea name="reviewToneNotes" placeholder="Friendly and direct, sign replies as Mike, invite unhappy customers to call..."></textarea></label>
+    </div><p class="muted">Nothing posts or sends automatically. Review replies, missed-call texts, and lead follow-ups wait for approval in the owner dashboard.</p></section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">Brand and content</p><h2>What should it look and sound like?</h2></div><span class="number">3</span></div><div class="fields">
       <label>Brand direction<textarea name="brandDirection" required placeholder="Modern and direct, warm and local, premium and minimal..."></textarea></label>
       <label>Colors<input name="colors" placeholder="Brand colors or colors to explore"></label>

@@ -17,5 +17,8 @@
       "dest": "/server.js"
     }
   ],
-  "crons": [{ "path": "/api/catalog-webhook", "schedule": "0 9 * * 1" }]
+  "crons": [
+    { "path": "/api/catalog-webhook", "schedule": "0 9 * * 1" },
+    { "path": "/api/pro-followups", "schedule": "0 15 * * *" }
+  ]
 }

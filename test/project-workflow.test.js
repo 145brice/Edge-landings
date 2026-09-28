@@ -33,6 +33,18 @@ test('plan limits and required permissions are enforced before project creation'
   assert.throws(() => validateIntake(intake({ planSlug: 'growth', siteStructure: Array.from({ length: 6 }, (_, index) => ({ page: `Page ${index}`, purpose: 'Purpose' })) }), plans), /up to 5 pages/);
 });
 
+test('Growth brief keeps the Pro follow-up setup answers', () => {
+  const result = validateIntake(intake({
+    planSlug: 'growth', proAutomationInterest: 'yes', automationCity: 'Nashville, TN',
+    publicCallbackPhone: '615-555-0100', bookingUrl: 'https://booking.example.test',
+    twilioPlan: 'need_setup', followupChannel: 'email_first', reviewToneNotes: 'Friendly and direct.',
+  }), plans);
+  assert.equal(result.intake.proAutomationInterest, 'yes');
+  assert.equal(result.intake.automationCity, 'Nashville, TN');
+  assert.equal(result.intake.followupChannel, 'email_first');
+  assert.equal(result.intake.reviewToneNotes, 'Friendly and direct.');
+});
+
 test('owner names the areas actually built after intake', () => {
   const project = {
     plan_slug: 'basic',

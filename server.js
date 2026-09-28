@@ -3,8 +3,10 @@ const path = require('path');
 const crypto = require('crypto');
 const { normalizeEmail, normalizeSender, ownerOnboardingEmail, customerOnboardingEmail, ownerProjectIntakeEmail, customerProjectIntakeEmail, ownerUpdateEmail, ownerLoginEmail, clientOwnerReplyEmail } = require('./lib/email-templates');
 const projectStore = require('./lib/project-store');
+const proAutomationStore = require('./lib/pro-automation-store');
 const { validateIntake, normalizeBuiltSections, newPortalToken, hashPortalToken, validProjectStatus, validSectionStatus } = require('./lib/project-workflow');
 const { fetchContractorLeads } = require('./lib/reddit-lead-feed');
+const { createProAutomationRouter } = require('./lib/pro-automation-routes');
 const redditLeadSnapshot = require('./data/reddit-contractor-leads.json');
 
 const INDUSTRY_LEAD_CATEGORIES = {
@@ -205,7 +207,9 @@ function createApp() {
   // This route must be registered before express.json().
   app.post('/api/webhook', express.raw({ type: 'application/json' }), require('./api/webhook'));
   app.use(express.json({ limit: '100kb' }));
+  app.use(express.urlencoded({ extended: false, limit: '50kb' }));
   app.all('/api/catalog-webhook', require('./api/catalog-webhook'));
+  app.use('/api', createProAutomationRouter({ requireOwner, publicBaseUrl, sendEmail }));
   // Only deliberate browser assets belong here. Never serve the repository.
   app.get(['/', '/index.html'], (req, res) => res.sendFile(path.join(__dirname, 'site', req.hostname.toLowerCase() === 'websites.edgelandings.com' ? 'websites.html' : 'index.html')));
   app.get('/leads.html', (req, res) => res.redirect(302, 'https://leads.edgelandings.com/'));
@@ -214,10 +218,12 @@ function createApp() {
     const required = ['APP_URL', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'EMAIL_API_KEY', 'EMAIL_FROM', 'OWNER_EMAIL', 'OWNER_PORTAL_SECRET', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'STRIPE_PRICE_MAP'];
     const missing = required.filter((name) => !process.env[name]);
     let portalStorage = false;
+    let proAutomationStorage = false;
     let storageError = null;
     if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       try {
         portalStorage = await projectStore.checkHealth();
+        try { proAutomationStorage = await proAutomationStore.checkHealth(); } catch (error) { console.error('Pro automation health check failed:', error.message); }
       } catch (error) {
         storageError = 'Client portal tables are unavailable. Run service-catalog.sql in Supabase.';
         console.error('Health check failed:', error.message);
@@ -231,6 +237,8 @@ function createApp() {
         catalogJobsConfigured: Boolean(process.env.ESTIMATOR_WEBHOOK_SECRET),
         scheduledBaselinesConfigured: Boolean(process.env.CRON_SECRET),
         pageSpeedConfigured: Boolean(process.env.PAGESPEED_API_KEY),
+        proAutomationStorage,
+        proAutomationConfigured: Boolean(process.env.OPENAI_API_KEY && process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_FROM_NUMBER && process.env.PRO_AUTOMATION_WEBHOOK_SECRET),
       },
       ...(storageError ? { action: storageError } : {}),
     });
@@ -293,6 +301,17 @@ function createApp() {
         client_name: intake.clientName, business_name: intake.businessName, email: intake.email, phone: intake.phone,
         intake, site_structure: siteStructure, sections,
       });
+      if (plan.slug === 'growth' && intake.proAutomationInterest === 'yes') {
+        try {
+          await proAutomationStore.saveSettings(project.id, {
+            business_name: project.business_name, business_type: intake.businessType,
+            city: intake.automationCity || intake.serviceArea || '', public_phone: intake.publicCallbackPhone || project.phone,
+            booking_url: /^https:\/\//i.test(intake.bookingUrl) ? intake.bookingUrl : '', twilio_phone: null, outbound_email: project.email,
+            preferred_channel: intake.followupChannel === 'email_first' ? 'email_first' : 'sms_first',
+            review_voice_notes: intake.reviewToneNotes || null, active: false,
+          });
+        } catch (automationError) { console.error('Pro setup draft failed:', automationError.message); }
+      }
       await projectStore.addMessage({ project_id: project.id, sender: 'system', category: 'new_build', body: 'Complete project brief received. No payment is due while the first draft is prepared.' });
       const portalUrl = `${publicBaseUrl()}/portal.html?token=${encodeURIComponent(token)}`;
       const ownerPortalUrl = `${publicBaseUrl()}/admin.html`;

@@ -6,7 +6,7 @@ async function withServer(run) {
   const server = createApp().listen(0, '127.0.0.1');
   await new Promise(resolve => server.once('listening', resolve));
   try { await run(`http://127.0.0.1:${server.address().port}`); }
-  finally { await new Promise(resolve => server.close(resolve)); }
+  finally { server.closeAllConnections?.(); await new Promise(resolve => server.close(resolve)); }
 }
 
 test('only intended website assets are public', async () => {
@@ -49,4 +49,27 @@ test('direct checkout is disabled until a client approves a project draft', asyn
     assert.equal(response.status, 410);
     assert.match((await response.json()).error, /build brief/i);
   });
+});
+
+test('Pro automation ingestion and delivery routes reject unauthenticated requests', async () => {
+  const priorWebhook = process.env.PRO_AUTOMATION_WEBHOOK_SECRET;
+  const priorCron = process.env.CRON_SECRET;
+  const priorAppUrl = process.env.APP_URL;
+  process.env.PRO_AUTOMATION_WEBHOOK_SECRET = 'server-only-test-secret';
+  process.env.CRON_SECRET = 'server-only-cron-secret';
+  process.env.APP_URL = 'http://localhost';
+  try {
+    await withServer(async base => {
+      const jsonPost = route => fetch(base + route, { method: 'POST', headers: { 'Content-Type': 'application/json', Connection: 'close' }, body: '{}' });
+      assert.equal((await jsonPost('/api/review-reply')).status, 401);
+      assert.equal((await jsonPost('/api/lead-followup')).status, 401);
+      assert.equal((await jsonPost('/api/lead-booked')).status, 401);
+      assert.equal((await fetch(base + '/api/missed-call', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', Connection: 'close' }, body: 'CallStatus=no-answer' })).status, 403);
+      assert.equal((await fetch(base + '/api/pro-followups', { headers: { Connection: 'close' } })).status, 401);
+    });
+  } finally {
+    if (priorWebhook === undefined) delete process.env.PRO_AUTOMATION_WEBHOOK_SECRET; else process.env.PRO_AUTOMATION_WEBHOOK_SECRET = priorWebhook;
+    if (priorCron === undefined) delete process.env.CRON_SECRET; else process.env.CRON_SECRET = priorCron;
+    if (priorAppUrl === undefined) delete process.env.APP_URL; else process.env.APP_URL = priorAppUrl;
+  }
 });

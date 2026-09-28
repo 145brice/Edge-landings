@@ -6,13 +6,13 @@ served at the root of `websites.edgelandings.com` once connected to Vercel.
 See `docs/domain-setup.md` for the remaining DNS and application setup.
 
 The beta website offer is Basic
-at $49/month (regularly $99) and Growth at $99/month (regularly $199). Customers pay at checkout, complete
+at $49/month (regularly $99) and Growth / Pro at $99/month (regularly $199). Customers pay at checkout, complete
 onboarding, review a draft, and approve launch.
 
 ## Current scope
 
 - Basic: one page, up to six sections, three small updates per billing month.
-- Growth: up to five pages, ten small updates, ongoing SEO and priority support.
+- Growth / Pro: up to five pages, ten small updates, ongoing SEO, priority support, and an approval dashboard for review replies, missed calls, and lead follow-up.
 - Both: hosting, mobile-friendly design, an inquiry form, two pre-launch revision
   rounds, and a first draft within three business days of receiving the content.
 - The full scope, exclusions, billing, and cancellation process are published in
@@ -58,6 +58,8 @@ complete a pre-payment build brief and receive a private tokenized portal. The
 owner uses an email-link login at `/admin.html`; new builds and updates are kept
 in separate queues. Email sends notifications while the portal remains the
 project record. See `docs/client-portal.md` for setup and workflow details.
+The Pro automation event shapes, approval rules, and provider boundary are in
+`docs/pro-followup.md`.
 
 ## Public routes
 
@@ -68,6 +70,10 @@ project record. See `docs/client-portal.md` for setup and workflow details.
 - `GET /api/client-project`: loads a token-authorized project, structure, requests, and messages.
 - `POST /api/change-request`: attaches a client request to an actual built section.
 - `/api/admin/*`: email-link owner login and authenticated build/update management.
+- `POST /api/review-reply`: creates an OpenAI-assisted Pro review reply draft; it never posts automatically.
+- `POST /api/missed-call`: validates a Twilio status webhook, logs an unanswered call, and creates an urgent SMS draft.
+- `POST /api/lead-followup`: creates a Pro lead with approval-required initial and next-day follow-up drafts.
+- `GET /api/pro-followups`: sends only previously approved drafts whose scheduled time has arrived.
 - `POST /api/site-audit`: audits a public website URL.
 - `POST /api/webhook`: verifies Stripe signatures over the original request body.
 - `GET /api/health`: configuration and client-portal storage readiness. It returns HTTP 503 until the required environment variables and portal database tables are available.

@@ -50,13 +50,17 @@ Complete these dashboard tasks after the code is deployed. Never paste secret va
    - `SUPABASE_SERVICE_ROLE_KEY` = Supabase service-role secret
    - `ESTIMATOR_WEBHOOK_SECRET` = a unique random value of at least 32 characters
    - `CRON_SECRET` = a different unique random value of at least 32 characters
+   - `OPENAI_API_KEY` = server-side OpenAI project key used only for review reply drafts
+   - `OPENAI_REVIEW_MODEL` = `gpt-6-astra` (or another model you have deliberately tested)
+   - `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_FROM_NUMBER` = the SMS account and E.164 sender number
+   - `PRO_AUTOMATION_WEBHOOK_SECRET` = a separate random secret used by connected Pro websites
    - `STRIPE_PRICE_MAP` = `{"basic":"price_basic_actual_id","growth":"price_growth_actual_id"}`
 4. Click **Save** after each entry.
 5. Open **Deployments**, select the newest deployment, click the three-dot menu, and click **Redeploy**.
 
 ## 5. Run the launch test
 
-1. Open `https://www.edgelandings.com/api/health` and confirm `status` is `ok`, `portalStorage` is `true`, `catalogJobsConfigured` is `true`, and `scheduledBaselinesConfigured` is `true`.
+1. Open `https://www.edgelandings.com/api/health` and confirm `status` is `ok`, `portalStorage` and `proAutomationStorage` are `true`, and the configured-system flags match the services you intend to launch.
 2. Submit a project brief, add a draft URL in the owner portal, and set the project to `draft_ready`.
 3. Approve the draft from the client portal and start checkout there.
 4. In Stripe test mode, use card `4242 4242 4242 4242`, any future expiration, and any CVC.
@@ -67,12 +71,20 @@ Complete these dashboard tasks after the code is deployed. Never paste secret va
 
 ## Client portal and owner inbox check
 
-1. Run the latest `service-catalog.sql` in Supabase so `client_projects`, `client_change_requests`, and `client_project_messages` exist.
+1. Run the complete latest `service-catalog.sql` in Supabase so the client portal and Pro automation tables exist.
 2. Open `/start-project.html`, submit a test brief, and confirm no payment is requested.
 3. Confirm the client receives a private portal link and `OWNER_EMAIL` receives a `[New Build]` notification.
 4. Open `/admin.html`, request a sign-in link using `OWNER_EMAIL`, and confirm the New Build appears.
 5. Add an HTTPS preview URL, name the areas actually built on each page, mark them ready, and set the project to `draft_ready`.
 6. From the client portal, submit a section change and confirm it appears under Updates and arrives with an `[Update]` email subject.
+
+## Growth / Pro follow-up check
+
+1. Create or open a Growth project, select **Pro follow-up** in `/admin.html`, and save its business identity, booking URL, public phone, and Twilio number.
+2. In Twilio, set the number's call-status callback to `https://www.edgelandings.com/api/missed-call` and include unanswered statuses.
+3. Send review and lead events to `/api/review-reply` and `/api/lead-followup` with `Authorization: Bearer <PRO_AUTOMATION_WEBHOOK_SECRET>`.
+4. Confirm review replies, missed calls, and lead messages appear as pending drafts. Approve a test SMS and email; confirm neither sends before approval.
+5. Mark a lead booked and confirm its unsent next-day follow-up is canceled.
 7. Approve the draft, complete test checkout, and confirm the portal changes to `active`.
 
 ## Public site and inquiry check
